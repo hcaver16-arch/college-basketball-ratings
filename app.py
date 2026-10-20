@@ -15,6 +15,7 @@ import requests
 import streamlit as st
 from model_testing import walk_forward_backtest
 from early_season_testing import compare_early_season, historical_adjustments
+from roster_tracking import audit_teams, classify_team
 
 st.set_page_config(page_title="College Basketball Dashboard", page_icon="🏀", layout="wide")
 st.title("🏀 College Basketball")
@@ -593,6 +594,37 @@ with ratings_tab:
         sample = pd.DataFrame(columns=ROSTER_COLUMNS)
         st.download_button("Download player-input CSV template", sample.to_csv(index=False).encode(), "basketball_player_inputs.csv", "text/csv")
         uploaded_roster = st.file_uploader("Upload completed player adjustment CSV", type="csv", key="v7_roster_upload")
+
+    with st.expander("2. Automated roster snapshot audit (experimental)", expanded=False):
+        st.write("Compare ESPN's 2025–26 and 2026–27 roster listings for a small, selected set of teams. This does not automatically assign player values or presume a player transferred.")
+        if directory.empty:
+            st.info("Load the team directory before running an audit.")
+        else:
+            choices = sorted(directory["Team"].dropna().unique().tolist())
+            picks = st.multiselect("Teams to check", choices, default=[], key=f"roster_audit_teams_{SPORTS[league]}")
+            st.caption("Select a few teams first; ESPN requests can fail or return the same current roster for both seasons.")
+            if st.button("Fetch and compare selected rosters", key=f"run_roster_audit_{SPORTS[league]}", disabled=not picks):
+                chosen = directory[directory["Team"].isin(picks)]
+                with st.spinner("Fetching roster snapshots for each season..."):
+                    snapshots, problems = audit_teams(SPORTS[league], chosen, max_teams=len(chosen))
+                st.session_state[f"roster_audit_{SPORTS[league]}"] = (snapshots, problems)
+            saved = st.session_state.get(f"roster_audit_{SPORTS[league]}")
+            if saved is not None:
+                snapshots, problems = saved
+                st.metric("Roster entries retrieved", len(snapshots))
+                if not problems.empty:
+                    st.warning(f"{len(problems)} season/team requests failed. Do not interpret missing players as departures.")
+                    st.dataframe(problems, hide_index=True, use_container_width=True)
+                summaries=[]
+                for tid,group in snapshots.groupby("Team ID"):
+                    old = group[group["Roster season"]==2026]; new = group[group["Roster season"]==2027]
+                    unchanged = bool(not old.empty and not new.empty and set(old["Player ID"])==set(new["Player ID"]))
+                    summaries.append({"Team":group["Team"].iloc[0],"2025–26 entries":len(old),"2026–27 entries":len(new),
+                                      "Audit status": "Unusable: identical athlete sets" if unchanged else "Incomplete" if old.empty or new.empty else "Tentative (season validation needed)"})
+                if summaries:
+                    st.dataframe(pd.DataFrame(summaries),hide_index=True,use_container_width=True)
+                st.download_button("Download raw roster snapshots", snapshots.to_csv(index=False).encode(),"roster_snapshots.csv","text/csv",key="download_roster_snapshots")
+                st.info("Player-impact adjustments remain zero unless you upload sourced estimates. A true full-D1 transfer audit requires archived season-accurate rosters for every school and verified player IDs; this feature does not claim that coverage.")
 
     roster_file = st.session_state.get("v7_roster_upload")
     ids = set(directory["Team ID"].astype(str)) if not directory.empty else set()
