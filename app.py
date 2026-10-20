@@ -22,6 +22,7 @@ from transfer_tracking import identify_incoming
 from league_transfer_lookup import scan_previous_rosters, match_candidates
 from transfer_stats import retrieve_previous_school_stats, transfer_coverage
 from roster_model import experimental_roster_signal
+from saved_roster_data import load_saved_data, build_team_roster_view, roster_archive_summary
 
 st.set_page_config(page_title="College Basketball Dashboard", page_icon="🏀", layout="wide")
 st.title("🏀 College Basketball")
@@ -676,6 +677,11 @@ with ratings_tab:
         else:
             st.info("First fetch roster snapshots in section 2, then click automatic stats fetch above (or upload a corrected CSV).")
 
+    with st.expander("Saved roster archive coverage", expanded=False):
+        old_saved,new_saved,stats_saved,archive_status=load_saved_data(SPORTS[league])
+        st.write(roster_archive_summary(old_saved,new_saved,stats_saved,archive_status))
+        st.caption("Run the GitHub Actions workflow 'Refresh basketball roster archive' to update batches without manually checking each team. Archived records persist in the repository and the app redeploys after each commit.")
+
     with st.expander("4. Incoming players & possible transfers (experimental)", expanded=False):
         st.caption("New roster appearances are not automatically transfers. Optionally scan prior-season Division I rosters to find matching ESPN player IDs; all matches remain provisional.")
         source_audit=st.session_state.get(f"roster_audit_{SPORTS[league]}")
@@ -1050,6 +1056,8 @@ with team_tab:
                 snapshots, problems=audit_teams(sport,team_ref,max_teams=1)
                 totals, diagnostics, errors=fetch_prior_stats(sport,team_ref,season=2026,max_games=45,max_workers=4)
                 return snapshots,problems,totals,diagnostics,errors
+            archived_old, archived_new, archived_stats, archive_status=load_saved_data(SPORTS[league])
+            st.caption(roster_archive_summary(archived_old, archived_new, archived_stats, archive_status))
             cache_key=f"team_roster_bundle_{SPORTS[league]}_{tid}"
             if st.button("Load roster analysis",key=f"one_click_roster_{SPORTS[league]}_{tid}"):
                 with st.spinner("Retrieving roster snapshots and historical player totals..."):
@@ -1058,6 +1066,14 @@ with team_tab:
                     except Exception as exc:
                         st.error(f"Player source unavailable: {type(exc).__name__}: {str(exc)[:130]}")
             bundle=st.session_state.get(cache_key)
+            if bundle is None and not archived_old.empty and not archived_new.empty:
+                p=archived_old[archived_old["Team ID"].astype(str)==tid]
+                c=archived_new[archived_new["Team ID"].astype(str)==tid]
+                s=archived_stats[archived_stats["Team ID"].astype(str)==tid]
+                if not p.empty and not c.empty and not s.empty:
+                    snapshots_saved=pd.concat([p,c],ignore_index=True)
+                    bundle=(snapshots_saved,pd.DataFrame(),s,pd.DataFrame(),[])
+                    st.caption("Using saved GitHub roster data. Manual refresh remains available.")
             if bundle is not None:
                 roster_snap, roster_issues, stat_totals, stat_coverage, stat_errors=bundle
                 if not roster_issues.empty: st.warning(f"{len(roster_issues)} roster requests had missing data.")
@@ -1085,13 +1101,19 @@ with team_tab:
                 st.caption("This on-demand analysis does not need you to run the separate Model Lab roster audit first. It does not include a new D1-wide scan on each visit.")
         with st.expander("🔁 Incoming players & potential transfers", expanded=False):
             incoming=st.session_state.get(f"incoming_candidates_{SPORTS[league]}")
+            # Prefer saved cross-league evidence when available; this needs no Model Lab scan.
+            if not archived_old.empty and not archived_new.empty:
+                saved_candidates=build_team_roster_view(tid,archived_old,archived_new,archived_stats)
+                if not saved_candidates.empty:
+                    incoming=saved_candidates
+                    st.caption("Automatically matched against saved prior-season D1 rosters. ID matches are provisional; unknown origins remain unknown.")
             if isinstance(incoming,pd.DataFrame) and not incoming.empty:
                 arrivals=incoming[incoming["Team ID"].astype(str)==tid]
                 if not arrivals.empty:
                     st.dataframe(arrivals[["Player","Prior school","Status","Previous minutes","Previous points","Previous rebounds","Previous assists"]],hide_index=True,use_container_width=True)
                     st.caption("Potential prior-school matches use the D1-wide historical scan if run; these are not verified transfers.")
                 else:st.info("No new roster appearances identified from the loaded audit for this team.")
-            else:st.info("Run the roster audit, then open Incoming players & possible transfers in Model Lab to populate this section.")
+            else:st.info("No saved roster comparison is available for this team yet. The scheduled archive is built in batches; you can also run Model Lab manually.")
         with st.expander("👥 Roster and scouting details",expanded=False):
             if st.button("Load player roster",key="v12_roster_btn"):
                 st.session_state["v12_roster_team"]=(SPORTS[league],tid)
