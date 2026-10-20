@@ -339,27 +339,42 @@ def make_combined(preseason: pd.DataFrame, current: pd.DataFrame, effects: dict)
     return out.sort_values("Current power", ascending=False).reset_index(drop=True)
 
 
-def schedule_difficulty(all_games, rating_lookup):
-    rows=[]
+def schedule_difficulty(all_games, rating_lookup, verified_d1_ids):
+    """SOS only for verified D1 teams, against D1 opposition.
+
+    All returned D1-v-D1 fixtures count toward denominator, including fixtures
+    without an opponent rating; no artificial precision on sparse coverage.
+    """
+    all_rows, rated_rows = [], []
     for _, g in all_games.iterrows():
-        for side, other in (("Home", "Away"), ("Away", "Home")):
-            own=str(g[side+" ID"]); opp=str(g[other+" ID"])
-            if own not in rating_lookup or opp not in rating_lookup:
+        home, away = str(g["Home ID"]), str(g["Away ID"])
+        if home not in verified_d1_ids or away not in verified_d1_ids:
+            continue
+        for own, opp, side in ((home, away, "Home"), (away, home, "Away")):
+            played = str(g["Status"]) == "Final"
+            all_rows.append({"Team ID": own, "Played": played})
+            if opp not in rating_lookup:
                 continue
-            is_home = g["Venue"] != "Neutral" and side == "Home"
-            is_away = g["Venue"] != "Neutral" and side == "Away"
-            opponent_difficulty = rating_lookup[opp] + (3 if is_away else (-3 if is_home else 0))
-            rows.append({"Team ID":own,"Opponent ID":opp,"Opponent difficulty":opponent_difficulty,"Played":g["Status"]=="Final"})
-    if not rows:
+            is_away = str(g["Venue"]).lower() != "neutral" and side == "Away"
+            is_home = str(g["Venue"]).lower() != "neutral" and side == "Home"
+            difficulty = float(rating_lookup[opp]) + (3 if is_away else -3 if is_home else 0)
+            rated_rows.append({"Team ID": own, "Opponent difficulty": difficulty, "Played": played})
+    if not all_rows:
         return pd.DataFrame()
-    df=pd.DataFrame(rows)
-    summary=[]
-    for tid, group in df.groupby("Team ID"):
-        completed=group[group["Played"]]; remaining=group[~group["Played"]]
-        summary.append({"Team ID":tid,"Full SOS":group["Opponent difficulty"].mean(),
+    all_df = pd.DataFrame(all_rows)
+    rated_df = pd.DataFrame(rated_rows) if rated_rows else pd.DataFrame(columns=["Team ID", "Opponent difficulty", "Played"])
+    summary = []
+    for tid, group in all_df.groupby("Team ID"):
+        rg = rated_df[rated_df["Team ID"] == tid]
+        completed = rg[rg["Played"]]
+        remaining = rg[~rg["Played"]]
+        total = len(group)
+        summary.append({"Team ID":tid,
+            "Full SOS":rg["Opponent difficulty"].mean() if len(rg) else np.nan,
             "Played SOS":completed["Opponent difficulty"].mean() if len(completed) else np.nan,
             "Remaining SOS":remaining["Opponent difficulty"].mean() if len(remaining) else np.nan,
-            "Rated games":len(group),"Played rated games":len(completed)})
+            "D1 games loaded":total,"Rated games":len(rg),"Played rated games":len(completed),
+            "Rating coverage %":round(100*len(rg)/total,1) if total else 0})
     return pd.DataFrame(summary)
 
 
@@ -658,17 +673,32 @@ if st.session_state.get(f"v7_enabled_{SPORTS[league]}", False):
         rating_map=combined.set_index("Team ID")["Current power"].to_dict()
         full_games=pd.concat([current_games, games],ignore_index=True).drop_duplicates("Game ID")
         with t3:
-            sos=schedule_difficulty(full_games,rating_map)
-            if sos.empty:
-                st.info("No games with two rated teams were found.")
+            st.subheader("Division I strength of schedule (available games)")
+            if not memberships:
+                st.error("Verified 2026–27 D1 conference membership could not be loaded. SOS ranking is disabled rather than mixing non-D1 teams into the table.")
             else:
-                sos=sos.merge(combined[["Team ID","Team","Conference"]],on="Team ID",how="left").sort_values("Full SOS",ascending=False)
-                st.dataframe(sos[["Team","Conference","Full SOS","Played SOS","Remaining SOS","Rated games","Played rated games"]],hide_index=True,use_container_width=True)
-                st.download_button("Download SOS",sos.to_csv(index=False).encode(),"sos_v7.csv","text/csv")
-                st.caption("SOS uses rated opponents and ±3-point venue adjustments. Only retrieved games where both teams are rated are included; missing schedule dates can change ranks.")
+                sos=schedule_difficulty(full_games,rating_map,set(map(str,memberships.keys())))
+                if sos.empty:
+                    st.info("No verified D1-v-D1 matchups were loaded for this date window.")
+                else:
+                    sos=sos.merge(combined[["Team ID","Team","Conference"]],on="Team ID",how="left")
+                    sos=sos[sos["Team"].notna()].copy()
+                    if sos.empty:
+                        st.info("No teams have both verified membership and a current model rating.")
+                    else:
+                        sos["Full SOS"] = sos["Full SOS"].round(2)
+                        sos["Played SOS"] = sos["Played SOS"].round(2)
+                        sos["Remaining SOS"] = sos["Remaining SOS"].round(2)
+                        sos = sos.sort_values("Full SOS",ascending=False,na_position="last")
+                        sos.insert(0,"SOS rank (provisional)",np.arange(1,len(sos)+1))
+                        st.warning("PROVISIONAL: This is SOS for retrieved D1-v-D1 fixtures only—not necessarily each team's complete 2026–27 schedule. Select the full season in the schedule controls before comparing full-season SOS.")
+                        st.dataframe(sos[["SOS rank (provisional)","Team","Conference","Full SOS","Played SOS","Remaining SOS","D1 games loaded","Rated games","Rating coverage %","Played rated games"]],hide_index=True,use_container_width=True)
+                        st.download_button("Download provisional D1 SOS",sos.to_csv(index=False).encode(),"d1_sos_v9.csv","text/csv")
+                        st.caption("D1 teams verified through ESPN's 2026–27 conference membership feed. Non-D1 opponents do not count toward this D1-only SOS; their separate difficulty is not yet estimated. Rating coverage is the share of retrieved D1 games whose opponent has a power rating. Low coverage or very few loaded games makes an SOS estimate unreliable.")
         with t4:
             projections=[]
             for _, g in games[games["Status"]=="Scheduled"].iterrows():
+                if str(g["Home ID"]) not in memberships or str(g["Away ID"]) not in memberships: continue
                 prediction=game_projection(g,rating_map)
                 if prediction is None:continue
                 margin,win=prediction
@@ -677,7 +707,7 @@ if st.session_state.get(f"v7_enabled_{SPORTS[league]}", False):
                 prediction_df=pd.DataFrame(projections)
                 st.dataframe(prediction_df,hide_index=True,use_container_width=True)
                 st.download_button("Download projected lines",prediction_df.to_csv(index=False).encode(),"model_lines_v7.csv","text/csv")
-                st.caption("Positive home margin = home team favored; model line is the absolute spread for the named favorite. Illustrative modeling method, not sportsbook odds. Scores/totals are not available without a separate pace model.")
+                st.caption("Only verified D1-v-D1 games are projected. Positive home margin = home team favored; model line is the absolute spread for the named favorite. Illustrative modeling method, not sportsbook odds. Scores/totals are not available without a separate pace model.")
             else:
                 st.info("No scheduled matchups with valid team ratings were found in this selected date window.")
         with t5:
