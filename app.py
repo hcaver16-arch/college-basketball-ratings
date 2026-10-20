@@ -24,6 +24,8 @@ from transfer_stats import retrieve_previous_school_stats, transfer_coverage
 from roster_model import experimental_roster_signal
 from roster_rating_experiment import roster_sensitivity, roster_quality
 from saved_roster_data import load_saved_data, build_team_roster_view, roster_archive_summary, team_saved_analysis, archive_counts
+from rating_engine import calculate_power, blending_weight, make_combined
+from saved_ratings import load_ratings, load_history
 
 st.set_page_config(page_title="College Basketball Dashboard", page_icon="🏀", layout="wide")
 st.title("🏀 College Basketball")
@@ -221,53 +223,6 @@ def show_schedule(df):
 
 
 
-@st.cache_data(ttl=24 * 60 * 60, show_spinner=False)
-def calculate_power(history: pd.DataFrame):
-    """Regularized least squares: margin = rating(home) - rating(away) + location.
-
-    Estimate neutral-court team point strengths from completed games, limited to
-    rows with two valid ESPN team IDs and final numeric scores. Fixed HCA is an
-    explicit simplifying assumption; a later version should estimate it.
-    """
-    empty = pd.DataFrame(columns=["Team ID", "Team", "Power", "Games", "Win %"])
-    if history.empty:
-        return empty, {"games": 0, "teams": 0}
-    games = history[(history["Status"] == "Final") & history["Home score"].notna() & history["Away score"].notna()].copy()
-    games = games[(games["Home ID"].astype(str) != "") & (games["Away ID"].astype(str) != "") & (games["Home ID"] != games["Away ID"])]
-    games = games.drop_duplicates(subset="Game ID")
-    if len(games) < 20:
-        return empty, {"games": int(len(games)), "teams": 0}
-    tids = sorted(set(games["Home ID"]).union(games["Away ID"]))
-    n = len(tids)
-    index = {tid: i for i, tid in enumerate(tids)}
-    mat = np.zeros((n, n), dtype=float)
-    vec = np.zeros(n, dtype=float)
-    played = np.zeros(n, dtype=int)
-    wins = np.zeros(n, dtype=int)
-    labels = {}
-    # DataFrame column names contain spaces; iterrows keeps labels intact.
-    for _, g in games.iterrows():
-        hi, ai = index[str(g["Home ID"])], index[str(g["Away ID"])]
-        # Cap blowouts to keep unusual games from dominating the fitted ratings.
-        diff = float(np.clip(float(g["Home score"]) - float(g["Away score"]), -40, 40))
-        margin = diff - (0.0 if g["Venue"] == "Neutral" else 3.0)
-        mat[hi, hi] += 1; mat[ai, ai] += 1
-        mat[hi, ai] -= 1; mat[ai, hi] -= 1
-        vec[hi] += margin; vec[ai] -= margin
-        played[hi] += 1; played[ai] += 1
-        wins[hi] += int(diff > 0); wins[ai] += int(diff < 0)
-        labels[str(g["Home ID"])] = str(g["Home"])
-        labels[str(g["Away ID"])] = str(g["Away"])
-    # Ridge shrinkage (prior rating zero), produces stable results even in
-    # disconnected schedule components. Remove mean to keep readable scale.
-    ridge = 8.0
-    fit = np.linalg.solve(mat + ridge * np.eye(n), vec)
-    fit -= np.mean(fit)
-    result = pd.DataFrame({"Team ID": tids, "Team": [labels.get(tid, tid) for tid in tids], "Power": np.round(fit, 2), "Games": played, "Win %": np.round(100 * wins / np.maximum(played, 1), 1)})
-    return result, {"games": len(games), "teams": n}
-
-
-
 # Roster-aware ratings. A missing player data source is NOT equivalent
 # to a player with zero value. No recruiting data is manufactured.
 ROSTER_COLUMNS = ["Team ID", "Player", "Roster status", "Previous minutes", "Previous points", "Impact adjustment", "Source"]
@@ -323,38 +278,8 @@ def roster_effects(uploaded, directory_ids: set):
     return effects, data, f"{len(approved)} sourced player adjustments accepted; {ignored} ignored for missing IDs, values, or sources. Incoming freshmen/recruits are capped collectively at ±2 rating points per team; all roster adjustments combined at ±12. These manually entered point impacts are assumptions, not statistically validated player projections."
 
 
-def blending_weight(games: int):
-    # Phaseout is deliberately bounded, even for a schedule with weak competition.
-    anchors = [(0, 0), (5, .35), (10, .65), (15, .85), (20, .95), (25, 1.0)]
-    for (g0, w0), (g1, w1) in zip(anchors, anchors[1:]):
-        if games <= g1:
-            return w0 + (w1 - w0) * (games - g0) / (g1 - g0)
-    return 1.0
 
 
-def make_combined(preseason: pd.DataFrame, current: pd.DataFrame, effects: dict):
-    out = preseason[["Team ID", "Team", "Power"]].rename(columns={"Power":"Prior team rating"}).copy()
-    out = out.merge(current[["Team ID", "Power", "Games"]].rename(columns={"Power": "On-court rating", "Games": "Games played"}), on="Team ID", how="left")
-    out["Games played"] = out["Games played"].fillna(0).astype(int)
-    out["Preseason roster adjustment"] = out["Team ID"].map(effects).fillna(0.0)
-    out["Preseason rating"] = out["Prior team rating"] + out["Preseason roster adjustment"]
-    out["On-court weight"] = out["Games played"].apply(blending_weight)
-    out["Preseason weight"] = 1 - out["On-court weight"]
-    out["Current power"] = (out["Preseason weight"] * out["Preseason rating"] +
-                            out["On-court weight"] * out["On-court rating"].fillna(0.0))
-    # Teams with in-season games but absent from last season get a neutral prior.
-    new = current[~current["Team ID"].isin(out["Team ID"])].copy()
-    if not new.empty:
-        more = pd.DataFrame({"Team ID":new["Team ID"],"Team":new["Team"],"Prior team rating":0.,
-            "On-court rating":new["Power"],"Games played":new["Games"].astype(int),
-            "Preseason roster adjustment":new["Team ID"].map(effects).fillna(0.)})
-        more["Preseason rating"] = more["Preseason roster adjustment"]
-        more["On-court weight"] = more["Games played"].apply(blending_weight)
-        more["Preseason weight"] = 1 - more["On-court weight"]
-        more["Current power"] = more["Preseason weight"] * more["Preseason rating"] + more["On-court weight"] * more["On-court rating"]
-        out = pd.concat([out, more], ignore_index=True)
-    out["Rating change"] = out["Current power"] - out["Preseason rating"]
-    return out.sort_values("Current power", ascending=False).reset_index(drop=True)
 
 
 def schedule_difficulty(all_games, rating_lookup, verified_d1_ids):
@@ -563,18 +488,69 @@ if not directory.empty:
 
 unique_teams = sorted(set(games["Away"]).union(games["Home"]))
 verified_d1_ids = set(map(str, memberships.keys()))
-# Only display ratings calculated for this division in the current user session.
+# Start each session with the most recently archived rating snapshot.
+# Manual calculations remain available, but saved ratings survive Streamlit restarts.
+archived_teams, archived_meta = load_ratings(SPORTS[league])
+if archived_teams is not None:
+    # Saved data are authoritative until this session explicitly recalculates.
+    current_snapshot = st.session_state.get(f"saved_snapshot_{SPORTS[league]}")
+    archive_identity = archived_meta.get('updated_utc')
+    if current_snapshot != archive_identity:
+        st.session_state[f"teams_{SPORTS[league]}"] = archived_teams.copy()
+        st.session_state[f"ratings_{SPORTS[league]}"] = archived_teams.set_index('Team ID')['Current power'].to_dict()
+        st.session_state[f"saved_snapshot_{SPORTS[league]}"] = archive_identity
+    st.sidebar.caption(f"Saved power ratings: {archived_meta.get('snapshot_date', 'unknown')} (experimental)")
+else:
+    st.sidebar.caption('Saved daily power ratings not collected yet; calculate in Model Lab if needed.')
 ratings_for_schedule = st.session_state.get(f"ratings_{SPORTS[league]}", {})
 team_ratings = st.session_state.get(f"teams_{SPORTS[league]}")
 conference_ratings = st.session_state.get(f"conferences_{SPORTS[league]}")
 sos_ratings = st.session_state.get(f"sos_{SPORTS[league]}")
 sor_ratings = st.session_state.get(f"sor_{SPORTS[league]}")
+# Summaries derived from the saved/current team rating table.
+if isinstance(team_ratings, pd.DataFrame) and not team_ratings.empty:
+    if 'Conference' not in team_ratings.columns and not directory.empty:
+        team_ratings = team_ratings.merge(directory[['Team ID','Conference']],on='Team ID',how='left')
+    if 'Conference' in team_ratings.columns:
+        valid = team_ratings[team_ratings['Conference'].notna() & (team_ratings['Conference'] != 'Unassigned (not verified)')]
+        if not valid.empty:
+            summary = valid.groupby('Conference').agg(Teams=('Team ID','nunique'), Average_power=('Current power','mean'), Median_power=('Current power','median')).reset_index()
+            best=valid.groupby('Conference')['Current power'].apply(lambda s:s.nlargest(5).mean()).rename('Top-five power').reset_index()
+            conference_ratings=summary.merge(best,on='Conference').sort_values('Average_power',ascending=False)
+            st.session_state[f"conferences_{SPORTS[league]}"]=conference_ratings
+    if memberships and ratings_for_schedule:
+        # Display a provisional SOS from the currently loaded schedule, rather than an outdated saved view.
+        live_sos = schedule_difficulty(games, ratings_for_schedule, set(map(str,memberships.keys())))
+        if not live_sos.empty:
+            live_sos=live_sos.merge(team_ratings[['Team ID','Team','Conference']].drop_duplicates('Team ID'),on='Team ID',how='left')
+            live_sos=live_sos[live_sos['Team'].notna()].copy()
+            if not live_sos.empty:
+                live_sos['SOS rank (provisional)']=pd.NA
+                live_sos['Schedule coverage status']='Selected date window; not full-season verified'
+                sos_ratings=live_sos
+                st.session_state[f"sos_{SPORTS[league]}"]=live_sos
+        live_sor = strength_of_record(games, ratings_for_schedule, set(map(str,memberships.keys())))
+        if not live_sor.empty:
+            live_sor=live_sor.merge(team_ratings[['Team ID','Team','Conference']].drop_duplicates('Team ID'),on='Team ID',how='left')
+            live_sor['SOR rank (provisional)']=pd.NA
+            sor_ratings=live_sor
+            st.session_state[f"sor_{SPORTS[league]}"]=live_sor
 
 schedule_tab, team_tab, conference_tab, sos_tab, sor_tab, ratings_tab = st.tabs(
     ["🏀 Games", "⭐ Teams", "🏆 Conferences", "📊 Schedule strength", "📈 Record strength", "⚙️ Model Lab"])
 
 with ratings_tab:
     st.subheader("Model Lab")
+    if archived_meta:
+        st.success(f"Automatic ratings available: {archived_meta.get('snapshot_date')} · {archived_meta.get('team_count')} teams · {archived_meta.get('current_final_games')} current-season final games. Ratings are saved daily; manual model recalculation is optional.")
+        with st.expander("Archived ratings and historical trends", expanded=False):
+            st.caption("Preseason prior is based on 2025–26 scoring margins. Automatic roster bonuses are not applied; historical scale and predictive calibration remain experimental.")
+            saved_history=load_history(SPORTS[league])
+            if not saved_history.empty:
+                st.write(f"{saved_history['Snapshot date'].nunique()} saved rating date(s)")
+                st.download_button("Download all archived rating snapshots",saved_history.to_csv(index=False).encode(),f"{SPORTS[league]}_rating_history.csv","text/csv",key=f"download_hist_{SPORTS[league]}")
+    else:
+        st.info("No archived power ratings yet. Run the GitHub Actions 'Refresh basketball power ratings' workflow once to create the initial snapshot.")
     with st.expander("📦 Automatic roster collection progress", expanded=False):
         st.caption("Saved GitHub data are read on page load. Each nightly run processes another batch. Collection success does not prove every game or athlete was captured.")
         for division_label, division_code in [("Men", "mens-college-basketball"), ("Women", "womens-college-basketball")]:
