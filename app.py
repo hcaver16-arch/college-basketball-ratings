@@ -141,31 +141,65 @@ def fetch_directory(sport: str):
 
 
 @st.cache_data(ttl=24 * 60 * 60, show_spinner=False)
-def fetch_conference_names(sport: str):
-    """Read available conference names from ESPN's groups endpoint."""
-    base = f"https://site.api.espn.com/apis/site/v2/sports/basketball/{sport}"
-    r = requests.get(base + "/groups", timeout=25,
-                     headers={"User-Agent": "Mozilla/5.0", "Accept": "application/json"})
-    r.raise_for_status()
-    payload = r.json()
-    names = {}
-    def walk(node):
-        if isinstance(node, list):
-            for item in node: walk(item)
-        elif isinstance(node, dict):
-            cid = node.get("id") or node.get("groupId")
-            name = node.get("shortName") or node.get("abbreviation") or node.get("name")
-            if cid is not None and name:
-                names[str(cid)] = str(name)
-            for field in ("groups", "children", "subGroups", "conferences", "items"):
-                if field in node: walk(node[field])
-    walk(payload)
-    return names
+def fetch_membership(sport: str):
+    """Build a season-specific conference/team map from ESPN's core group hierarchy.
+
+    The site's flat /teams response often omits conferenceId; assigning every
+    missing ID to 'non-D1' was incorrect. Core group membership resolves it.
+    """
+    season = 2027  # ESPN uses ending year for the 2026–27 basketball season
+    base = f"https://sports.core.api.espn.com/v2/sports/basketball/leagues/{sport}/seasons/{season}/types/2"
+    headers = {"User-Agent": "Mozilla/5.0", "Accept": "application/json"}
+    session = requests.Session()
+    session.headers.update(headers)
+    def get_json(url):
+        r = session.get(url, timeout=25)
+        r.raise_for_status()
+        return r.json()
+    def items(url):
+        result = []
+        while url:
+            payload = get_json(url)
+            result.extend(payload.get("items", []))
+            url = (payload.get("page") or {}).get("next")
+        return result
+    # ESPN's parent group 50 represents NCAA Division I conferences.
+    refs = items(base + "/groups/50/children?limit=200")
+    conference_names, team_to_conf, misses = {}, {}, []
+    def fetch_group(ref):
+        url = ref.get("$ref", "")
+        if not url:
+            return None
+        group = get_json(url)
+        cid = str(group.get("id", ""))
+        name = group.get("shortName") or group.get("name") or group.get("abbreviation") or ("Conference " + cid)
+        members = items(base + "/groups/" + cid + "/teams?limit=500")
+        ids = []
+        for m in members:
+            endpoint = m.get("$ref", "").split("?")[0].rstrip("/")
+            if endpoint:
+                ids.append(endpoint.rsplit("/", 1)[-1])
+        return cid, name, ids
+    with ThreadPoolExecutor(max_workers=6) as ex:
+        futures = {ex.submit(fetch_group, ref): ref for ref in refs}
+        for future in as_completed(futures):
+            try:
+                val = future.result()
+                if val:
+                    cid, name, ids = val
+                    conference_names[cid] = name
+                    for tid in ids:
+                        team_to_conf[tid] = cid
+            except Exception as exc:
+                misses.append(str(exc)[:120])
+    if not team_to_conf:
+        raise ValueError("Conference membership feed returned no team memberships" + ("; " + misses[0] if misses else ""))
+    return conference_names, team_to_conf, len(refs), len(misses)
 
 
 def conf_label(raw: str, lookup: dict):
     if not raw or str(raw).strip() in ("", "None", "nan"):
-        return "Unknown / non-D1"
+        return "Unassigned (not verified)"
     return lookup.get(str(raw), f"Conference ID {raw}")
 
 def show_schedule(df):
@@ -213,31 +247,37 @@ except Exception as exc:
     directory = pd.DataFrame(columns=["Team ID", "Team", "Abbreviation", "Conference ID", "Logo"])
     directory_error = str(exc)
 try:
-    conference_names = fetch_conference_names(SPORTS[league])
+    conference_names, memberships, conf_count, conf_failures = fetch_membership(SPORTS[league])
     conference_error = ""
 except Exception as exc:
-    conference_names = {}
+    conference_names, memberships, conf_count, conf_failures = {}, {}, 0, 0
     conference_error = str(exc)
 
-# Backfill conference IDs from scheduled games if the directory doesn't include them.
+# Membership data takes precedence over blank or stale conference IDs.
 if not directory.empty:
-    inferred = {}
-    for _, game in games.iterrows():
-        for side in ("Away", "Home"):
-            tid = str(game[side + " ID"])
-            cid = str(game[side + " conference"])
-            if tid and cid and cid not in ("None", "nan"):
-                inferred[tid] = cid
     directory["Conference ID"] = directory.apply(
-        lambda row: row["Conference ID"] if str(row["Conference ID"]).strip() not in ("", "None", "nan")
-        else inferred.get(row["Team ID"], ""), axis=1)
+        lambda row: memberships.get(str(row["Team ID"])) or str(row["Conference ID"] or ""), axis=1)
     directory["Conference"] = directory["Conference ID"].map(lambda v: conf_label(v, conference_names))
 
 for side in ("Away", "Home"):
-    games[side + " conference name"] = games[side + " conference"].map(lambda c: conf_label(c, conference_names))
+    games[side + " conference name"] = [
+        conf_label(memberships.get(str(tid)) or cid, conference_names)
+        for tid, cid in zip(games[side + " ID"], games[side + " conference"])
+    ]
     if not directory.empty:
         by_id = directory.set_index("Team ID")["Conference"].to_dict()
-        games[side + " conference name"] = [by_id.get(tid, name) for tid, name in zip(games[side + " ID"], games[side + " conference name"])]
+        games[side + " conference name"] = [
+            by_id.get(str(tid), name) if by_id.get(str(tid), "Unassigned (not verified)") != "Unassigned (not verified)" else name
+            for tid, name in zip(games[side + " ID"], games[side + " conference name"])
+        ]
+
+if conference_error:
+    st.warning("Conference membership could not be loaded: " + conference_error[:200])
+else:
+    st.caption(f"Conference membership lookup: {len(memberships)} mapped teams across {len(conference_names)} conferences; {conf_failures} group lookups failed.")
+if not directory.empty:
+    mapped = int(directory["Team ID"].astype(str).isin(memberships).sum())
+    st.caption(f"Directory coverage: {mapped} of {len(directory)} listed teams have verified conference membership from ESPN's season group list.")
 
 unique_teams = sorted(set(games["Away"]).union(games["Home"]))
 played = int((games["Status"] == "Final").sum())
