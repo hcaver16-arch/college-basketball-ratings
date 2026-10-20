@@ -22,6 +22,7 @@ from transfer_tracking import identify_incoming
 from league_transfer_lookup import scan_previous_rosters, match_candidates
 from transfer_stats import retrieve_previous_school_stats, transfer_coverage
 from roster_model import experimental_roster_signal
+from roster_rating_experiment import roster_sensitivity, roster_quality
 from saved_roster_data import load_saved_data, build_team_roster_view, roster_archive_summary, team_saved_analysis, archive_counts
 
 st.set_page_config(page_title="College Basketball Dashboard", page_icon="🏀", layout="wide")
@@ -1103,6 +1104,42 @@ with team_tab:
                 st.caption("Prior-school matches are provisional. Unknown origin is not proof a player is a freshman; unavailable totals are not zero.")
             else:
                 st.caption("No matched incoming-player data available yet. Matches improve as more schools are archived.")
+
+            with st.expander("Experimental preseason rating — what-if analysis", expanded=False):
+                st.caption("This is an assumption-driven sensitivity check, NOT a trained roster model. It never changes official rankings, projections, SOS, or SOR.")
+                row = (returning[returning['Team ID'].astype(str) == tid].iloc[0]
+                       if isinstance(returning, pd.DataFrame) and not returning.empty
+                       and 'Team ID' in returning and (returning['Team ID'].astype(str) == tid).any()
+                       else None)
+                quality = roster_quality(row, incoming)
+                st.warning(quality['message'])
+                baseline = None
+                if isinstance(team_ratings, pd.DataFrame) and not team_ratings.empty:
+                    br = team_ratings[team_ratings['Team ID'].astype(str) == tid] if 'Team ID' in team_ratings else pd.DataFrame()
+                    if not br.empty:
+                        for field in ['Preseason rating','Current power','Power','Rating']:
+                            if field in br.columns and pd.notna(br.iloc[0][field]):
+                                baseline = float(br.iloc[0][field]);break
+                if baseline is None:
+                    st.info("First calculate power ratings in Model Lab to see the historical baseline and a hypothetical adjustment.")
+                elif row is None:
+                    st.info("This team needs returning-production records before a roster sensitivity can be shown.")
+                else:
+                    retention = pd.to_numeric(row.get('Returning minutes % (known only)'), errors='coerce')
+                    if pd.isna(retention):
+                        st.info("Returning minutes are unavailable; no speculative adjustment is generated.")
+                    else:
+                        slope = st.slider("Assumed rating points per 10 percentage points of returning minutes", 0.0, 2.0, 0.5, 0.1, key=f'roster_slope_{SPORTS[league]}_{tid}')
+                        reference = st.slider("Reference retention level (%)", 20, 80, 50, 5, key=f'roster_reference_{SPORTS[league]}_{tid}')
+                        scenario=roster_sensitivity(baseline, retention, reference, slope)
+                        if scenario:
+                            c1,c2,c3=st.columns(3)
+                            c1.metric("Historical preseason baseline", f"{scenario['Historical team baseline']:+.2f}")
+                            c2.metric("Hypothetical difference", f"{scenario['Hypothetical change (pts)']:+.2f}")
+                            c3.metric("What-if rating", f"{scenario['Hypothetical rating (NOT validated)']:+.2f}")
+                            st.caption("The default 0.5-point coefficient and 50% reference are illustrative, NOT learned from historical games. Transfer production, player quality, coaching and availability are not assigned point effects.")
+                st.markdown("**Historical validation — still required**")
+                st.caption("The November 2025 previous-season-only model's historical benchmark was 11.36 points MAE across 1,233 games (based on the earlier dashboard test). This is NOT a roster-model result. A fair comparison needs preseason roster snapshots dated before each tested season, previous-season player totals, and truly held-out games. No roster-model accuracy or improvement is claimed yet.")
 
             with st.expander("Data quality and optional refresh",expanded=False):
                 st.caption("The scheduled GitHub collection is the default. Use a manual refresh only for teams not yet archived or when you need a new source check.")
