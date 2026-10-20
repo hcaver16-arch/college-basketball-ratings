@@ -31,6 +31,7 @@ from coverage_audit import audit_coverage
 from roster_reconciliation import reconciliation_summary
 from historical_roster_rebuild import reconstruct_teams, source_cutoff_audit
 from historical_evidence import classify_evidence, player_membership_audit, EVIDENCE_FIELDS
+from prospective_roster import evidence_adjustments, make_forecasts, evaluate_forecasts
 
 st.set_page_config(page_title="College Basketball Dashboard", page_icon="🏀", layout="wide")
 st.title("🏀 College Basketball")
@@ -557,6 +558,40 @@ with ratings_tab:
                 st.download_button("Download all archived rating snapshots",saved_history.to_csv(index=False).encode(),f"{SPORTS[league]}_rating_history.csv","text/csv",key=f"download_hist_{SPORTS[league]}")
     else:
         st.info("No archived power ratings yet. Run the GitHub Actions 'Refresh basketball power ratings' workflow once to create the initial snapshot.")
+    with st.expander("🧪 Prospective roster model comparison (untrained)", expanded=False):
+        st.caption("Two parallel predictions for upcoming games: the saved team-rating baseline and a conservative roster-retention scenario. This is NOT a trained model or a verified betting line. Official ratings are untouched.")
+        if not isinstance(team_ratings, pd.DataFrame) or team_ratings.empty:
+            st.info("Saved baseline power ratings are not available yet.")
+        else:
+            old_r, new_r, old_stats, _status = load_saved_data(SPORTS[league])
+            possible_ids=set(games['Home ID'].astype(str)).union(set(games['Away ID'].astype(str)))
+            with st.spinner("Preparing archived roster evidence for games in your current date range..."):
+                adjustments=evidence_adjustments(old_r,new_r,old_stats,possible_ids)
+            st.caption(f"{len(adjustments)} teams in the selected game window have enough documented prior-roster matches for a hypothetical retention adjustment. This does not independently verify full-season statistics or roster status at the forecast date.")
+            timestamp=datetime.now(timezone.utc).isoformat()
+            upcoming=games[games['Status']=='Scheduled'].copy()
+            forecast=make_forecasts(upcoming,ratings_for_schedule,adjustments,timestamp,SPORTS[league])
+            if forecast.empty:
+                st.info("No upcoming games have both teams' required roster information. As the archive fills in, more comparisons can appear.")
+            else:
+                show_cols=['Game date','Away','Home','Baseline home margin','Roster experimental home margin','Home retention %','Away retention %']
+                st.dataframe(forecast[show_cols],hide_index=True,use_container_width=True)
+                st.download_button("Download dated prospective forecasts",forecast.to_csv(index=False).encode(),f"{SPORTS[league]}_roster_forecasts_{date.today().isoformat()}.csv","text/csv",key=f"prospective_csv_{SPORTS[league]}")
+                st.caption("Positive home margin favors the home team; negative favors the away team. The hypothetical adjustment assumes 0.5 points per 10 percentage-point difference in returning minutes, capped at ±3 team points. It is not historically fitted.")
+            st.markdown("**Evaluate a previously downloaded forecast file**")
+            historic=st.file_uploader("Upload a prior prospective forecast CSV (saved before those games)",type=['csv'],key=f"prospective_eval_{SPORTS[league]}")
+            if historic is not None:
+                try:
+                    comparison=evaluate_forecasts(pd.read_csv(historic),games)
+                    if comparison.empty:st.info("No matching completed games in your currently loaded date range. Select the relevant past schedule period.")
+                    else:
+                        a,b=st.columns(2)
+                        a.metric("Baseline MAE",f"{comparison['Baseline absolute error'].mean():.2f} points")
+                        b.metric("Roster scenario MAE",f"{comparison['Experimental absolute error'].mean():.2f} points")
+                        st.caption(f"{len(comparison)} completed matching games; results are descriptive, not evidence of generalization or calibration. Same games compared for both methods.")
+                        st.download_button("Download comparison rows",comparison.to_csv(index=False).encode(),"prospective_roster_evaluation.csv","text/csv",key=f"prospective_eval_dl_{SPORTS[league]}")
+                except Exception as exc:st.warning(f"Cannot evaluate this file: {str(exc)[:200]}")
+
     with st.expander("📦 Automatic roster collection progress", expanded=False):
         st.caption("Saved GitHub data are read on page load. Each nightly run processes another batch. Collection success does not prove every game or athlete was captured.")
         for division_label, division_code in [("Men", "mens-college-basketball"), ("Women", "womens-college-basketball")]:
