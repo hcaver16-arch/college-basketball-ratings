@@ -14,8 +14,8 @@ import requests
 import streamlit as st
 
 st.set_page_config(page_title="College Basketball Dashboard", page_icon="🏀", layout="wide")
-st.title("🏀 College Basketball Dashboard")
-st.caption("2026–27 schedules · Roster inputs · Dynamic ratings · Conference strength · Schedule difficulty · Model lines")
+st.title("🏀 College Basketball")
+st.caption("2026–27 · Games, rankings and team scouting")
 
 SPORTS = {"Men's": "mens-college-basketball", "Women's": "womens-college-basketball"}
 START = date(2026, 11, 1)
@@ -441,7 +441,7 @@ if st.sidebar.button("🔄 Refresh schedule now", use_container_width=True):
     retrieve_day.clear()
     st.rerun()
 
-st.info("Schedules are fetched from ESPN's unofficial public scoreboard feed. Game coverage depends on what ESPN has published. No ratings or point spreads are being fabricated.")
+
 
 with st.spinner(f"Loading {league.lower()} games for {period.lower()} (daily requests)…"):
     games, failures, truncated, windows_checked = get_schedule(SPORTS[league], first, last)
@@ -492,26 +492,25 @@ for side in ("Away", "Home"):
 if conference_error:
     st.warning("Conference membership could not be loaded: " + conference_error[:200])
 else:
-    st.caption(f"Conference membership lookup: {len(memberships)} mapped teams across {len(conference_names)} conferences; {conf_failures} group lookups failed.")
+    st.sidebar.caption(f"Conference membership lookup: {len(memberships)} mapped teams across {len(conference_names)} conferences; {conf_failures} group lookups failed.")
 if not directory.empty:
     mapped = int(directory["Team ID"].astype(str).isin(memberships).sum())
-    st.caption(f"Directory coverage: {mapped} of {len(directory)} listed teams have verified conference membership from ESPN's season group list.")
+    st.sidebar.caption(f"Directory coverage: {mapped} of {len(directory)} listed teams have verified conference membership from ESPN's season group list.")
 
 unique_teams = sorted(set(games["Away"]).union(games["Home"]))
-played = int((games["Status"] == "Final").sum())
-a, b, c, d = st.columns(4)
-a.metric("Games retrieved", f"{len(games):,}")
-b.metric("Teams appearing", f"{len(unique_teams):,}")
-c.metric("Completed games", f"{played:,}")
-d.metric("Scheduled games", f"{int((games['Status']=='Scheduled').sum()):,}")
-st.caption("Counts describe games and teams returned by the feed, not a verified count of all Division I programs. Some non-D1 opponents may appear.")
-
-schedule_tab, team_tab, directory_tab, ratings_tab = st.tabs(["📅 All games", "🏀 Team schedule", "🏫 Teams & conferences", "📈 Ratings & predictions"])
-ratings_for_schedule = {}
 verified_d1_ids = set(map(str, memberships.keys()))
+# Only display ratings calculated for this division in the current user session.
+ratings_for_schedule = st.session_state.get(f"ratings_{SPORTS[league]}", {})
+team_ratings = st.session_state.get(f"teams_{SPORTS[league]}")
+conference_ratings = st.session_state.get(f"conferences_{SPORTS[league]}")
+sos_ratings = st.session_state.get(f"sos_{SPORTS[league]}")
+
+schedule_tab, team_tab, conference_tab, sos_tab, ratings_tab = st.tabs(
+    ["🏀 Games", "⭐ Teams", "🏆 Conferences", "📊 Schedule strength", "⚙️ Model Lab"])
 
 with ratings_tab:
-    st.subheader("Power ratings, schedule strength & game projections")
+    st.subheader("Model Lab")
+    st.caption("Load or update ratings here. Rankings, team profiles and schedule lines appear in the other tabs after calculation.")
     st.caption("Experimental ratings based on historical scoring margins and on-court results. Player impacts are included only when supported by uploaded source-backed data; predictions are not sportsbook odds.")
     with st.expander("1. Rosters and sourced player adjustments", expanded=False):
         st.write("Choose a school to inspect its currently available ESPN roster. ESPN may not have complete 2026–27 rosters or previous-season player statistics.")
@@ -563,6 +562,8 @@ with ratings_tab:
             combined["Conference"]=combined["Conference"].fillna("Unassigned (not verified)")
             combined.insert(0,"Rank",np.arange(1,len(combined)+1))
             ratings_for_schedule = combined.set_index("Team ID")["Current power"].to_dict()
+            st.session_state[f"ratings_{SPORTS[league]}"] = ratings_for_schedule
+            st.session_state[f"teams_{SPORTS[league]}"] = combined.copy()
             st.caption(f"Historical finals: {previous_stats['games']:,} | Current-season finals: {current_stats['games']:,} | Rated teams: {len(combined):,}. Prior rating is zero for new teams not in last season's network.")
             st.warning("CAUTION: This first version fits each season separately and centers each fitted network independently. Blended ratings and point spreads are exploratory until cross-season calibration and roster coverage are validated.")
             t1,t2,t3,t4,t5=st.tabs(["Team ratings","Conference strength","Strength of schedule","Game lines","Model evaluation"])
@@ -578,6 +579,7 @@ with ratings_tab:
                     conferences=known.groupby("Conference").agg(Teams=("Team ID","nunique"),Average_power=("Current power","mean"),Median_power=("Current power","median")).reset_index()
                     top=known.groupby("Conference")["Current power"].apply(lambda x:x.nlargest(5).mean()).rename("Top-five power").reset_index()
                     conferences=conferences.merge(top,on="Conference").sort_values("Average_power",ascending=False)
+                    st.session_state[f"conferences_{SPORTS[league]}"] = conferences.copy()
                     st.dataframe(conferences,hide_index=True,use_container_width=True)
                     st.download_button("Download conference ratings",conferences.to_csv(index=False).encode(),"conference_ratings.csv","text/csv")
                     st.caption("Conference averages are affected by unmodeled programs. Check team coverage before comparing conferences.")
@@ -614,6 +616,7 @@ with ratings_tab:
                             sos["SOS rank (provisional)"] = pd.NA
                             if eligible_count:
                                 sos.loc[sos["SOS eligible"],"SOS rank (provisional)"] = range(1,eligible_count+1)
+                            st.session_state[f"sos_{SPORTS[league]}"] = sos.copy()
                             st.warning("PROVISIONAL: Schedule coverage is NOT independently verified. Rankings are shown only for teams with 20+ loaded D1 games, 90%+ rated-opponent coverage, full season selected, and no fetch failures. These thresholds are practical screening rules, not proof of completeness.")
                             a,b,c=st.columns(3)
                             a.metric("D1 teams in SOS table",len(sos))
@@ -653,72 +656,123 @@ with ratings_tab:
                     st.info("No completed 2026–27 games with modeled teams yet. Forecast validation will begin after games have been played.")
 
 with schedule_tab:
-    st.subheader(f"{league} game schedule")
-    r1, r2, r3, r4 = st.columns([2, 2, 2, 2])
-    with r1:
-        team = st.selectbox("Team", ["All teams"] + unique_teams)
-    with r2:
-        statuses = st.multiselect("Game status", ["Scheduled", "Live", "Final"], default=["Scheduled", "Live", "Final"])
-    with r3:
-        venue = st.selectbox("Venue", ["All venues", "Home", "Neutral"])
-    with r4:
-        available_conferences = sorted(set(games["Away conference name"]).union(games["Home conference name"]))
-        selected_conf = st.selectbox("Conference (either team)", ["All conferences"] + available_conferences)
-    min_date = date.fromisoformat(games["Date"].min())
-    max_date = date.fromisoformat(games["Date"].max())
-    selected = st.date_input("Date range", value=(min_date, max_date), min_value=min_date, max_value=max_date)
-    subset = games.loc[games["Status"].isin(statuses)].copy()
-    if team != "All teams":
-        subset = subset.loc[(subset["Home"] == team) | (subset["Away"] == team)]
-    if venue != "All venues":
-        subset = subset.loc[subset["Venue"] == venue]
-    if selected_conf != "All conferences":
-        subset = subset.loc[(subset["Away conference name"] == selected_conf) | (subset["Home conference name"] == selected_conf)]
-    if isinstance(selected, tuple) and len(selected) == 2:
-        d1, d2 = selected
-        subset = subset[(subset["Date"] >= str(d1)) & (subset["Date"] <= str(d2))]
-    subset = attach_model_lines(subset, ratings_for_schedule, verified_d1_ids)
-    st.caption(f"Showing {len(subset):,} of {len(games):,} retrieved games")
-    st.caption("Model lines are experimental; Not rated means no valid estimate. Completed games show a dash.")
-    show_schedule(subset)
-    st.download_button("Download filtered games as CSV", subset.to_csv(index=False).encode("utf-8"), file_name=f"{league.lower().replace(chr(39), '')}_basketball_games.csv", mime="text/csv")
+    st.subheader("Games & model predictions")
+    st.caption("Upcoming and completed games in your selected date window. Model spreads appear after ratings are loaded in Model Lab.")
+    view = st.radio("Show", ["Upcoming", "All games", "Final scores"], horizontal=True, label_visibility="collapsed")
+    shown = games.copy()
+    if view == "Upcoming":
+        shown = shown[shown["Status"].isin(["Scheduled", "Live"])]
+    elif view == "Final scores":
+        shown = shown[shown["Status"] == "Final"]
+    with st.expander("🔎 Filter games", expanded=False):
+        f1,f2,f3=st.columns(3)
+        with f1:
+            team_filter=st.selectbox("Team", ["All teams"] + unique_teams, key="v12_game_team")
+        with f2:
+            conf_filter=st.selectbox("Conference", ["All conferences"] + sorted(set(games["Away conference name"]).union(games["Home conference name"])), key="v12_game_conf")
+        with f3:
+            venue_filter=st.selectbox("Venue", ["Any location", "Home", "Neutral"], key="v12_game_venue")
+    if team_filter != "All teams":
+        shown=shown[(shown["Home"]==team_filter)|(shown["Away"]==team_filter)]
+    if conf_filter != "All conferences":
+        shown=shown[(shown["Home conference name"]==conf_filter)|(shown["Away conference name"]==conf_filter)]
+    if venue_filter != "Any location":
+        shown=shown[shown["Venue"]==venue_filter]
+    shown=attach_model_lines(shown, ratings_for_schedule, verified_d1_ids)
+    st.caption(f"{len(shown):,} games shown · All times Eastern")
+    if shown.empty:
+        st.info("No games match this selection. Try another date window or filter.")
+    else:
+        st.dataframe(shown[["Date","Time (ET)","Away","Home","Status","Model line","Away score","Home score"]],
+                     hide_index=True, use_container_width=True, height=470)
+    with st.expander("Download games and data notes"):
+        st.download_button("Download selected games CSV", shown.to_csv(index=False).encode(), "basketball_games.csv", "text/csv",key="v12_download_games")
+        st.caption("ESPN schedule feed is unofficial. Projections are experimental, not sportsbook odds; unavailable estimates are shown as Not rated.")
 
 with team_tab:
-    st.subheader("Look up a team")
-    chosen = st.selectbox("Select a team", unique_teams, index=0, key="individual_team")
-    matched = directory[directory["Team"] == chosen] if not directory.empty else pd.DataFrame()
-    if not matched.empty:
-        st.caption("Conference: " + str(matched.iloc[0]["Conference"]))
-    team_games = games.loc[(games["Away"] == chosen) | (games["Home"] == chosen)].copy()
-    team_games["Opponent"] = team_games.apply(lambda r: r["Away"] if r["Home"] == chosen else r["Home"], axis=1)
-    team_games["Location"] = team_games.apply(lambda r: "Neutral" if r["Venue"] == "Neutral" else ("Home" if r["Home"] == chosen else "Away"), axis=1)
-    st.metric("Games currently listed", len(team_games))
-    team_games = attach_model_lines(team_games, ratings_for_schedule, verified_d1_ids)
-    st.dataframe(team_games[["Date", "Time (ET)", "Opponent", "Location", "Status", "Model line", "Away score", "Home score"]], hide_index=True, use_container_width=True)
-    st.caption("This is the team schedule within the selected coverage period, not proof that all dates have been announced.")
-
-with directory_tab:
-    st.subheader(f"{league} teams and conferences")
-    st.caption("Teams from ESPN's team directory. Conferences reflect ESPN's available feed; unrecognized IDs remain labeled. This is not yet a verified complete official D1 membership list.")
-    if directory_error:
-        st.warning("The team directory could not load: " + directory_error[:230])
-    if conference_error:
-        st.warning("Conference names could not load; IDs will be shown instead. " + conference_error[:160])
+    st.subheader("Team center")
     if directory.empty:
-        st.info("The independent team directory is unavailable. Your game schedules can still work.")
+        st.warning("The team directory is unavailable; use the Games tab until it reloads.")
     else:
-        options = sorted(directory["Conference"].dropna().unique().tolist())
-        cf = st.selectbox("Filter by conference", ["All conferences"] + options, key="directory_conference")
-        query = st.text_input("Search teams", placeholder="Type a school or abbreviation")
-        filtered = directory.copy()
-        if cf != "All conferences":
-            filtered = filtered[filtered["Conference"] == cf]
-        if query:
-            filtered = filtered[filtered["Team"].str.contains(query, case=False, na=False, regex=False) | filtered["Abbreviation"].str.contains(query, case=False, na=False, regex=False)]
-        st.metric("Teams in the current directory selection", len(filtered))
-        st.dataframe(filtered[["Team", "Abbreviation", "Conference", "Team ID"]].sort_values("Team"), hide_index=True, use_container_width=True, height=540)
-        st.download_button("Download team directory (CSV)", directory.to_csv(index=False).encode("utf-8"), file_name=f"{SPORTS[league]}-teams-2026-27.csv", mime="text/csv")
-        st.caption("Conference membership can differ by sport and season. Verify against 2026–27 conference rosters before using it for official completeness claims.")
+        d1_teams=directory[directory["Team ID"].astype(str).isin(verified_d1_ids)].copy()
+        available=d1_teams if not d1_teams.empty else directory
+        team_options=sorted(available["Team"].dropna().unique())
+        chosen=st.selectbox("Find a Division I team",team_options,key="v12_team_pick")
+        selected_team=available[available["Team"]==chosen].iloc[0]
+        tid=str(selected_team["Team ID"])
+        st.caption(str(selected_team.get("Conference", "Conference unavailable")))
+        row=None
+        if isinstance(team_ratings,pd.DataFrame) and not team_ratings.empty:
+            match=team_ratings[team_ratings["Team ID"].astype(str)==tid]
+            if not match.empty: row=match.iloc[0]
+        if row is not None:
+            m1,m2,m3,m4=st.columns(4)
+            m1.metric("National power rank", f"#{int(row['Rank'])}")
+            m2.metric("Power rating", f"{float(row['Current power']):+.1f}")
+            m3.metric("Preseason", f"{float(row['Preseason rating']):+.1f}")
+            m4.metric("Games played", int(row["Games played"]))
+            with st.expander("📈 Detailed rating breakdown", expanded=False):
+                st.dataframe(pd.DataFrame([row])[['Preseason rating','On-court rating','Preseason weight','Current power','Rating change']],hide_index=True,use_container_width=True)
+                st.caption("Preseason weight drops with on-court results. Missing on-court rating means the season has not supplied enough games.")
+        else:
+            st.info("Power ratings have not been loaded for this team. Open Model Lab to calculate them.")
+        team_games=games[(games["Away ID"].astype(str)==tid)|(games["Home ID"].astype(str)==tid)].copy()
+        team_games["Opponent"]=team_games.apply(lambda x:x["Away"] if str(x["Home ID"])==tid else x["Home"],axis=1) if not team_games.empty else pd.Series(dtype=str)
+        team_games["Location"]=team_games.apply(lambda x:"Neutral" if x["Venue"]=="Neutral" else ("Home" if str(x["Home ID"])==tid else "Away"),axis=1) if not team_games.empty else pd.Series(dtype=str)
+        team_games=attach_model_lines(team_games,ratings_for_schedule,verified_d1_ids)
+        st.markdown("#### Schedule and projected lines")
+        st.caption(f"{len(team_games)} games found in the selected date window. Change the season coverage in the sidebar to see more.")
+        if not team_games.empty:
+            st.dataframe(team_games[["Date","Opponent","Location","Status","Model line","Away score","Home score"]],hide_index=True,use_container_width=True,height=390)
+        else:
+            st.info("No games in the loaded date range.")
+        with st.expander("📊 Strength of schedule & opponents",expanded=False):
+            if isinstance(sos_ratings,pd.DataFrame) and not sos_ratings.empty:
+                matched=sos_ratings[sos_ratings["Team ID"].astype(str)==tid]
+                if not matched.empty:
+                    st.dataframe(matched[["Full SOS","Played SOS","Remaining SOS","D1 games loaded","Rating coverage %","Schedule coverage status"]],hide_index=True,use_container_width=True)
+                else: st.info("No D1 SOS data for this team in the loaded window.")
+            else: st.info("Calculate rankings in Model Lab, preferably with Full season selected.")
+        with st.expander("👥 Roster and scouting details",expanded=False):
+            if st.button("Load player roster",key="v12_roster_btn"):
+                st.session_state["v12_roster_team"]=(SPORTS[league],tid)
+            if st.session_state.get("v12_roster_team")== (SPORTS[league],tid):
+                try:
+                    athlete_df=fetch_roster(SPORTS[league],tid)
+                    if athlete_df.empty: st.info("No roster data was available for this team.")
+                    else: st.dataframe(athlete_df,hide_index=True,use_container_width=True)
+                except Exception as exc: st.warning("Roster fetch unavailable: "+str(exc)[:160])
+            st.caption("Roster listing is informational; unverified player impact is not included in ratings.")
+
+with conference_tab:
+    st.subheader("Conference rankings")
+    if isinstance(conference_ratings,pd.DataFrame) and not conference_ratings.empty:
+        display=conference_ratings.copy().sort_values("Average_power",ascending=False).reset_index(drop=True)
+        display.insert(0,"Rank",range(1,len(display)+1))
+        display=display.rename(columns={"Average_power":"Average power","Median_power":"Median power"})
+        st.dataframe(display[["Rank","Conference","Teams","Average power","Top-five power"]].round(2),hide_index=True,use_container_width=True)
+        with st.expander("See a conference's teams"):
+            conf=st.selectbox("Conference",display["Conference"].tolist(),key="v12_conf_detail")
+            if isinstance(team_ratings,pd.DataFrame):
+                st.dataframe(team_ratings[team_ratings["Conference"]==conf][["Rank","Team","Current power"]],hide_index=True,use_container_width=True)
+    else:
+        st.info("Calculate conference power ratings in Model Lab to populate this page.")
+        if not directory.empty:
+            with st.expander("Browse conference memberships"):
+                cf=st.selectbox("Conference",sorted(directory["Conference"].dropna().unique()),key="v12_conf_dir")
+                st.dataframe(directory[directory["Conference"]==cf][["Team","Abbreviation"]],hide_index=True)
+
+with sos_tab:
+    st.subheader("Strength of schedule")
+    st.caption("Provisional difficulty of D1 opponents. View full, played or remaining schedules. Coverage matters: an incomplete slate may not have a rank.")
+    if isinstance(sos_ratings,pd.DataFrame) and not sos_ratings.empty:
+        scope=st.segmented_control("Schedule scope",["Full SOS","Played SOS","Remaining SOS"],default="Full SOS",key="v12_sos_scope")
+        scored=sos_ratings.copy().sort_values(scope,ascending=False,na_position="last")
+        st.dataframe(scored[["SOS rank (provisional)","Team","Conference",scope,"D1 games loaded","Schedule coverage status"]],hide_index=True,use_container_width=True,height=480)
+        with st.expander("Coverage diagnostics"):
+            st.dataframe(scored[["Team","D1 games loaded","Rated games","Rating coverage %","Coverage explanation"]],hide_index=True,use_container_width=True)
+    else:
+        st.info("Run the model with Full season selected to calculate schedule strength.")
 
 
 st.divider()
