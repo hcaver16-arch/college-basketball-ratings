@@ -13,6 +13,7 @@ import pandas as pd
 import numpy as np
 import requests
 import streamlit as st
+from model_testing import walk_forward_backtest
 
 st.set_page_config(page_title="College Basketball Dashboard", page_icon="🏀", layout="wide")
 st.title("🏀 College Basketball")
@@ -301,9 +302,15 @@ def roster_effects(uploaded, directory_ids: set):
     data["Previous points"] = pd.to_numeric(data["Previous points"], errors="coerce")
     # Unverified inputs must be visible, not silently assigned to the model.
     approved = data[(data["Impact adjustment"].notna()) & (data["Source"].fillna("").str.strip() != "") & (data["Team ID"].isin(directory_ids))]
-    effects = approved.groupby("Team ID")["Impact adjustment"].sum().clip(-12, 12).to_dict()
+    # Recruiting projections should never dominate proven production: all incoming
+    # freshmen collectively contribute at most +2 / -2 rating points per team.
+    status = approved["Roster status"].fillna("").astype(str).str.lower().str.strip()
+    is_freshman = status.str.contains(r"freshman|recruit|first.year", regex=True)
+    veteran = approved.loc[~is_freshman].groupby("Team ID")["Impact adjustment"].sum()
+    recruits = approved.loc[is_freshman].groupby("Team ID")["Impact adjustment"].sum().clip(-2, 2)
+    effects = veteran.add(recruits, fill_value=0).clip(-12, 12).to_dict()
     ignored = len(data) - len(approved)
-    return effects, data, f"{len(approved)} sourced player adjustments accepted; {ignored} ignored for missing IDs, values, or sources. Per-team adjustment capped at ±12 rating points. These manually entered point impacts are assumptions, not validated player projections."
+    return effects, data, f"{len(approved)} sourced player adjustments accepted; {ignored} ignored for missing IDs, values, or sources. Incoming freshmen/recruits are capped collectively at ±2 rating points per team; all roster adjustments combined at ±12. These manually entered point impacts are assumptions, not statistically validated player projections."
 
 
 def blending_weight(games: int):
@@ -580,6 +587,8 @@ with ratings_tab:
                 except Exception as e:
                     st.warning("Roster not available from the feed: " + str(e)[:180])
         st.write("**Optional player-impact input.** Upload sourced player-level assumptions when verified stats/roster changes are available. Leave blank to use previous team performance without an invented recruiting boost.")
+        st.info("Roster inputs are **manual, sourced assumptions**. ESPN roster names alone cannot establish player impact, transfer production or recruiting value. No automatic recruit ratings are inferred.")
+        st.caption("Use ESPN team ID; enter the player's prior minutes and points if verified; assign a signed point-impact estimate and paste the source link. The system caps aggregate adjustments at ±12 points per team. These estimates are not yet statistically fitted.")
         sample = pd.DataFrame(columns=ROSTER_COLUMNS)
         st.download_button("Download player-input CSV template", sample.to_csv(index=False).encode(), "basketball_player_inputs.csv", "text/csv")
         uploaded_roster = st.file_uploader("Upload completed player adjustment CSV", type="csv", key="v7_roster_upload")
@@ -588,6 +597,13 @@ with ratings_tab:
     ids = set(directory["Team ID"].astype(str)) if not directory.empty else set()
     effects, player_table, effect_message = roster_effects(roster_file, ids)
     st.caption(effect_message)
+    if player_table is not None and not player_table.empty:
+        with st.expander("Player adjustments and data audit", expanded=False):
+            st.dataframe(player_table, hide_index=True, use_container_width=True)
+            st.caption("Verify transfers, departures, current teams, playing time and all source URLs. Rows lacking a source or numeric adjustment will not change ratings.")
+            if effects:
+                audit = pd.DataFrame([{"Team ID":t,"Net player adjustment":round(v,2)} for t,v in sorted(effects.items())])
+                st.dataframe(audit, hide_index=True, use_container_width=True)
     if st.button("Calculate current ratings, conference strength, SOS and lines", type="primary", key="v7_calculate"):
         st.session_state[f"v7_enabled_{SPORTS[league]}"] = True
     if st.session_state.get(f"v7_enabled_{SPORTS[league]}", False):
@@ -702,19 +718,30 @@ with ratings_tab:
                 else:
                     st.info("No scheduled matchups with valid team ratings were found in this selected date window.")
             with t5:
-                st.write("**Season-to-date game prediction residuals (diagnostic, not a prospective backtest)**")
-                errors=[]
-                for _, g in current_games[current_games["Status"]=="Final"].iterrows():
-                    result=game_projection(g,rating_map)
-                    if result is None or pd.isna(g["Home score"]) or pd.isna(g["Away score"]):continue
-                    actual=float(g["Home score"])-float(g["Away score"])
-                    errors.append({"Game ID":g["Game ID"],"Predicted margin":result[0],"Actual margin":actual,"Absolute error":abs(actual-result[0])})
-                if errors:
-                    error_df=pd.DataFrame(errors)
-                    st.metric("In-sample mean absolute margin error",f"{error_df['Absolute error'].mean():.2f} pts")
-                    st.caption("These games were used to fit the ratings, so this is NOT an honest forecast accuracy estimate. A true rolling backtest must freeze predictions before tipoff. Weekly snapshots are not yet persisted by this free web application.")
-                else:
-                    st.info("No completed 2026–27 games with modeled teams yet. Forecast validation will begin after games have been played.")
+                st.subheader("Historical, forward-only backtest")
+                st.write("Test the **scoring-margin power model** against 2025–26 games it had not seen when each prediction was made. Ratings are refitted using only games before each two-week test period; this avoids in-sample evaluation.")
+                st.info("This test does **not yet measure whether roster adjustments or recruiting improve forecasts**: verified archived preseason rosters and player impacts are not available in this version. Historical final results may also be incomplete.")
+                if he or ht:
+                    st.warning(f"Historical source incomplete: {len(he)} failed day requests, {len(ht)} potentially truncated dates. Results may be biased.")
+                if st.button("Run historical out-of-sample test", key=f"backtest_{SPORTS[league]}"):
+                    with st.spinner("Running forward-only historical test; calculations may take a minute..."):
+                        backtest_df, backtest_stats = walk_forward_backtest(history, set(map(str,memberships.keys())))
+                    st.session_state[f"backtest_{SPORTS[league]}"] = (backtest_df,backtest_stats)
+                if f"backtest_{SPORTS[league]}" in st.session_state:
+                    results,metrics = st.session_state[f"backtest_{SPORTS[league]}"]
+                    if results.empty:
+                        st.warning("Unable to score a historical test: " + metrics.get("reason", "unknown reason"))
+                    else:
+                        b1,b2,b3,b4 = st.columns(4)
+                        b1.metric("Held-out games", f"{metrics['games_tested']:,}")
+                        b2.metric("Model margin MAE", f"{metrics['MAE']:.2f} pts")
+                        b3.metric("Home-only baseline MAE", f"{metrics['Baseline MAE']:.2f} pts")
+                        b4.metric("Winner accuracy", f"{metrics['Win accuracy']:.1%}")
+                        st.caption(f"Brier score: {metrics['Brier score']:.3f} (lower is better). {metrics['folds']} time-ordered test periods, {metrics['date_first']} to {metrics['date_last']}. This is retrospective and does not reproduce archived roster-based predictions.")
+                        if metrics['MAE'] >= metrics['Baseline MAE']:
+                            st.warning("The power model did not outperform a home-court-only margin baseline in this sample. Do not treat its point spreads as validated forecasts.")
+                        st.dataframe(results, hide_index=True, use_container_width=True)
+                        st.download_button("Download held-out game predictions", results.to_csv(index=False).encode(), f"historical_backtest_{SPORTS[league]}.csv", "text/csv")
 
 with schedule_tab:
     st.subheader("Games & model predictions")
