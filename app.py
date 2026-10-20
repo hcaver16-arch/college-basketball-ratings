@@ -9,12 +9,13 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import date, datetime, timedelta, timezone
 import io
 import pandas as pd
+import numpy as np
 import requests
 import streamlit as st
 
 st.set_page_config(page_title="College Basketball Dashboard", page_icon="🏀", layout="wide")
 st.title("🏀 College Basketball Dashboard")
-st.caption("2026–27 season · Real schedule feed (when available) · Power ratings coming next")
+st.caption("2026–27 schedules · Historical-results-based preseason ratings · Conference rankings")
 
 SPORTS = {"Men's": "mens-college-basketball", "Women's": "womens-college-basketball"}
 START = date(2026, 11, 1)
@@ -207,6 +208,53 @@ def show_schedule(df):
     st.dataframe(df[columns], hide_index=True, use_container_width=True, height=560)
 
 
+
+@st.cache_data(ttl=24 * 60 * 60, show_spinner=False)
+def calculate_power(history: pd.DataFrame):
+    """Regularized least squares: margin = rating(home) - rating(away) + location.
+
+    Estimate neutral-court team point strengths from completed games, limited to
+    rows with two valid ESPN team IDs and final numeric scores. Fixed HCA is an
+    explicit simplifying assumption; a later version should estimate it.
+    """
+    empty = pd.DataFrame(columns=["Team ID", "Team", "Power", "Games", "Win %"])
+    if history.empty:
+        return empty, {"games": 0, "teams": 0}
+    games = history[(history["Status"] == "Final") & history["Home score"].notna() & history["Away score"].notna()].copy()
+    games = games[(games["Home ID"].astype(str) != "") & (games["Away ID"].astype(str) != "") & (games["Home ID"] != games["Away ID"])]
+    games = games.drop_duplicates(subset="Game ID")
+    if len(games) < 20:
+        return empty, {"games": int(len(games)), "teams": 0}
+    tids = sorted(set(games["Home ID"]).union(games["Away ID"]))
+    n = len(tids)
+    index = {tid: i for i, tid in enumerate(tids)}
+    mat = np.zeros((n, n), dtype=float)
+    vec = np.zeros(n, dtype=float)
+    played = np.zeros(n, dtype=int)
+    wins = np.zeros(n, dtype=int)
+    labels = {}
+    # DataFrame column names contain spaces; iterrows keeps labels intact.
+    for _, g in games.iterrows():
+        hi, ai = index[str(g["Home ID"])], index[str(g["Away ID"])]
+        # Cap blowouts to keep unusual games from dominating the fitted ratings.
+        diff = float(np.clip(float(g["Home score"]) - float(g["Away score"]), -40, 40))
+        margin = diff - (0.0 if g["Venue"] == "Neutral" else 3.0)
+        mat[hi, hi] += 1; mat[ai, ai] += 1
+        mat[hi, ai] -= 1; mat[ai, hi] -= 1
+        vec[hi] += margin; vec[ai] -= margin
+        played[hi] += 1; played[ai] += 1
+        wins[hi] += int(diff > 0); wins[ai] += int(diff < 0)
+        labels[str(g["Home ID"])] = str(g["Home"])
+        labels[str(g["Away ID"])] = str(g["Away"])
+    # Ridge shrinkage (prior rating zero), produces stable results even in
+    # disconnected schedule components. Remove mean to keep readable scale.
+    ridge = 8.0
+    fit = np.linalg.solve(mat + ridge * np.eye(n), vec)
+    fit -= np.mean(fit)
+    result = pd.DataFrame({"Team ID": tids, "Team": [labels.get(tid, tid) for tid in tids], "Power": np.round(fit, 2), "Games": played, "Win %": np.round(100 * wins / np.maximum(played, 1), 1)})
+    return result, {"games": len(games), "teams": n}
+
+
 league = st.sidebar.radio("Basketball division", ["Men's", "Women's"])
 st.sidebar.subheader("Season coverage")
 period = st.sidebar.selectbox("Load schedules for", ["Next 14 days", "November 2026", "November–December", "January–February", "March–April", "Full season (Nov–Apr)"], index=0)
@@ -355,8 +403,64 @@ with directory_tab:
         st.caption("Conference membership can differ by sport and season. Verify against 2026–27 conference rosters before using it for official completeness claims.")
 
 with future_tab:
-    st.subheader("Coming next: independently calculated ratings")
-    st.write("Once we've checked schedule coverage, we'll add team power ratings, opponent strength, location-adjusted game lines, projected scores, and strength-of-schedule ranks. This version intentionally does not show placeholder predictions.")
+    st.subheader("Preseason team power ratings & conference strength")
+    st.info("The 2026–27 season has not started yet. These are **experimental preseason baseline ratings based on 2025–26 game margins**, not possession-adjusted efficiencies, not 2026–27 results, and not sportsbook lines. Roster and coaching changes are NOT accounted for.")
+    st.caption("Ratings are estimated from game margins with opponent and location adjustments and regularization. Higher means stronger; zero is near the mean of teams in the modeled game network. Do not compare raw numbers between men's and women's models.")
+    key = f"historical_ratings_enabled_{SPORTS[league]}"
+    if st.button("Build / view preseason power ratings from 2025–26 results", type="primary"):
+        st.session_state[key] = True
+    if not st.session_state.get(key, False):
+        st.write("Click the button to load historical games and calculate preseason team and conference rankings. **The initial download can take several minutes** because ESPN requires daily schedule requests. Your normal schedule tabs remain available without loading historical data.")
+    else:
+        with st.spinner("Importing 2025–26 completed games and calculating ratings. First load may take several minutes…"):
+            history, hist_errors, hist_truncated, hist_days = get_schedule(SPORTS[league], date(2025, 11, 1), date(2026, 4, 7))
+            ranked, model_stats = calculate_power(history)
+        if hist_errors:
+            st.warning(f"Historical feed: {len(hist_errors)} / {hist_days} dates failed. Ratings may be biased because game coverage is incomplete.")
+            with st.expander("Historical fetch errors"):
+                st.write("\n".join(hist_errors[:35]))
+        if hist_truncated:
+            st.warning("ESPN returned at least 500 events on one or more dates; history may be incomplete.")
+        if ranked.empty:
+            st.error("Not enough completed historical games with numeric scores to produce ratings. No values were invented.")
+        else:
+            if not directory.empty:
+                meta = directory[["Team ID", "Team", "Conference"]].drop_duplicates("Team ID")
+                ranked = ranked.merge(meta, on="Team ID", how="left", suffixes=("", " directory"))
+            else:
+                ranked["Conference"] = None
+            ranked["Conference"] = ranked["Conference"].fillna("Unassigned (not verified)")
+            ranked["Power rank"] = ranked["Power"].rank(method="min", ascending=False).astype(int)
+            ranked = ranked.sort_values(["Power", "Team"], ascending=[False, True])
+            x, y, z = st.columns(3)
+            x.metric("Completed games modeled", f"{model_stats['games']:,}")
+            y.metric("Teams modeled", f"{model_stats['teams']:,}")
+            z.metric("Historical dates fetched", f"{hist_days - len(hist_errors)} / {hist_days}")
+            st.caption("Power units: approximate predicted point margin vs. the modeled team's average opponent on a neutral court, after opponent adjustment. Shrinkage keeps data-sparse teams closer to zero; ratings are preliminary.")
+            rt, ct = st.tabs(["🏀 Team power rankings", "🏆 Conference strength rankings"])
+            with rt:
+                choose_conf = st.selectbox("Conference", ["All conferences"] + sorted(ranked["Conference"].unique().tolist()), key="rating_conf")
+                rated = ranked if choose_conf == "All conferences" else ranked[ranked["Conference"] == choose_conf]
+                st.dataframe(rated[["Power rank", "Team", "Conference", "Power", "Games", "Win %"]], hide_index=True, use_container_width=True, column_config={"Power": st.column_config.NumberColumn(format="%.2f"), "Win %": st.column_config.NumberColumn(format="%.1f%%")})
+                st.download_button("Download team ratings CSV", ranked.to_csv(index=False).encode("utf-8"), file_name=f"{SPORTS[league]}-preseason-2026-27-ratings.csv", mime="text/csv")
+            with ct:
+                assigned = ranked[~ranked["Conference"].isin(["Unassigned (not verified)"])].copy()
+                if assigned.empty:
+                    st.warning("No verified conference matches for the historical teams. Conference rankings cannot be calculated reliably.")
+                else:
+                    agg = assigned.groupby("Conference").agg(**{"Teams modeled": ("Team ID", "nunique"), "Average power": ("Power", "mean"), "Median power": ("Power", "median")}).reset_index()
+                    top_five = assigned.groupby("Conference")["Power"].apply(lambda g: g.nlargest(5).mean()).rename("Top five mean").reset_index()
+                    agg = agg.merge(top_five, on="Conference")
+                    if not directory.empty:
+                        expected = directory[directory["Conference"] != "Unassigned (not verified)"].groupby("Conference")["Team ID"].nunique().rename("Directory teams").reset_index()
+                        agg = agg.merge(expected, on="Conference", how="left")
+                        agg["Coverage"] = agg.apply(lambda r: f"{int(r['Teams modeled'])}/{int(r['Directory teams'])}" if pd.notna(r['Directory teams']) else "Unknown", axis=1)
+                    agg = agg.sort_values("Average power", ascending=False).reset_index(drop=True)
+                    agg.insert(0, "Rank", np.arange(1, len(agg) + 1))
+                    st.caption("Sorted by mean team power. Top-five mean shows elite strength; median reflects depth. Check coverage: a missing team can distort a conference's average.")
+                    st.dataframe(agg, hide_index=True, use_container_width=True, column_config={"Average power": st.column_config.NumberColumn(format="%.2f"), "Median power": st.column_config.NumberColumn(format="%.2f"), "Top five mean": st.column_config.NumberColumn(format="%.2f")})
+                    st.download_button("Download conference ratings CSV", agg.to_csv(index=False).encode("utf-8"), file_name=f"{SPORTS[league]}-conference-ratings-2026-27.csv", mime="text/csv")
+            st.warning("Model limitation: this is a **score-margin model**, not true adjusted efficiency (we do not yet have reliable possession totals). Ratings use last season only and DO NOT update from 2026–27 games yet. We will add in-season updating, schedule strength, and calibrated spreads after validating these inputs.")
 
 st.divider()
 st.caption("Data source: ESPN public scoreboard feed (unofficial/undocumented). Cached 12 hours on the server. Press Refresh schedule now to request fresh information. Source and completeness are not guaranteed.")
