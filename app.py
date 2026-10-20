@@ -28,6 +28,7 @@ from rating_engine import calculate_power, blending_weight, make_combined
 from saved_ratings import load_ratings, load_history
 from roster_validation import model_feature_table, backtest_readiness
 from coverage_audit import audit_coverage
+from roster_reconciliation import reconciliation_summary
 
 st.set_page_config(page_title="College Basketball Dashboard", page_icon="🏀", layout="wide")
 st.title("🏀 College Basketball")
@@ -577,6 +578,13 @@ with ratings_tab:
             feature_table=model_feature_table(pv,cv,sv,logv,calculate_returning_production)
             st.write(backtest_readiness(feature_table,"2026–27"))
             detailed_coverage=audit_coverage(pv,cv,sv,logv)
+            recon=reconciliation_summary(pv,sv,cv)
+            with st.expander("Roster + box-score reconciliation (provisional)", expanded=False):
+                st.caption("Box-score-only players supplement the prior-season player pool without claiming they appeared on an official roster. Missing historical games and season membership are not independently verified. Returning minutes use only documented box-score totals; no missing totals are imputed.")
+                if recon.empty: st.info("No matching player evidence archived yet.")
+                else:
+                    st.dataframe(recon,hide_index=True,use_container_width=True)
+                    st.download_button("Download reconciliation summary",recon.to_csv(index=False).encode(),f"{SPORTS[league]}_reconciliation.csv","text/csv",key=f"recon_export_{SPORTS[league]}")
             if not detailed_coverage.empty:
                 with st.expander("Box-score coverage, missing player IDs & retry status",expanded=False):
                     st.caption("Game coverage is the proportion of DISCOVERED games parsed. It does not prove all season games or players were published by ESPN. Legacy archived batches may have no game-level counts until recollected.")
