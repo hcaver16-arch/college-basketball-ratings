@@ -723,12 +723,15 @@ with ratings_tab:
                 st.info("This test does **not yet measure whether roster adjustments or recruiting improve forecasts**: verified archived preseason rosters and player impacts are not available in this version. Historical final results may also be incomplete.")
                 if he or ht:
                     st.warning(f"Historical source incomplete: {len(he)} failed day requests, {len(ht)} potentially truncated dates. Results may be biased.")
-                if st.button("Run historical out-of-sample test", key=f"backtest_{SPORTS[league]}"):
+                if st.button("Run historical out-of-sample test", key=f"run_backtest_button_{SPORTS[league]}"):
                     with st.spinner("Running forward-only historical test; calculations may take a minute..."):
                         backtest_df, backtest_stats = walk_forward_backtest(history, set(map(str,memberships.keys())))
-                    st.session_state[f"backtest_{SPORTS[league]}"] = (backtest_df,backtest_stats)
-                if f"backtest_{SPORTS[league]}" in st.session_state:
-                    results,metrics = st.session_state[f"backtest_{SPORTS[league]}"]
+                    st.session_state[f"backtest_results_{SPORTS[league]}"] = (backtest_df,backtest_stats)
+                saved_backtest = st.session_state.get(f"backtest_results_{SPORTS[league]}")
+                if (isinstance(saved_backtest, tuple) and len(saved_backtest) == 2
+                        and isinstance(saved_backtest[0], pd.DataFrame)
+                        and isinstance(saved_backtest[1], dict)):
+                    results, metrics = saved_backtest
                     if results.empty:
                         st.warning("Unable to score a historical test: " + metrics.get("reason", "unknown reason"))
                     else:
