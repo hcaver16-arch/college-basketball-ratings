@@ -14,6 +14,7 @@ import numpy as np
 import requests
 import streamlit as st
 from model_testing import walk_forward_backtest
+from early_season_testing import compare_early_season, historical_adjustments
 
 st.set_page_config(page_title="College Basketball Dashboard", page_icon="🏀", layout="wide")
 st.title("🏀 College Basketball")
@@ -745,6 +746,36 @@ with ratings_tab:
                             st.warning("The power model did not outperform a home-court-only margin baseline in this sample. Do not treat its point spreads as validated forecasts.")
                         st.dataframe(results, hide_index=True, use_container_width=True)
                         st.download_button("Download held-out game predictions", results.to_csv(index=False).encode(), f"historical_backtest_{SPORTS[league]}.csv", "text/csv")
+                st.divider()
+                st.subheader("November preseason-model backtest")
+                st.caption("Compare preseason predictions for November 2025 using ONLY completed 2024–25 games to fit team strength. Nov 2025 results are held out; current 2026–27 rosters are never used.")
+                st.info("A proper historical roster comparison requires player changes that were known by Nov 1, 2025. This dashboard will NOT infer those values from current rosters.")
+                with st.expander("Optional archived 2025–26 roster-impact CSV",expanded=False):
+                    st.write("Each row requires Team ID, Impact adjustment (rating points), Source, and Known by date (YYYY-MM-DD). Historical ratings should be entered using only information publicly available by Nov 1, 2025. Total adjustment is capped to ±12 per team.")
+                    template=pd.DataFrame(columns=["Team ID","Impact adjustment","Source","Known by date"])
+                    st.download_button("Download historical roster template",template.to_csv(index=False).encode(),"historical_roster_template.csv","text/csv",key="early_template")
+                    early_file=st.file_uploader("Upload historical roster estimates (optional)",type="csv",key=f"early_roster_{SPORTS[league]}")
+                historical_effects,audit,early_note=historical_adjustments(early_file, set(map(str,memberships.keys())))
+                st.caption(early_note)
+                if not audit.empty:
+                    with st.expander("Historical input audit"):
+                        st.dataframe(audit,hide_index=True,use_container_width=True)
+                if st.button("Run November 2025 preseason comparison",key=f"run_early_{SPORTS[league]}"):
+                    with st.spinner("Fetching 2024–25 results and evaluating November 2025 games. Initial load may take several minutes..."):
+                        early_prior, early_failed, early_trunc, _=get_schedule(SPORTS[league],date(2024,11,1),date(2025,4,8))
+                        predictions, comparison, warning=compare_early_season(early_prior,history,set(map(str,memberships.keys())),historical_effects)
+                    st.session_state[f"early_results_{SPORTS[league]}"]=(predictions,comparison,warning,len(early_failed),len(early_trunc))
+                saved_early=st.session_state.get(f"early_results_{SPORTS[league]}")
+                if isinstance(saved_early,tuple) and len(saved_early)==5:
+                    early_predictions,early_metrics,early_error,early_failures,early_truncations=saved_early
+                    if early_failures or early_truncations or he or ht:
+                        st.warning(f"Missing or truncated source requests: prior season {early_failures+early_truncations}; test season {len(he)+len(ht)}. Results may be incomplete.")
+                    if early_error:st.warning(early_error)
+                    elif isinstance(early_metrics,pd.DataFrame) and not early_metrics.empty:
+                        st.dataframe(early_metrics.style.format({"Margin MAE":"{:.2f}","Winner accuracy":"{:.1%}","Brier score":"{:.3f}"}),hide_index=True,use_container_width=True)
+                        st.caption("Identical held-out games for all compared methods. Historical manual roster adjustments are unvalidated assumptions; improvements are descriptive, not proof of out-of-sample roster-model gains if the estimates were chosen after outcomes were known.")
+                        st.download_button("Download November comparison predictions",early_predictions.to_csv(index=False).encode(),"november_2025_backtest.csv","text/csv",key="early_download")
+
 
 with schedule_tab:
     st.subheader("Games & model predictions")
