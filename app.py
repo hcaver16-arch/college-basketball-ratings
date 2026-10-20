@@ -18,6 +18,7 @@ from early_season_testing import compare_early_season, historical_adjustments
 from roster_tracking import audit_teams, classify_team
 from returning_production import calculate_returning_production, STATS_COLUMNS
 from player_stats_import import fetch_prior_stats
+from transfer_tracking import identify_incoming
 
 st.set_page_config(page_title="College Basketball Dashboard", page_icon="🏀", layout="wide")
 st.title("🏀 College Basketball")
@@ -672,6 +673,23 @@ with ratings_tab:
         else:
             st.info("First fetch roster snapshots in section 2, then click automatic stats fetch above (or upload a corrected CSV).")
 
+    with st.expander("4. Incoming players & possible transfers (experimental)", expanded=False):
+        st.caption("Compares audited 2025–26 and 2026–27 rosters. A player absent from the old team roster is NOT automatically a transfer. To find a possible previous school, include that school in the roster audit selection and fetch its prior-season stats.")
+        source_audit=st.session_state.get(f"roster_audit_{SPORTS[league]}")
+        source_stats=st.session_state.get(f"auto_player_stats_{SPORTS[league]}")
+        if source_audit is None:
+            st.info("First run the roster audit in section 2 for the teams you want to examine. Include suspected prior schools to look for matching ESPN player IDs.")
+        else:
+            candidates, transfer_warnings=identify_incoming(source_audit[0], source_stats[0] if source_stats is not None else None)
+            st.session_state[f"incoming_candidates_{SPORTS[league]}"]=candidates.copy()
+            for note in transfer_warnings: st.caption(note)
+            if candidates.empty: st.info("No classifiable incoming roster appearances in the audited teams.")
+            else:
+                st.metric("New roster appearances requiring verification",len(candidates))
+                st.dataframe(candidates,hide_index=True,use_container_width=True)
+                st.download_button("Download incoming-player audit",candidates.to_csv(index=False).encode(),"incoming_player_candidates.csv","text/csv",key=f"incoming_download_{SPORTS[league]}")
+                st.warning("Possible transfers and player totals are preliminary. No transfer or recruiting bonus is applied to ratings or game lines.")
+
     roster_file = st.session_state.get("v7_roster_upload")
     ids = set(directory["Team ID"].astype(str)) if not directory.empty else set()
     effects, player_table, effect_message = roster_effects(roster_file, ids)
@@ -963,6 +981,15 @@ with team_tab:
                     st.info("This team has no calculated returning-production data yet. Fetch both roster seasons and prior-season player box scores for this team in Model Lab.")
             else:
                 st.info("Calculate returning production in Model Lab to display it here. No statistics are assumed for teams without loaded data.")
+        with st.expander("🔁 Incoming players & potential transfers", expanded=False):
+            incoming=st.session_state.get(f"incoming_candidates_{SPORTS[league]}")
+            if isinstance(incoming,pd.DataFrame) and not incoming.empty:
+                arrivals=incoming[incoming["Team ID"].astype(str)==tid]
+                if not arrivals.empty:
+                    st.dataframe(arrivals[["Player","Prior school","Status","Previous minutes","Previous points","Previous rebounds","Previous assists"]],hide_index=True,use_container_width=True)
+                    st.caption("Only previously audited schools can be recognized as prior schools. This is a provisional roster comparison, not an authoritative transfer list.")
+                else:st.info("No new roster appearances identified from the loaded audit for this team.")
+            else:st.info("Run the roster audit, then open Incoming players & possible transfers in Model Lab to populate this section.")
         with st.expander("👥 Roster and scouting details",expanded=False):
             if st.button("Load player roster",key="v12_roster_btn"):
                 st.session_state["v12_roster_team"]=(SPORTS[league],tid)
