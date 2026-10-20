@@ -16,6 +16,7 @@ import streamlit as st
 from model_testing import walk_forward_backtest
 from early_season_testing import compare_early_season, historical_adjustments
 from roster_tracking import audit_teams, classify_team
+from returning_production import calculate_returning_production, STATS_COLUMNS
 
 st.set_page_config(page_title="College Basketball Dashboard", page_icon="🏀", layout="wide")
 st.title("🏀 College Basketball")
@@ -625,6 +626,30 @@ with ratings_tab:
                     st.dataframe(pd.DataFrame(summaries),hide_index=True,use_container_width=True)
                 st.download_button("Download raw roster snapshots", snapshots.to_csv(index=False).encode(),"roster_snapshots.csv","text/csv",key="download_roster_snapshots")
                 st.info("Player-impact adjustments remain zero unless you upload sourced estimates. A true full-D1 transfer audit requires archived season-accurate rosters for every school and verified player IDs; this feature does not claim that coverage.")
+
+    with st.expander("3. Returning production — sourced player statistics", expanded=False):
+        st.write("Compare players listed in the two roster snapshots and calculate how much **documented 2025–26 production** appears on the 2026–27 roster.")
+        st.caption("ESPN's roster snapshots do not establish historical stat totals or complete roster coverage. Provide previous-season player totals from a source you can verify. These descriptive percentages do not change power ratings.")
+        st.download_button("Download stats CSV template", pd.DataFrame(columns=STATS_COLUMNS).to_csv(index=False).encode(),"prior_season_player_stats_template.csv","text/csv",key="stats_template_v17")
+        stats_upload=st.file_uploader("Upload sourced 2025–26 player totals CSV",type="csv",key=f"return_stats_{SPORTS[league]}")
+        audit_result=st.session_state.get(f"roster_audit_{SPORTS[league]}")
+        if stats_upload is not None and audit_result is not None:
+            try:
+                stats_data=pd.read_csv(stats_upload,dtype={'Team ID':str,'Player ID':str})
+                summary,audit,notes=calculate_returning_production(audit_result[0],stats_data)
+                for note in notes: st.warning(note)
+                if summary.empty: st.info("No teams qualified for a returning-production calculation.")
+                else:
+                    st.dataframe(summary,hide_index=True,use_container_width=True)
+                    st.download_button("Download returning production summary",summary.to_csv(index=False).encode(),"returning_production_summary.csv","text/csv",key="return_summary_v17")
+                    with st.expander("Player-by-player reconciliation"):
+                        st.dataframe(audit,hide_index=True,use_container_width=True)
+                        st.download_button("Download player audit",audit.to_csv(index=False).encode(),"returning_production_player_audit.csv","text/csv",key="return_audit_v17")
+                st.info("Denominators include only players with valid uploaded statistics; these are **known-data percentages**, not verified shares of all team production. Roster completeness must be reconciled before using them for ratings.")
+            except Exception as exc:
+                st.error("Could not read or analyze the uploaded statistics: "+str(exc)[:240])
+        else:
+            st.info("First fetch roster snapshots in section 2, then upload previous-season player totals here.")
 
     roster_file = st.session_state.get("v7_roster_upload")
     ids = set(directory["Team ID"].astype(str)) if not directory.empty else set()
