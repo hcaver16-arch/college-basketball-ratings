@@ -1040,109 +1040,84 @@ with team_tab:
                     st.dataframe(team_record[["SOR rank (provisional)","Wins","Losses","SOR games","Reference expected wins","Wins above expected","SOR score"]],hide_index=True,use_container_width=True)
                 else: st.info("No completed, rated Division I results for this team yet.")
             else: st.info("Strength of record becomes available when current-season games are final and ratings have been calculated in Model Lab.")
-        with st.expander("🔄 Returning production (2025–26 to 2026–27)", expanded=False):
-            saved_returning = st.session_state.get(f"returning_production_{SPORTS[league]}")
-            if isinstance(saved_returning, tuple) and len(saved_returning) == 3:
-                return_summary, return_players, return_notes = saved_returning
-                team_returns = return_summary[return_summary["Team ID"].astype(str) == tid] if isinstance(return_summary, pd.DataFrame) and not return_summary.empty else pd.DataFrame()
-                if not team_returns.empty:
-                    record = team_returns.iloc[0]
-                    st.caption(f"Historical roster match: {int(record['Prior roster players with stats'])} of {int(record['Prior roster entries'])} prior-roster players with retrieved statistics. These percentages use matched documented production, not an independently verified complete team total.")
-                    measure_names = ["Minutes", "Points", "Rebounds", "Assists"]
-                    metrics = st.columns(4)
-                    for container, stat in zip(metrics, measure_names):
-                        percent = record.get(f"Returning {stat.lower()} % (known only)")
-                        container.metric("Returning " + stat.lower(), f"{float(percent):.1f}%" if pd.notna(percent) else "N/A")
-                    st.warning("Provisional: season schedule coverage and historical roster completeness are not independently verified. Do not use these values to adjust team power ratings yet.")
-                    with st.expander("Player-level match and data coverage"):
-                        player_rows = return_players[return_players["Team ID"].astype(str) == tid] if isinstance(return_players, pd.DataFrame) and not return_players.empty else pd.DataFrame()
-                        if not player_rows.empty: st.dataframe(player_rows, hide_index=True, use_container_width=True)
-                        st.caption(str(record.get("Confidence", "Incomplete verification")))
-                else:
-                    st.info("This team has no calculated returning-production data yet. Fetch both roster seasons and prior-season player box scores for this team in Model Lab.")
-            else:
-                st.info("Calculate returning production in Model Lab to display it here. No statistics are assumed for teams without loaded data.")
-        with st.expander("🧪 Roster scouting — one-click refresh", expanded=False):
-            st.caption("Load two season-labeled roster snapshots and last season's box-score player totals for this team in one click. Cached results are reused across page visits for up to 24 hours while the app instance remains active. Historical roster accuracy and season completeness are not independently verified.")
+        with st.expander("🏀 Roster analysis", expanded=False):
             @st.cache_data(ttl=86400, show_spinner=False)
-            def _one_team_roster_bundle(sport, school_id, school_name):
-                team_ref=pd.DataFrame([{'Team ID':str(school_id),'Team':str(school_name)}])
-                snapshots, problems=audit_teams(sport,team_ref,max_teams=1)
-                totals, diagnostics, errors=fetch_prior_stats(sport,team_ref,season=2026,max_games=45,max_workers=4)
+            def _single_team_roster_bundle(sport, school_id, school_name):
+                team_ref=pd.DataFrame([{"Team ID":str(school_id),"Team":str(school_name)}])
+                snapshots, problems=audit_teams(sport, team_ref, max_teams=1)
+                totals, diagnostics, errors=fetch_prior_stats(sport, team_ref, season=2026, max_games=45, max_workers=4)
                 return snapshots,problems,totals,diagnostics,errors
-            archived_old, archived_new, archived_stats, archive_status=load_saved_data(SPORTS[league])
-            st.caption(roster_archive_summary(archived_old, archived_new, archived_stats, archive_status))
-            saved_team=team_saved_analysis(tid,archived_old,archived_new,archived_stats)
-            if saved_team is not None:
-                st.success("Saved roster snapshots available — no manual roster audit needed.")
-                saved_summary=saved_team['returning']
-                if not saved_summary.empty:
-                    r=saved_summary.iloc[0]
-                    cols=st.columns(4)
-                    for col,stat in zip(cols,['minutes','points','rebounds','assists']):
-                        value=r.get(f'Returning {stat} % (known only)')
-                        col.metric(f'Returning {stat}',f'{value:.1f}%' if pd.notna(value) else 'N/A')
-                    st.caption(f"Prior-roster players with totals: {int(r['Prior roster players with stats'])} / {int(r['Prior roster entries'])}. Provisional documented shares only.")
-                else:
-                    st.info("Rosters are archived, but documented returning-production totals are not yet available or passed no validation checks.")
-            else:
-                st.caption("This team's archive is not ready yet. The optional on-demand load below remains available.")
+
+            old_rosters, new_rosters, prior_totals, collection_status = load_saved_data(SPORTS[league])
+            saved = team_saved_analysis(tid, old_rosters, new_rosters, prior_totals)
             cache_key=f"team_roster_bundle_{SPORTS[league]}_{tid}"
-            if st.button("Load roster analysis",key=f"one_click_roster_{SPORTS[league]}_{tid}"):
-                with st.spinner("Retrieving roster snapshots and historical player totals..."):
-                    try:
-                        st.session_state[cache_key]=_one_team_roster_bundle(SPORTS[league],tid,chosen)
-                    except Exception as exc:
-                        st.error(f"Player source unavailable: {type(exc).__name__}: {str(exc)[:130]}")
             bundle=st.session_state.get(cache_key)
-            if bundle is None and not archived_old.empty and not archived_new.empty:
-                p=archived_old[archived_old["Team ID"].astype(str)==tid]
-                c=archived_new[archived_new["Team ID"].astype(str)==tid]
-                s=archived_stats[archived_stats["Team ID"].astype(str)==tid]
-                if not p.empty and not c.empty and not s.empty:
-                    snapshots_saved=pd.concat([p,c],ignore_index=True)
-                    bundle=(snapshots_saved,pd.DataFrame(),s,pd.DataFrame(),[])
-                    st.caption("Using saved GitHub roster data. Manual refresh remains available.")
-            if bundle is not None and (saved_team is None or cache_key in st.session_state):
+            if bundle is not None:
+                st.caption("On-demand player data (current session). Stored archive may be refreshed in the background.")
                 roster_snap, roster_issues, stat_totals, stat_coverage, stat_errors=bundle
                 if not roster_issues.empty: st.warning(f"{len(roster_issues)} roster requests had missing data.")
-                if stat_errors: st.warning(f"{len(stat_errors)} game/stat requests were incomplete or failed.")
-                if not stat_coverage.empty:
-                    st.dataframe(stat_coverage,hide_index=True,use_container_width=True)
+                if stat_errors: st.warning(f"{len(stat_errors)} player-stat requests were incomplete or failed.")
                 if not roster_snap.empty and not stat_totals.empty:
-                    summaries,players,notes=calculate_returning_production(roster_snap,stat_totals)
-                    if not summaries.empty:
-                        st.session_state[f"one_team_return_{SPORTS[league]}_{tid}"]=summaries.copy()
-                        row_ret=summaries.iloc[0]
-                        st.metric("Documented returning minutes",f"{row_ret.get('Returning minutes % (known only)',0):.1f}%")
-                        st.caption(f"Roster-identified players with valid totals: {int(row_ret.get('Prior roster players with stats',0))} of {int(row_ret.get('Prior roster entries',0))}. These are shares of documented production, not verified full-team totals.")
-                        with st.expander("Experimental roster model and evidence"):
-                            arrival_data=st.session_state.get(f"incoming_candidates_{SPORTS[league]}")
-                            if isinstance(arrival_data,pd.DataFrame) and not arrival_data.empty:
-                                arrival_data=arrival_data[arrival_data['Team ID'].astype(str)==tid]
-                            info=experimental_roster_signal(summaries,arrival_data)
-                            st.dataframe(pd.DataFrame([info]),hide_index=True,use_container_width=True)
-                            st.info("No point-based roster adjustment is computed yet. We need historical preseason roster datasets for multiple seasons to fit and test coefficients without looking ahead.")
-                        st.download_button("Download this team's documented player totals",stat_totals.to_csv(index=False).encode(),f"team_{tid}_previous_player_totals.csv","text/csv",key=f"roster_totals_download_{tid}")
-                    else: st.info("Returning percentages unavailable; historical data did not pass the matching checks.")
-                else: st.info("No usable historical roster and player totals were returned.")
+                    returning, player_audit, notes=calculate_returning_production(roster_snap,stat_totals)
+                else:
+                    returning,player_audit=pd.DataFrame(),pd.DataFrame()
+            elif saved is not None:
+                st.caption("Using saved GitHub roster records — no manual audit needed.")
+                returning=saved['returning']
+                player_audit=saved['player_audit']
+                stat_totals=saved['stats']
+                roster_snap=pd.concat([saved['previous'],saved['current']], ignore_index=True)
+                notes=saved['warnings']
             else:
-                st.caption("This on-demand analysis does not need you to run the separate Model Lab roster audit first. It does not include a new D1-wide scan on each visit.")
-        with st.expander("🔁 Incoming players & potential transfers", expanded=False):
-            incoming=st.session_state.get(f"incoming_candidates_{SPORTS[league]}")
-            # Prefer saved cross-league evidence when available; this needs no Model Lab scan.
-            if not archived_old.empty and not archived_new.empty:
-                saved_candidates=build_team_roster_view(tid,archived_old,archived_new,archived_stats)
-                if not saved_candidates.empty:
-                    incoming=saved_candidates
-                    st.caption("Automatically matched against saved prior-season D1 rosters. ID matches are provisional; unknown origins remain unknown.")
+                st.info("This team's data is not archived yet. It will appear automatically as the daily collection progresses.")
+                returning=pd.DataFrame(); player_audit=pd.DataFrame();stat_totals=pd.DataFrame();roster_snap=pd.DataFrame();notes=[]
+
+            if isinstance(returning,pd.DataFrame) and not returning.empty:
+                r=returning.loc[returning['Team ID'].astype(str)==tid]
+                if not r.empty:
+                    r=r.iloc[0]
+                    cols=st.columns(4)
+                    for col,stat in zip(cols,['minutes','points','rebounds','assists']):
+                        val=r.get(f'Returning {stat} % (known only)')
+                        col.metric(f'Returning {stat}', f'{float(val):.1f}%' if pd.notna(val) else 'N/A')
+                    st.caption(f"Historical roster players with documented totals: {int(r.get('Prior roster players with stats',0))} / {int(r.get('Prior roster entries',0))}. Percentages reflect documented production, not verified full-season totals.")
+                with st.expander("Player matches and calculation details"):
+                    if not player_audit.empty:
+                        rows=player_audit[player_audit['Team ID'].astype(str)==tid] if 'Team ID' in player_audit else player_audit
+                        st.dataframe(rows,hide_index=True,use_container_width=True)
+                    if notes: st.caption("Some records may have incomplete coverage.")
+            elif saved is not None:
+                st.info("Roster snapshots are archived, but reliable returning-production percentages are not yet available.")
+
+            st.markdown("**Incoming players and possible transfers**")
+            incoming=pd.DataFrame()
+            if not old_rosters.empty and not new_rosters.empty:
+                incoming=build_team_roster_view(tid,old_rosters,new_rosters,prior_totals)
+            if incoming.empty:
+                prior_incoming=st.session_state.get(f"incoming_candidates_{SPORTS[league]}")
+                if isinstance(prior_incoming,pd.DataFrame) and 'Team ID' in prior_incoming:
+                    incoming=prior_incoming[prior_incoming['Team ID'].astype(str)==tid]
             if isinstance(incoming,pd.DataFrame) and not incoming.empty:
-                arrivals=incoming[incoming["Team ID"].astype(str)==tid]
-                if not arrivals.empty:
-                    st.dataframe(arrivals[["Player","Prior school","Status","Previous minutes","Previous points","Previous rebounds","Previous assists"]],hide_index=True,use_container_width=True)
-                    st.caption("Potential prior-school matches use the D1-wide historical scan if run; these are not verified transfers.")
-                else:st.info("No new roster appearances identified from the loaded audit for this team.")
-            else:st.info("No saved roster comparison is available for this team yet. The scheduled archive is built in batches; you can also run Model Lab manually.")
+                fields=[x for x in ['Player','Prior school','Status','Previous minutes','Previous points','Previous rebounds','Previous assists'] if x in incoming]
+                st.dataframe(incoming[fields],hide_index=True,use_container_width=True)
+                st.caption("Prior-school matches are provisional. Unknown origin is not proof a player is a freshman; unavailable totals are not zero.")
+            else:
+                st.caption("No matched incoming-player data available yet. Matches improve as more schools are archived.")
+
+            with st.expander("Data quality and optional refresh",expanded=False):
+                st.caption("The scheduled GitHub collection is the default. Use a manual refresh only for teams not yet archived or when you need a new source check.")
+                st.caption(roster_archive_summary(old_rosters,new_rosters,prior_totals,collection_status))
+                if st.button("Refresh this team's roster analysis",key=f"refresh_team_roster_{SPORTS[league]}_{tid}"):
+                    with st.spinner("Fetching this team's roster and historical player totals..."):
+                        try:
+                            st.session_state[cache_key]=_single_team_roster_bundle(SPORTS[league],tid,chosen)
+                            st.rerun()
+                        except Exception as exc:
+                            st.error(f"Unable to refresh: {type(exc).__name__}: {str(exc)[:180]}")
+                if not stat_totals.empty:
+                    st.download_button("Download documented prior-season player totals",stat_totals.to_csv(index=False).encode(),f"team_{tid}_previous_player_totals.csv","text/csv",key=f"single_roster_download_{tid}")
+                st.warning("Season and roster completeness are not independently verified. These figures do not change official power ratings or game lines.")
+                st.info("Experimental roster-based rating adjustments remain disabled until historical validation is completed.")
         with st.expander("👥 Roster and scouting details",expanded=False):
             if st.button("Load player roster",key="v12_roster_btn"):
                 st.session_state["v12_roster_team"]=(SPORTS[league],tid)
