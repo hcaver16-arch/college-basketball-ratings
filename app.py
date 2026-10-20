@@ -993,6 +993,42 @@ with team_tab:
                 st.caption("Preseason weight drops with on-court results. Missing on-court rating means the season has not supplied enough games.")
         else:
             st.info("Power ratings have not been loaded for this team. Open Model Lab to calculate them.")
+        with st.expander("📈 Power rating & ranking history", expanded=False):
+            saved_team_history = load_history(SPORTS[league], tid)
+            if saved_team_history.empty:
+                st.info("No archived daily rating snapshots for this team yet. Run 'Refresh basketball power ratings' in GitHub Actions and check again after the next successful update.")
+            else:
+                trend = saved_team_history.copy()
+                trend["Snapshot date"] = pd.to_datetime(trend["Snapshot date"], errors="coerce")
+                trend["Current power"] = pd.to_numeric(trend["Current power"], errors="coerce")
+                trend["Rank"] = pd.to_numeric(trend["Rank"], errors="coerce")
+                trend = trend.dropna(subset=["Snapshot date"]).sort_values("Snapshot date").drop_duplicates("Snapshot date", keep="last")
+                valid_rating = trend.dropna(subset=["Current power"])
+                valid_rank = trend.dropna(subset=["Rank"])
+                dates_count = trend["Snapshot date"].nunique()
+                if dates_count < 2:
+                    st.info("One saved rating snapshot is available. Trend lines and ranking changes will appear after another dated update.")
+                    if not valid_rating.empty:
+                        st.metric("Saved power rating", f"{valid_rating.iloc[-1]['Current power']:+.2f}")
+                    if not valid_rank.empty:
+                        st.metric("Saved national rank", f"#{int(valid_rank.iloc[-1]['Rank'])}")
+                else:
+                    if len(valid_rating) > 1:
+                        delta = valid_rating.iloc[-1]["Current power"] - valid_rating.iloc[0]["Current power"]
+                        c1, c2 = st.columns(2)
+                        c1.metric("Latest saved power", f"{valid_rating.iloc[-1]['Current power']:+.2f}", delta=f"{delta:+.2f} since first snapshot")
+                        if len(valid_rank)>1:
+                            rank_change = int(valid_rank.iloc[0]["Rank"] - valid_rank.iloc[-1]["Rank"])
+                            c2.metric("National rank", f"#{int(valid_rank.iloc[-1]['Rank'])}", delta=f"{rank_change:+d} places since first snapshot")
+                        st.markdown("**Power rating over time**")
+                        st.line_chart(valid_rating.set_index("Snapshot date")[["Current power"]], use_container_width=True)
+                    if len(valid_rank)>1:
+                        st.markdown("**National rank over time** (lower is better)")
+                        st.line_chart(valid_rank.set_index("Snapshot date")[["Rank"]], use_container_width=True)
+                with st.expander("View dated rating records"):
+                    view_cols = [c for c in ["Snapshot date", "Rank", "Current power", "Preseason rating", "On-court rating", "Games played", "Preseason weight"] if c in trend.columns]
+                    st.dataframe(trend[view_cols].sort_values("Snapshot date", ascending=False), hide_index=True, use_container_width=True)
+                st.caption("Only successful saved daily runs appear here. A flat graph can simply mean no games were played between snapshots; preseason numbers remain experimental.")
         team_games=games[(games["Away ID"].astype(str)==tid)|(games["Home ID"].astype(str)==tid)].copy()
         team_games["Opponent"]=team_games.apply(lambda x:x["Away"] if str(x["Home ID"])==tid else x["Home"],axis=1) if not team_games.empty else pd.Series(dtype=str)
         team_games["Location"]=team_games.apply(lambda x:"Neutral" if x["Venue"]=="Neutral" else ("Home" if str(x["Home ID"])==tid else "Away"),axis=1) if not team_games.empty else pd.Series(dtype=str)
