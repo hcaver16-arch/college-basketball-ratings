@@ -1,108 +1,195 @@
-import math
+"""College Basketball Dashboard — live schedule phase.
+
+Uses ESPN's publicly reachable but undocumented JSON scoreboard endpoint.
+Data is fetched by the deployed Streamlit server, never by the user's browser.
+"""
+from __future__ import annotations
+
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from datetime import date, datetime, timedelta, timezone
+import io
 import pandas as pd
+import requests
 import streamlit as st
 
-st.set_page_config(page_title='College Basketball Ratings', page_icon='🏀', layout='wide')
-st.title('🏀 College Basketball Ratings')
-st.caption('Starter dashboard — upload actual team ratings and schedules. Sample figures are illustrative only.')
+st.set_page_config(page_title="College Basketball Dashboard", page_icon="🏀", layout="wide")
+st.title("🏀 College Basketball Dashboard")
+st.caption("2026–27 season · Real schedule feed (when available) · Power ratings coming next")
 
-league = st.sidebar.radio('League', ["Men's", "Women's"])
-hca = st.sidebar.slider('Home-court advantage (points)', 0.0, 6.0, 3.0, 0.5)
-sigma = st.sidebar.slider('Game margin uncertainty (points)', 6.0, 20.0, 11.0, 0.5)
-st.sidebar.caption('Team ratings are estimated points better/worse than average on a neutral court. Adjust when calibrating the model.')
+SPORTS = {"Men's": "mens-college-basketball", "Women's": "womens-college-basketball"}
+START = date(2026, 11, 1)
+END = date(2027, 4, 12)
+COLUMNS = ["Game ID", "Date", "Time (ET)", "Away", "Home", "Away conference", "Home conference", "Venue", "Status", "Away score", "Home score", "Game URL"]
 
-@st.cache_data
-def sample_data():
-    teams = pd.DataFrame([
-        ('M', 'Texas Tech', 18.5), ('M','Baylor',14.0),('M','Houston',22.0),('M','Arizona',19.0),
-        ('W','South Carolina',25.0),('W','UConn',26.0),('W','Texas',22.0),('W','UCLA',24.0)
-    ], columns=['league','team','rating'])
-    games = pd.DataFrame([
-        ('M','2026-11-10','Texas Tech','Baylor','home',None,None),
-        ('M','2026-11-17','Houston','Arizona','neutral',None,None),
-        ('M','2026-11-21','Baylor','Houston','home',None,None),
-        ('W','2026-11-12','South Carolina','UConn','neutral',None,None),
-        ('W','2026-11-18','Texas','UCLA','home',None,None),
-        ('W','2026-11-22','UConn','Texas','home',None,None),
-    ], columns=['league','date','home_team','away_team','venue','home_score','away_score'])
-    return teams, games
 
-demo_teams, demo_games=sample_data()
-with st.sidebar.expander('Upload real data (CSV)', expanded=False):
-    team_file=st.file_uploader('Team ratings CSV',type='csv',key='t')
-    game_file=st.file_uploader('Game schedule/results CSV',type='csv',key='g')
-    st.caption('Ratings columns: league, team, rating. Games: league, date, home_team, away_team, venue, home_score, away_score. League values M/W. Venue values home/neutral. Scores may be empty.')
+def week_ranges(start: date, end: date):
+    current = start
+    while current <= end:
+        finish = min(current + timedelta(days=6), end)
+        yield current, finish
+        current = finish + timedelta(days=1)
 
-try:
-    teams=pd.read_csv(team_file) if team_file is not None else demo_teams
-    games=pd.read_csv(game_file) if game_file is not None else demo_games
-    if not {'league','team','rating'}.issubset(teams.columns):
-        raise ValueError('Team ratings CSV must include league, team, rating')
-    if not {'league','date','home_team','away_team','venue','home_score','away_score'}.issubset(games.columns):
-        raise ValueError('Games CSV must include league, date, home_team, away_team, venue, home_score, away_score')
-    lg='M' if league=="Men's" else 'W'
-    t=teams.loc[teams.league==lg].copy()
-    g=games.loc[games.league==lg].copy()
-    t['rating']=pd.to_numeric(t['rating'],errors='raise')
-    if t.team.duplicated().any():
-        raise ValueError('Team names must be unique within each league')
-    if t.empty:
-        st.warning('No teams found for this league in your uploaded files.')
-        st.stop()
-    r=t.set_index('team')['rating'].to_dict()
-    if not g.empty:
-        for col in ['home_score','away_score']:
-            g[col]=pd.to_numeric(g[col],errors='coerce')
-        g['date']=pd.to_datetime(g['date'],errors='coerce')
-        g['home_rating']=g.home_team.map(r)
-        g['away_rating']=g.away_team.map(r)
-        g['rating_gap']=g.home_rating-g.away_rating
-        g['home_advantage']=g.venue.str.lower().map(lambda v: 0.0 if v=='neutral' else hca)
-        g['home_margin_projection']=g.rating_gap+g.home_advantage
-        g['favorite']=g.apply(lambda row: row.home_team if row.home_margin_projection>0 else (row.away_team if row.home_margin_projection<0 else 'Pick’em'),axis=1)
-        g['line']=g.apply(lambda row: f"{row.favorite} -{abs(row.home_margin_projection):.1f}" if row.favorite!='Pick’em' else 'PK',axis=1)
-        g['home_win_probability']=g.home_margin_projection.apply(lambda v: 100 * 0.5 * (1+math.erf(v/(sigma*math.sqrt(2)))))
-        g['actual_margin']=g.home_score-g.away_score
-        g['absolute_margin_error']=(g.actual_margin-g.home_margin_projection).abs()
-    tabs=st.tabs(['Power rankings','Schedules & lines','Strength of schedule','Model accuracy'])
-    with tabs[0]:
-        st.subheader(f'{league} power rankings')
-        st.dataframe(t.sort_values('rating',ascending=False).reset_index(drop=True).assign(rank=lambda x:x.index+1)[['rank','team','rating']],hide_index=True,use_container_width=True)
-    with tabs[1]:
-        st.subheader('Schedule and model lines')
-        if g.empty:
-            st.info('No games uploaded for this league.')
-        else:
-            team_filter=st.selectbox('Show games for', ['All teams']+sorted(t.team.tolist()))
-            visible=g if team_filter=='All teams' else g[(g.home_team==team_filter)|(g.away_team==team_filter)]
-            display=visible[['date','away_team','home_team','venue','line','home_win_probability','away_score','home_score']].copy()
-            display['date']=display['date'].dt.strftime('%Y-%m-%d')
-            st.dataframe(display.rename(columns={'away_team':'Away','home_team':'Home','venue':'Venue','line':'Model line','home_win_probability':'Home win %','away_score':'Away score','home_score':'Home score','date':'Date'}),hide_index=True,use_container_width=True,column_config={'Home win %':st.column_config.NumberColumn(format='%.1f%%')})
-            st.caption('These lines use rating difference + home-court adjustment. They are not sportsbook odds. Projected totals/scores require a pace and offensive/defensive efficiency model.')
-    with tabs[2]:
-        st.subheader('Strength of schedule')
-        st.caption('Initial metric: mean opponent neutral-court rating. Later: opponent-adjusted location-aware expected wins.')
-        records=[]
-        for team in t.team:
-            opponents=[]
-            if not g.empty:
-                opponents += [r.get(x) for x in g.loc[g.home_team==team,'away_team']]
-                opponents += [r.get(x) for x in g.loc[g.away_team==team,'home_team']]
-            opponents=[x for x in opponents if x is not None]
-            records.append({'Team':team,'Scheduled games':len(opponents),'Average opponent rating':sum(opponents)/len(opponents) if opponents else float('nan')})
-        sos=pd.DataFrame(records).sort_values('Average opponent rating',ascending=False,na_position='last').reset_index(drop=True)
-        sos.insert(0,'SOS rank',sos.index+1)
-        st.dataframe(sos,hide_index=True,use_container_width=True)
-    with tabs[3]:
-        st.subheader('Model prediction errors')
-        if g.empty or g.actual_margin.notna().sum()==0:
-            st.info('No completed games with final scores yet.')
-        else:
-            played=g[g.actual_margin.notna()]
-            st.metric('Games with scores',len(played))
-            st.metric('Mean absolute spread error',f"{played.absolute_margin_error.mean():.1f} pts")
-            st.dataframe(played[['date','away_team','home_team','home_margin_projection','actual_margin','absolute_margin_error']],hide_index=True,use_container_width=True)
-    if team_file is None or game_file is None:
-        st.info('DEMO MODE: At least one input still uses invented sample data. Do not interpret displayed teams, dates, lines or ratings as real 2026–27 information.')
-except Exception as e:
-    st.error(f'Unable to load the data: {e}')
+
+def safe_name(team):
+    return team.get("displayName") or team.get("name") or "Unknown"
+
+
+def parse_game(event):
+    competition = (event.get("competitions") or [{}])[0]
+    participants = competition.get("competitors") or []
+    home = next((c for c in participants if c.get("homeAway") == "home"), {})
+    away = next((c for c in participants if c.get("homeAway") == "away"), {})
+    if not home or not away:
+        return None
+    dt = pd.to_datetime(event.get("date"), utc=True, errors="coerce")
+    if pd.isna(dt):
+        return None
+    local_et = dt.tz_convert("America/New_York")
+    def conference(entry):
+        return str((entry.get("team") or {}).get("conferenceId") or "")
+    def score(entry):
+        try:
+            value = entry.get("score")
+            if isinstance(value, dict):
+                value = value.get("value") or value.get("displayValue")
+            return int(float(value)) if value is not None and str(value).strip() else None
+        except (ValueError, TypeError):
+            return None
+    status_type = (event.get("status") or {}).get("type") or {}
+    if status_type.get("completed"):
+        status = "Final"
+    elif status_type.get("state") == "in":
+        status = "Live"
+    else:
+        status = "Scheduled"
+    is_neutral = competition.get("neutralSite") is True
+    venue = "Neutral" if is_neutral else "Home"
+    links = event.get("links") or competition.get("links") or []
+    game_url = next((x.get("href", "") for x in links if x.get("href", "").startswith("https://")), "")
+    return {"Game ID": str(event.get("id", "")), "Date": str(local_et.date()), "Time (ET)": local_et.strftime("%-I:%M %p"),
+            "Away": safe_name(away.get("team") or {}), "Home": safe_name(home.get("team") or {}),
+            "Away conference": conference(away), "Home conference": conference(home),
+            "Venue": venue, "Status": status, "Away score": score(away) if status != "Scheduled" else None,
+            "Home score": score(home) if status != "Scheduled" else None, "Game URL": game_url}
+
+
+def retrieve_window(sport: str, begin: date, end: date):
+    url = f"https://site.api.espn.com/apis/site/v2/sports/basketball/{sport}/scoreboard"
+    params = {"dates": f"{begin:%Y%m%d}-{end:%Y%m%d}", "groups": "50", "limit": 500}
+    response = requests.get(url, params=params, headers={"User-Agent": "CollegeBasketballScheduleDashboard/1.0"}, timeout=25)
+    response.raise_for_status()
+    payload = response.json()
+    events = payload.get("events")
+    if not isinstance(events, list):
+        raise ValueError("Schedule endpoint returned no game list")
+    return [parsed for event in events if (parsed := parse_game(event)) is not None], len(events)
+
+
+@st.cache_data(ttl=12 * 60 * 60, show_spinner=False)
+def get_schedule(sport: str, first: date, last: date):
+    ranges = list(week_ranges(first, last))
+    records = []
+    failures = []
+    potentially_truncated = []
+    # A small worker pool reduces wait time without opening too many concurrent requests.
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        futures = {pool.submit(retrieve_window, sport, a, b): (a, b) for a, b in ranges}
+        for f in as_completed(futures):
+            a, b = futures[f]
+            try:
+                rows, count = f.result()
+                records.extend(rows)
+                if count >= 500:
+                    potentially_truncated.append(f"{a}–{b}")
+            except Exception as ex:
+                failures.append(f"{a}–{b}: {str(ex)[:110]}")
+    result = pd.DataFrame(records, columns=COLUMNS)
+    if not result.empty:
+        result = result.drop_duplicates(subset=["Game ID"]).sort_values(["Date", "Time (ET)", "Away"])
+    return result.reset_index(drop=True), failures, potentially_truncated, len(ranges)
+
+
+def show_schedule(df):
+    columns = ["Date", "Time (ET)", "Away", "Home", "Venue", "Status", "Away score", "Home score"]
+    st.dataframe(df[columns], hide_index=True, use_container_width=True, height=560)
+
+
+league = st.sidebar.radio("Basketball division", ["Men's", "Women's"])
+st.sidebar.subheader("Season coverage")
+period = st.sidebar.selectbox("Load schedules for", ["Full season (Nov–Apr)", "November–December", "January–February", "March–April"], index=0)
+windows = {"Full season (Nov–Apr)": (START, END),
+           "November–December": (START, date(2026, 12, 31)),
+           "January–February": (date(2027, 1, 1), date(2027, 2, 28)),
+           "March–April": (date(2027, 3, 1), END)}
+first, last = windows[period]
+st.sidebar.caption("Times shown in Eastern Time; game times and schedules may change.")
+if st.sidebar.button("🔄 Refresh schedule now", use_container_width=True):
+    get_schedule.clear()
+    st.rerun()
+
+st.info("Schedules are fetched from ESPN's unofficial public scoreboard feed. Game coverage depends on what ESPN has published. No ratings or point spreads are being fabricated.")
+
+with st.spinner(f"Loading {league.lower()} games for {period.lower()}…"):
+    games, failures, truncated, windows_checked = get_schedule(SPORTS[league], first, last)
+
+if failures:
+    st.warning(f"{len(failures)} of {windows_checked} weekly data requests failed. The table may be incomplete. Try refreshing later or load a shorter period.")
+    with st.expander("See missing request periods"):
+        st.write("\n".join(failures))
+if truncated:
+    st.warning("One or more date windows reached the API's 500-game cap; some games may be missing: " + ", ".join(truncated))
+
+if games.empty:
+    st.error("No schedule games could be retrieved for this selection. This can mean the feed is unavailable or schedules haven't been published. Please try a different period or refresh.")
+    st.stop()
+
+unique_teams = sorted(set(games["Away"]).union(games["Home"]))
+played = int((games["Status"] == "Final").sum())
+a, b, c, d = st.columns(4)
+a.metric("Games retrieved", f"{len(games):,}")
+b.metric("Teams appearing", f"{len(unique_teams):,}")
+c.metric("Completed games", f"{played:,}")
+d.metric("Scheduled games", f"{int((games['Status']=='Scheduled').sum()):,}")
+st.caption("Counts describe games and teams returned by the feed, not a verified count of all Division I programs. Some non-D1 opponents may appear.")
+
+schedule_tab, team_tab, future_tab = st.tabs(["📅 All games", "🏀 Team schedule", "📈 Ratings & lines — next phase"])
+with schedule_tab:
+    st.subheader(f"{league} game schedule")
+    r1, r2, r3 = st.columns([2, 2, 2])
+    with r1:
+        team = st.selectbox("Team", ["All teams"] + unique_teams)
+    with r2:
+        statuses = st.multiselect("Game status", ["Scheduled", "Live", "Final"], default=["Scheduled", "Live", "Final"])
+    with r3:
+        venue = st.selectbox("Venue", ["All venues", "Home", "Neutral"])
+    min_date = date.fromisoformat(games["Date"].min())
+    max_date = date.fromisoformat(games["Date"].max())
+    selected = st.date_input("Date range", value=(min_date, max_date), min_value=min_date, max_value=max_date)
+    subset = games.loc[games["Status"].isin(statuses)].copy()
+    if team != "All teams":
+        subset = subset.loc[(subset["Home"] == team) | (subset["Away"] == team)]
+    if venue != "All venues":
+        subset = subset.loc[subset["Venue"] == venue]
+    if isinstance(selected, tuple) and len(selected) == 2:
+        d1, d2 = selected
+        subset = subset[(subset["Date"] >= str(d1)) & (subset["Date"] <= str(d2))]
+    st.caption(f"Showing {len(subset):,} of {len(games):,} retrieved games")
+    show_schedule(subset)
+    st.download_button("Download filtered games as CSV", subset.to_csv(index=False).encode("utf-8"), file_name=f"{league.lower().replace(chr(39), '')}_basketball_games.csv", mime="text/csv")
+
+with team_tab:
+    st.subheader("Look up a team")
+    chosen = st.selectbox("Select a team", unique_teams, index=0, key="individual_team")
+    team_games = games.loc[(games["Away"] == chosen) | (games["Home"] == chosen)].copy()
+    team_games["Opponent"] = team_games.apply(lambda r: r["Away"] if r["Home"] == chosen else r["Home"], axis=1)
+    team_games["Location"] = team_games.apply(lambda r: "Neutral" if r["Venue"] == "Neutral" else ("Home" if r["Home"] == chosen else "Away"), axis=1)
+    st.metric("Games currently listed", len(team_games))
+    st.dataframe(team_games[["Date", "Time (ET)", "Opponent", "Location", "Status", "Away score", "Home score"]], hide_index=True, use_container_width=True)
+    st.caption("This is the team schedule within the selected coverage period, not proof that all dates have been announced.")
+
+with future_tab:
+    st.subheader("Coming next: independently calculated ratings")
+    st.write("Once we've checked schedule coverage, we'll add team power ratings, opponent strength, location-adjusted game lines, projected scores, and strength-of-schedule ranks. This version intentionally does not show placeholder predictions.")
+
+st.divider()
+st.caption("Data source: ESPN public scoreboard feed (unofficial/undocumented). Cached 12 hours on the server. Press Refresh schedule now to request fresh information. Source and completeness are not guaranteed.")
