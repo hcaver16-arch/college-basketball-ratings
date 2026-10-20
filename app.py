@@ -19,6 +19,7 @@ from roster_tracking import audit_teams, classify_team
 from returning_production import calculate_returning_production, STATS_COLUMNS
 from player_stats_import import fetch_prior_stats
 from transfer_tracking import identify_incoming
+from league_transfer_lookup import scan_previous_rosters, match_candidates
 
 st.set_page_config(page_title="College Basketball Dashboard", page_icon="🏀", layout="wide")
 st.title("🏀 College Basketball")
@@ -674,21 +675,43 @@ with ratings_tab:
             st.info("First fetch roster snapshots in section 2, then click automatic stats fetch above (or upload a corrected CSV).")
 
     with st.expander("4. Incoming players & possible transfers (experimental)", expanded=False):
-        st.caption("Compares audited 2025–26 and 2026–27 rosters. A player absent from the old team roster is NOT automatically a transfer. To find a possible previous school, include that school in the roster audit selection and fetch its prior-season stats.")
+        st.caption("New roster appearances are not automatically transfers. Optionally scan prior-season Division I rosters to find matching ESPN player IDs; all matches remain provisional.")
         source_audit=st.session_state.get(f"roster_audit_{SPORTS[league]}")
         source_stats=st.session_state.get(f"auto_player_stats_{SPORTS[league]}")
         if source_audit is None:
             st.info("First run the roster audit in section 2 for the teams you want to examine. Include suspected prior schools to look for matching ESPN player IDs.")
         else:
             candidates, transfer_warnings=identify_incoming(source_audit[0], source_stats[0] if source_stats is not None else None)
+            for note in transfer_warnings:
+                if 'only covers schools' not in note: st.caption(note)
+            key=f"league_roster_lookup_{SPORTS[league]}"
+            if st.button("Search 2025–26 rosters across the D1 directory", key=f"league_search_btn_{SPORTS[league]}", disabled=directory.empty):
+                st.info("This runs a large number of ESPN requests and can take several minutes. Results only cover teams successfully retrieved.")
+                bar=st.progress(0, text="Retrieving prior-season D1 rosters")
+                prior, errors, n=scan_previous_rosters(SPORTS[league],directory, progress=lambda i,total:bar.progress(i/max(total,1),text=f"Scanned {i} of {total} D1 directory teams"))
+                st.session_state[key]=(prior,errors,n)
+                bar.empty()
+            saved_lookup=st.session_state.get(key)
+            if saved_lookup is not None:
+                prior,errors,n=saved_lookup
+                completed=n-len(errors)
+                st.caption(f"Prior-season roster coverage: {completed} of {n} directory schools returned nonempty rosters ({len(errors)} failed/empty). This does not independently establish season accuracy.")
+                if not errors.empty:
+                    with st.expander("Schools with unavailable historical rosters"):
+                        st.dataframe(errors,hide_index=True,use_container_width=True)
+                candidates=match_candidates(candidates,prior,source_stats[0] if source_stats is not None else None)
+                matched=int(candidates['Status'].astype(str).str.startswith('Potential transfer').sum()) if not candidates.empty else 0
+                st.metric("Possible prior-school ID matches",matched)
+                st.caption("Matched players' past production appears only if their PRIOR school was included in your downloaded player statistics. Unknowns can include freshmen, non-D1 transfers and missing provider histories.")
             st.session_state[f"incoming_candidates_{SPORTS[league]}"]=candidates.copy()
-            for note in transfer_warnings: st.caption(note)
-            if candidates.empty: st.info("No classifiable incoming roster appearances in the audited teams.")
+            if candidates.empty:st.info("No incoming roster appearances identified for the audited teams.")
             else:
-                st.metric("New roster appearances requiring verification",len(candidates))
-                st.dataframe(candidates,hide_index=True,use_container_width=True)
-                st.download_button("Download incoming-player audit",candidates.to_csv(index=False).encode(),"incoming_player_candidates.csv","text/csv",key=f"incoming_download_{SPORTS[league]}")
-                st.warning("Possible transfers and player totals are preliminary. No transfer or recruiting bonus is applied to ratings or game lines.")
+                focus=st.selectbox("View arrivals for one team", sorted(candidates['Team'].dropna().unique().tolist()), key=f"incoming_focus_{SPORTS[league]}")
+                subset=candidates[candidates['Team']==focus]
+                st.metric("New roster appearances requiring verification",len(subset))
+                st.dataframe(subset[['Player','Prior school','Status','Previous minutes','Previous points','Previous rebounds','Previous assists']],hide_index=True,use_container_width=True)
+                st.download_button("Download all audited incoming players",candidates.to_csv(index=False).encode(),"incoming_player_candidates.csv","text/csv",key=f"incoming_download_{SPORTS[league]}")
+                st.warning("All incoming-player classifications are provisional. No transfer bonuses are applied to ratings or lines.")
 
     roster_file = st.session_state.get("v7_roster_upload")
     ids = set(directory["Team ID"].astype(str)) if not directory.empty else set()
@@ -987,7 +1010,7 @@ with team_tab:
                 arrivals=incoming[incoming["Team ID"].astype(str)==tid]
                 if not arrivals.empty:
                     st.dataframe(arrivals[["Player","Prior school","Status","Previous minutes","Previous points","Previous rebounds","Previous assists"]],hide_index=True,use_container_width=True)
-                    st.caption("Only previously audited schools can be recognized as prior schools. This is a provisional roster comparison, not an authoritative transfer list.")
+                    st.caption("Potential prior-school matches use the D1-wide historical scan if run; these are not verified transfers.")
                 else:st.info("No new roster appearances identified from the loaded audit for this team.")
             else:st.info("Run the roster audit, then open Incoming players & possible transfers in Model Lab to populate this section.")
         with st.expander("👥 Roster and scouting details",expanded=False):
