@@ -30,6 +30,7 @@ from roster_validation import model_feature_table, backtest_readiness
 from coverage_audit import audit_coverage
 from roster_reconciliation import reconciliation_summary
 from historical_roster_rebuild import reconstruct_teams, source_cutoff_audit
+from historical_evidence import classify_evidence, player_membership_audit, EVIDENCE_FIELDS
 
 st.set_page_config(page_title="College Basketball Dashboard", page_icon="🏀", layout="wide")
 st.title("🏀 College Basketball")
@@ -961,6 +962,29 @@ with ratings_tab:
                         dated,dated_message=source_cutoff_audit(historical_upload,source_teams['Team ID'].astype(str))
                         st.caption(dated_message)
                         if historical_upload is not None:st.dataframe(dated,hide_index=True,use_container_width=True)
+                        st.write('**Point-in-time membership verification — research audit**')
+                        st.caption('A preseason-confirmed label requires a dated source, an explicit manual confirmation, and a reviewer note. The app checks entered metadata only; it does not authenticate linked webpages. Later-season rosters or game appearances never qualify by themselves.')
+                        st.download_button('Download membership review template',pd.DataFrame(columns=EVIDENCE_FIELDS).to_csv(index=False).encode(),'2025_26_preseason_membership_review.csv','text/csv',key=f'preseason_review_template_{SPORTS[league]}')
+                        review_upload=st.file_uploader('Upload manually reviewed pre-November-2025 membership evidence CSV',type=['csv'],key=f'preseason_review_upload_{SPORTS[league]}')
+                        if review_upload is not None:
+                            try:
+                                reviewed=classify_evidence(pd.read_csv(review_upload,dtype={'Team ID':str,'Player ID':str}))
+                                allowed=set(source_teams['Team ID'].astype(str))
+                                reviewed.loc[~reviewed['Team ID'].isin(allowed),'Eligible for point-in-time feature']=False
+                                reviewed.loc[~reviewed['Team ID'].isin(allowed),'Evidence classification']='Unverified — team not in selected division directory'
+                                st.dataframe(reviewed,hide_index=True,use_container_width=True)
+                                st.metric('Manually reviewed pre-cutoff membership rows',int(reviewed['Eligible for point-in-time feature'].sum()))
+                                st.download_button('Download evidence classification',reviewed.to_csv(index=False).encode(),'historical_evidence_audit.csv','text/csv',key=f'evidence_export_{SPORTS[league]}')
+                                if isinstance(reconstructed,tuple) and len(reconstructed)==3:
+                                    joined=player_membership_audit(reconstructed[2],reviewed)
+                                    if not joined.empty:
+                                        st.write('**Prior-season players with reviewed target-season membership**')
+                                        st.dataframe(joined[['Team ID','Player ID','Player' if 'Player' in joined else 'Player ID','Evidence classification','Returning-production eligible']].loc[:,lambda d:~d.columns.duplicated()],hide_index=True,use_container_width=True)
+                                        st.download_button('Download point-in-time eligibility audit',joined.to_csv(index=False).encode(),'player_membership_point_in_time_audit.csv','text/csv',key=f'membership_export_{SPORTS[league]}')
+                            except Exception as exc:
+                                st.error(f'Could not audit review file: {type(exc).__name__}: {str(exc)[:160]}')
+                        else:
+                            st.info('No reviewed preseason evidence supplied. All retrospective membership remains excluded from historical predictive scoring.')
                         st.warning('No statistical coefficient is fitted from these retrospective features, and official ratings/lines are unaffected. A real roster-vs-baseline backtest needs pre-cutoff evidence for enough teams and multiple held-out seasons.')
                 st.subheader("November preseason-model backtest")
                 with st.expander("Roster model comparison — historical readiness", expanded=False):
