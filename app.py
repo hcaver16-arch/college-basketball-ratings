@@ -22,7 +22,7 @@ from transfer_tracking import identify_incoming
 from league_transfer_lookup import scan_previous_rosters, match_candidates
 from transfer_stats import retrieve_previous_school_stats, transfer_coverage
 from roster_model import experimental_roster_signal
-from saved_roster_data import load_saved_data, build_team_roster_view, roster_archive_summary
+from saved_roster_data import load_saved_data, build_team_roster_view, roster_archive_summary, team_saved_analysis, archive_counts
 
 st.set_page_config(page_title="College Basketball Dashboard", page_icon="🏀", layout="wide")
 st.title("🏀 College Basketball")
@@ -574,6 +574,20 @@ schedule_tab, team_tab, conference_tab, sos_tab, sor_tab, ratings_tab = st.tabs(
 
 with ratings_tab:
     st.subheader("Model Lab")
+    with st.expander("📦 Automatic roster collection progress", expanded=False):
+        st.caption("Saved GitHub data are read on page load. Each nightly run processes another batch. Collection success does not prove every game or athlete was captured.")
+        for division_label, division_code in [("Men", "mens-college-basketball"), ("Women", "womens-college-basketball")]:
+            ap, ac, ast, alog = load_saved_data(division_code)
+            counts=archive_counts(ap,ac,ast,alog)
+            st.markdown(f"**{division_label}**")
+            c1,c2,c3,c4=st.columns(4)
+            c1.metric("Both rosters",counts['Both rosters saved'])
+            c2.metric("Rosters + stats",counts['Rosters and stats saved'])
+            c3.metric("Processed",counts['Collector succeeded'])
+            c4.metric("Retry",counts['Needs retry'])
+            st.caption("Archive status measures retrieved data, not independently verified full-season coverage.")
+        st.caption("Data live in GitHub's data/ folder; scheduled GitHub Actions runs populate this archive gradually.")
+
     st.caption("Load or update ratings here. Rankings, team profiles and schedule lines appear in the other tabs after calculation.")
     st.caption("Experimental ratings based on historical scoring margins and on-court results. Player impacts are included only when supported by uploaded source-backed data; predictions are not sportsbook odds.")
     with st.expander("1. Rosters and sourced player adjustments", expanded=False):
@@ -1058,6 +1072,21 @@ with team_tab:
                 return snapshots,problems,totals,diagnostics,errors
             archived_old, archived_new, archived_stats, archive_status=load_saved_data(SPORTS[league])
             st.caption(roster_archive_summary(archived_old, archived_new, archived_stats, archive_status))
+            saved_team=team_saved_analysis(tid,archived_old,archived_new,archived_stats)
+            if saved_team is not None:
+                st.success("Saved roster snapshots available — no manual roster audit needed.")
+                saved_summary=saved_team['returning']
+                if not saved_summary.empty:
+                    r=saved_summary.iloc[0]
+                    cols=st.columns(4)
+                    for col,stat in zip(cols,['minutes','points','rebounds','assists']):
+                        value=r.get(f'Returning {stat} % (known only)')
+                        col.metric(f'Returning {stat}',f'{value:.1f}%' if pd.notna(value) else 'N/A')
+                    st.caption(f"Prior-roster players with totals: {int(r['Prior roster players with stats'])} / {int(r['Prior roster entries'])}. Provisional documented shares only.")
+                else:
+                    st.info("Rosters are archived, but documented returning-production totals are not yet available or passed no validation checks.")
+            else:
+                st.caption("This team's archive is not ready yet. The optional on-demand load below remains available.")
             cache_key=f"team_roster_bundle_{SPORTS[league]}_{tid}"
             if st.button("Load roster analysis",key=f"one_click_roster_{SPORTS[league]}_{tid}"):
                 with st.spinner("Retrieving roster snapshots and historical player totals..."):
@@ -1074,7 +1103,7 @@ with team_tab:
                     snapshots_saved=pd.concat([p,c],ignore_index=True)
                     bundle=(snapshots_saved,pd.DataFrame(),s,pd.DataFrame(),[])
                     st.caption("Using saved GitHub roster data. Manual refresh remains available.")
-            if bundle is not None:
+            if bundle is not None and (saved_team is None or cache_key in st.session_state):
                 roster_snap, roster_issues, stat_totals, stat_coverage, stat_errors=bundle
                 if not roster_issues.empty: st.warning(f"{len(roster_issues)} roster requests had missing data.")
                 if stat_errors: st.warning(f"{len(stat_errors)} game/stat requests were incomplete or failed.")
