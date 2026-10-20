@@ -29,6 +29,7 @@ from saved_ratings import load_ratings, load_history
 from roster_validation import model_feature_table, backtest_readiness
 from coverage_audit import audit_coverage
 from roster_reconciliation import reconciliation_summary
+from historical_roster_rebuild import reconstruct_teams, source_cutoff_audit
 
 st.set_page_config(page_title="College Basketball Dashboard", page_icon="🏀", layout="wide")
 st.title("🏀 College Basketball")
@@ -930,6 +931,37 @@ with ratings_tab:
                         st.dataframe(results, hide_index=True, use_container_width=True)
                         st.download_button("Download held-out game predictions", results.to_csv(index=False).encode(), f"historical_backtest_{SPORTS[league]}.csv", "text/csv")
                 st.divider()
+                with st.expander("Historical 2025–26 roster reconstruction (research only)",expanded=False):
+                    st.caption("Build 2024–25 box-score production and compare it to ESPN season-labeled 2025–26 memberships. Season-labeled rosters may have been revised AFTER November 2025; these are retrospective descriptive features, NOT eligible November predictions.")
+                    source_teams=directory.copy()
+                    if source_teams.empty or not {'Team ID','Team'}.issubset(source_teams.columns):
+                        st.info("The team directory is unavailable for this selection. Reload the team directory before collecting historical evidence.")
+                    else:
+                        selections=source_teams['Team'].dropna().astype(str).sort_values().unique().tolist()
+                        selected_names=st.multiselect('Choose a few schools to reconstruct (start with two)',selections,default=selections[:2],key=f'historical_teams_{SPORTS[league]}')
+                        if st.button('Reconstruct selected 2025–26 preseason player features',key=f'historical_build_{SPORTS[league]}',disabled=not selected_names):
+                            with st.spinner('Fetching season-labeled rosters and 2024–25 player box scores...'):
+                                chosen=source_teams[source_teams['Team'].isin(selected_names)][['Team ID','Team']].drop_duplicates('Team ID')
+                                st.session_state[f'historical_rebuild_{SPORTS[league]}']=reconstruct_teams(SPORTS[league],chosen)
+                        reconstructed=st.session_state.get(f'historical_rebuild_{SPORTS[league]}')
+                        if isinstance(reconstructed,tuple) and len(reconstructed)==3:
+                            h_audit,h_features,h_players=reconstructed
+                            st.write('**Historical source audit**')
+                            st.dataframe(h_audit,hide_index=True,use_container_width=True)
+                            st.write('**Retrospective returning-production features (not for held-out scoring)**')
+                            st.dataframe(h_features,hide_index=True,use_container_width=True)
+                            st.download_button('Download reconstructed features',h_features.to_csv(index=False).encode(),'historical_roster_features_2025_26.csv','text/csv',key='hist_feat_download')
+                            if not h_players.empty:st.download_button('Download documented player totals',h_players.to_csv(index=False).encode(),'historical_2024_25_player_totals.csv','text/csv',key='hist_player_download')
+                        st.divider()
+                        st.write('**Optional independently dated preseason roster evidence**')
+                        st.caption('For an eventual fair backtest, membership evidence must be dated before November 1, 2025. The app validates the date and URL format, not the truth of a linked page.')
+                        evidence_cols=['Team ID','Player ID','2025-26 team confirmed by','Source URL','Evidence date']
+                        st.download_button('Download evidence template',pd.DataFrame(columns=evidence_cols).to_csv(index=False).encode(),'pre_nov_2025_roster_evidence_template.csv','text/csv',key='hist_evidence_template')
+                        historical_upload=st.file_uploader('Upload archived preseason membership evidence',type='csv',key=f'historical_evidence_{SPORTS[league]}')
+                        dated,dated_message=source_cutoff_audit(historical_upload,source_teams['Team ID'].astype(str))
+                        st.caption(dated_message)
+                        if historical_upload is not None:st.dataframe(dated,hide_index=True,use_container_width=True)
+                        st.warning('No statistical coefficient is fitted from these retrospective features, and official ratings/lines are unaffected. A real roster-vs-baseline backtest needs pre-cutoff evidence for enough teams and multiple held-out seasons.')
                 st.subheader("November preseason-model backtest")
                 with st.expander("Roster model comparison — historical readiness", expanded=False):
                     st.write("**Comparison plan:** prior-season team rating versus prior-season rating plus returning production and incoming transfers, using the **same held-out November games**.")
