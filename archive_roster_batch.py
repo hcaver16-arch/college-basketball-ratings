@@ -10,6 +10,7 @@ import pandas as pd
 import requests
 from roster_tracking import read_roster
 from player_stats_import import fetch_prior_stats
+from roster_reconciliation import reconcile_prior_players
 
 ROOT=Path(__file__).resolve().parent/'data'
 ROOT.mkdir(exist_ok=True)
@@ -119,7 +120,8 @@ def run(sport,limit,repair_only=False):
         log.append(row)
     old=merge(old,past,['Team ID','Player ID']);new=merge(new,now,['Team ID','Player ID'])
     stats=merge(stats,totals,['Team ID','Player ID']);status=merge(status,[pd.DataFrame(log)] if log else [],['Team ID'])
-    for kind,frame,keys in [('previous_rosters',old,['Team ID','Player ID']),('current_rosters',new,['Team ID','Player ID']),('previous_stats',stats,['Team ID','Player ID']),('collection_status',status,['Team ID'])]:
+    prior_pool=reconcile_prior_players(old,stats)
+    for kind,frame,keys in [('previous_player_pool',prior_pool,['Team ID','Player ID']),('previous_rosters',old,['Team ID','Player ID']),('current_rosters',new,['Team ID','Player ID']),('previous_stats',stats,['Team ID','Player ID']),('collection_status',status,['Team ID'])]:
         write(kind,sport,frame,keys)
     print('Collected',sum(x['state']=='collected' for x in log),'partial',sum(x['state']=='partial' for x in log),'retry',sum(x['state']=='retry' for x in log),flush=True)
 
