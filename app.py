@@ -204,8 +204,8 @@ def conf_label(raw: str, lookup: dict):
     return lookup.get(str(raw), f"Conference ID {raw}")
 
 def show_schedule(df):
-    columns = ["Date", "Time (ET)", "Away", "Home", "Venue", "Status", "Away score", "Home score"]
-    st.dataframe(df[columns], hide_index=True, use_container_width=True, height=560)
+    columns = ["Date", "Time (ET)", "Away", "Home", "Venue", "Status", "Model line", "Away score", "Home score"]
+    st.dataframe(df[[col for col in columns if col in df.columns]], hide_index=True, use_container_width=True, height=560)
 
 
 
@@ -256,7 +256,7 @@ def calculate_power(history: pd.DataFrame):
 
 
 
-# Version 7: roster-aware ratings. A missing player data source is NOT equivalent
+# Roster-aware ratings. A missing player data source is NOT equivalent
 # to a player with zero value. No recruiting data is manufactured.
 ROSTER_COLUMNS = ["Team ID", "Player", "Roster status", "Previous minutes", "Previous points", "Impact adjustment", "Source"]
 
@@ -406,6 +406,25 @@ def game_projection(game, ratings):
     return round(margin,1),round(probability*100,1)
 
 
+
+
+def attach_model_lines(frame: pd.DataFrame, rating_lookup: dict, verified_d1: set):
+    """Create estimated lines only where both teams are rated and verified D1."""
+    out = frame.copy()
+    def get_line(row):
+        if row["Status"] != "Scheduled":
+            return "—"
+        if str(row["Home ID"]) not in verified_d1 or str(row["Away ID"]) not in verified_d1:
+            return "Not rated"
+        projection = game_projection(row, rating_lookup)
+        if projection is None:
+            return "Not rated"
+        margin, _ = projection
+        favorite = row["Home"] if margin >= 0 else row["Away"]
+        return f"{favorite} -{abs(margin):.1f}"
+    out["Model line"] = out.apply(get_line, axis=1) if not out.empty else pd.Series(dtype=str)
+    return out
+
 league = st.sidebar.radio("Basketball division", ["Men's", "Women's"])
 st.sidebar.subheader("Season coverage")
 period = st.sidebar.selectbox("Load schedules for", ["Next 14 days", "November 2026", "November–December", "January–February", "March–April", "Full season (Nov–Apr)"], index=0)
@@ -487,7 +506,152 @@ c.metric("Completed games", f"{played:,}")
 d.metric("Scheduled games", f"{int((games['Status']=='Scheduled').sum()):,}")
 st.caption("Counts describe games and teams returned by the feed, not a verified count of all Division I programs. Some non-D1 opponents may appear.")
 
-schedule_tab, team_tab, directory_tab, future_tab = st.tabs(["📅 All games", "🏀 Team schedule", "🏫 Team directory & conferences", "📈 Ratings & lines — next phase"])
+schedule_tab, team_tab, directory_tab, ratings_tab = st.tabs(["📅 All games", "🏀 Team schedule", "🏫 Teams & conferences", "📈 Ratings & predictions"])
+ratings_for_schedule = {}
+verified_d1_ids = set(map(str, memberships.keys()))
+
+with ratings_tab:
+    st.subheader("Power ratings, schedule strength & game projections")
+    st.caption("Experimental ratings based on historical scoring margins and on-court results. Player impacts are included only when supported by uploaded source-backed data; predictions are not sportsbook odds.")
+    with st.expander("1. Rosters and sourced player adjustments", expanded=False):
+        st.write("Choose a school to inspect its currently available ESPN roster. ESPN may not have complete 2026–27 rosters or previous-season player statistics.")
+        if directory.empty:
+            st.warning("Team directory unavailable; cannot select a roster.")
+        else:
+            school = st.selectbox("School roster", sorted(directory["Team"].unique()), key="roster_school")
+            target = directory[directory["Team"] == school].iloc[0]
+            if st.button("Load this roster"):
+                st.session_state["roster_selected"] = (SPORTS[league], str(target["Team ID"]))
+            if st.session_state.get("roster_selected") == (SPORTS[league], str(target["Team ID"])):
+                try:
+                    athlete_df=fetch_roster(SPORTS[league], str(target["Team ID"]))
+                    if athlete_df.empty:
+                        st.warning("Roster feed returned no athlete entries. No player contributions will be inferred.")
+                    else:
+                        st.dataframe(athlete_df, hide_index=True, use_container_width=True)
+                        st.caption("Roster inclusion does not establish returning production, recruiting rank, or expected minutes.")
+                except Exception as e:
+                    st.warning("Roster not available from the feed: " + str(e)[:180])
+        st.write("**Optional player-impact input.** Upload sourced player-level assumptions when verified stats/roster changes are available. Leave blank to use previous team performance without an invented recruiting boost.")
+        sample = pd.DataFrame(columns=ROSTER_COLUMNS)
+        st.download_button("Download player-input CSV template", sample.to_csv(index=False).encode(), "basketball_player_inputs.csv", "text/csv")
+        uploaded_roster = st.file_uploader("Upload completed player adjustment CSV", type="csv", key="v7_roster_upload")
+
+    roster_file = st.session_state.get("v7_roster_upload")
+    ids = set(directory["Team ID"].astype(str)) if not directory.empty else set()
+    effects, player_table, effect_message = roster_effects(roster_file, ids)
+    st.caption(effect_message)
+    if st.button("Calculate current ratings, conference strength, SOS and lines", type="primary", key="v7_calculate"):
+        st.session_state[f"v7_enabled_{SPORTS[league]}"] = True
+    if st.session_state.get(f"v7_enabled_{SPORTS[league]}", False):
+        with st.spinner("Calculating prior-season and current-season ratings; this may take several minutes the first time..."):
+            history, he, ht, hd = get_schedule(SPORTS[league], date(2025, 11, 1), date(2026, 4, 7))
+            previous, previous_stats = calculate_power(history)
+            current_games, ce, ct, cd = get_schedule(SPORTS[league], START, min(END, max(START, date.today())))
+            this_year, current_stats = calculate_power(current_games)
+        if he or ce or ht or ct:
+            st.warning(f"Some date fetches were incomplete (previous season: {len(he)} failed; current: {len(ce)} failed). All ratings, rankings, and lines below may be incomplete.")
+        if previous.empty:
+            st.error("Insufficient historical results; not producing predictions or conference ranks.")
+        else:
+            combined=make_combined(previous, this_year, effects)
+            if not directory.empty:
+                conf_data=directory[["Team ID","Conference"]].drop_duplicates("Team ID")
+                combined=combined.merge(conf_data, how="left", on="Team ID")
+            else:
+                combined["Conference"]="Unassigned (not verified)"
+            combined["Conference"]=combined["Conference"].fillna("Unassigned (not verified)")
+            combined.insert(0,"Rank",np.arange(1,len(combined)+1))
+            ratings_for_schedule = combined.set_index("Team ID")["Current power"].to_dict()
+            st.caption(f"Historical finals: {previous_stats['games']:,} | Current-season finals: {current_stats['games']:,} | Rated teams: {len(combined):,}. Prior rating is zero for new teams not in last season's network.")
+            st.warning("CAUTION: This first version fits each season separately and centers each fitted network independently. Blended ratings and point spreads are exploratory until cross-season calibration and roster coverage are validated.")
+            t1,t2,t3,t4,t5=st.tabs(["Team ratings","Conference strength","Strength of schedule","Game lines","Model evaluation"])
+            with t1:
+                st.dataframe(combined[["Rank","Team","Conference","Preseason rating","On-court rating","Games played","Preseason weight","Current power","Rating change"]], hide_index=True,use_container_width=True)
+                st.download_button("Download team ratings", combined.to_csv(index=False).encode(),"team_ratings.csv","text/csv")
+                st.caption("At 0, 5, 10, 15, 20 and 25 games, on-court weights are 0%, 35%, 65%, 85%, 95% and 100%. Recruiting inputs have no influence after 25 games.")
+            with t2:
+                known=combined[combined["Conference"]!="Unassigned (not verified)"]
+                if known.empty:
+                    st.info("No verified team-to-conference membership available.")
+                else:
+                    conferences=known.groupby("Conference").agg(Teams=("Team ID","nunique"),Average_power=("Current power","mean"),Median_power=("Current power","median")).reset_index()
+                    top=known.groupby("Conference")["Current power"].apply(lambda x:x.nlargest(5).mean()).rename("Top-five power").reset_index()
+                    conferences=conferences.merge(top,on="Conference").sort_values("Average_power",ascending=False)
+                    st.dataframe(conferences,hide_index=True,use_container_width=True)
+                    st.download_button("Download conference ratings",conferences.to_csv(index=False).encode(),"conference_ratings.csv","text/csv")
+                    st.caption("Conference averages are affected by unmodeled programs. Check team coverage before comparing conferences.")
+            rating_map=combined.set_index("Team ID")["Current power"].to_dict()
+            full_games=pd.concat([current_games, games],ignore_index=True).drop_duplicates("Game ID")
+            with t3:
+                st.subheader("Division I strength of schedule (available games)")
+                if not memberships:
+                    st.error("Verified 2026–27 D1 conference membership could not be loaded. SOS ranking is disabled rather than mixing non-D1 teams into the table.")
+                else:
+                    sos=schedule_difficulty(full_games,rating_map,set(map(str,memberships.keys())))
+                    if sos.empty:
+                        st.info("No verified D1-v-D1 matchups were loaded for this date window.")
+                    else:
+                        sos=sos.merge(combined[["Team ID","Team","Conference"]],on="Team ID",how="left")
+                        sos=sos[sos["Team"].notna()].copy()
+                        if sos.empty:
+                            st.info("No teams have both verified membership and a current model rating.")
+                        else:
+                            sos["Full SOS"] = sos["Full SOS"].round(2)
+                            sos["Played SOS"] = sos["Played SOS"].round(2)
+                            sos["Remaining SOS"] = sos["Remaining SOS"].round(2)
+                            # Completeness measures data availability, not team strength.
+                            # Full-season selected + successful responses still does NOT prove schedules are final.
+                            full_window = first <= START and last >= END
+                            fetch_issue = bool(failures or truncated or ce or ct)
+                            statuses = [schedule_coverage_status(int(row["D1 games loaded"]), int(row["Rated games"]), full_window, fetch_issue) for _,row in sos.iterrows()]
+                            sos["Schedule coverage status"] = [x[0] for x in statuses]
+                            sos["Coverage explanation"] = [x[1] for x in statuses]
+                            sos["SOS eligible"] = ((sos["D1 games loaded"] >= 20) & (sos["Rating coverage %"] >= 90) & full_window & (not fetch_issue))
+                            sos = sos.sort_values(["SOS eligible","Full SOS"],ascending=[False,False],na_position="last")
+                            # Never give an authoritative rank to sparse or partially sampled schedules.
+                            eligible_count = int(sos["SOS eligible"].sum())
+                            sos["SOS rank (provisional)"] = pd.NA
+                            if eligible_count:
+                                sos.loc[sos["SOS eligible"],"SOS rank (provisional)"] = range(1,eligible_count+1)
+                            st.warning("PROVISIONAL: Schedule coverage is NOT independently verified. Rankings are shown only for teams with 20+ loaded D1 games, 90%+ rated-opponent coverage, full season selected, and no fetch failures. These thresholds are practical screening rules, not proof of completeness.")
+                            a,b,c=st.columns(3)
+                            a.metric("D1 teams in SOS table",len(sos))
+                            b.metric("Eligible provisional rankings",eligible_count)
+                            c.metric("Need review / incomplete",len(sos)-eligible_count)
+                            st.dataframe(sos[["SOS rank (provisional)","Team","Conference","Schedule coverage status","D1 games loaded","Rated games","Rating coverage %","Full SOS","Played SOS","Remaining SOS","Played rated games","Coverage explanation"]],hide_index=True,use_container_width=True)
+                            st.download_button("Download provisional D1 SOS with coverage",sos.to_csv(index=False).encode(),"d1_sos_v10_coverage.csv","text/csv")
+                            st.caption("'D1 games loaded' counts verified D1-versus-D1 fixtures found in fetched dates, excluding non-D1 opponents. 'Rating coverage %' measures the fraction of these games with a rated opponent, not the fraction of a team's actual full schedule retrieved. Teams with unavailable schedule data may not appear at all.")
+            with t4:
+                projections=[]
+                for _, g in games[games["Status"]=="Scheduled"].iterrows():
+                    if str(g["Home ID"]) not in memberships or str(g["Away ID"]) not in memberships: continue
+                    prediction=game_projection(g,rating_map)
+                    if prediction is None:continue
+                    margin,win=prediction
+                    projections.append({"Date":g["Date"],"Away":g["Away"],"Home":g["Home"],"Venue":g["Venue"],"Home margin projection":margin,"Model favorite":g["Home"] if margin>=0 else g["Away"],"Model line":f"{abs(margin):.1f}","Home win %":win})
+                if projections:
+                    prediction_df=pd.DataFrame(projections)
+                    st.dataframe(prediction_df,hide_index=True,use_container_width=True)
+                    st.download_button("Download projected lines",prediction_df.to_csv(index=False).encode(),"model_lines.csv","text/csv")
+                    st.caption("Only verified D1-v-D1 games are projected. Positive home margin = home team favored; model line is the absolute spread for the named favorite. Illustrative modeling method, not sportsbook odds. Scores/totals are not available without a separate pace model.")
+                else:
+                    st.info("No scheduled matchups with valid team ratings were found in this selected date window.")
+            with t5:
+                st.write("**Season-to-date game prediction residuals (diagnostic, not a prospective backtest)**")
+                errors=[]
+                for _, g in current_games[current_games["Status"]=="Final"].iterrows():
+                    result=game_projection(g,rating_map)
+                    if result is None or pd.isna(g["Home score"]) or pd.isna(g["Away score"]):continue
+                    actual=float(g["Home score"])-float(g["Away score"])
+                    errors.append({"Game ID":g["Game ID"],"Predicted margin":result[0],"Actual margin":actual,"Absolute error":abs(actual-result[0])})
+                if errors:
+                    error_df=pd.DataFrame(errors)
+                    st.metric("In-sample mean absolute margin error",f"{error_df['Absolute error'].mean():.2f} pts")
+                    st.caption("These games were used to fit the ratings, so this is NOT an honest forecast accuracy estimate. A true rolling backtest must freeze predictions before tipoff. Weekly snapshots are not yet persisted by this free web application.")
+                else:
+                    st.info("No completed 2026–27 games with modeled teams yet. Forecast validation will begin after games have been played.")
+
 with schedule_tab:
     st.subheader(f"{league} game schedule")
     r1, r2, r3, r4 = st.columns([2, 2, 2, 2])
@@ -513,7 +677,9 @@ with schedule_tab:
     if isinstance(selected, tuple) and len(selected) == 2:
         d1, d2 = selected
         subset = subset[(subset["Date"] >= str(d1)) & (subset["Date"] <= str(d2))]
+    subset = attach_model_lines(subset, ratings_for_schedule, verified_d1_ids)
     st.caption(f"Showing {len(subset):,} of {len(games):,} retrieved games")
+    st.caption("Model lines are experimental; Not rated means no valid estimate. Completed games show a dash.")
     show_schedule(subset)
     st.download_button("Download filtered games as CSV", subset.to_csv(index=False).encode("utf-8"), file_name=f"{league.lower().replace(chr(39), '')}_basketball_games.csv", mime="text/csv")
 
@@ -527,7 +693,8 @@ with team_tab:
     team_games["Opponent"] = team_games.apply(lambda r: r["Away"] if r["Home"] == chosen else r["Home"], axis=1)
     team_games["Location"] = team_games.apply(lambda r: "Neutral" if r["Venue"] == "Neutral" else ("Home" if r["Home"] == chosen else "Away"), axis=1)
     st.metric("Games currently listed", len(team_games))
-    st.dataframe(team_games[["Date", "Time (ET)", "Opponent", "Location", "Status", "Away score", "Home score"]], hide_index=True, use_container_width=True)
+    team_games = attach_model_lines(team_games, ratings_for_schedule, verified_d1_ids)
+    st.dataframe(team_games[["Date", "Time (ET)", "Opponent", "Location", "Status", "Model line", "Away score", "Home score"]], hide_index=True, use_container_width=True)
     st.caption("This is the team schedule within the selected coverage period, not proof that all dates have been announced.")
 
 with directory_tab:
@@ -553,207 +720,6 @@ with directory_tab:
         st.download_button("Download team directory (CSV)", directory.to_csv(index=False).encode("utf-8"), file_name=f"{SPORTS[league]}-teams-2026-27.csv", mime="text/csv")
         st.caption("Conference membership can differ by sport and season. Verify against 2026–27 conference rosters before using it for official completeness claims.")
 
-with future_tab:
-    st.subheader("Preseason team power ratings & conference strength")
-    st.info("The 2026–27 season has not started yet. These are **experimental preseason baseline ratings based on 2025–26 game margins**, not possession-adjusted efficiencies, not 2026–27 results, and not sportsbook lines. Roster and coaching changes are NOT accounted for.")
-    st.caption("Ratings are estimated from game margins with opponent and location adjustments and regularization. Higher means stronger; zero is near the mean of teams in the modeled game network. Do not compare raw numbers between men's and women's models.")
-    key = f"historical_ratings_enabled_{SPORTS[league]}"
-    if st.button("Build / view preseason power ratings from 2025–26 results", type="primary"):
-        st.session_state[key] = True
-    if not st.session_state.get(key, False):
-        st.write("Click the button to load historical games and calculate preseason team and conference rankings. **The initial download can take several minutes** because ESPN requires daily schedule requests. Your normal schedule tabs remain available without loading historical data.")
-    else:
-        with st.spinner("Importing 2025–26 completed games and calculating ratings. First load may take several minutes…"):
-            history, hist_errors, hist_truncated, hist_days = get_schedule(SPORTS[league], date(2025, 11, 1), date(2026, 4, 7))
-            ranked, model_stats = calculate_power(history)
-        if hist_errors:
-            st.warning(f"Historical feed: {len(hist_errors)} / {hist_days} dates failed. Ratings may be biased because game coverage is incomplete.")
-            with st.expander("Historical fetch errors"):
-                st.write("\n".join(hist_errors[:35]))
-        if hist_truncated:
-            st.warning("ESPN returned at least 500 events on one or more dates; history may be incomplete.")
-        if ranked.empty:
-            st.error("Not enough completed historical games with numeric scores to produce ratings. No values were invented.")
-        else:
-            if not directory.empty:
-                meta = directory[["Team ID", "Team", "Conference"]].drop_duplicates("Team ID")
-                ranked = ranked.merge(meta, on="Team ID", how="left", suffixes=("", " directory"))
-            else:
-                ranked["Conference"] = None
-            ranked["Conference"] = ranked["Conference"].fillna("Unassigned (not verified)")
-            ranked["Power rank"] = ranked["Power"].rank(method="min", ascending=False).astype(int)
-            ranked = ranked.sort_values(["Power", "Team"], ascending=[False, True])
-            x, y, z = st.columns(3)
-            x.metric("Completed games modeled", f"{model_stats['games']:,}")
-            y.metric("Teams modeled", f"{model_stats['teams']:,}")
-            z.metric("Historical dates fetched", f"{hist_days - len(hist_errors)} / {hist_days}")
-            st.caption("Power units: approximate predicted point margin vs. the modeled team's average opponent on a neutral court, after opponent adjustment. Shrinkage keeps data-sparse teams closer to zero; ratings are preliminary.")
-            rt, ct = st.tabs(["🏀 Team power rankings", "🏆 Conference strength rankings"])
-            with rt:
-                choose_conf = st.selectbox("Conference", ["All conferences"] + sorted(ranked["Conference"].unique().tolist()), key="rating_conf")
-                rated = ranked if choose_conf == "All conferences" else ranked[ranked["Conference"] == choose_conf]
-                st.dataframe(rated[["Power rank", "Team", "Conference", "Power", "Games", "Win %"]], hide_index=True, use_container_width=True, column_config={"Power": st.column_config.NumberColumn(format="%.2f"), "Win %": st.column_config.NumberColumn(format="%.1f%%")})
-                st.download_button("Download team ratings CSV", ranked.to_csv(index=False).encode("utf-8"), file_name=f"{SPORTS[league]}-preseason-2026-27-ratings.csv", mime="text/csv")
-            with ct:
-                assigned = ranked[~ranked["Conference"].isin(["Unassigned (not verified)"])].copy()
-                if assigned.empty:
-                    st.warning("No verified conference matches for the historical teams. Conference rankings cannot be calculated reliably.")
-                else:
-                    agg = assigned.groupby("Conference").agg(**{"Teams modeled": ("Team ID", "nunique"), "Average power": ("Power", "mean"), "Median power": ("Power", "median")}).reset_index()
-                    top_five = assigned.groupby("Conference")["Power"].apply(lambda g: g.nlargest(5).mean()).rename("Top five mean").reset_index()
-                    agg = agg.merge(top_five, on="Conference")
-                    if not directory.empty:
-                        expected = directory[directory["Conference"] != "Unassigned (not verified)"].groupby("Conference")["Team ID"].nunique().rename("Directory teams").reset_index()
-                        agg = agg.merge(expected, on="Conference", how="left")
-                        agg["Coverage"] = agg.apply(lambda r: f"{int(r['Teams modeled'])}/{int(r['Directory teams'])}" if pd.notna(r['Directory teams']) else "Unknown", axis=1)
-                    agg = agg.sort_values("Average power", ascending=False).reset_index(drop=True)
-                    agg.insert(0, "Rank", np.arange(1, len(agg) + 1))
-                    st.caption("Sorted by mean team power. Top-five mean shows elite strength; median reflects depth. Check coverage: a missing team can distort a conference's average.")
-                    st.dataframe(agg, hide_index=True, use_container_width=True, column_config={"Average power": st.column_config.NumberColumn(format="%.2f"), "Median power": st.column_config.NumberColumn(format="%.2f"), "Top five mean": st.column_config.NumberColumn(format="%.2f")})
-                    st.download_button("Download conference ratings CSV", agg.to_csv(index=False).encode("utf-8"), file_name=f"{SPORTS[league]}-conference-ratings-2026-27.csv", mime="text/csv")
-            st.warning("Model limitation: this is a **score-margin model**, not true adjusted efficiency (we do not yet have reliable possession totals). Ratings use last season only and DO NOT update from 2026–27 games yet. We will add in-season updating, schedule strength, and calibrated spreads after validating these inputs.")
 
 st.divider()
-st.caption("Data source: ESPN public scoreboard feed (unofficial/undocumented). Cached 12 hours on the server. Press Refresh schedule now to request fresh information. Source and completeness are not guaranteed.")
-
-
-st.divider()
-st.header("🧪 Version 7 — roster-aware ratings and game projections")
-st.caption("This section is experimental. Historical scoring-margin ratings, not possession-adjusted efficiency. No unsourced recruiting grades or player impacts are automatically assumed.")
-with st.expander("1. Rosters and sourced player adjustments", expanded=False):
-    st.write("Choose a school to inspect its currently available ESPN roster. ESPN may not have complete 2026–27 rosters or previous-season player statistics.")
-    if directory.empty:
-        st.warning("Team directory unavailable; cannot select a roster.")
-    else:
-        school = st.selectbox("School roster", sorted(directory["Team"].unique()), key="roster_school")
-        target = directory[directory["Team"] == school].iloc[0]
-        if st.button("Load this roster"):
-            st.session_state["roster_selected"] = (SPORTS[league], str(target["Team ID"]))
-        if st.session_state.get("roster_selected") == (SPORTS[league], str(target["Team ID"])):
-            try:
-                athlete_df=fetch_roster(SPORTS[league], str(target["Team ID"]))
-                if athlete_df.empty:
-                    st.warning("Roster feed returned no athlete entries. No player contributions will be inferred.")
-                else:
-                    st.dataframe(athlete_df, hide_index=True, use_container_width=True)
-                    st.caption("Roster inclusion does not establish returning production, recruiting rank, or expected minutes.")
-            except Exception as e:
-                st.warning("Roster not available from the feed: " + str(e)[:180])
-    st.write("**Optional player-impact input.** Upload sourced player-level assumptions when verified stats/roster changes are available. Leave blank to use previous team performance without an invented recruiting boost.")
-    sample = pd.DataFrame(columns=ROSTER_COLUMNS)
-    st.download_button("Download player-input CSV template", sample.to_csv(index=False).encode(), "basketball_player_inputs.csv", "text/csv")
-    uploaded_roster = st.file_uploader("Upload completed player adjustment CSV", type="csv", key="v7_roster_upload")
-
-roster_file = st.session_state.get("v7_roster_upload")
-ids = set(directory["Team ID"].astype(str)) if not directory.empty else set()
-effects, player_table, effect_message = roster_effects(roster_file, ids)
-st.caption(effect_message)
-if st.button("Calculate current ratings, conference strength, SOS and lines", type="primary", key="v7_calculate"):
-    st.session_state[f"v7_enabled_{SPORTS[league]}"] = True
-if st.session_state.get(f"v7_enabled_{SPORTS[league]}", False):
-    with st.spinner("Calculating prior-season and current-season ratings; this may take several minutes the first time..."):
-        history, he, ht, hd = get_schedule(SPORTS[league], date(2025, 11, 1), date(2026, 4, 7))
-        previous, previous_stats = calculate_power(history)
-        current_games, ce, ct, cd = get_schedule(SPORTS[league], START, min(END, max(START, date.today())))
-        this_year, current_stats = calculate_power(current_games)
-    if he or ce or ht or ct:
-        st.warning(f"Some date fetches were incomplete (previous season: {len(he)} failed; current: {len(ce)} failed). All ratings, rankings, and lines below may be incomplete.")
-    if previous.empty:
-        st.error("Insufficient historical results; not producing predictions or conference ranks.")
-    else:
-        combined=make_combined(previous, this_year, effects)
-        if not directory.empty:
-            conf_data=directory[["Team ID","Conference"]].drop_duplicates("Team ID")
-            combined=combined.merge(conf_data, how="left", on="Team ID")
-        else:
-            combined["Conference"]="Unassigned (not verified)"
-        combined["Conference"]=combined["Conference"].fillna("Unassigned (not verified)")
-        combined.insert(0,"Rank",np.arange(1,len(combined)+1))
-        st.caption(f"Historical finals: {previous_stats['games']:,} | Current-season finals: {current_stats['games']:,} | Rated teams: {len(combined):,}. Prior rating is zero for new teams not in last season's network.")
-        st.warning("CAUTION: This first version fits each season separately and centers each fitted network independently. Blended ratings and point spreads are exploratory until cross-season calibration and roster coverage are validated.")
-        t1,t2,t3,t4,t5=st.tabs(["Team ratings","Conference strength","Strength of schedule","Game lines","Model evaluation"])
-        with t1:
-            st.dataframe(combined[["Rank","Team","Conference","Preseason rating","On-court rating","Games played","Preseason weight","Current power","Rating change"]], hide_index=True,use_container_width=True)
-            st.download_button("Download team ratings", combined.to_csv(index=False).encode(),"team_ratings_v7.csv","text/csv")
-            st.caption("At 0, 5, 10, 15, 20 and 25 games, on-court weights are 0%, 35%, 65%, 85%, 95% and 100%. Recruiting inputs have no influence after 25 games.")
-        with t2:
-            known=combined[combined["Conference"]!="Unassigned (not verified)"]
-            if known.empty:
-                st.info("No verified team-to-conference membership available.")
-            else:
-                conferences=known.groupby("Conference").agg(Teams=("Team ID","nunique"),Average_power=("Current power","mean"),Median_power=("Current power","median")).reset_index()
-                top=known.groupby("Conference")["Current power"].apply(lambda x:x.nlargest(5).mean()).rename("Top-five power").reset_index()
-                conferences=conferences.merge(top,on="Conference").sort_values("Average_power",ascending=False)
-                st.dataframe(conferences,hide_index=True,use_container_width=True)
-                st.download_button("Download conference ratings",conferences.to_csv(index=False).encode(),"conference_ratings_v7.csv","text/csv")
-                st.caption("Conference averages are affected by unmodeled programs. Check team coverage before comparing conferences.")
-        rating_map=combined.set_index("Team ID")["Current power"].to_dict()
-        full_games=pd.concat([current_games, games],ignore_index=True).drop_duplicates("Game ID")
-        with t3:
-            st.subheader("Division I strength of schedule (available games)")
-            if not memberships:
-                st.error("Verified 2026–27 D1 conference membership could not be loaded. SOS ranking is disabled rather than mixing non-D1 teams into the table.")
-            else:
-                sos=schedule_difficulty(full_games,rating_map,set(map(str,memberships.keys())))
-                if sos.empty:
-                    st.info("No verified D1-v-D1 matchups were loaded for this date window.")
-                else:
-                    sos=sos.merge(combined[["Team ID","Team","Conference"]],on="Team ID",how="left")
-                    sos=sos[sos["Team"].notna()].copy()
-                    if sos.empty:
-                        st.info("No teams have both verified membership and a current model rating.")
-                    else:
-                        sos["Full SOS"] = sos["Full SOS"].round(2)
-                        sos["Played SOS"] = sos["Played SOS"].round(2)
-                        sos["Remaining SOS"] = sos["Remaining SOS"].round(2)
-                        # Completeness measures data availability, not team strength.
-                        # Full-season selected + successful responses still does NOT prove schedules are final.
-                        full_window = first <= START and last >= END
-                        fetch_issue = bool(failures or truncated or ce or ct)
-                        statuses = [schedule_coverage_status(int(row["D1 games loaded"]), int(row["Rated games"]), full_window, fetch_issue) for _,row in sos.iterrows()]
-                        sos["Schedule coverage status"] = [x[0] for x in statuses]
-                        sos["Coverage explanation"] = [x[1] for x in statuses]
-                        sos["SOS eligible"] = ((sos["D1 games loaded"] >= 20) & (sos["Rating coverage %"] >= 90) & full_window & (not fetch_issue))
-                        sos = sos.sort_values(["SOS eligible","Full SOS"],ascending=[False,False],na_position="last")
-                        # Never give an authoritative rank to sparse or partially sampled schedules.
-                        eligible_count = int(sos["SOS eligible"].sum())
-                        sos["SOS rank (provisional)"] = pd.NA
-                        if eligible_count:
-                            sos.loc[sos["SOS eligible"],"SOS rank (provisional)"] = range(1,eligible_count+1)
-                        st.warning("PROVISIONAL: Schedule coverage is NOT independently verified. Rankings are shown only for teams with 20+ loaded D1 games, 90%+ rated-opponent coverage, full season selected, and no fetch failures. These thresholds are practical screening rules, not proof of completeness.")
-                        a,b,c=st.columns(3)
-                        a.metric("D1 teams in SOS table",len(sos))
-                        b.metric("Eligible provisional rankings",eligible_count)
-                        c.metric("Need review / incomplete",len(sos)-eligible_count)
-                        st.dataframe(sos[["SOS rank (provisional)","Team","Conference","Schedule coverage status","D1 games loaded","Rated games","Rating coverage %","Full SOS","Played SOS","Remaining SOS","Played rated games","Coverage explanation"]],hide_index=True,use_container_width=True)
-                        st.download_button("Download provisional D1 SOS with coverage",sos.to_csv(index=False).encode(),"d1_sos_v10_coverage.csv","text/csv")
-                        st.caption("'D1 games loaded' counts verified D1-versus-D1 fixtures found in fetched dates, excluding non-D1 opponents. 'Rating coverage %' measures the fraction of these games with a rated opponent, not the fraction of a team's actual full schedule retrieved. Teams with unavailable schedule data may not appear at all.")
-        with t4:
-            projections=[]
-            for _, g in games[games["Status"]=="Scheduled"].iterrows():
-                if str(g["Home ID"]) not in memberships or str(g["Away ID"]) not in memberships: continue
-                prediction=game_projection(g,rating_map)
-                if prediction is None:continue
-                margin,win=prediction
-                projections.append({"Date":g["Date"],"Away":g["Away"],"Home":g["Home"],"Venue":g["Venue"],"Home margin projection":margin,"Model favorite":g["Home"] if margin>=0 else g["Away"],"Model line":f"{abs(margin):.1f}","Home win %":win})
-            if projections:
-                prediction_df=pd.DataFrame(projections)
-                st.dataframe(prediction_df,hide_index=True,use_container_width=True)
-                st.download_button("Download projected lines",prediction_df.to_csv(index=False).encode(),"model_lines_v7.csv","text/csv")
-                st.caption("Only verified D1-v-D1 games are projected. Positive home margin = home team favored; model line is the absolute spread for the named favorite. Illustrative modeling method, not sportsbook odds. Scores/totals are not available without a separate pace model.")
-            else:
-                st.info("No scheduled matchups with valid team ratings were found in this selected date window.")
-        with t5:
-            st.write("**Season-to-date game prediction residuals (diagnostic, not a prospective backtest)**")
-            errors=[]
-            for _, g in current_games[current_games["Status"]=="Final"].iterrows():
-                result=game_projection(g,rating_map)
-                if result is None or pd.isna(g["Home score"]) or pd.isna(g["Away score"]):continue
-                actual=float(g["Home score"])-float(g["Away score"])
-                errors.append({"Game ID":g["Game ID"],"Predicted margin":result[0],"Actual margin":actual,"Absolute error":abs(actual-result[0])})
-            if errors:
-                error_df=pd.DataFrame(errors)
-                st.metric("In-sample mean absolute margin error",f"{error_df['Absolute error'].mean():.2f} pts")
-                st.caption("These games were used to fit the ratings, so this is NOT an honest forecast accuracy estimate. A true rolling backtest must freeze predictions before tipoff. Weekly snapshots are not yet persisted by this free web application.")
-            else:
-                st.info("No completed 2026–27 games with modeled teams yet. Forecast validation will begin after games have been played.")
+st.caption("Data: ESPN unofficial public scoreboard feed. Historical ratings are experimental; lines are independent model estimates and not betting odds. Some game and roster data may be incomplete.")
