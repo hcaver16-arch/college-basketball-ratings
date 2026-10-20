@@ -8,6 +8,7 @@ from __future__ import annotations
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import date, datetime, timedelta, timezone
 import io
+from math import erf, sqrt, log10
 import pandas as pd
 import numpy as np
 import requests
@@ -378,6 +379,52 @@ def schedule_difficulty(all_games, rating_lookup, verified_d1_ids):
     return pd.DataFrame(summary)
 
 
+def strength_of_record(all_games, ratings, d1_ids, baseline=0.0, margin_sd=11.0):
+    """Experimental record-resume score, using exact Poisson-binomial tails.
+
+    The reference team is rating 0 on this division's fitted point scale.
+    Only completed D1-v-D1 games with actual scores and a rated opponent
+    count. Each game's W probability is adjusted for home advantage.
+    Correlation between game outcomes is ignored: SOR is provisional.
+    """
+    rows = {}
+    for _, game in all_games.drop_duplicates("Game ID").iterrows():
+        h, a = str(game["Home ID"]), str(game["Away ID"])
+        if h not in d1_ids or a not in d1_ids or game["Status"] != "Final":
+            continue
+        if h not in ratings or a not in ratings:
+            continue
+        hs, aws = pd.to_numeric(game["Home score"], errors="coerce"), pd.to_numeric(game["Away score"], errors="coerce")
+        if pd.isna(hs) or pd.isna(aws) or float(hs) == float(aws):
+            continue
+        neutral = str(game["Venue"]).lower() == "neutral"
+        for team_id, opp_id, home in [(h,a,True),(a,h,False)]:
+            advantage = 0.0 if neutral else (3.0 if home else -3.0)
+            expected_margin = baseline - float(ratings[opp_id]) + advantage
+            z = expected_margin / (margin_sd * sqrt(2))
+            prob = min(.999, max(.001, .5*(1+erf(z))))
+            won = hs > aws if home else aws > hs
+            rows.setdefault(team_id, []).append((prob, int(won)))
+    records=[]
+    for tid, observed in rows.items():
+        probs = [p for p,_ in observed]
+        wins = sum(w for _,w in observed)
+        # Exact P(reference >= observed wins) across unequal game probabilities.
+        dist = [1.0]
+        for p in probs:
+            nxt = [0.0]*(len(dist)+1)
+            for i, prior in enumerate(dist):
+                nxt[i] += prior*(1-p)
+                nxt[i+1] += prior*p
+            dist=nxt
+        tail = min(1.0,max(1e-15,sum(dist[wins:])))
+        records.append({"Team ID":tid,"SOR games":len(observed),"Wins":wins,
+                        "Losses":len(observed)-wins,"Reference expected wins":round(sum(probs),2),
+                        "Wins above expected":round(wins-sum(probs),2),
+                        "Record tail probability":tail,"SOR score":round(-log10(tail),3)})
+    return pd.DataFrame(records)
+
+
 def schedule_coverage_status(d1_count, rated_count, full_window, fetch_issue):
     """Conservative, non-certifying indicators; no assumed NCAA game quota."""
     if fetch_issue:
@@ -504,9 +551,10 @@ ratings_for_schedule = st.session_state.get(f"ratings_{SPORTS[league]}", {})
 team_ratings = st.session_state.get(f"teams_{SPORTS[league]}")
 conference_ratings = st.session_state.get(f"conferences_{SPORTS[league]}")
 sos_ratings = st.session_state.get(f"sos_{SPORTS[league]}")
+sor_ratings = st.session_state.get(f"sor_{SPORTS[league]}")
 
-schedule_tab, team_tab, conference_tab, sos_tab, ratings_tab = st.tabs(
-    ["🏀 Games", "⭐ Teams", "🏆 Conferences", "📊 Schedule strength", "⚙️ Model Lab"])
+schedule_tab, team_tab, conference_tab, sos_tab, sor_tab, ratings_tab = st.tabs(
+    ["🏀 Games", "⭐ Teams", "🏆 Conferences", "📊 Schedule strength", "📈 Record strength", "⚙️ Model Lab"])
 
 with ratings_tab:
     st.subheader("Model Lab")
@@ -585,6 +633,19 @@ with ratings_tab:
                     st.caption("Conference averages are affected by unmodeled programs. Check team coverage before comparing conferences.")
             rating_map=combined.set_index("Team ID")["Current power"].to_dict()
             full_games=pd.concat([current_games, games],ignore_index=True).drop_duplicates("Game ID")
+            # Resume SOR is distinct from the predictive power rating and from SOS.
+            sor = strength_of_record(current_games, rating_map, set(map(str,memberships.keys())))
+            if not sor.empty:
+                sor = sor.merge(combined[["Team ID","Team","Conference"]],on="Team ID",how="left")
+                sor = sor[sor["Team"].notna()].copy()
+                sor["SOR eligible"] = sor["SOR games"] >= 5
+                sor = sor.sort_values(["SOR eligible","SOR score"],ascending=[False,False])
+                sor["SOR rank (provisional)"] = pd.NA
+                eligible = sor["SOR eligible"]
+                if len(eligible):
+                    sor.loc[eligible.index,"SOR rank (provisional)"] = range(1,len(eligible)+1)
+            st.session_state[f"sor_{SPORTS[league]}"] = sor.copy()
+
             with t3:
                 st.subheader("Division I strength of schedule (available games)")
                 if not memberships:
@@ -733,6 +794,14 @@ with team_tab:
                     st.dataframe(matched[["Full SOS","Played SOS","Remaining SOS","D1 games loaded","Rating coverage %","Schedule coverage status"]],hide_index=True,use_container_width=True)
                 else: st.info("No D1 SOS data for this team in the loaded window.")
             else: st.info("Calculate rankings in Model Lab, preferably with Full season selected.")
+        with st.expander("📈 Strength of record",expanded=False):
+            record_table = st.session_state.get(f"sor_{SPORTS[league]}")
+            if isinstance(record_table,pd.DataFrame) and not record_table.empty:
+                team_record = record_table[record_table["Team ID"].astype(str)==tid]
+                if not team_record.empty:
+                    st.dataframe(team_record[["SOR rank (provisional)","Wins","Losses","SOR games","Reference expected wins","Wins above expected","SOR score"]],hide_index=True,use_container_width=True)
+                else: st.info("No completed, rated Division I results for this team yet.")
+            else: st.info("Strength of record becomes available when current-season games are final and ratings have been calculated in Model Lab.")
         with st.expander("👥 Roster and scouting details",expanded=False):
             if st.button("Load player roster",key="v12_roster_btn"):
                 st.session_state["v12_roster_team"]=(SPORTS[league],tid)
@@ -774,6 +843,20 @@ with sos_tab:
     else:
         st.info("Run the model with Full season selected to calculate schedule strength.")
 
+
+
+with sor_tab:
+    st.subheader("Strength of record")
+    st.caption("How difficult has each team's achieved win-loss record been? Based on the chance a reference D1 team (rating 0) would match or exceed it against the same opponents and venues.")
+    if isinstance(sor_ratings,pd.DataFrame) and not sor_ratings.empty:
+        st.warning("PROVISIONAL: Results depend on loaded completed D1 games, opponent-rating quality and an uncalibrated 11-point game-margin uncertainty. A minimum of five rated final games is required to show a provisional rank. This is not an official ESPN SOR measure.")
+        display=sor_ratings.copy()
+        st.dataframe(display[["SOR rank (provisional)","Team","Conference","Wins","Losses","SOR games","Reference expected wins","Wins above expected","SOR score"]],hide_index=True,use_container_width=True,height=500)
+        with st.expander("How this is calculated"):
+            st.write("For each completed D1 game, estimate the chance a reference-strength team would beat that opponent at the same location. Calculate the exact probability the reference team would achieve at least as many wins as the real team. SOR score = −log10(that probability); higher scores indicate a more impressive record. Only completed D1-v-D1 games with rated opponents count. Missing results are excluded; rankings may be incomplete. The probabilities assume independent games and use a provisional fixed point-margin uncertainty.")
+        st.download_button("Download record strength",display.to_csv(index=False).encode(),"strength_of_record.csv","text/csv")
+    else:
+        st.info("No completed current-season Division I games with usable results yet. SOR will populate after the season begins and you calculate ratings in Model Lab.")
 
 st.divider()
 st.caption("Data: ESPN unofficial public scoreboard feed. Historical ratings are experimental; lines are independent model estimates and not betting odds. Some game and roster data may be incomplete.")
