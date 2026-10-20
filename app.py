@@ -27,6 +27,7 @@ from saved_roster_data import load_saved_data, build_team_roster_view, roster_ar
 from rating_engine import calculate_power, blending_weight, make_combined
 from saved_ratings import load_ratings, load_history
 from roster_validation import model_feature_table, backtest_readiness
+from coverage_audit import audit_coverage
 
 st.set_page_config(page_title="College Basketball Dashboard", page_icon="🏀", layout="wide")
 st.title("🏀 College Basketball")
@@ -575,6 +576,14 @@ with ratings_tab:
         else:
             feature_table=model_feature_table(pv,cv,sv,logv,calculate_returning_production)
             st.write(backtest_readiness(feature_table,"2026–27"))
+            detailed_coverage=audit_coverage(pv,cv,sv,logv)
+            if not detailed_coverage.empty:
+                with st.expander("Box-score coverage, missing player IDs & retry status",expanded=False):
+                    st.caption("Game coverage is the proportion of DISCOVERED games parsed. It does not prove all season games or players were published by ESPN. Legacy archived batches may have no game-level counts until recollected.")
+                    st.dataframe(detailed_coverage,hide_index=True,use_container_width=True)
+                    st.download_button("Download detailed coverage audit",detailed_coverage.to_csv(index=False).encode(),
+                        f"{SPORTS[league]}_coverage_audit.csv", "text/csv",key=f"coverage_export_{SPORTS[league]}")
+
             if not feature_table.empty:
                 cols=['Team ID','Prior roster players','Current roster players','Prior player match %','Unmatched arrivals','Coverage status','Usable for exploratory features']
                 st.dataframe(feature_table[cols],hide_index=True,use_container_width=True)
