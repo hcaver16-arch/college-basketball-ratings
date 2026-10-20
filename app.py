@@ -378,6 +378,23 @@ def schedule_difficulty(all_games, rating_lookup, verified_d1_ids):
     return pd.DataFrame(summary)
 
 
+def schedule_coverage_status(d1_count, rated_count, full_window, fetch_issue):
+    """Conservative, non-certifying indicators; no assumed NCAA game quota."""
+    if fetch_issue:
+        return "Data retrieval incomplete", "Some dates failed or were truncated; SOS may omit games."
+    if not full_window:
+        return "Partial date window", "Only selected dates were requested; not a season-wide schedule."
+    if d1_count == 0:
+        return "No D1 games loaded", "No D1-versus-D1 fixtures found for this team."
+    if d1_count < 20:
+        return "Sparse schedule", "Fewer than 20 D1 games are visible; season coverage is likely incomplete."
+    if d1_count < 25:
+        return "Review schedule", "20–24 D1 games visible; check team schedule for missing dates."
+    if rated_count < d1_count:
+        return "Unrated opponents", "Some D1 opponents lack power ratings; SOS uses a subset."
+    return "Substantial coverage (unverified)", "25+ rated D1 games visible; completeness cannot be confirmed from the feed alone."
+
+
 def game_projection(game, ratings):
     home=ratings.get(str(game["Home ID"])); away=ratings.get(str(game["Away ID"]))
     if home is None or away is None:
@@ -689,12 +706,28 @@ if st.session_state.get(f"v7_enabled_{SPORTS[league]}", False):
                         sos["Full SOS"] = sos["Full SOS"].round(2)
                         sos["Played SOS"] = sos["Played SOS"].round(2)
                         sos["Remaining SOS"] = sos["Remaining SOS"].round(2)
-                        sos = sos.sort_values("Full SOS",ascending=False,na_position="last")
-                        sos.insert(0,"SOS rank (provisional)",np.arange(1,len(sos)+1))
-                        st.warning("PROVISIONAL: This is SOS for retrieved D1-v-D1 fixtures only—not necessarily each team's complete 2026–27 schedule. Select the full season in the schedule controls before comparing full-season SOS.")
-                        st.dataframe(sos[["SOS rank (provisional)","Team","Conference","Full SOS","Played SOS","Remaining SOS","D1 games loaded","Rated games","Rating coverage %","Played rated games"]],hide_index=True,use_container_width=True)
-                        st.download_button("Download provisional D1 SOS",sos.to_csv(index=False).encode(),"d1_sos_v9.csv","text/csv")
-                        st.caption("D1 teams verified through ESPN's 2026–27 conference membership feed. Non-D1 opponents do not count toward this D1-only SOS; their separate difficulty is not yet estimated. Rating coverage is the share of retrieved D1 games whose opponent has a power rating. Low coverage or very few loaded games makes an SOS estimate unreliable.")
+                        # Completeness measures data availability, not team strength.
+                        # Full-season selected + successful responses still does NOT prove schedules are final.
+                        full_window = first <= START and last >= END
+                        fetch_issue = bool(failures or truncated or ce or ct)
+                        statuses = [schedule_coverage_status(int(row["D1 games loaded"]), int(row["Rated games"]), full_window, fetch_issue) for _,row in sos.iterrows()]
+                        sos["Schedule coverage status"] = [x[0] for x in statuses]
+                        sos["Coverage explanation"] = [x[1] for x in statuses]
+                        sos["SOS eligible"] = ((sos["D1 games loaded"] >= 20) & (sos["Rating coverage %"] >= 90) & full_window & (not fetch_issue))
+                        sos = sos.sort_values(["SOS eligible","Full SOS"],ascending=[False,False],na_position="last")
+                        # Never give an authoritative rank to sparse or partially sampled schedules.
+                        eligible_count = int(sos["SOS eligible"].sum())
+                        sos["SOS rank (provisional)"] = pd.NA
+                        if eligible_count:
+                            sos.loc[sos["SOS eligible"],"SOS rank (provisional)"] = range(1,eligible_count+1)
+                        st.warning("PROVISIONAL: Schedule coverage is NOT independently verified. Rankings are shown only for teams with 20+ loaded D1 games, 90%+ rated-opponent coverage, full season selected, and no fetch failures. These thresholds are practical screening rules, not proof of completeness.")
+                        a,b,c=st.columns(3)
+                        a.metric("D1 teams in SOS table",len(sos))
+                        b.metric("Eligible provisional rankings",eligible_count)
+                        c.metric("Need review / incomplete",len(sos)-eligible_count)
+                        st.dataframe(sos[["SOS rank (provisional)","Team","Conference","Schedule coverage status","D1 games loaded","Rated games","Rating coverage %","Full SOS","Played SOS","Remaining SOS","Played rated games","Coverage explanation"]],hide_index=True,use_container_width=True)
+                        st.download_button("Download provisional D1 SOS with coverage",sos.to_csv(index=False).encode(),"d1_sos_v10_coverage.csv","text/csv")
+                        st.caption("'D1 games loaded' counts verified D1-versus-D1 fixtures found in fetched dates, excluding non-D1 opponents. 'Rating coverage %' measures the fraction of these games with a rated opponent, not the fraction of a team's actual full schedule retrieved. Teams with unavailable schedule data may not appear at all.")
         with t4:
             projections=[]
             for _, g in games[games["Status"]=="Scheduled"].iterrows():
