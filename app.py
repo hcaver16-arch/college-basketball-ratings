@@ -527,6 +527,7 @@ if isinstance(team_ratings, pd.DataFrame) and not team_ratings.empty:
             if not live_sos.empty:
                 live_sos['SOS rank (provisional)']=pd.NA
                 live_sos['Schedule coverage status']='Selected date window; not full-season verified'
+                live_sos['Coverage explanation']='These SOS values use only currently loaded games; full-season schedule coverage has not been verified.'
                 sos_ratings=live_sos
                 st.session_state[f"sos_{SPORTS[league]}"]=live_sos
         live_sor = strength_of_record(games, ratings_for_schedule, set(map(str,memberships.keys())))
@@ -1166,9 +1167,13 @@ with sos_tab:
     if isinstance(sos_ratings,pd.DataFrame) and not sos_ratings.empty:
         scope=st.segmented_control("Schedule scope",["Full SOS","Played SOS","Remaining SOS"],default="Full SOS",key="v12_sos_scope")
         scored=sos_ratings.copy().sort_values(scope,ascending=False,na_position="last")
-        st.dataframe(scored[["SOS rank (provisional)","Team","Conference",scope,"D1 games loaded","Schedule coverage status"]],hide_index=True,use_container_width=True,height=480)
+        visible_cols=["SOS rank (provisional)","Team","Conference",scope,"D1 games loaded","Schedule coverage status"]
+        st.dataframe(scored.reindex(columns=visible_cols),hide_index=True,use_container_width=True,height=480)
         with st.expander("Coverage diagnostics"):
-            st.dataframe(scored[["Team","D1 games loaded","Rated games","Rating coverage %","Coverage explanation"]],hide_index=True,use_container_width=True)
+            detail_cols=["Team","D1 games loaded","Rated games","Rating coverage %","Coverage explanation"]
+            detail=scored.reindex(columns=detail_cols).copy()
+            detail["Coverage explanation"]=detail["Coverage explanation"].fillna("Coverage details unavailable for this calculation. Treat SOS as provisional.")
+            st.dataframe(detail,hide_index=True,use_container_width=True)
     else:
         st.info("Run the model with Full season selected to calculate schedule strength.")
 
