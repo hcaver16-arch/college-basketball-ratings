@@ -26,6 +26,7 @@ from roster_rating_experiment import roster_sensitivity, roster_quality
 from saved_roster_data import load_saved_data, build_team_roster_view, roster_archive_summary, team_saved_analysis, archive_counts
 from rating_engine import calculate_power, blending_weight, make_combined
 from saved_ratings import load_ratings, load_history
+from roster_validation import model_feature_table, backtest_readiness
 
 st.set_page_config(page_title="College Basketball Dashboard", page_icon="🏀", layout="wide")
 st.title("🏀 College Basketball")
@@ -565,6 +566,26 @@ with ratings_tab:
             c4.metric("Retry",counts['Needs retry'])
             st.caption("Archive status measures retrieved data, not independently verified full-season coverage.")
         st.caption("Data live in GitHub's data/ folder; scheduled GitHub Actions runs populate this archive gradually.")
+
+    with st.expander("🔬 Roster data validation & experimental player features", expanded=False):
+        st.caption("Checks the saved roster archive and calculates descriptive returning-production inputs. These are NOT trained rating adjustments.")
+        pv,cv,sv,logv=load_saved_data(SPORTS[league])
+        if pv.empty or cv.empty:
+            st.info("Archived previous and current rosters are needed. GitHub collection is still underway.")
+        else:
+            feature_table=model_feature_table(pv,cv,sv,logv,calculate_returning_production)
+            st.write(backtest_readiness(feature_table,"2026–27"))
+            if not feature_table.empty:
+                cols=['Team ID','Prior roster players','Current roster players','Prior player match %','Unmatched arrivals','Coverage status','Usable for exploratory features']
+                st.dataframe(feature_table[cols],hide_index=True,use_container_width=True)
+                st.download_button("Download roster validation and feature table", feature_table.to_csv(index=False).encode(),
+                                   f"{SPORTS[league]}_roster_validation.csv", "text/csv", key=f"validation_download_{SPORTS[league]}")
+                good=feature_table[feature_table['Usable for exploratory features']]
+                if not good.empty:
+                    with st.expander("Documented player-impact inputs (not fitted coefficients)"):
+                        st.dataframe(good[['Team ID']+['Returning minutes % (known only)','Returning points % (known only)',
+                                   'Returning rebounds % (known only)','Returning assists % (known only)']],hide_index=True,use_container_width=True)
+            st.warning("Historical accuracy comparison is not yet available: current 2026–27 roster snapshots cannot be used as preseason evidence for November 2025. The existing 11.36-point November MAE remains the benchmark, not a roster-model score.")
 
     st.caption("Load or update ratings here. Rankings, team profiles and schedule lines appear in the other tabs after calculation.")
     st.caption("Experimental ratings based on historical scoring margins and on-court results. Player impacts are included only when supported by uploaded source-backed data; predictions are not sportsbook odds.")
