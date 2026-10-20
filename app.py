@@ -21,6 +21,7 @@ from player_stats_import import fetch_prior_stats
 from transfer_tracking import identify_incoming
 from league_transfer_lookup import scan_previous_rosters, match_candidates
 from transfer_stats import retrieve_previous_school_stats, transfer_coverage
+from roster_model import experimental_roster_signal
 
 st.set_page_config(page_title="College Basketball Dashboard", page_icon="🏀", layout="wide")
 st.title("🏀 College Basketball")
@@ -894,6 +895,16 @@ with ratings_tab:
                         st.download_button("Download held-out game predictions", results.to_csv(index=False).encode(), f"historical_backtest_{SPORTS[league]}.csv", "text/csv")
                 st.divider()
                 st.subheader("November preseason-model backtest")
+                with st.expander("Roster model comparison — historical readiness", expanded=False):
+                    st.write("**Comparison plan:** prior-season team rating versus prior-season rating plus returning production and incoming transfers, using the **same held-out November games**.")
+                    st.caption("Historical 2025–26 roster and transfer snapshots must be collected as they stood before November 2025, with 2024–25 player totals. The current 2026–27 roster scan cannot be used to evaluate November 2025 predictions.")
+                    st.dataframe(pd.DataFrame([
+                        {'Method':'Previous-season baseline','Historical test':'Available below','Roster evidence':'Not required'},
+                        {'Method':'Returning production','Historical test':'Pending','Roster evidence':'Pre-November 2025 rosters + 2024–25 minutes'},
+                        {'Method':'Incoming transfers','Historical test':'Pending','Roster evidence':'Verified former schools + 2024–25 game logs'},
+                        {'Method':'Combined roster model','Historical test':'Pending','Roster evidence':'Archived and source-checked multi-season roster snapshots'}
+                    ]),hide_index=True,use_container_width=True)
+                    st.warning("No numeric roster-model improvement is claimed. Current team profiles show descriptive evidence only; ratings, SOS/SOR, and projected lines remain unchanged.")
                 st.caption("Compare preseason predictions for November 2025 using ONLY completed 2024–25 games to fit team strength. Nov 2025 results are held out; current 2026–27 rosters are never used.")
                 st.info("A proper historical roster comparison requires player changes that were known by Nov 1, 2025. This dashboard will NOT infer those values from current rosters.")
                 with st.expander("Optional archived 2025–26 roster-impact CSV",expanded=False):
@@ -1031,6 +1042,47 @@ with team_tab:
                     st.info("This team has no calculated returning-production data yet. Fetch both roster seasons and prior-season player box scores for this team in Model Lab.")
             else:
                 st.info("Calculate returning production in Model Lab to display it here. No statistics are assumed for teams without loaded data.")
+        with st.expander("🧪 Roster scouting — one-click refresh", expanded=False):
+            st.caption("Load two season-labeled roster snapshots and last season's box-score player totals for this team in one click. Cached results are reused across page visits for up to 24 hours while the app instance remains active. Historical roster accuracy and season completeness are not independently verified.")
+            @st.cache_data(ttl=86400, show_spinner=False)
+            def _one_team_roster_bundle(sport, school_id, school_name):
+                team_ref=pd.DataFrame([{'Team ID':str(school_id),'Team':str(school_name)}])
+                snapshots, problems=audit_teams(sport,team_ref,max_teams=1)
+                totals, diagnostics, errors=fetch_prior_stats(sport,team_ref,season=2026,max_games=45,max_workers=4)
+                return snapshots,problems,totals,diagnostics,errors
+            cache_key=f"team_roster_bundle_{SPORTS[league]}_{tid}"
+            if st.button("Load roster analysis",key=f"one_click_roster_{SPORTS[league]}_{tid}"):
+                with st.spinner("Retrieving roster snapshots and historical player totals..."):
+                    try:
+                        st.session_state[cache_key]=_one_team_roster_bundle(SPORTS[league],tid,chosen)
+                    except Exception as exc:
+                        st.error(f"Player source unavailable: {type(exc).__name__}: {str(exc)[:130]}")
+            bundle=st.session_state.get(cache_key)
+            if bundle is not None:
+                roster_snap, roster_issues, stat_totals, stat_coverage, stat_errors=bundle
+                if not roster_issues.empty: st.warning(f"{len(roster_issues)} roster requests had missing data.")
+                if stat_errors: st.warning(f"{len(stat_errors)} game/stat requests were incomplete or failed.")
+                if not stat_coverage.empty:
+                    st.dataframe(stat_coverage,hide_index=True,use_container_width=True)
+                if not roster_snap.empty and not stat_totals.empty:
+                    summaries,players,notes=calculate_returning_production(roster_snap,stat_totals)
+                    if not summaries.empty:
+                        st.session_state[f"one_team_return_{SPORTS[league]}_{tid}"]=summaries.copy()
+                        row_ret=summaries.iloc[0]
+                        st.metric("Documented returning minutes",f"{row_ret.get('Returning minutes % (known only)',0):.1f}%")
+                        st.caption(f"Roster-identified players with valid totals: {int(row_ret.get('Prior roster players with stats',0))} of {int(row_ret.get('Prior roster entries',0))}. These are shares of documented production, not verified full-team totals.")
+                        with st.expander("Experimental roster model and evidence"):
+                            arrival_data=st.session_state.get(f"incoming_candidates_{SPORTS[league]}")
+                            if isinstance(arrival_data,pd.DataFrame) and not arrival_data.empty:
+                                arrival_data=arrival_data[arrival_data['Team ID'].astype(str)==tid]
+                            info=experimental_roster_signal(summaries,arrival_data)
+                            st.dataframe(pd.DataFrame([info]),hide_index=True,use_container_width=True)
+                            st.info("No point-based roster adjustment is computed yet. We need historical preseason roster datasets for multiple seasons to fit and test coefficients without looking ahead.")
+                        st.download_button("Download this team's documented player totals",stat_totals.to_csv(index=False).encode(),f"team_{tid}_previous_player_totals.csv","text/csv",key=f"roster_totals_download_{tid}")
+                    else: st.info("Returning percentages unavailable; historical data did not pass the matching checks.")
+                else: st.info("No usable historical roster and player totals were returned.")
+            else:
+                st.caption("This on-demand analysis does not need you to run the separate Model Lab roster audit first. It does not include a new D1-wide scan on each visit.")
         with st.expander("🔁 Incoming players & potential transfers", expanded=False):
             incoming=st.session_state.get(f"incoming_candidates_{SPORTS[league]}")
             if isinstance(incoming,pd.DataFrame) and not incoming.empty:
