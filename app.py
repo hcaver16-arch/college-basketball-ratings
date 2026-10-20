@@ -630,7 +630,7 @@ with ratings_tab:
 
     with st.expander("3. Returning production — sourced player statistics", expanded=False):
         st.write("Compare players listed in the two roster snapshots and calculate how much **documented 2025–26 production** appears on the 2026–27 roster.")
-        st.caption("ESPN's roster snapshots do not establish historical stat totals or complete roster coverage. Provide previous-season player totals from a source you can verify. These descriptive percentages do not change power ratings.")
+        st.caption("Fetch prior-season box scores automatically after auditing two roster seasons; a CSV upload remains optional. Percentages show matched known production only, not verified full-season shares, and never change power ratings.")
         st.download_button("Download stats CSV template", pd.DataFrame(columns=STATS_COLUMNS).to_csv(index=False).encode(),"prior_season_player_stats_template.csv","text/csv",key="stats_template_v17")
         audit_result=st.session_state.get(f"roster_audit_{SPORTS[league]}")
         st.markdown("**Automatic player statistics (experimental)**")
@@ -656,6 +656,8 @@ with ratings_tab:
             try:
                 stats_data=(pd.read_csv(stats_upload,dtype={'Team ID':str,'Player ID':str}) if stats_upload is not None else auto[0])
                 summary,audit,notes=calculate_returning_production(audit_result[0],stats_data)
+                # Store only current division's analysis for Team Center; no effect on power ratings.
+                st.session_state[f"returning_production_{SPORTS[league]}"] = (summary.copy(), audit.copy(), list(notes))
                 for note in notes: st.warning(note)
                 if summary.empty: st.info("No teams qualified for a returning-production calculation.")
                 else:
@@ -939,6 +941,28 @@ with team_tab:
                     st.dataframe(team_record[["SOR rank (provisional)","Wins","Losses","SOR games","Reference expected wins","Wins above expected","SOR score"]],hide_index=True,use_container_width=True)
                 else: st.info("No completed, rated Division I results for this team yet.")
             else: st.info("Strength of record becomes available when current-season games are final and ratings have been calculated in Model Lab.")
+        with st.expander("🔄 Returning production (2025–26 to 2026–27)", expanded=False):
+            saved_returning = st.session_state.get(f"returning_production_{SPORTS[league]}")
+            if isinstance(saved_returning, tuple) and len(saved_returning) == 3:
+                return_summary, return_players, return_notes = saved_returning
+                team_returns = return_summary[return_summary["Team ID"].astype(str) == tid] if isinstance(return_summary, pd.DataFrame) and not return_summary.empty else pd.DataFrame()
+                if not team_returns.empty:
+                    record = team_returns.iloc[0]
+                    st.caption(f"Historical roster match: {int(record['Prior roster players with stats'])} of {int(record['Prior roster entries'])} prior-roster players with retrieved statistics. These percentages use matched documented production, not an independently verified complete team total.")
+                    measure_names = ["Minutes", "Points", "Rebounds", "Assists"]
+                    metrics = st.columns(4)
+                    for container, stat in zip(metrics, measure_names):
+                        percent = record.get(f"Returning {stat.lower()} % (known only)")
+                        container.metric("Returning " + stat.lower(), f"{float(percent):.1f}%" if pd.notna(percent) else "N/A")
+                    st.warning("Provisional: season schedule coverage and historical roster completeness are not independently verified. Do not use these values to adjust team power ratings yet.")
+                    with st.expander("Player-level match and data coverage"):
+                        player_rows = return_players[return_players["Team ID"].astype(str) == tid] if isinstance(return_players, pd.DataFrame) and not return_players.empty else pd.DataFrame()
+                        if not player_rows.empty: st.dataframe(player_rows, hide_index=True, use_container_width=True)
+                        st.caption(str(record.get("Confidence", "Incomplete verification")))
+                else:
+                    st.info("This team has no calculated returning-production data yet. Fetch both roster seasons and prior-season player box scores for this team in Model Lab.")
+            else:
+                st.info("Calculate returning production in Model Lab to display it here. No statistics are assumed for teams without loaded data.")
         with st.expander("👥 Roster and scouting details",expanded=False):
             if st.button("Load player roster",key="v12_roster_btn"):
                 st.session_state["v12_roster_team"]=(SPORTS[league],tid)
