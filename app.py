@@ -22,12 +22,11 @@ END = date(2027, 4, 12)
 COLUMNS = ["Game ID", "Date", "Time (ET)", "Away", "Home", "Away conference", "Home conference", "Venue", "Status", "Away score", "Home score", "Game URL"]
 
 
-def week_ranges(start: date, end: date):
+def days_between(start: date, end: date):
     current = start
     while current <= end:
-        finish = min(current + timedelta(days=6), end)
-        yield current, finish
-        current = finish + timedelta(days=1)
+        yield current
+        current += timedelta(days=1)
 
 
 def safe_name(team):
@@ -73,40 +72,42 @@ def parse_game(event):
             "Home score": score(home) if status != "Scheduled" else None, "Game URL": game_url}
 
 
-def retrieve_window(sport: str, begin: date, end: date):
+@st.cache_data(ttl=12 * 60 * 60, show_spinner=False)
+def retrieve_day(sport: str, day: date):
+    """ESPN now rejects dates=YYYYMMDD-YYYYMMDD; use one YYYYMMDD per request."""
     url = f"https://site.api.espn.com/apis/site/v2/sports/basketball/{sport}/scoreboard"
-    params = {"dates": f"{begin:%Y%m%d}-{end:%Y%m%d}", "groups": "50", "limit": 500}
-    response = requests.get(url, params=params, headers={"User-Agent": "CollegeBasketballScheduleDashboard/1.0"}, timeout=25)
+    params = {"dates": day.strftime("%Y%m%d"), "groups": "50", "limit": 500}
+    response = requests.get(url, params=params, headers={"User-Agent": "Mozilla/5.0 CollegeBasketballDashboard/1.1", "Accept": "application/json"}, timeout=25)
     response.raise_for_status()
     payload = response.json()
     events = payload.get("events")
     if not isinstance(events, list):
-        raise ValueError("Schedule endpoint returned no game list")
+        raise ValueError("Schedule feed did not return a game list")
     return [parsed for event in events if (parsed := parse_game(event)) is not None], len(events)
 
 
-@st.cache_data(ttl=12 * 60 * 60, show_spinner=False)
 def get_schedule(sport: str, first: date, last: date):
-    ranges = list(week_ranges(first, last))
+    days = list(days_between(first, last))
     records = []
     failures = []
-    potentially_truncated = []
-    # A small worker pool reduces wait time without opening too many concurrent requests.
+    possibly_truncated = []
+    # Days are cached independently; switching periods reuses already fetched dates.
+    # Limit parallelism to avoid overwhelming ESPN's unofficial endpoint.
     with ThreadPoolExecutor(max_workers=4) as pool:
-        futures = {pool.submit(retrieve_window, sport, a, b): (a, b) for a, b in ranges}
-        for f in as_completed(futures):
-            a, b = futures[f]
+        futures = {pool.submit(retrieve_day, sport, day): day for day in days}
+        for future in as_completed(futures):
+            day = futures[future]
             try:
-                rows, count = f.result()
+                rows, count = future.result()
                 records.extend(rows)
                 if count >= 500:
-                    potentially_truncated.append(f"{a}–{b}")
+                    possibly_truncated.append(str(day))
             except Exception as ex:
-                failures.append(f"{a}–{b}: {str(ex)[:110]}")
+                failures.append(f"{day}: {str(ex)[:180]}")
     result = pd.DataFrame(records, columns=COLUMNS)
     if not result.empty:
-        result = result.drop_duplicates(subset=["Game ID"]).sort_values(["Date", "Time (ET)", "Away"])
-    return result.reset_index(drop=True), failures, potentially_truncated, len(ranges)
+        result = result.drop_duplicates(subset=["Game ID"]).sort_values(["Date", "Game ID"])
+    return result.reset_index(drop=True), sorted(failures), sorted(possibly_truncated), len(days)
 
 
 def show_schedule(df):
@@ -116,28 +117,31 @@ def show_schedule(df):
 
 league = st.sidebar.radio("Basketball division", ["Men's", "Women's"])
 st.sidebar.subheader("Season coverage")
-period = st.sidebar.selectbox("Load schedules for", ["Full season (Nov–Apr)", "November–December", "January–February", "March–April"], index=0)
-windows = {"Full season (Nov–Apr)": (START, END),
+period = st.sidebar.selectbox("Load schedules for", ["Next 14 days", "November 2026", "November–December", "January–February", "March–April", "Full season (Nov–Apr)"], index=0)
+today = date.today()
+windows = {"Next 14 days": (max(START, today), min(END, max(START, today) + timedelta(days=13))),
+           "November 2026": (START, date(2026, 11, 30)),
+           "Full season (Nov–Apr)": (START, END),
            "November–December": (START, date(2026, 12, 31)),
            "January–February": (date(2027, 1, 1), date(2027, 2, 28)),
            "March–April": (date(2027, 3, 1), END)}
 first, last = windows[period]
 st.sidebar.caption("Times shown in Eastern Time; game times and schedules may change.")
 if st.sidebar.button("🔄 Refresh schedule now", use_container_width=True):
-    get_schedule.clear()
+    retrieve_day.clear()
     st.rerun()
 
 st.info("Schedules are fetched from ESPN's unofficial public scoreboard feed. Game coverage depends on what ESPN has published. No ratings or point spreads are being fabricated.")
 
-with st.spinner(f"Loading {league.lower()} games for {period.lower()}…"):
+with st.spinner(f"Loading {league.lower()} games for {period.lower()} (daily requests)…"):
     games, failures, truncated, windows_checked = get_schedule(SPORTS[league], first, last)
 
 if failures:
-    st.warning(f"{len(failures)} of {windows_checked} weekly data requests failed. The table may be incomplete. Try refreshing later or load a shorter period.")
-    with st.expander("See missing request periods"):
+    st.warning(f"{len(failures)} of {windows_checked} daily data requests failed. The table may be incomplete. Try a shorter period or refresh later.")
+    with st.expander("See failed dates"):
         st.write("\n".join(failures))
 if truncated:
-    st.warning("One or more date windows reached the API's 500-game cap; some games may be missing: " + ", ".join(truncated))
+    st.warning("Some individual days reached the API's 500-game cap; games may be missing: " + ", ".join(truncated))
 
 if games.empty:
     st.error("No schedule games could be retrieved for this selection. This can mean the feed is unavailable or schedules haven't been published. Please try a different period or refresh.")
