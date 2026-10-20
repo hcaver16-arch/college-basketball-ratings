@@ -20,6 +20,7 @@ from returning_production import calculate_returning_production, STATS_COLUMNS
 from player_stats_import import fetch_prior_stats
 from transfer_tracking import identify_incoming
 from league_transfer_lookup import scan_previous_rosters, match_candidates
+from transfer_stats import retrieve_previous_school_stats, transfer_coverage
 
 st.set_page_config(page_title="College Basketball Dashboard", page_icon="🏀", layout="wide")
 st.title("🏀 College Basketball")
@@ -702,7 +703,33 @@ with ratings_tab:
                 candidates=match_candidates(candidates,prior,source_stats[0] if source_stats is not None else None)
                 matched=int(candidates['Status'].astype(str).str.startswith('Potential transfer').sum()) if not candidates.empty else 0
                 st.metric("Possible prior-school ID matches",matched)
-                st.caption("Matched players' past production appears only if their PRIOR school was included in your downloaded player statistics. Unknowns can include freshmen, non-D1 transfers and missing provider histories.")
+                st.caption("Prior-school matches are provisional. Historical statistics can be fetched separately for only the matched players' former schools.")
+                stats_key=f"transfer_prior_stats_{SPORTS[league]}"
+                if st.button("Fetch previous-season statistics for matched transfers", key=f"transfer_stats_btn_{SPORTS[league]}", disabled=matched==0):
+                    bar2=st.progress(0,text="Downloading previous-school box scores")
+                    data2,coverage2,warnings2,attempted2=retrieve_previous_school_stats(
+                        SPORTS[league],candidates,
+                        progress=lambda i,total:bar2.progress(i/max(total,1),text=f"Previous schools processed: {i} of {total}"))
+                    bar2.empty()
+                    st.session_state[stats_key]=(data2,coverage2,warnings2,attempted2)
+                fetched=st.session_state.get(stats_key)
+                if fetched is not None:
+                    data2,coverage2,warnings2,attempted2=fetched
+                    st.caption(f"Previous schools requested: {attempted2}; individual historical player totals retrieved: {len(data2)}. Only actual retrieved totals are shown.")
+                    if not coverage2.empty:
+                        with st.expander("Previous-school box-score coverage"):
+                            st.dataframe(coverage2,hide_index=True,use_container_width=True)
+                    if warnings2:
+                        with st.expander("Fetch warnings"):
+                            for warning in warnings2[:80]:st.caption(warning)
+                    if not data2.empty:
+                        # Re-match from raw candidates using the original prior-school ID lookup.
+                        candidates=match_candidates(candidates,prior,data2)
+                        st.download_button("Download previous-school player totals",data2.to_csv(index=False).encode(),"transfer_previous_school_stats.csv","text/csv",key=f"transfer_stats_download_{SPORTS[league]}")
+                    audit2=transfer_coverage(candidates,data2,coverage2)
+                    if not audit2.empty:
+                        with st.expander("Matched player and statistics coverage"):
+                            st.dataframe(audit2,hide_index=True,use_container_width=True)
             st.session_state[f"incoming_candidates_{SPORTS[league]}"]=candidates.copy()
             if candidates.empty:st.info("No incoming roster appearances identified for the audited teams.")
             else:
