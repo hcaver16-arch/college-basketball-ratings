@@ -59,24 +59,85 @@ def _card(label, value, sub=""):
     )
 
 
+# Exact exceptions for schools whose conventional short name differs from the
+# first words of their ESPN display name.
+_SCHOOL_ALIASES = {
+    "Connecticut": "UConn",
+    "Connecticut Huskies": "UConn",
+    "Southern California Trojans": "USC",
+    "USC Trojans": "USC",
+    "Brigham Young Cougars": "BYU",
+    "BYU Cougars": "BYU",
+    "UCLA Bruins": "UCLA",
+    "UNLV Rebels": "UNLV",
+    "UCF Knights": "UCF",
+    "LSU Tigers": "LSU",
+    "SMU Mustangs": "SMU",
+    "TCU Horned Frogs": "TCU",
+    "UTEP Miners": "UTEP",
+    "UTSA Roadrunners": "UTSA",
+    "VCU Rams": "VCU",
+    "Ole Miss Rebels": "Ole Miss",
+    "Miami Hurricanes": "Miami",
+    "Miami (OH) RedHawks": "Miami (OH)",
+    "Saint Mary's Gaels": "Saint Mary's",
+}
+
+# Only remove identifiable full mascot suffixes. No generic split on spaces:
+# multi-word schools like North Carolina Central must stay intact.
+_MASCOTS = (
+    "Fighting Irish", "Red Raiders", "Golden Eagles", "Blue Devils",
+    "Tar Heels", "Lady Volunteers", "Demon Deacons", "Golden Gophers",
+    "Crimson Tide", "Horned Frogs", "Fighting Illini", "Mountaineers",
+    "Lady Raiders", "Red Wolves", "Golden Bears", "Mean Green",
+    "Yellow Jackets", "Rainbow Warriors", "Rainbow Wahine", "Ragin' Cajuns",
+    "Lumberjacks", "Fighting Camels", "Red Storm", "Black Bears",
+    "Wildcats", "Panthers", "Bulldogs", "Huskies", "Spartans",
+    "Tigers", "Bears", "Eagles", "Cougars", "Hurricanes",
+    "Wolverines", "Cyclones", "Jayhawks", "Bruins", "Knights",
+    "Rebels", "Sooners", "Longhorns", "Cardinals", "Razorbacks",
+    "Buckeyes", "Badgers", "Boilermakers", "Seminoles", "Gators",
+    "Volunteers", "Terrapins", "Wolfpack", "Gaels", "Rams",
+    "Flames", "Pirates", "Owls", "Ducks", "Hokies", "Mustangs",
+    "Aggies", "Bobcats", "Broncos", "Bison", "Trojans", "Bulls",
+    "Lions", "Hawks", "Jaguars", "Dukes", "Friars", "Pilots",
+    "Gamecocks", "Bearcats", "Miners", "Roadrunners", "Raiders",
+    "Explorers", "Musketeers", "Billikens", "Bonnies", "Quakers",
+    "Beavers", "Hoyas", "Aztecs", "Shockers", "Zips", "Antelopes",
+    "49ers", "Monarchs", "Peacocks", "Highlanders", "Keydets",
+    "Paladins", "Governors", "Ramblers", "Rattlers", "Ospreys",
+    "Catamounts", "Dolphins", "Terriers", "Titans", "Penguins",
+    "Mocs", "Chanticleers", "Retrievers", "Seawolves", "Lancers",
+)
+
+
+def short_school_name(full_name):
+    """Readable school name for a compact prediction card, not a team ID."""
+    name = str(full_name or "").strip()
+    if not name:
+        return "Team"
+    if name in _SCHOOL_ALIASES:
+        return _SCHOOL_ALIASES[name]
+    for mascot in sorted(_MASCOTS, key=len, reverse=True):
+        suffix = " " + mascot
+        if name.endswith(suffix) and len(name) > len(suffix):
+            return name[:-len(suffix)]
+    return name  # Unknown school: do not make up an abbreviation.
+
+
 def _compact_line(game, projection):
-    value = str(game.get('Model line', '—'))
-    if value in ('None', 'nan', ''): return 'Unavailable'
-    # Prefer model-provided line; shorten long school names without changing numeric margin.
-    margin = projection[0] if projection is not None else None
-    if margin is not None:
+    """School-based spread label using the actual model margin and game teams."""
+    if projection is not None:
         try:
-            margin = float(margin)
-            if pd.notna(margin):
-                side = str(game['Home']) if margin >= 0 else str(game['Away'])
-                # use simple short school identity, retaining original line as full caption
-                tokens = side.split()
-                if len(side)>19 and len(tokens)>1:
-                    side = ' '.join(tokens[:2]) if len(' '.join(tokens[:2])) <= 19 else tokens[0]
-                return f'{side} -{abs(margin):.1f}'
-        except (TypeError, ValueError, IndexError): pass
-    # If raw line is long, allow wrapping rather than clipping.
-    return value
+            home_margin = float(projection[0])
+            if pd.notna(home_margin):
+                if abs(home_margin) < 0.05:
+                    return "Pick 'em"
+                favored_name = game.get("Home") if home_margin > 0 else game.get("Away")
+                return f"{short_school_name(favored_name)} -{abs(home_margin):.1f}"
+        except (TypeError, ValueError, IndexError):
+            pass
+    return str(game.get("Model line") or "Unavailable")
 
 
 def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_ratings, sor_ratings, games, net_ranks, net_status, verified_d1_ids, league, game_projection):
@@ -84,7 +145,7 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
     st.markdown("""<style>
     .cs-kpi {background:#fff;border:1px solid #e2e8f0;border-radius:13px;padding:15px 16px;min-height:116px;box-sizing:border-box}
     .cs-kpi-label {font-size:.79rem;color:#64748b;font-weight:650;line-height:1.3;margin-bottom:9px}
-    .cs-kpi-value {color:#1d2c40;font-size:clamp(1.05rem,2vw,1.65rem);font-weight:750;line-height:1.2;overflow-wrap:anywhere}
+    .cs-kpi-value {color:#1d2c40!important;font-size:clamp(1.05rem,2vw,1.65rem)!important;font-weight:750;line-height:1.2!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere!important;word-break:break-word!important}
     .cs-kpi-sub {font-size:.75rem;color:#718096;margin-top:8px;overflow-wrap:anywhere}
     .cs-comparison {border:1px solid #e2e8f0;background:#fff;border-radius:14px;overflow:hidden;margin:.6rem 0}
     .cs-comp-row {display:grid;grid-template-columns:minmax(0,1fr) minmax(110px,.85fr) minmax(0,1fr);gap:8px;align-items:center;padding:12px 16px;border-top:1px solid #edf1f6}
@@ -121,7 +182,7 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
     st.markdown("#### Model forecast")
     c1,c2,c3=st.columns(3)
     with c1:
-        _card("Projected spread", _compact_line(game,projection), "Model estimate; not betting odds")
+        _card("Projected spread", _compact_line(game,projection), "Preliminary projection, not betting odds")
     with c2:
         _card("Home win probability", f"{projection[1]:.1f}%" if projection else "Unavailable", home)
     with c3:
