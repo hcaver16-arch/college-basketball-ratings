@@ -574,6 +574,19 @@ with ratings_tab:
                 c1.metric("First forecasts locked", archive_status.get('archived_forecasts', 0))
                 c2.metric("Completed games evaluated", archive_status.get('evaluated_games', 0))
                 c3.metric("Paired roster-model games", archive_status.get('paired_model_games', 0))
+                st.caption("D1 vs D1 completed games: " + str(archive_status.get('d1_completed_games', 0)) +
+                           " | Paired D1 roster comparisons: " + str(archive_status.get('d1_paired_games', 0)))
+                roster_predictions_file=archive_base / "roster_forecasts.csv.gz"
+                if roster_predictions_file.exists():
+                    roster_archive=pd.read_csv(roster_predictions_file,compression='gzip',dtype={'Game ID':str})
+                    st.metric("Separate pre-tip roster forecasts",len(roster_archive))
+                    with st.expander("View separately timestamped roster-model forecasts"):
+                        st.dataframe(roster_archive.tail(100),hide_index=True,use_container_width=True)
+                classification_file=archive_base / "game_classification.csv.gz"
+                if classification_file.exists():
+                    classes=pd.read_csv(classification_file,compression='gzip',dtype={'Game ID':str})
+                    st.caption("Saved matchup classification (directory-based): " +
+                               ", ".join(f"{k}: {v}" for k,v in classes['Matchup class'].value_counts().items()))
                 forecasts_path = archive_base / "first_forecasts.csv.gz"
                 if forecasts_path.exists():
                     archived = pd.read_csv(forecasts_path, compression='gzip', dtype={'Game ID':str})
