@@ -15,6 +15,7 @@ import requests
 from prospective_roster import evidence_adjustments
 from saved_roster_data import load_saved_data
 from forecast_extensions import (EXTRA_FIELDS, matchup_classifications, new_roster_forecasts, join_evaluation)
+from forecast_comparison import roster_diagnostics
 
 ROOT = Path(__file__).resolve().parent / 'data'
 SPORTS = ('mens-college-basketball','womens-college-basketball')
@@ -223,7 +224,10 @@ def run(sport,now):
     adjustments=evidence_adjustments(prior,current,totals,all_ids)
     roster_file=root/'roster_forecasts.csv.gz'
     roster_existing=read_gz(roster_file,EXTRA_FIELDS)
+    followup_diagnostics=roster_diagnostics(all_forecasts,roster_existing,adjustments,now)
     roster_new=new_roster_forecasts(all_forecasts,roster_existing,adjustments,now)
+    if followup_diagnostics["ready_for_new_roster_forecast"] != len(roster_new):
+        raise RuntimeError("Roster follow-up diagnostics disagree with generated forecasts")
     roster_all=merge_immutable(roster_existing,roster_new)
     if not roster_new.empty:save_gz(roster_all,roster_file)
     # Scores live separately and can change (corrections), but predictions never do.
@@ -235,7 +239,7 @@ def run(sport,now):
     d1_games=evaluation[evaluation['Matchup class']=='D1 vs D1'] if not evaluation.empty and 'Matchup class' in evaluation else pd.DataFrame()
     d1_paired=d1_games.dropna(subset=['Roster absolute error']) if not d1_games.empty else pd.DataFrame()
     summary={'updated_utc':now.isoformat(),'division':sport,'forecast_horizon_days':14,
-        'forecast_diagnostics':diagnostics,'new_forecasts':len(new),
+        'forecast_diagnostics':diagnostics,'roster_followup_diagnostics':followup_diagnostics,'new_forecasts':len(new),
         'new_roster_eligible':n_eligible,'archived_forecasts':len(all_forecasts),
         'evaluated_games':len(evaluation),'paired_model_games':int(evaluation['Roster absolute error'].notna().sum()) if not evaluation.empty else 0,
         'additional_roster_forecasts':len(roster_new),
@@ -252,6 +256,7 @@ def run(sport,now):
     root.mkdir(parents=True,exist_ok=True)
     (root/'status.json').write_text(json.dumps(summary,indent=2,allow_nan=False)+'\n')
     print(f'{sport}: 14-day window | fetched={diagnostics["schedule_games"]} | future={diagnostics["future_games"]} | future scheduled={diagnostics["future_scheduled_games"]} | already locked={diagnostics["previously_archived"]} | missing rated opponent={diagnostics["missing_rating"]} | eligible baseline={diagnostics["baseline_eligible"]} | eligible roster={diagnostics["roster_eligible"]}',flush=True)
+    print(f'{sport}: locked-game roster follow-up diagnostics: {followup_diagnostics}',flush=True)
     print(f'{sport}: {len(new)} new baseline, {len(roster_new)} new separate roster forecasts, {len(all_forecasts)} baseline locked, {len(evaluation)} evaluated; D1-only reporting available',flush=True)
 
 
