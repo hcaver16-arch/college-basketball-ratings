@@ -78,7 +78,7 @@ def parse_event(event):
          'Home score':score(home),'Away score':score(away)}
 
 
-def fetch_events(sport,now,horizon_days=7):
+def fetch_events(sport,now,horizon_days=14):
     # ESPN schedule is queried by local New York calendar day to catch overnight UTC boundaries.
     a=(now-timedelta(days=1)).date();b=(now+timedelta(days=horizon_days)).date()
     days=[a+timedelta(days=i) for i in range((b-a).days+1)]
@@ -91,6 +91,39 @@ def fetch_events(sport,now,horizon_days=7):
     if errors:raise RuntimeError('Schedule fetch incomplete: '+'; '.join(errors[:3]))
     rows=[parse_event(e) for e in events]
     return pd.DataFrame([r for r in rows if r and r['Game ID']]).drop_duplicates('Game ID')
+
+
+def schedule_diagnostics(schedule, latest, rosters, now, existing_ids):
+    """Disjoint reason counts for why fetched games cannot be newly archived.
+
+    These are diagnostics, not a substitute for the normal forecast filter.
+    """
+    rated=latest.copy()
+    rated['Team ID']=rated['Team ID'].astype(str)
+    powers=dict(zip(rated['Team ID'],pd.to_numeric(rated['Current power'],errors='coerce')))
+    prior,current,totals,_=rosters
+    ids=set(schedule['Home ID'].astype(str))|set(schedule['Away ID'].astype(str)) if not schedule.empty else set()
+    adjustments=evidence_adjustments(prior,current,totals,ids)
+    counts={'schedule_games':len(schedule),'future_games':0,'future_scheduled_games':0,
+            'previously_archived':0,'not_future_or_invalid_time':0,'not_scheduled':0,
+            'missing_rating':0,'baseline_eligible':0,'roster_eligible':0}
+    for g in schedule.to_dict('records'):
+        start=as_utc(g['Game start UTC'])
+        if start and now<start:counts['future_games']+=1
+        if not start or not now<start:
+            counts['not_future_or_invalid_time']+=1;continue
+        if g['Status']!='Scheduled':
+            counts['not_scheduled']+=1;continue
+        counts['future_scheduled_games']+=1
+        if str(g['Game ID']) in existing_ids:
+            counts['previously_archived']+=1;continue
+        h,a=str(g['Home ID']),str(g['Away ID'])
+        hp,ap=powers.get(h),powers.get(a)
+        if hp is None or ap is None or pd.isna(hp) or pd.isna(ap):
+            counts['missing_rating']+=1;continue
+        counts['baseline_eligible']+=1
+        if h in adjustments and a in adjustments:counts['roster_eligible']+=1
+    return counts
 
 
 def forecast_new_games(schedule,latest,rosters,now,sport,existing_ids):
@@ -159,8 +192,13 @@ def run(sport,now):
     forecast_file=root/'first_forecasts.csv.gz'
     existing=read_gz(forecast_file,FIELDS)
     if not existing.empty and existing['Game ID'].duplicated().any():raise ValueError('Existing forecast archive contains duplicate game IDs; refuse to rewrite')
-    schedule=fetch_events(sport,now)
-    new=forecast_new_games(schedule,latest,load_saved_data(sport),now,sport,set(existing['Game ID'].astype(str)))
+    schedule=fetch_events(sport,now,horizon_days=14)
+    roster_data=load_saved_data(sport)
+    existing_ids=set(existing['Game ID'].astype(str))
+    diagnostics=schedule_diagnostics(schedule,latest,roster_data,now,existing_ids)
+    new=forecast_new_games(schedule,latest,roster_data,now,sport,existing_ids)
+    if diagnostics['baseline_eligible']!=len(new):
+        raise RuntimeError('Forecast diagnostics disagree with generated prediction counts')
     all_forecasts=merge_immutable(existing,new)
     if not new.empty:save_gz(all_forecasts,forecast_file)
     # Scores live separately and can change (corrections), but original forecast rows never do.
@@ -169,7 +207,8 @@ def run(sport,now):
     evaluation=evaluate_first_forecasts(all_forecasts,finals)
     if not evaluation.empty:save_gz(evaluation,root/'evaluated_games.csv.gz')
     n_eligible=int(new['Roster eligible'].sum()) if not new.empty else 0
-    summary={'updated_utc':now.isoformat(),'division':sport,'new_forecasts':len(new),
+    summary={'updated_utc':now.isoformat(),'division':sport,'forecast_horizon_days':14,
+        'forecast_diagnostics':diagnostics,'new_forecasts':len(new),
         'new_roster_eligible':n_eligible,'archived_forecasts':len(all_forecasts),
         'evaluated_games':len(evaluation),'paired_model_games':int(evaluation['Roster absolute error'].notna().sum()) if not evaluation.empty else 0,
         'baseline_mae_all':float(evaluation['Baseline absolute error'].mean()) if not evaluation.empty else None,
@@ -178,7 +217,8 @@ def run(sport,now):
         'notes':'First forecasts locked by Game ID; no overwrites. Paired error uses identical games. Rating and roster sources are experimental.'}
     root.mkdir(parents=True,exist_ok=True)
     (root/'status.json').write_text(json.dumps(summary,indent=2,allow_nan=False)+'\n')
-    print(f'{sport}: {len(new)} new (roster {n_eligible}), {len(all_forecasts)} archived, {len(evaluation)} evaluated')
+    print(f'{sport}: 14-day window | fetched={diagnostics["schedule_games"]} | future={diagnostics["future_games"]} | future scheduled={diagnostics["future_scheduled_games"]} | already locked={diagnostics["previously_archived"]} | missing rated opponent={diagnostics["missing_rating"]} | eligible baseline={diagnostics["baseline_eligible"]} | eligible roster={diagnostics["roster_eligible"]}',flush=True)
+    print(f'{sport}: {len(new)} new (roster {n_eligible}), {len(all_forecasts)} archived, {len(evaluation)} evaluated',flush=True)
 
 
 def main():
