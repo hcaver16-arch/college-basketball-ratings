@@ -36,6 +36,26 @@ def style():
     [data-testid="stMetricValue"] * {color:#19283D !important;}
     div[data-testid="stMetric"] {background:#FFFFFF;border:1px solid #E4E9F0;border-radius:12px;padding:12px;}
     div[data-testid="stVerticalBlockBorderWrapper"] {border-radius:13px;}
+    /* Homepage ranking and highlight sections, deliberately independent of Streamlit dataframe dark mode. */
+    .court-section-head {display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:20px 0 10px;}
+    .court-section-head h3 {font-size:1.25rem;font-weight:750;margin:0;color:#19283D;}
+    .court-section-head>span {font-size:.78rem;color:#718096;}
+    .court-rank-card {overflow:hidden;background:#FFFFFF;border:1px solid #E3E8EF;border-radius:14px;margin-bottom:9px;}
+    .court-rank-row {display:grid;grid-template-columns:44px minmax(0,1fr) 100px;align-items:center;gap:10px;min-height:54px;padding:10px 18px;border-bottom:1px solid #EEF1F5;color:#26364B;}
+    .court-rank-row:last-child {border-bottom:0;}
+    .court-rank-num {font-weight:750;color:#65758A;font-size:.9rem;}
+    .court-rank-team {display:flex;align-items:center;gap:11px;font-weight:650;min-width:0;}
+    .court-team-dot {display:inline-block;flex:0 0 9px;width:9px;height:9px;border-radius:50%;}
+    .court-rank-score {text-align:right;font-variant-numeric:tabular-nums;font-weight:750;}
+    .court-highlights {display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-bottom:16px;}
+    .court-highlight-card {background:#FFFFFF;border:1px solid #E3E8EF;border-radius:13px;padding:16px;min-width:0;}
+    .court-highlight-label {font-size:.68rem;color:#64748B;font-weight:750;letter-spacing:.06em;}
+    .court-highlight-team {color:#26364B;font-size:.96rem;font-weight:700;margin:9px 0;}
+    .court-highlight-team span {color:#8694A4;font-weight:400;}
+    .court-highlight-margin {color:#63748A;font-size:.79rem;}
+    .court-highlight-margin strong {color:#23354B;}
+    @media (max-width:600px) {.court-rank-row{grid-template-columns:26px minmax(0,1fr) 72px;padding:10px 12px;gap:7px;}.court-section-head>span{display:none;}}
+
     </style>''',unsafe_allow_html=True)
 
 def featured_choice(upcoming, ratings, d1_ids):
@@ -122,22 +142,43 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
                     st.session_state['courtside_requested_page']='Games'
                     st.rerun()
             st.divider()
-    st.markdown('#### Power rankings')
+    # Integrated light-theme rankings card: native st.dataframe rendered dark on some deployments.
     if isinstance(team_ratings,pd.DataFrame) and {'Team','Current power'}.issubset(team_ratings.columns) and not team_ratings.empty:
         top=team_ratings.sort_values('Current power',ascending=False).head(5).copy()
-        top.insert(0,'#',range(1,len(top)+1))
-        st.dataframe(top[['#','Team','Current power']].rename(columns={'Current power':'Power rating'}),hide_index=True,use_container_width=True)
+        rows=[]
+        for rank,(_,team) in enumerate(top.iterrows(), start=1):
+            name=str(team['Team'])
+            rating=float(team['Current power'])
+            school_color=color_for(name)
+            rows.append(
+                f'<div class="court-rank-row">'
+                f'<span class="court-rank-num">{rank}</span>'
+                f'<span class="court-rank-team"><span class="court-team-dot" style="background:{school_color}"></span>{html.escape(name)}</span>'
+                f'<strong class="court-rank-score">{rating:+.2f}</strong>'
+                f'</div>'
+            )
+        st.markdown('<div class="court-section-head"><h3>Power rankings</h3><span>Top 5 teams</span></div>'
+                    +'<div class="court-rank-card">'+''.join(rows)+'</div>',unsafe_allow_html=True)
         if st.button('View full rankings →',key='courtside_rankings'):
             st.session_state['courtside_requested_page']='Rankings';st.rerun()
-    else:st.info('Power rankings will appear when saved ratings are available.')
-    st.markdown('#### Matchup highlights')
+    else:
+        st.markdown('#### Power rankings')
+        st.info('Power rankings will appear when saved ratings are available.')
+    st.markdown('<div class="court-section-head"><h3>Matchup highlights</h3><span>Closest projected games</span></div>',unsafe_allow_html=True)
     if not d1_visible.empty:
         rated=d1_visible[d1_visible['Home ID'].astype(str).isin(ratings)&d1_visible['Away ID'].astype(str).isin(ratings)]
         scores=[]
         for _,g in rated[rated['Status']=='Scheduled'].iterrows():
             m=ratings[str(g['Home ID'])]-ratings[str(g['Away ID'])]+(0 if g['Venue']=='Neutral' else 3)
-            scores.append((abs(m),f"{g['Away']} at {g['Home']}",m))
-        for closeness,name,margin in sorted(scores)[:3]:
-            st.caption(f"Close matchup · {name} · projected margin {closeness:.1f} points")
-        if not scores:st.caption('Highlights will appear as D1 games are scheduled and rated.')
-    else:st.caption('No verified D1 matchups are available in the selected date.')
+            scores.append((abs(m),str(g['Away']),str(g['Home'])))
+        if scores:
+            parts=[]
+            for closeness,away,home in sorted(scores)[:3]:
+                parts.append('<div class="court-highlight-card">'
+                             '<div class="court-highlight-label">CLOSE MATCHUP</div>'
+                             f'<div class="court-highlight-team">{html.escape(away)} <span>at</span> {html.escape(home)}</div>'
+                             f'<div class="court-highlight-margin">Projected margin <strong>{closeness:.1f} pts</strong></div>'
+                             '</div>')
+            st.markdown('<div class="court-highlights">'+''.join(parts)+'</div>',unsafe_allow_html=True)
+        else:st.caption('Highlights will appear as D1 games are scheduled and rated.')
+    else:st.caption('No verified D1 matchups are available on the displayed date.')
