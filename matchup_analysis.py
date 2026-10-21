@@ -3,6 +3,7 @@ from __future__ import annotations
 import pandas as pd
 import streamlit as st
 from net_quadrants import annotate_games, quadrant_records
+from team_identity import team_identity
 
 
 def _number(x, fmt="+.1f"):
@@ -58,6 +59,20 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
         a=pd.to_numeric(game.get("Away score"),errors="coerce")
         h=pd.to_numeric(game.get("Home score"),errors="coerce")
         if pd.notna(a) and pd.notna(h): st.markdown(f"### {away} {int(a)} — {home} {int(h)}")
+    # Private/personal site: opt in to third-party logos, with initials as safe default.
+    external_logos = st.toggle(
+        "Show external school logos (ESPN-hosted)", value=False,
+        key="courtside_show_external_team_logos",
+        help="School logos may be protected by trademark/copyright. An image URL does not grant permission to reuse it."
+    )
+    with st.container(border=True):
+        a_col, vs_col, h_col = st.columns([4, 1, 4], vertical_alignment="center")
+        team_identity(a_col, away, aid, league, external_logos=external_logos)
+        with vs_col:
+            st.markdown("### at" if str(game.get("Venue")) != "Neutral" else "### vs")
+        team_identity(h_col, home, hid, league, external_logos=external_logos)
+        if external_logos:
+            st.caption("Logos are externally hosted and belong to their respective rights holders; Courtside is not affiliated with or endorsed by these schools.")
     st.markdown("#### Model forecast")
     c1,c2,c3=st.columns(3)
     c1.metric("Projected spread",game.get("Model line","—"))
