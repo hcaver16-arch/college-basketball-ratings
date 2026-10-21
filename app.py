@@ -46,7 +46,21 @@ if st.session_state.get('courtside_requested_page') in sections:
     st.session_state['courtside_page'] = st.session_state.pop('courtside_requested_page')
 if st.session_state.get('courtside_page') not in sections:
     st.session_state['courtside_page']='Home'
-selected_section=st.radio("Navigation",sections,key='courtside_page',horizontal=True,label_visibility='collapsed')
+# Actual buttons rather than radio inputs. Keeping page selection in session state
+# also preserves the Home -> Games / Rankings links elsewhere in the dashboard.
+nav_cols = st.columns([1.0, 1.0, 1.15, 1.0, 1.45, 1.9, 1.8, 1.2], gap="small")
+for nav_col, nav_label in zip(nav_cols, sections):
+    with nav_col:
+        is_active = st.session_state['courtside_page'] == nav_label
+        if st.button(
+            nav_label,
+            key=f"courtside_nav_{nav_label.lower().replace(' ', '_')}",
+            type="primary" if is_active else "secondary",
+            use_container_width=True,
+        ):
+            st.session_state['courtside_page'] = nav_label
+            st.rerun()
+selected_section = st.session_state['courtside_page']
 
 SPORTS = {"Men's": "mens-college-basketball", "Women's": "womens-college-basketball"}
 START = date(2026, 11, 1)
@@ -431,7 +445,22 @@ def attach_model_lines(frame: pd.DataFrame, rating_lookup: dict, verified_d1: se
     out["Model line"] = out.apply(get_line, axis=1) if not out.empty else pd.Series(dtype=str)
     return out
 
-league = st.radio("Basketball division", ["Men's", "Women's"],horizontal=True)
+# Horizontal division buttons avoid the unreadable native radio selectors.
+st.caption("Basketball division")
+if st.session_state.get("courtside_division") not in ("Men's", "Women's"):
+    st.session_state["courtside_division"] = "Men's"
+division_cols = st.columns([1, 1, 6], gap="small")
+for div_col, div_label in zip(division_cols[:2], ("Men's", "Women's")):
+    with div_col:
+        if st.button(
+            div_label,
+            key=f"courtside_division_{div_label.lower().replace(chr(39), '')}",
+            type="primary" if st.session_state["courtside_division"] == div_label else "secondary",
+            use_container_width=True,
+        ):
+            st.session_state["courtside_division"] = div_label
+            st.rerun()
+league = st.session_state["courtside_division"]
 st.sidebar.subheader("Season coverage")
 period = st.sidebar.selectbox("Load schedules for", ["Next 14 days", "November 2026", "November–December", "January–February", "March–April", "Full season (Nov–Apr)"], index=0)
 today = date.today()
