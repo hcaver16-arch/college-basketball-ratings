@@ -35,10 +35,18 @@ from historical_evidence import classify_evidence, player_membership_audit, EVID
 from prospective_roster import evidence_adjustments, make_forecasts, evaluate_forecasts
 from forecast_comparison import combined_forecasts
 from preliminary_model import build_preliminary_ratings, add_experimental_lines
+from courtside_home import style as courtside_style, render_home
 
-st.set_page_config(page_title="College Basketball Dashboard", page_icon="🏀", layout="wide")
-st.title("🏀 College Basketball")
-st.caption("2026–27 · Games, rankings and team scouting")
+st.set_page_config(page_title="Courtside | College Basketball Analytics", page_icon="🏀", layout="wide", initial_sidebar_state="collapsed")
+courtside_style()
+st.title("🏀 Courtside")
+st.caption("College Basketball Analytics · 2026–27")
+sections=["Home","Games","Rankings","Teams","Conferences","Schedule strength","Record strength","Model Lab"]
+if st.session_state.get('courtside_requested_page') in sections:
+    st.session_state['courtside_page'] = st.session_state.pop('courtside_requested_page')
+if st.session_state.get('courtside_page') not in sections:
+    st.session_state['courtside_page']='Home'
+selected_section=st.radio("Navigation",sections,key='courtside_page',horizontal=True,label_visibility='collapsed')
 
 SPORTS = {"Men's": "mens-college-basketball", "Women's": "womens-college-basketball"}
 START = date(2026, 11, 1)
@@ -423,7 +431,7 @@ def attach_model_lines(frame: pd.DataFrame, rating_lookup: dict, verified_d1: se
     out["Model line"] = out.apply(get_line, axis=1) if not out.empty else pd.Series(dtype=str)
     return out
 
-league = st.sidebar.radio("Basketball division", ["Men's", "Women's"])
+league = st.radio("Basketball division", ["Men's", "Women's"],horizontal=True)
 st.sidebar.subheader("Season coverage")
 period = st.sidebar.selectbox("Load schedules for", ["Next 14 days", "November 2026", "November–December", "January–February", "March–April", "Full season (Nov–Apr)"], index=0)
 today = date.today()
@@ -556,10 +564,23 @@ if isinstance(team_ratings, pd.DataFrame) and not team_ratings.empty:
             sor_ratings=live_sor
             st.session_state[f"sor_{SPORTS[league]}"]=live_sor
 
-schedule_tab, team_tab, conference_tab, sos_tab, sor_tab, ratings_tab = st.tabs(
-    ["🏀 Games", "⭐ Teams", "🏆 Conferences", "📊 Schedule strength", "📈 Record strength", "⚙️ Model Lab"])
+if selected_section == "Home":
+    render_home(games, ratings_for_schedule, team_ratings, verified_d1_ids, league, period)
 
-with ratings_tab:
+if selected_section == "Rankings":
+    st.subheader("National power rankings")
+    st.caption("Saved baseline power ratings. The roster-adjusted model remains experimental.")
+    if isinstance(team_ratings,pd.DataFrame) and not team_ratings.empty:
+        order=team_ratings.sort_values('Current power',ascending=False).copy()
+        display_columns=[c for c in ['Rank','Team','Conference','Current power','Games played','Preseason rating'] if c in order.columns]
+        st.dataframe(order[display_columns],hide_index=True,use_container_width=True,height=600)
+        with st.expander('Experimental roster-adjusted rankings'):
+            if not preliminary_ratings.empty:
+                st.dataframe(preliminary_ratings[[c for c in ['Experimental rank','Team','Current power','Experimental power','Roster adjustment','Roster data status'] if c in preliminary_ratings.columns]],hide_index=True,use_container_width=True)
+            else:st.info('Experimental rankings are not available yet.')
+    else:st.info('Rankings will appear once saved ratings are available.')
+
+if selected_section == "Model Lab":
     st.subheader("Model Lab")
     if archived_meta:
         st.success(f"Automatic ratings available: {archived_meta.get('snapshot_date')} · {archived_meta.get('team_count')} teams · {archived_meta.get('current_final_games')} current-season final games. Ratings are saved daily; manual model recalculation is optional.")
@@ -1163,8 +1184,25 @@ with ratings_tab:
                         st.download_button("Download November comparison predictions",early_predictions.to_csv(index=False).encode(),"november_2025_backtest.csv","text/csv",key="early_download")
 
 
-with schedule_tab:
+if selected_section == "Games":
     st.subheader("Games & model predictions")
+    picked = st.session_state.get('courtside_selected_game')
+    if picked:
+        selected = games[games['Game ID'].astype(str)==str(picked)]
+        if not selected.empty:
+            match = selected.iloc[0]
+            st.info(f"Selected matchup: {match['Away']} at {match['Home']} · {match['Date']} {match['Time (ET)']} ET")
+            projection=game_projection(match,ratings_for_schedule) if str(match['Home ID']) in verified_d1_ids and str(match['Away ID']) in verified_d1_ids else None
+            if projection is not None:
+                margin,probability=projection
+                fav=match['Home'] if margin>=0 else match['Away']
+                a,b=st.columns(2)
+                a.metric('Projected spread',f'{fav} -{abs(margin):.1f}')
+                b.metric(f"{match['Home']} win probability",f'{probability:.1f}%')
+            if st.button('Clear selected matchup'):
+                st.session_state.pop('courtside_selected_game',None)
+                st.rerun()
+
     st.caption("Upcoming and completed games in your selected date window. Model spreads appear after ratings are loaded in Model Lab.")
     view = st.radio("Show", ["Upcoming", "All games", "Final scores"], horizontal=True, label_visibility="collapsed")
     shown = games.copy()
@@ -1198,7 +1236,7 @@ with schedule_tab:
         st.download_button("Download selected games CSV", shown.to_csv(index=False).encode(), "basketball_games.csv", "text/csv",key="v12_download_games")
         st.caption("ESPN schedule feed is unofficial. Projections are experimental, not sportsbook odds; unavailable estimates are shown as Not rated.")
 
-with team_tab:
+if selected_section == "Teams":
     st.subheader("Team center")
     if directory.empty:
         st.warning("The team directory is unavailable; use the Games tab until it reloads.")
@@ -1421,7 +1459,7 @@ with team_tab:
                 except Exception as exc: st.warning("Roster fetch unavailable: "+str(exc)[:160])
             st.caption("Roster listing is informational; unverified player impact is not included in ratings.")
 
-with conference_tab:
+if selected_section == "Conferences":
     st.subheader("Conference rankings")
     if isinstance(conference_ratings,pd.DataFrame) and not conference_ratings.empty:
         display=conference_ratings.copy().sort_values("Average_power",ascending=False).reset_index(drop=True)
@@ -1439,7 +1477,7 @@ with conference_tab:
                 cf=st.selectbox("Conference",sorted(directory["Conference"].dropna().unique()),key="v12_conf_dir")
                 st.dataframe(directory[directory["Conference"]==cf][["Team","Abbreviation"]],hide_index=True)
 
-with sos_tab:
+if selected_section == "Schedule strength":
     st.subheader("Strength of schedule")
     st.caption("Provisional difficulty of D1 opponents. View full, played or remaining schedules. Coverage matters: an incomplete slate may not have a rank.")
     if isinstance(sos_ratings,pd.DataFrame) and not sos_ratings.empty:
@@ -1457,7 +1495,7 @@ with sos_tab:
 
 
 
-with sor_tab:
+if selected_section == "Record strength":
     st.subheader("Strength of record")
     st.caption("How difficult has each team's achieved win-loss record been? Based on the chance a reference D1 team (rating 0) would match or exceed it against the same opponents and venues.")
     if isinstance(sor_ratings,pd.DataFrame) and not sor_ratings.empty:
