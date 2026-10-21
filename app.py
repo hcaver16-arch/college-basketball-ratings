@@ -38,6 +38,7 @@ from preliminary_model import build_preliminary_ratings, add_experimental_lines
 from courtside_home import style as courtside_style, render_home
 from courtside_tables import apply_table_theme, dataframe as courtside_dataframe
 from net_quadrants import load_net, annotate_games, quadrant_records
+from matchup_analysis import render_matchup
 
 st.set_page_config(page_title="Courtside | College Basketball Analytics", page_icon="🏀", layout="wide", initial_sidebar_state="collapsed")
 courtside_style()
@@ -1277,50 +1278,13 @@ if selected_section == "Games":
                     if st.button("Close details", key="close_game_details", use_container_width=True):
                         st.session_state.pop("courtside_selected_game", None)
                         st.rerun()
-                if game["Status"] in ("Final", "Live"):
-                    sc_away, sc_home = game.get("Away score"), game.get("Home score")
-                    if pd.notna(sc_away) and pd.notna(sc_home):
-                        st.markdown(f"**Score: {game['Away']} {int(sc_away)} — {game['Home']} {int(sc_home)}**")
-                p1, p2, p3 = st.columns(3)
-                p1.metric("Model projection", str(game.get("Model line", "—")))
-                projected = (game_projection(game, ratings_for_schedule)
-                             if str(game['Home ID']) in verified_d1_ids and str(game['Away ID']) in verified_d1_ids else None)
-                p2.metric(f"{game['Home']} win chance", f"{projected[1]:.1f}%" if projected else "Unavailable")
-                roster_line = str(game.get("Experimental line", "—"))
-                baseline_line = str(game.get("Model line", "—"))
-                p3.metric("Roster scenario", roster_line if roster_line != baseline_line else "Same as model")
-                st.caption(f"Roster input: {game.get('Roster input status', 'Unavailable')}. Predictions are model estimates, not sportsbook odds; roster effects are preliminary.")
-                c1, c2 = st.columns(2)
-                for col, team, tid in [(c1, game['Away'], str(game['Away ID'])), (c2, game['Home'], str(game['Home ID']))]:
-                    with col:
-                        st.markdown(f"**{team}**")
-                        tr = (team_ratings[team_ratings['Team ID'].astype(str) == tid]
-                              if isinstance(team_ratings, pd.DataFrame) and 'Team ID' in team_ratings else pd.DataFrame())
-                        if not tr.empty:
-                            rr = tr.iloc[0]
-                            st.caption(f"Power rank #{int(rr['Rank'])} · Rating {float(rr['Current power']):+.1f}")
-                        else:
-                            st.caption("Power rating unavailable")
-                st.markdown("#### NCAA NET quadrant analysis")
-                st.caption(net_status)
-                left_q, right_q = st.columns(2)
-                with left_q:
-                    st.metric(f"{game['Away']} quadrant", game.get('Away quadrant', 'NET unavailable'))
-                    st.caption(f"Opponent NET: #{int(game['Away opponent NET'])}" if pd.notna(game.get('Away opponent NET')) else "Opponent NET not available")
-                with right_q:
-                    st.metric(f"{game['Home']} quadrant", game.get('Home quadrant', 'NET unavailable'))
-                    st.caption(f"Opponent NET: #{int(game['Home opponent NET'])}" if pd.notna(game.get('Home opponent NET')) else "Opponent NET not available")
-                if net_ranks:
-                    st.markdown("**Season quadrant records (completed games in loaded schedule)**")
-                    entire_annotated = annotate_games(games, net_ranks, verified_d1_ids, league)
-                    a_recs = quadrant_records(entire_annotated, game['Away ID'])
-                    h_recs = quadrant_records(entire_annotated, game['Home ID'])
-                    st.dataframe(pd.DataFrame([{'Quadrant':q, str(game['Away']):f"{a_recs[q][0]}–{a_recs[q][1]}",str(game['Home']):f"{h_recs[q][0]}–{h_recs[q][1]}"} for q in ('Q1','Q2','Q3','Q4')]),hide_index=True,use_container_width=True)
-                    st.caption("Records include only finished games in the schedule period currently loaded, classified using the latest loaded NET. Not an official full-season team sheet unless the full season is loaded.")
-                else:
-                    st.info("Official quadrant records will appear after a verified 2026–27 NCAA NET snapshot is loaded. Courtside power ranks are never substituted.")
-                if game.get("Game URL") and str(game['Game URL']).startswith("https://"):
-                    st.link_button("View official game details", str(game['Game URL']))
+                render_matchup(
+                    game, team_ratings=team_ratings, ratings=ratings_for_schedule,
+                    preliminary_ratings=preliminary_ratings, sos_ratings=sos_ratings,
+                    sor_ratings=sor_ratings, games=games, net_ranks=net_ranks,
+                    net_status=net_status, verified_d1_ids=verified_d1_ids,
+                    league=league, game_projection=game_projection,
+                )
         else:
             st.session_state.pop("courtside_selected_game", None)
 
