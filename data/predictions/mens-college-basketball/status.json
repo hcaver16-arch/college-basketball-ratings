@@ -1,0 +1,13 @@
+{
+  "updated_utc": "2026-10-21T00:43:40.562586+00:00",
+  "division": "mens-college-basketball",
+  "new_forecasts": 0,
+  "new_roster_eligible": 0,
+  "archived_forecasts": 0,
+  "evaluated_games": 0,
+  "paired_model_games": 0,
+  "baseline_mae_all": null,
+  "baseline_mae_paired": null,
+  "roster_mae_paired": null,
+  "notes": "First forecasts locked by Game ID; no overwrites. Paired error uses identical games. Rating and roster sources are experimental."
+}
