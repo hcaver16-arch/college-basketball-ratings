@@ -8,6 +8,7 @@ from __future__ import annotations
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import date, datetime, timedelta, timezone
 import io
+from pathlib import Path
 from math import erf, sqrt, log10
 import pandas as pd
 import numpy as np
@@ -558,6 +559,45 @@ with ratings_tab:
                 st.download_button("Download all archived rating snapshots",saved_history.to_csv(index=False).encode(),f"{SPORTS[league]}_rating_history.csv","text/csv",key=f"download_hist_{SPORTS[league]}")
     else:
         st.info("No archived power ratings yet. Run the GitHub Actions 'Refresh basketball power ratings' workflow once to create the initial snapshot.")
+    with st.expander("📦 Automatic prospective prediction archive", expanded=False):
+        st.caption("First pre-tip predictions are archived by GitHub Actions. Existing forecasts are never revised; final results are evaluated separately. Official ratings are not changed.")
+        archive_base = Path(__file__).resolve().parent / "data" / "predictions" / SPORTS[league]
+        status_file = archive_base / "status.json"
+        if not status_file.exists():
+            st.info("No archived predictions yet. Run the refreshed GitHub Actions power ratings workflow; it now saves predictions automatically.")
+        else:
+            try:
+                import json
+                archive_status = json.loads(status_file.read_text())
+                st.caption(f"Last archive attempt (UTC): {archive_status.get('updated_utc', 'unknown')}")
+                c1,c2,c3 = st.columns(3)
+                c1.metric("First forecasts locked", archive_status.get('archived_forecasts', 0))
+                c2.metric("Completed games evaluated", archive_status.get('evaluated_games', 0))
+                c3.metric("Paired roster-model games", archive_status.get('paired_model_games', 0))
+                forecasts_path = archive_base / "first_forecasts.csv.gz"
+                if forecasts_path.exists():
+                    archived = pd.read_csv(forecasts_path, compression='gzip', dtype={'Game ID':str})
+                    if not archived.empty:
+                        st.caption("A forecast is recorded only if generated before its scheduled UTC tipoff. A missing roster forecast is left blank, not treated as zero.")
+                        with st.expander("View saved pre-tip forecasts"):
+                            st.dataframe(archived.tail(100), hide_index=True, use_container_width=True)
+                        st.download_button("Download immutable forecasts", archived.to_csv(index=False).encode(), f"{SPORTS[league]}_first_forecasts.csv", "text/csv", key=f"forecasts_archive_{SPORTS[league]}")
+                evaluated_path = archive_base / "evaluated_games.csv.gz"
+                if evaluated_path.exists():
+                    paired = pd.read_csv(evaluated_path,compression='gzip')
+                    if not paired.empty:
+                        st.metric("Baseline error (all archived finals)",f"{paired['Baseline absolute error'].mean():.2f} points")
+                        matched = paired.dropna(subset=['Roster absolute error'])
+                        if len(matched):
+                            a,b=st.columns(2)
+                            a.metric("Baseline error (paired games)", f"{matched['Baseline absolute error'].mean():.2f} points")
+                            b.metric("Roster scenario error (paired games)", f"{matched['Roster absolute error'].mean():.2f} points")
+                        st.download_button("Download game-by-game evaluation",paired.to_csv(index=False).encode(),f"{SPORTS[league]}_evaluations.csv","text/csv",key=f"evaluated_dl_{SPORTS[league]}")
+                else:
+                    st.info("No saved predictions have completed games yet. Results will be recorded after game scores arrive.")
+            except Exception as exc:
+                st.warning(f"Could not read saved forecast archive: {exc}")
+
     with st.expander("🧪 Prospective roster model comparison (untrained)", expanded=False):
         st.caption("Two parallel predictions for upcoming games: the saved team-rating baseline and a conservative roster-retention scenario. This is NOT a trained model or a verified betting line. Official ratings are untouched.")
         if not isinstance(team_ratings, pd.DataFrame) or team_ratings.empty:
