@@ -1216,56 +1216,113 @@ if selected_section == "Model Lab":
 
 
 if selected_section == "Games":
-    st.subheader("Games & model predictions")
-    picked = st.session_state.get('courtside_selected_game')
-    if picked:
-        selected = games[games['Game ID'].astype(str)==str(picked)]
-        if not selected.empty:
-            match = selected.iloc[0]
-            st.info(f"Selected matchup: {match['Away']} at {match['Home']} · {match['Date']} {match['Time (ET)']} ET")
-            projection=game_projection(match,ratings_for_schedule) if str(match['Home ID']) in verified_d1_ids and str(match['Away ID']) in verified_d1_ids else None
-            if projection is not None:
-                margin,probability=projection
-                fav=match['Home'] if margin>=0 else match['Away']
-                a,b=st.columns(2)
-                a.metric('Projected spread',f'{fav} -{abs(margin):.1f}')
-                b.metric(f"{match['Home']} win probability",f'{probability:.1f}%')
-            if st.button('Clear selected matchup'):
-                st.session_state.pop('courtside_selected_game',None)
-                st.rerun()
-
-    st.caption("Upcoming and completed games in your selected date window. Model spreads appear after ratings are loaded in Model Lab.")
-    view = st.radio("Show", ["Upcoming", "All games", "Final scores"], horizontal=True, label_visibility="collapsed")
+    st.subheader("Games")
+    st.caption("Select a matchup for the full preview. All times Eastern.")
+    view = st.segmented_control("Game status", ["Upcoming", "All games", "Final scores"], default="Upcoming", key="courtside_games_status")
     shown = games.copy()
     if view == "Upcoming":
         shown = shown[shown["Status"].isin(["Scheduled", "Live"])]
     elif view == "Final scores":
         shown = shown[shown["Status"] == "Final"]
-    with st.expander("🔎 Filter games", expanded=False):
-        f1,f2,f3=st.columns(3)
+    with st.expander("Filter games", expanded=False):
+        f1, f2, f3 = st.columns(3)
         with f1:
-            team_filter=st.selectbox("Team", ["All teams"] + unique_teams, key="v12_game_team")
+            team_filter = st.selectbox("Team", ["All teams"] + unique_teams, key="v12_game_team")
         with f2:
-            conf_filter=st.selectbox("Conference", ["All conferences"] + sorted(set(games["Away conference name"]).union(games["Home conference name"])), key="v12_game_conf")
+            conf_filter = st.selectbox("Conference", ["All conferences"] + sorted(set(games["Away conference name"]).union(games["Home conference name"])), key="v12_game_conf")
         with f3:
-            venue_filter=st.selectbox("Venue", ["Any location", "Home", "Neutral"], key="v12_game_venue")
+            venue_filter = st.selectbox("Venue", ["Any location", "Home", "Neutral"], key="v12_game_venue")
     if team_filter != "All teams":
-        shown=shown[(shown["Home"]==team_filter)|(shown["Away"]==team_filter)]
+        shown = shown[(shown["Home"] == team_filter) | (shown["Away"] == team_filter)]
     if conf_filter != "All conferences":
-        shown=shown[(shown["Home conference name"]==conf_filter)|(shown["Away conference name"]==conf_filter)]
+        shown = shown[(shown["Home conference name"] == conf_filter) | (shown["Away conference name"] == conf_filter)]
     if venue_filter != "Any location":
-        shown=shown[shown["Venue"]==venue_filter]
-    shown=attach_model_lines(shown, ratings_for_schedule, verified_d1_ids)
-    shown=add_experimental_lines(shown, preliminary_ratings, verified_d1_ids)
-    st.caption(f"{len(shown):,} games shown · All times Eastern")
+        shown = shown[shown["Venue"] == venue_filter]
+    shown = attach_model_lines(shown, ratings_for_schedule, verified_d1_ids)
+    shown = add_experimental_lines(shown, preliminary_ratings, verified_d1_ids)
+    # Home-page links already store the selected Game ID here.
+    selected_id = str(st.session_state.get("courtside_selected_game") or "")
+    if selected_id:
+        selected = shown[shown["Game ID"].astype(str) == selected_id]
+        if selected.empty:
+            selected = games[games["Game ID"].astype(str) == selected_id]
+            if not selected.empty:
+                selected = add_experimental_lines(attach_model_lines(selected, ratings_for_schedule, verified_d1_ids), preliminary_ratings, verified_d1_ids)
+        if not selected.empty:
+            game = selected.iloc[0]
+            with st.container(border=True):
+                col_title, col_close = st.columns([6, 1])
+                with col_title:
+                    st.subheader(f"{game['Away']} at {game['Home']}")
+                    st.caption(f"{game['Date']} · {game['Time (ET)']} ET · {game['Venue']} court · {game['Status']}")
+                with col_close:
+                    if st.button("Close details", key="close_game_details", use_container_width=True):
+                        st.session_state.pop("courtside_selected_game", None)
+                        st.rerun()
+                if game["Status"] in ("Final", "Live"):
+                    sc_away, sc_home = game.get("Away score"), game.get("Home score")
+                    if pd.notna(sc_away) and pd.notna(sc_home):
+                        st.markdown(f"**Score: {game['Away']} {int(sc_away)} — {game['Home']} {int(sc_home)}**")
+                p1, p2, p3 = st.columns(3)
+                p1.metric("Model projection", str(game.get("Model line", "—")))
+                projected = (game_projection(game, ratings_for_schedule)
+                             if str(game['Home ID']) in verified_d1_ids and str(game['Away ID']) in verified_d1_ids else None)
+                p2.metric(f"{game['Home']} win chance", f"{projected[1]:.1f}%" if projected else "Unavailable")
+                roster_line = str(game.get("Experimental line", "—"))
+                baseline_line = str(game.get("Model line", "—"))
+                p3.metric("Roster scenario", roster_line if roster_line != baseline_line else "Same as model")
+                st.caption(f"Roster input: {game.get('Roster input status', 'Unavailable')}. Predictions are model estimates, not sportsbook odds; roster effects are preliminary.")
+                c1, c2 = st.columns(2)
+                for col, team, tid in [(c1, game['Away'], str(game['Away ID'])), (c2, game['Home'], str(game['Home ID']))]:
+                    with col:
+                        st.markdown(f"**{team}**")
+                        tr = (team_ratings[team_ratings['Team ID'].astype(str) == tid]
+                              if isinstance(team_ratings, pd.DataFrame) and 'Team ID' in team_ratings else pd.DataFrame())
+                        if not tr.empty:
+                            rr = tr.iloc[0]
+                            st.caption(f"Power rank #{int(rr['Rank'])} · Rating {float(rr['Current power']):+.1f}")
+                        else:
+                            st.caption("Power rating unavailable")
+                if game.get("Game URL") and str(game['Game URL']).startswith("https://"):
+                    st.link_button("View official game details", str(game['Game URL']))
+        else:
+            st.session_state.pop("courtside_selected_game", None)
+
+    st.caption(f"{len(shown):,} matching games")
     if shown.empty:
-        st.info("No games match this selection. Try another date window or filter.")
+        st.info("No games match these filters.")
     else:
-        courtside_dataframe(shown[["Date","Time (ET)","Away","Home","Status","Model line","Experimental line","Roster input status","Away score","Home score"]],
-                     hide_index=True, use_container_width=True, height=470)
-    with st.expander("Download games and data notes"):
-        st.download_button("Download selected games CSV", shown.to_csv(index=False).encode(), "basketball_games.csv", "text/csv",key="v12_download_games")
-        st.caption("ESPN schedule feed is unofficial. Projections are experimental, not sportsbook odds; unavailable estimates are shown as Not rated.")
+        shown = shown.sort_values(["Date", "Time (ET)", "Away"], kind="stable").reset_index(drop=True)
+        page_size = 20
+        max_page = max(1, (len(shown) + page_size - 1) // page_size)
+        # Clamp the page if a changed filter produces fewer results.
+        if "courtside_games_page" not in st.session_state:
+            st.session_state["courtside_games_page"] = 1
+        st.session_state["courtside_games_page"] = min(max_page, max(1, int(st.session_state["courtside_games_page"])))
+        left, right = st.columns([2, 5])
+        with left:
+            page = st.number_input("Page", min_value=1, max_value=max_page, step=1, key="courtside_games_page")
+        with right:
+            st.caption(f"Showing {(page-1)*page_size+1}–{min(page*page_size,len(shown))} of {len(shown):,} games")
+        portion = shown.iloc[(page-1)*page_size:page*page_size]
+        for _, game in portion.iterrows():
+            with st.container(border=True):
+                c_game, c_line, c_action = st.columns([5, 2.7, 1.5], vertical_alignment="center")
+                with c_game:
+                    st.markdown(f"**{game['Away']} at {game['Home']}**")
+                    st.caption(f"{game['Date']} · {game['Time (ET)']} ET · {game['Status']}")
+                with c_line:
+                    if game['Status'] == 'Final' and pd.notna(game.get('Away score')) and pd.notna(game.get('Home score')):
+                        st.markdown(f"**Final: {int(game['Away score'])} – {int(game['Home score'])}**")
+                    else:
+                        st.markdown(f"**{game.get('Model line', '—')}**")
+                with c_action:
+                    if st.button("View matchup →", key=f"game_detail_{league}_{game['Game ID']}", use_container_width=True):
+                        st.session_state["courtside_selected_game"] = str(game["Game ID"])
+                        st.rerun()
+    with st.expander("Download full game data and notes"):
+        st.download_button("Download filtered games CSV", shown.to_csv(index=False).encode(), "basketball_games.csv", "text/csv", key="v12_download_games")
+        st.caption("The full export includes model lines, experimental lines, scores, and roster status. ESPN scoreboard data may be incomplete.")
 
 if selected_section == "Teams":
     st.subheader("Team center")
