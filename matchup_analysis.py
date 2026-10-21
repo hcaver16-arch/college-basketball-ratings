@@ -1,6 +1,7 @@
 """Courtside V49 matchup scouting report. Presentation only; no model changes."""
 from __future__ import annotations
 import pandas as pd
+from html import escape
 import streamlit as st
 from net_quadrants import annotate_games, quadrant_records
 from team_identity import team_identity
@@ -47,8 +48,52 @@ def _recent(frame, tid, n=5):
     return results
 
 
+def _card(label, value, sub=""):
+    """Short responsive stat card. Escape all source-derived strings."""
+    st.markdown(
+        '<div class="cs-kpi">'
+        f'<div class="cs-kpi-label">{escape(str(label))}</div>'
+        f'<div class="cs-kpi-value">{escape(str(value))}</div>'
+        + (f'<div class="cs-kpi-sub">{escape(str(sub))}</div>' if sub else '')
+        + '</div>', unsafe_allow_html=True
+    )
+
+
+def _compact_line(game, projection):
+    value = str(game.get('Model line', '—'))
+    if value in ('None', 'nan', ''): return 'Unavailable'
+    # Prefer model-provided line; shorten long school names without changing numeric margin.
+    margin = projection[0] if projection is not None else None
+    if margin is not None:
+        try:
+            margin = float(margin)
+            if pd.notna(margin):
+                side = str(game['Home']) if margin >= 0 else str(game['Away'])
+                # use simple short school identity, retaining original line as full caption
+                tokens = side.split()
+                if len(side)>19 and len(tokens)>1:
+                    side = ' '.join(tokens[:2]) if len(' '.join(tokens[:2])) <= 19 else tokens[0]
+                return f'{side} -{abs(margin):.1f}'
+        except (TypeError, ValueError, IndexError): pass
+    # If raw line is long, allow wrapping rather than clipping.
+    return value
+
+
 def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_ratings, sor_ratings, games, net_ranks, net_status, verified_d1_ids, league, game_projection):
     """Render under an already open game header, using only existing verified app datasets."""
+    st.markdown("""<style>
+    .cs-kpi {background:#fff;border:1px solid #e2e8f0;border-radius:13px;padding:15px 16px;min-height:116px;box-sizing:border-box}
+    .cs-kpi-label {font-size:.79rem;color:#64748b;font-weight:650;line-height:1.3;margin-bottom:9px}
+    .cs-kpi-value {color:#1d2c40;font-size:clamp(1.05rem,2vw,1.65rem);font-weight:750;line-height:1.2;overflow-wrap:anywhere}
+    .cs-kpi-sub {font-size:.75rem;color:#718096;margin-top:8px;overflow-wrap:anywhere}
+    .cs-comparison {border:1px solid #e2e8f0;background:#fff;border-radius:14px;overflow:hidden;margin:.6rem 0}
+    .cs-comp-row {display:grid;grid-template-columns:minmax(0,1fr) minmax(110px,.85fr) minmax(0,1fr);gap:8px;align-items:center;padding:12px 16px;border-top:1px solid #edf1f6}
+    .cs-comp-row:first-child {border-top:0;background:#f8fafc}
+    .cs-comp-name {font-size:.82rem;color:#64748b;text-align:center;overflow-wrap:anywhere}
+    .cs-comp-val {font-weight:650;color:#1d2c40;font-size:.92rem;overflow-wrap:anywhere}
+    .cs-comp-right {text-align:right}
+    @media(max-width:600px) {.cs-comp-row {grid-template-columns:minmax(0,1fr) 95px minmax(0,1fr);padding:10px 8px;gap:4px}.cs-comp-name{font-size:.7rem}.cs-comp-val{font-size:.82rem}}
+    </style>""",unsafe_allow_html=True)
     away,home=str(game["Away"]),str(game["Home"])
     aid,hid=str(game["Away ID"]),str(game["Home ID"])
     is_d1=aid in verified_d1_ids and hid in verified_d1_ids
@@ -75,9 +120,13 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
             st.caption("Logos are externally hosted and belong to their respective rights holders; Courtside is not affiliated with or endorsed by these schools.")
     st.markdown("#### Model forecast")
     c1,c2,c3=st.columns(3)
-    c1.metric("Projected spread",game.get("Model line","—"))
-    c2.metric(f"{home} win probability", f"{projection[1]:.1f}%" if projection else "Unavailable")
-    c3.metric("Roster scenario", (game.get("Experimental line","—") if str(game.get("Experimental line","—")) != str(game.get("Model line","—")) else "Same as baseline"))
+    with c1:
+        _card("Projected spread", _compact_line(game,projection), "Model estimate; not betting odds")
+    with c2:
+        _card("Home win probability", f"{projection[1]:.1f}%" if projection else "Unavailable", home)
+    with c3:
+        different = str(game.get("Experimental line","—")) != str(game.get("Model line","—"))
+        _card("Roster scenario", "Adjustment applied" if different else "Same as baseline", str(game.get("Experimental line","—")) if different else "No difference in displayed line")
     st.caption("Preliminary model estimates, not sportsbook odds. Roster effects are experimental; a matching line often means no usable roster adjustment.")
     if projection:
         a=ratings.get(aid); h=ratings.get(hid)
@@ -86,9 +135,9 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
             court=0.0 if str(game.get("Venue"))=="Neutral" else 3.0
             st.markdown("**Why the model favors this side**")
             x,y,z=st.columns(3)
-            x.metric("Home − away team strength",f"{strength:+.1f} pts")
-            y.metric("Home-court contribution",f"{court:+.1f} pts")
-            z.metric("Estimated home margin",f"{strength+court:+.1f} pts")
+            with x: _card("Home − away strength",f"{strength:+.1f} pts")
+            with y: _card("Home-court adjustment",f"{court:+.1f} pts")
+            with z: _card("Estimated home margin",f"{strength+court:+.1f} pts")
             st.caption("The margin follows the existing rating-engine formula. A positive home margin favors the home team; neutral games receive no home-court adjustment.")
 
     st.markdown("#### Head-to-head team analytics")
@@ -105,10 +154,21 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
         ("SOR rank (provisional)",_cell(sr_a,["SOR rank (provisional)"]),_cell(sr_h,["SOR rank (provisional)"])),
         ("Record (loaded games)",_cell(sr_a,["Wins"])+"–"+_cell(sr_a,["Losses"]),_cell(sr_h,["Wins"])+"–"+_cell(sr_h,["Losses"])),
     ]
-    st.dataframe(pd.DataFrame(rows,columns=["Metric",away,home]),hide_index=True,use_container_width=True)
+    # Public-facing comparison uses light responsive rows rather than a dense data grid.
+    comp = ['<div class="cs-comparison">',
+            '<div class="cs-comp-row"><div class="cs-comp-val">'+escape(away)+'</div><div class="cs-comp-name">METRIC</div><div class="cs-comp-val cs-comp-right">'+escape(home)+'</div></div>']
+    for label, aval, hval in rows:
+        if aval == '—' and hval == '—':
+            continue  # Do not fill the preseason report with empty metrics.
+        if label == 'Record (loaded games)' and aval == '—–—' and hval == '—–—':
+            continue
+        comp.append('<div class="cs-comp-row"><div class="cs-comp-val">'+escape(str(aval))+'</div><div class="cs-comp-name">'+escape(str(label))+'</div><div class="cs-comp-val cs-comp-right">'+escape(str(hval))+'</div></div>')
+    comp.append('</div>')
+    st.markdown(''.join(comp),unsafe_allow_html=True)
     st.caption("SOS/SOR may cover only the currently loaded schedule. Provisional ranks must not be interpreted as official NCAA rankings.")
 
-    with st.expander("Recent results — last five loaded final games",expanded=True):
+    has_recent = bool(_recent(games,aid) or _recent(games,hid))
+    with st.expander("Recent results — last five loaded final games" + ("" if has_recent else " (not yet available)"),expanded=False):
         a,h=st.columns(2)
         for col,name,tid in ((a,away,aid),(h,home,hid)):
             with col:
@@ -117,22 +177,23 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
                 if results:
                     for result in results: st.write(result)
                 else: st.caption("No completed games available in the loaded period.")
-    st.markdown("#### NET quadrants and tournament résumé")
-    st.caption(net_status)
-    q1,q2=st.columns(2)
-    with q1:
-        st.metric(f"{away} quadrant",game.get("Away quadrant","NET unavailable"))
-        st.caption("Opponent NET: " + (_number(game.get("Away opponent NET"),".0f") if pd.notna(game.get("Away opponent NET")) else "Unavailable"))
-    with q2:
-        st.metric(f"{home} quadrant",game.get("Home quadrant","NET unavailable"))
-        st.caption("Opponent NET: " + (_number(game.get("Home opponent NET"),".0f") if pd.notna(game.get("Home opponent NET")) else "Unavailable"))
     if net_ranks:
-        ann=annotate_games(games,net_ranks,verified_d1_ids,league)
-        away_rec=quadrant_records(ann,aid);home_rec=quadrant_records(ann,hid)
-        st.dataframe(pd.DataFrame([{"Quadrant":q,away:f"{away_rec[q][0]}–{away_rec[q][1]}",home:f"{home_rec[q][0]}–{home_rec[q][1]}"} for q in ("Q1","Q2","Q3","Q4")]),hide_index=True,use_container_width=True)
-        st.caption("These records reflect final games in the loaded date window, classified with the latest loaded NET snapshot; not necessarily complete official season records.")
+        st.markdown("#### NET quadrants and tournament résumé")
+        st.caption(net_status)
+        q1,q2=st.columns(2)
+        with q1:
+            _card(f"{away} quadrant",game.get("Away quadrant","NET unavailable"), "Opponent NET: " + (_number(game.get("Away opponent NET"),".0f") if pd.notna(game.get("Away opponent NET")) else "Unavailable"))
+        with q2:
+            _card(f"{home} quadrant",game.get("Home quadrant","NET unavailable"), "Opponent NET: " + (_number(game.get("Home opponent NET"),".0f") if pd.notna(game.get("Home opponent NET")) else "Unavailable"))
+        with st.expander("Quadrant win–loss records",expanded=False):
+            ann=annotate_games(games,net_ranks,verified_d1_ids,league)
+            away_rec=quadrant_records(ann,aid);home_rec=quadrant_records(ann,hid)
+            st.dataframe(pd.DataFrame([{"Quadrant":q,away:f"{away_rec[q][0]}–{away_rec[q][1]}",home:f"{home_rec[q][0]}–{home_rec[q][1]}"} for q in ("Q1","Q2","Q3","Q4")]),hide_index=True,use_container_width=True)
+            st.caption("Records reflect loaded completed games classified with the latest available NET snapshot, not necessarily the full official season.")
     else:
-        st.info("Official NET data not yet available. Quadrant labels and records will appear once a current-season verified NET snapshot is loaded.")
+        with st.expander("NET quadrants — awaiting official current-season rankings", expanded=False):
+            st.caption(net_status)
+            st.info("Official NET data isn't available yet. Quadrant labels and records will appear once a verified current-season snapshot is loaded.")
     with st.expander("Roster adjustment and methodology",expanded=False):
         st.write("Roster input status:",str(game.get("Roster input status","Unavailable")))
         a_pr=_row(preliminary_ratings,aid);h_pr=_row(preliminary_ratings,hid)
