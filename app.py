@@ -37,6 +37,7 @@ from forecast_comparison import combined_forecasts
 from preliminary_model import build_preliminary_ratings, add_experimental_lines
 from courtside_home import style as courtside_style, render_home
 from courtside_tables import apply_table_theme, dataframe as courtside_dataframe
+from net_quadrants import load_net, annotate_games, quadrant_records
 
 st.set_page_config(page_title="Courtside | College Basketball Analytics", page_icon="🏀", layout="wide", initial_sidebar_state="collapsed")
 courtside_style()
@@ -1238,6 +1239,23 @@ if selected_section == "Games":
         shown = shown[(shown["Home conference name"] == conf_filter) | (shown["Away conference name"] == conf_filter)]
     if venue_filter != "Any location":
         shown = shown[shown["Venue"] == venue_filter]
+    net_ranks, net_status = load_net(league)
+    shown = annotate_games(shown, net_ranks, verified_d1_ids, league)
+    with st.expander("NET quadrant filters", expanded=False):
+        st.caption(net_status + " · Quadrants are opponent-specific, based on game location.")
+        quadrant_filter = st.selectbox("Quadrant", ["All", "Q1", "Q2", "Q3", "Q4"], key="games_net_quadrant", disabled=not bool(net_ranks))
+        side_filter = st.selectbox("For which team?", ["Either team", "Home team", "Away team", "Both teams"], key="games_net_side", disabled=not bool(net_ranks))
+        if net_ranks:
+            if quadrant_filter != "All":
+                hq = shown['Home quadrant'] == quadrant_filter
+                aq = shown['Away quadrant'] == quadrant_filter
+                if side_filter == "Home team": shown = shown[hq]
+                elif side_filter == "Away team": shown = shown[aq]
+                elif side_filter == "Both teams": shown = shown[hq & aq]
+                else: shown = shown[hq | aq]
+            q1_only = st.checkbox("Q1 opportunities (either team)", key="games_net_q1", disabled=not bool(net_ranks))
+            if q1_only:
+                shown = shown[(shown['Home quadrant']=='Q1') | (shown['Away quadrant']=='Q1')]
     shown = attach_model_lines(shown, ratings_for_schedule, verified_d1_ids)
     shown = add_experimental_lines(shown, preliminary_ratings, verified_d1_ids)
     # Home-page links already store the selected Game ID here.
@@ -1247,7 +1265,7 @@ if selected_section == "Games":
         if selected.empty:
             selected = games[games["Game ID"].astype(str) == selected_id]
             if not selected.empty:
-                selected = add_experimental_lines(attach_model_lines(selected, ratings_for_schedule, verified_d1_ids), preliminary_ratings, verified_d1_ids)
+                selected = add_experimental_lines(attach_model_lines(annotate_games(selected, net_ranks, verified_d1_ids, league), ratings_for_schedule, verified_d1_ids), preliminary_ratings, verified_d1_ids)
         if not selected.empty:
             game = selected.iloc[0]
             with st.container(border=True):
@@ -1283,6 +1301,24 @@ if selected_section == "Games":
                             st.caption(f"Power rank #{int(rr['Rank'])} · Rating {float(rr['Current power']):+.1f}")
                         else:
                             st.caption("Power rating unavailable")
+                st.markdown("#### NCAA NET quadrant analysis")
+                st.caption(net_status)
+                left_q, right_q = st.columns(2)
+                with left_q:
+                    st.metric(f"{game['Away']} quadrant", game.get('Away quadrant', 'NET unavailable'))
+                    st.caption(f"Opponent NET: #{int(game['Away opponent NET'])}" if pd.notna(game.get('Away opponent NET')) else "Opponent NET not available")
+                with right_q:
+                    st.metric(f"{game['Home']} quadrant", game.get('Home quadrant', 'NET unavailable'))
+                    st.caption(f"Opponent NET: #{int(game['Home opponent NET'])}" if pd.notna(game.get('Home opponent NET')) else "Opponent NET not available")
+                if net_ranks:
+                    st.markdown("**Season quadrant records (completed games in loaded schedule)**")
+                    entire_annotated = annotate_games(games, net_ranks, verified_d1_ids, league)
+                    a_recs = quadrant_records(entire_annotated, game['Away ID'])
+                    h_recs = quadrant_records(entire_annotated, game['Home ID'])
+                    st.dataframe(pd.DataFrame([{'Quadrant':q, str(game['Away']):f"{a_recs[q][0]}–{a_recs[q][1]}",str(game['Home']):f"{h_recs[q][0]}–{h_recs[q][1]}"} for q in ('Q1','Q2','Q3','Q4')]),hide_index=True,use_container_width=True)
+                    st.caption("Records include only finished games in the schedule period currently loaded, classified using the latest loaded NET. Not an official full-season team sheet unless the full season is loaded.")
+                else:
+                    st.info("Official quadrant records will appear after a verified 2026–27 NCAA NET snapshot is loaded. Courtside power ranks are never substituted.")
                 if game.get("Game URL") and str(game['Game URL']).startswith("https://"):
                     st.link_button("View official game details", str(game['Game URL']))
         else:
@@ -1311,6 +1347,8 @@ if selected_section == "Games":
                 with c_game:
                     st.markdown(f"**{game['Away']} at {game['Home']}**")
                     st.caption(f"{game['Date']} · {game['Time (ET)']} ET · {game['Status']}")
+                    if net_ranks:
+                        st.caption(f"NET: Away {game.get('Away quadrant','—')} · Home {game.get('Home quadrant','—')}")
                 with c_line:
                     if game['Status'] == 'Final' and pd.notna(game.get('Away score')) and pd.notna(game.get('Home score')):
                         st.markdown(f"**Final: {int(game['Away score'])} – {int(game['Home score'])}**")
