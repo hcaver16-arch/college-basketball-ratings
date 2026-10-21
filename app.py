@@ -34,6 +34,7 @@ from historical_roster_rebuild import reconstruct_teams, source_cutoff_audit
 from historical_evidence import classify_evidence, player_membership_audit, EVIDENCE_FIELDS
 from prospective_roster import evidence_adjustments, make_forecasts, evaluate_forecasts
 from forecast_comparison import combined_forecasts
+from preliminary_model import build_preliminary_ratings, add_experimental_lines
 
 st.set_page_config(page_title="College Basketball Dashboard", page_icon="🏀", layout="wide")
 st.title("🏀 College Basketball")
@@ -515,6 +516,16 @@ team_ratings = st.session_state.get(f"teams_{SPORTS[league]}")
 conference_ratings = st.session_state.get(f"conferences_{SPORTS[league]}")
 sos_ratings = st.session_state.get(f"sos_{SPORTS[league]}")
 sor_ratings = st.session_state.get(f"sor_{SPORTS[league]}")
+# Preliminary roster experiment refreshes from saved team ratings and archive on each page load.
+# This does not alter st.session_state official ratings or locked prediction archives.
+preliminary_ratings = pd.DataFrame()
+if isinstance(team_ratings, pd.DataFrame) and not team_ratings.empty:
+    try:
+        _prior_rosters, _current_rosters, _player_totals, _archive_status = load_saved_data(SPORTS[league])
+        preliminary_ratings = build_preliminary_ratings(team_ratings, _prior_rosters, _current_rosters, _player_totals)
+    except Exception as exc:
+        st.sidebar.caption(f'Experimental roster ratings unavailable: {str(exc)[:90]}')
+
 # Summaries derived from the saved/current team rating table.
 if isinstance(team_ratings, pd.DataFrame) and not team_ratings.empty:
     if 'Conference' not in team_ratings.columns and not directory.empty:
@@ -560,6 +571,21 @@ with ratings_tab:
                 st.download_button("Download all archived rating snapshots",saved_history.to_csv(index=False).encode(),f"{SPORTS[league]}_rating_history.csv","text/csv",key=f"download_hist_{SPORTS[league]}")
     else:
         st.info("No archived power ratings yet. Run the GitHub Actions 'Refresh basketball power ratings' workflow once to create the initial snapshot.")
+    with st.expander("🏀 Preliminary roster-adjusted rankings (experimental)", expanded=False):
+        st.caption("Untrained returning-minutes scenario; official ranks, SOS, SOR and archived predictions are unchanged. Missing or insufficient roster data gives a neutral adjustment, never a penalty. As games accumulate, the prior adjustment decays with the existing preseason weight.")
+        if preliminary_ratings.empty:
+            st.info("No saved ratings are available for this division yet.")
+        else:
+            affected=int(preliminary_ratings['Roster evidence applied'].sum())
+            changed=int(preliminary_ratings['Roster adjustment'].abs().gt(0.0005).sum())
+            c1,c2,c3=st.columns(3)
+            c1.metric("Rated teams",len(preliminary_ratings))
+            c2.metric("Teams with qualifying roster data",affected)
+            c3.metric("Teams with nonzero adjustment",changed)
+            fields=['Experimental rank','Team','Conference','Rank','Current power','Experimental power','Roster adjustment','Roster return minutes %','Roster data status','Games played']
+            st.dataframe(preliminary_ratings[[x for x in fields if x in preliminary_ratings]].sort_values('Experimental power',ascending=False),hide_index=True,use_container_width=True,height=430)
+            st.download_button("Download preliminary roster ratings",preliminary_ratings.to_csv(index=False).encode(),f"{SPORTS[league]}_preliminary_ratings.csv",'text/csv',key=f'v41_prelim_dl_{SPORTS[league]}')
+            st.caption("Coefficient: 0.5 rating points per 10 percentage points of returning minutes versus a 50% reference, capped at ±3 before preseason-weight decay. This is a scenario assumption, not a trained player-impact model.")
     with st.expander("📦 Automatic prospective prediction archive", expanded=False):
         st.caption("First pre-tip predictions are archived by GitHub Actions. Existing forecasts are never revised; final results are evaluated separately. Official ratings are not changed.")
         archive_base = Path(__file__).resolve().parent / "data" / "predictions" / SPORTS[league]
@@ -1161,11 +1187,12 @@ with schedule_tab:
     if venue_filter != "Any location":
         shown=shown[shown["Venue"]==venue_filter]
     shown=attach_model_lines(shown, ratings_for_schedule, verified_d1_ids)
+    shown=add_experimental_lines(shown, preliminary_ratings, verified_d1_ids)
     st.caption(f"{len(shown):,} games shown · All times Eastern")
     if shown.empty:
         st.info("No games match this selection. Try another date window or filter.")
     else:
-        st.dataframe(shown[["Date","Time (ET)","Away","Home","Status","Model line","Away score","Home score"]],
+        st.dataframe(shown[["Date","Time (ET)","Away","Home","Status","Model line","Experimental line","Roster input status","Away score","Home score"]],
                      hide_index=True, use_container_width=True, height=470)
     with st.expander("Download games and data notes"):
         st.download_button("Download selected games CSV", shown.to_csv(index=False).encode(), "basketball_games.csv", "text/csv",key="v12_download_games")
@@ -1198,6 +1225,16 @@ with team_tab:
                 st.caption("Preseason weight drops with on-court results. Missing on-court rating means the season has not supplied enough games.")
         else:
             st.info("Power ratings have not been loaded for this team. Open Model Lab to calculate them.")
+        if not preliminary_ratings.empty:
+            sample=preliminary_ratings[preliminary_ratings['Team ID']==tid]
+            if not sample.empty:
+                exp=sample.iloc[0]
+                with st.expander("🧪 Preliminary roster-adjusted rating",expanded=False):
+                    c1,c2,c3=st.columns(3)
+                    c1.metric("Official power",f"{float(exp['Current power']):+.2f}")
+                    c2.metric("Experimental power",f"{float(exp['Experimental power']):+.2f}")
+                    c3.metric("Roster change",f"{float(exp['Roster adjustment']):+.2f}")
+                    st.caption(str(exp['Roster data status'])+" · The assumption-based adjustment fades as on-court games receive more weight. Official rankings and locked forecasts stay unchanged.")
         with st.expander("📈 Power rating & ranking history", expanded=False):
             saved_team_history = load_history(SPORTS[league], tid)
             if saved_team_history.empty:
