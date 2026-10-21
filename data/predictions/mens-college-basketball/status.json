@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-10-21T02:08:23.718052+00:00",
+  "updated_utc": "2026-10-21T13:13:23.211856+00:00",
   "division": "mens-college-basketball",
   "forecast_horizon_days": 14,
   "forecast_diagnostics": {
@@ -18,9 +18,9 @@
     "already_has_roster_forecast": 0,
     "past_tipoff": 0,
     "invalid_tipoff": 0,
-    "missing_home_roster": 10,
-    "missing_away_roster": 7,
-    "missing_both_rosters": 197,
+    "missing_home_roster": 12,
+    "missing_away_roster": 10,
+    "missing_both_rosters": 192,
     "missing_baseline_margin": 0,
     "ready_for_new_roster_forecast": 0
   },
