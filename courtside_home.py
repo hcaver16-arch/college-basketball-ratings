@@ -18,7 +18,22 @@ def style():
     [data-testid="stHeader"] { background:#F5F6F8; }
     [data-testid="stSidebar"] {background:#FFFFFF;}
     h1,h2,h3 { color:#19283D;letter-spacing:-.025em; }
-    div.stButton>button { border-radius:9px; }
+    /* Navigation uses native Streamlit buttons; do not override button labels with the old dark-theme text. */
+    div.stButton>button { border-radius:9px; font-weight:600; min-height:40px; }
+    div.stButton>button[kind="secondary"] {
+        background:#FFFFFF; border:1px solid #DCE3EC; color:#26364B;
+    }
+    div.stButton>button[kind="secondary"] p { color:#26364B !important; }
+    div.stButton>button[kind="primary"] {
+        background:#23354B; border:1px solid #23354B; color:#FFFFFF;
+    }
+    div.stButton>button[kind="primary"] p { color:#FFFFFF !important; }
+    div.stButton>button:hover {border-color:#5F7895;}
+    /* Ensure core text is readable even if the deployment's Streamlit theme defaults to dark. */
+    [data-testid="stCaptionContainer"], [data-testid="stCaptionContainer"] p {color:#64748B !important;}
+    [data-testid="stMetricLabel"] p {color:#526174 !important;}
+    [data-testid="stMetricValue"] {color:#19283D !important;}
+    [data-testid="stMetricValue"] * {color:#19283D !important;}
     div[data-testid="stMetric"] {background:#FFFFFF;border:1px solid #E4E9F0;border-radius:12px;padding:12px;}
     div[data-testid="stVerticalBlockBorderWrapper"] {border-radius:13px;}
     </style>''',unsafe_allow_html=True)
