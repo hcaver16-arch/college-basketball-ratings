@@ -14,6 +14,7 @@ import pandas as pd
 import requests
 from prospective_roster import evidence_adjustments
 from saved_roster_data import load_saved_data
+from forecast_extensions import (EXTRA_FIELDS, matchup_classifications, new_roster_forecasts, join_evaluation)
 
 ROOT = Path(__file__).resolve().parent / 'data'
 SPORTS = ('mens-college-basketball','womens-college-basketball')
@@ -194,6 +195,20 @@ def run(sport,now):
     if not existing.empty and existing['Game ID'].duplicated().any():raise ValueError('Existing forecast archive contains duplicate game IDs; refuse to rewrite')
     schedule=fetch_events(sport,now,horizon_days=14)
     roster_data=load_saved_data(sport)
+    # Membership comes from the current D1 directory, not the rating population
+    # (which can also include non-D1 opponents).
+    directory_url=f'https://site.api.espn.com/apis/site/v2/sports/basketball/{sport}/teams'
+    directory_response=requests.get(directory_url,params={'limit':1000,'groups':'50'},timeout=30)
+    directory_response.raise_for_status()
+    directory_data=directory_response.json()
+    leagues=(directory_data.get('sports') or [{}])[0].get('leagues') or []
+    team_nodes=[obj.get('team',obj) for league in leagues for obj in (league.get('teams') or [])]
+    if not team_nodes:raise RuntimeError('Empty D1 directory; cannot safely classify matchups')
+    d1_ids={str(x['id']) for x in team_nodes if x.get('id')}
+    classifications=matchup_classifications(schedule,d1_ids)
+    old_classes=read_gz(root/'game_classification.csv.gz',['Game ID','Matchup class'])
+    classifications=pd.concat([old_classes,classifications],ignore_index=True).drop_duplicates('Game ID',keep='last')
+    save_gz(classifications,root/'game_classification.csv.gz')
     existing_ids=set(existing['Game ID'].astype(str))
     diagnostics=schedule_diagnostics(schedule,latest,roster_data,now,existing_ids)
     new=forecast_new_games(schedule,latest,roster_data,now,sport,existing_ids)
@@ -201,16 +216,35 @@ def run(sport,now):
         raise RuntimeError('Forecast diagnostics disagree with generated prediction counts')
     all_forecasts=merge_immutable(existing,new)
     if not new.empty:save_gz(all_forecasts,forecast_file)
-    # Scores live separately and can change (corrections), but original forecast rows never do.
+    # Optional roster predictions can be appended LATER, but only before kickoff.
+    # First forecasts are immutable: this is a separate file and timestamp.
+    prior,current,totals,_=roster_data
+    all_ids=set(all_forecasts['Home ID'].astype(str))|set(all_forecasts['Away ID'].astype(str)) if not all_forecasts.empty else set()
+    adjustments=evidence_adjustments(prior,current,totals,all_ids)
+    roster_file=root/'roster_forecasts.csv.gz'
+    roster_existing=read_gz(roster_file,EXTRA_FIELDS)
+    roster_new=new_roster_forecasts(all_forecasts,roster_existing,adjustments,now)
+    roster_all=merge_immutable(roster_existing,roster_new)
+    if not roster_new.empty:save_gz(roster_all,roster_file)
+    # Scores live separately and can change (corrections), but predictions never do.
     season_file=ROOT/'ratings'/sport/'season_2026-27.csv.gz'
     finals=read_gz(season_file)
-    evaluation=evaluate_first_forecasts(all_forecasts,finals)
+    evaluation=join_evaluation(evaluate_first_forecasts(all_forecasts,finals),roster_all,classifications)
     if not evaluation.empty:save_gz(evaluation,root/'evaluated_games.csv.gz')
     n_eligible=int(new['Roster eligible'].sum()) if not new.empty else 0
+    d1_games=evaluation[evaluation['Matchup class']=='D1 vs D1'] if not evaluation.empty and 'Matchup class' in evaluation else pd.DataFrame()
+    d1_paired=d1_games.dropna(subset=['Roster absolute error']) if not d1_games.empty else pd.DataFrame()
     summary={'updated_utc':now.isoformat(),'division':sport,'forecast_horizon_days':14,
         'forecast_diagnostics':diagnostics,'new_forecasts':len(new),
         'new_roster_eligible':n_eligible,'archived_forecasts':len(all_forecasts),
         'evaluated_games':len(evaluation),'paired_model_games':int(evaluation['Roster absolute error'].notna().sum()) if not evaluation.empty else 0,
+        'additional_roster_forecasts':len(roster_new),
+        'total_roster_forecasts':len(roster_all),
+        'd1_vs_d1_forecasts':int((classifications['Matchup class']=='D1 vs D1').sum()),
+        'd1_completed_games':len(d1_games), 'd1_paired_games':len(d1_paired),
+        'd1_baseline_mae':float(d1_games['Baseline absolute error'].mean()) if not d1_games.empty else None,
+        'd1_baseline_paired_mae':float(d1_paired['Baseline absolute error'].mean()) if not d1_paired.empty else None,
+        'd1_roster_paired_mae':float(d1_paired['Roster absolute error'].mean()) if not d1_paired.empty else None,
         'baseline_mae_all':float(evaluation['Baseline absolute error'].mean()) if not evaluation.empty else None,
         'baseline_mae_paired':float(evaluation.loc[evaluation['Roster absolute error'].notna(),'Baseline absolute error'].mean()) if not evaluation.empty and evaluation['Roster absolute error'].notna().any() else None,
         'roster_mae_paired':float(evaluation['Roster absolute error'].mean()) if not evaluation.empty and evaluation['Roster absolute error'].notna().any() else None,
@@ -218,7 +252,7 @@ def run(sport,now):
     root.mkdir(parents=True,exist_ok=True)
     (root/'status.json').write_text(json.dumps(summary,indent=2,allow_nan=False)+'\n')
     print(f'{sport}: 14-day window | fetched={diagnostics["schedule_games"]} | future={diagnostics["future_games"]} | future scheduled={diagnostics["future_scheduled_games"]} | already locked={diagnostics["previously_archived"]} | missing rated opponent={diagnostics["missing_rating"]} | eligible baseline={diagnostics["baseline_eligible"]} | eligible roster={diagnostics["roster_eligible"]}',flush=True)
-    print(f'{sport}: {len(new)} new (roster {n_eligible}), {len(all_forecasts)} archived, {len(evaluation)} evaluated',flush=True)
+    print(f'{sport}: {len(new)} new baseline, {len(roster_new)} new separate roster forecasts, {len(all_forecasts)} baseline locked, {len(evaluation)} evaluated; D1-only reporting available',flush=True)
 
 
 def main():
