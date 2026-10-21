@@ -33,6 +33,7 @@ from roster_reconciliation import reconciliation_summary
 from historical_roster_rebuild import reconstruct_teams, source_cutoff_audit
 from historical_evidence import classify_evidence, player_membership_audit, EVIDENCE_FIELDS
 from prospective_roster import evidence_adjustments, make_forecasts, evaluate_forecasts
+from forecast_comparison import combined_forecasts
 
 st.set_page_config(page_title="College Basketball Dashboard", page_icon="🏀", layout="wide")
 st.title("🏀 College Basketball")
@@ -595,6 +596,28 @@ with ratings_tab:
                         with st.expander("View saved pre-tip forecasts"):
                             st.dataframe(archived.tail(100), hide_index=True, use_container_width=True)
                         st.download_button("Download immutable forecasts", archived.to_csv(index=False).encode(), f"{SPORTS[league]}_first_forecasts.csv", "text/csv", key=f"forecasts_archive_{SPORTS[league]}")
+                if forecasts_path.exists():
+                    baseline_archive=pd.read_csv(forecasts_path,compression='gzip',dtype={'Game ID':str})
+                    later_archive=(pd.read_csv(roster_predictions_file,compression='gzip',dtype={'Game ID':str})
+                                   if roster_predictions_file.exists() else pd.DataFrame())
+                    class_archive=(pd.read_csv(classification_file,compression='gzip',dtype={'Game ID':str})
+                                   if classification_file.exists() else pd.DataFrame())
+                    comparison=combined_forecasts(baseline_archive,later_archive,class_archive)
+                    if not comparison.empty:
+                        st.markdown("**Side-by-side locked baseline and later roster forecasts**")
+                        st.caption("Later roster forecasts are independently timestamped and may use roster information available after the baseline was locked. The baseline is not recalculated at the later time. Do not attribute a later forecast improvement solely to roster features.")
+                        view_cols=['Game ID','Game start UTC','Home','Away','Matchup class',
+                                   'Baseline home margin','First forecast UTC','Rating snapshot date',
+                                   'Later roster home margin','Roster forecast UTC',
+                                   'Baseline home margin at roster forecast','Roster model version','Later roster available']
+                        st.dataframe(comparison[[x for x in view_cols if x in comparison]],hide_index=True,use_container_width=True)
+                        st.download_button("Download paired prediction audit",comparison.to_csv(index=False).encode(),
+                                           f"{SPORTS[league]}_paired_forecast_audit.csv","text/csv",key=f"paired_forecasts_{SPORTS[league]}")
+                followup=archive_status.get('roster_followup_diagnostics',{})
+                if followup:
+                    with st.expander("Roster forecast eligibility diagnostics"):
+                        st.dataframe(pd.DataFrame([{'Reason':k.replace('_',' '),'Games':v} for k,v in followup.items()]),hide_index=True,use_container_width=True)
+                        st.caption("These counts examine locked baseline games for NEW later roster forecasts; they do not describe baseline forecast eligibility.")
                 evaluated_path = archive_base / "evaluated_games.csv.gz"
                 if evaluated_path.exists():
                     paired = pd.read_csv(evaluated_path,compression='gzip')
