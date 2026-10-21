@@ -36,9 +36,11 @@ from prospective_roster import evidence_adjustments, make_forecasts, evaluate_fo
 from forecast_comparison import combined_forecasts
 from preliminary_model import build_preliminary_ratings, add_experimental_lines
 from courtside_home import style as courtside_style, render_home
+from courtside_tables import apply_table_theme, dataframe as courtside_dataframe
 
 st.set_page_config(page_title="Courtside | College Basketball Analytics", page_icon="🏀", layout="wide", initial_sidebar_state="collapsed")
 courtside_style()
+apply_table_theme()
 st.title("🏀 Courtside")
 st.caption("College Basketball Analytics · 2026–27")
 sections=["Home","Games","Rankings","Teams","Conferences","Schedule strength","Record strength","Model Lab"]
@@ -250,7 +252,7 @@ def conf_label(raw: str, lookup: dict):
 
 def show_schedule(df):
     columns = ["Date", "Time (ET)", "Away", "Home", "Venue", "Status", "Model line", "Away score", "Home score"]
-    st.dataframe(df[[col for col in columns if col in df.columns]], hide_index=True, use_container_width=True, height=560)
+    courtside_dataframe(df[[col for col in columns if col in df.columns]], hide_index=True, use_container_width=True, height=560)
 
 
 
@@ -602,10 +604,10 @@ if selected_section == "Rankings":
     if isinstance(team_ratings,pd.DataFrame) and not team_ratings.empty:
         order=team_ratings.sort_values('Current power',ascending=False).copy()
         display_columns=[c for c in ['Rank','Team','Conference','Current power','Games played','Preseason rating'] if c in order.columns]
-        st.dataframe(order[display_columns],hide_index=True,use_container_width=True,height=600)
+        courtside_dataframe(order[display_columns],hide_index=True,use_container_width=True,height=600)
         with st.expander('Experimental roster-adjusted rankings'):
             if not preliminary_ratings.empty:
-                st.dataframe(preliminary_ratings[[c for c in ['Experimental rank','Team','Current power','Experimental power','Roster adjustment','Roster data status'] if c in preliminary_ratings.columns]],hide_index=True,use_container_width=True)
+                courtside_dataframe(preliminary_ratings[[c for c in ['Experimental rank','Team','Current power','Experimental power','Roster adjustment','Roster data status'] if c in preliminary_ratings.columns]],hide_index=True,use_container_width=True)
             else:st.info('Experimental rankings are not available yet.')
     else:st.info('Rankings will appear once saved ratings are available.')
 
@@ -633,7 +635,7 @@ if selected_section == "Model Lab":
             c2.metric("Teams with qualifying roster data",affected)
             c3.metric("Teams with nonzero adjustment",changed)
             fields=['Experimental rank','Team','Conference','Rank','Current power','Experimental power','Roster adjustment','Roster return minutes %','Roster data status','Games played']
-            st.dataframe(preliminary_ratings[[x for x in fields if x in preliminary_ratings]].sort_values('Experimental power',ascending=False),hide_index=True,use_container_width=True,height=430)
+            courtside_dataframe(preliminary_ratings[[x for x in fields if x in preliminary_ratings]].sort_values('Experimental power',ascending=False),hide_index=True,use_container_width=True,height=430)
             st.download_button("Download preliminary roster ratings",preliminary_ratings.to_csv(index=False).encode(),f"{SPORTS[league]}_preliminary_ratings.csv",'text/csv',key=f'v41_prelim_dl_{SPORTS[league]}')
             st.caption("Coefficient: 0.5 rating points per 10 percentage points of returning minutes versus a 50% reference, capped at ±3 before preseason-weight decay. This is a scenario assumption, not a trained player-impact model.")
     with st.expander("📦 Automatic prospective prediction archive", expanded=False):
@@ -658,7 +660,7 @@ if selected_section == "Model Lab":
                     roster_archive=pd.read_csv(roster_predictions_file,compression='gzip',dtype={'Game ID':str})
                     st.metric("Separate pre-tip roster forecasts",len(roster_archive))
                     with st.expander("View separately timestamped roster-model forecasts"):
-                        st.dataframe(roster_archive.tail(100),hide_index=True,use_container_width=True)
+                        courtside_dataframe(roster_archive.tail(100),hide_index=True,use_container_width=True)
                 classification_file=archive_base / "game_classification.csv.gz"
                 if classification_file.exists():
                     classes=pd.read_csv(classification_file,compression='gzip',dtype={'Game ID':str})
@@ -670,7 +672,7 @@ if selected_section == "Model Lab":
                     if not archived.empty:
                         st.caption("A forecast is recorded only if generated before its scheduled UTC tipoff. A missing roster forecast is left blank, not treated as zero.")
                         with st.expander("View saved pre-tip forecasts"):
-                            st.dataframe(archived.tail(100), hide_index=True, use_container_width=True)
+                            courtside_dataframe(archived.tail(100), hide_index=True, use_container_width=True)
                         st.download_button("Download immutable forecasts", archived.to_csv(index=False).encode(), f"{SPORTS[league]}_first_forecasts.csv", "text/csv", key=f"forecasts_archive_{SPORTS[league]}")
                 if forecasts_path.exists():
                     baseline_archive=pd.read_csv(forecasts_path,compression='gzip',dtype={'Game ID':str})
@@ -686,13 +688,13 @@ if selected_section == "Model Lab":
                                    'Baseline home margin','First forecast UTC','Rating snapshot date',
                                    'Later roster home margin','Roster forecast UTC',
                                    'Baseline home margin at roster forecast','Roster model version','Later roster available']
-                        st.dataframe(comparison[[x for x in view_cols if x in comparison]],hide_index=True,use_container_width=True)
+                        courtside_dataframe(comparison[[x for x in view_cols if x in comparison]],hide_index=True,use_container_width=True)
                         st.download_button("Download paired prediction audit",comparison.to_csv(index=False).encode(),
                                            f"{SPORTS[league]}_paired_forecast_audit.csv","text/csv",key=f"paired_forecasts_{SPORTS[league]}")
                 followup=archive_status.get('roster_followup_diagnostics',{})
                 if followup:
                     with st.expander("Roster forecast eligibility diagnostics"):
-                        st.dataframe(pd.DataFrame([{'Reason':k.replace('_',' '),'Games':v} for k,v in followup.items()]),hide_index=True,use_container_width=True)
+                        courtside_dataframe(pd.DataFrame([{'Reason':k.replace('_',' '),'Games':v} for k,v in followup.items()]),hide_index=True,use_container_width=True)
                         st.caption("These counts examine locked baseline games for NEW later roster forecasts; they do not describe baseline forecast eligibility.")
                 evaluated_path = archive_base / "evaluated_games.csv.gz"
                 if evaluated_path.exists():
@@ -727,7 +729,7 @@ if selected_section == "Model Lab":
                 st.info("No upcoming games have both teams' required roster information. As the archive fills in, more comparisons can appear.")
             else:
                 show_cols=['Game date','Away','Home','Baseline home margin','Roster experimental home margin','Home retention %','Away retention %']
-                st.dataframe(forecast[show_cols],hide_index=True,use_container_width=True)
+                courtside_dataframe(forecast[show_cols],hide_index=True,use_container_width=True)
                 st.download_button("Download dated prospective forecasts",forecast.to_csv(index=False).encode(),f"{SPORTS[league]}_roster_forecasts_{date.today().isoformat()}.csv","text/csv",key=f"prospective_csv_{SPORTS[league]}")
                 st.caption("Positive home margin favors the home team; negative favors the away team. The hypothetical adjustment assumes 0.5 points per 10 percentage-point difference in returning minutes, capped at ±3 team points. It is not historically fitted.")
             st.markdown("**Evaluate a previously downloaded forecast file**")
@@ -772,24 +774,24 @@ if selected_section == "Model Lab":
                 st.caption("Box-score-only players supplement the prior-season player pool without claiming they appeared on an official roster. Missing historical games and season membership are not independently verified. Returning minutes use only documented box-score totals; no missing totals are imputed.")
                 if recon.empty: st.info("No matching player evidence archived yet.")
                 else:
-                    st.dataframe(recon,hide_index=True,use_container_width=True)
+                    courtside_dataframe(recon,hide_index=True,use_container_width=True)
                     st.download_button("Download reconciliation summary",recon.to_csv(index=False).encode(),f"{SPORTS[league]}_reconciliation.csv","text/csv",key=f"recon_export_{SPORTS[league]}")
             if not detailed_coverage.empty:
                 with st.expander("Box-score coverage, missing player IDs & retry status",expanded=False):
                     st.caption("Game coverage is the proportion of DISCOVERED games parsed. It does not prove all season games or players were published by ESPN. Legacy archived batches may have no game-level counts until recollected.")
-                    st.dataframe(detailed_coverage,hide_index=True,use_container_width=True)
+                    courtside_dataframe(detailed_coverage,hide_index=True,use_container_width=True)
                     st.download_button("Download detailed coverage audit",detailed_coverage.to_csv(index=False).encode(),
                         f"{SPORTS[league]}_coverage_audit.csv", "text/csv",key=f"coverage_export_{SPORTS[league]}")
 
             if not feature_table.empty:
                 cols=['Team ID','Prior roster players','Current roster players','Prior player match %','Unmatched arrivals','Coverage status','Usable for exploratory features']
-                st.dataframe(feature_table[cols],hide_index=True,use_container_width=True)
+                courtside_dataframe(feature_table[cols],hide_index=True,use_container_width=True)
                 st.download_button("Download roster validation and feature table", feature_table.to_csv(index=False).encode(),
                                    f"{SPORTS[league]}_roster_validation.csv", "text/csv", key=f"validation_download_{SPORTS[league]}")
                 good=feature_table[feature_table['Usable for exploratory features']]
                 if not good.empty:
                     with st.expander("Documented player-impact inputs (not fitted coefficients)"):
-                        st.dataframe(good[['Team ID']+['Returning minutes % (known only)','Returning points % (known only)',
+                        courtside_dataframe(good[['Team ID']+['Returning minutes % (known only)','Returning points % (known only)',
                                    'Returning rebounds % (known only)','Returning assists % (known only)']],hide_index=True,use_container_width=True)
             st.warning("Historical accuracy comparison is not yet available: current 2026–27 roster snapshots cannot be used as preseason evidence for November 2025. The existing 11.36-point November MAE remains the benchmark, not a roster-model score.")
 
@@ -810,7 +812,7 @@ if selected_section == "Model Lab":
                     if athlete_df.empty:
                         st.warning("Roster feed returned no athlete entries. No player contributions will be inferred.")
                     else:
-                        st.dataframe(athlete_df, hide_index=True, use_container_width=True)
+                        courtside_dataframe(athlete_df, hide_index=True, use_container_width=True)
                         st.caption("Roster inclusion does not establish returning production, recruiting rank, or expected minutes.")
                 except Exception as e:
                     st.warning("Roster not available from the feed: " + str(e)[:180])
@@ -840,7 +842,7 @@ if selected_section == "Model Lab":
                 st.metric("Roster entries retrieved", len(snapshots))
                 if not problems.empty:
                     st.warning(f"{len(problems)} season/team requests failed. Do not interpret missing players as departures.")
-                    st.dataframe(problems, hide_index=True, use_container_width=True)
+                    courtside_dataframe(problems, hide_index=True, use_container_width=True)
                 summaries=[]
                 for tid,group in snapshots.groupby("Team ID"):
                     old = group[group["Roster season"]==2026]; new = group[group["Roster season"]==2027]
@@ -848,7 +850,7 @@ if selected_section == "Model Lab":
                     summaries.append({"Team":group["Team"].iloc[0],"2025–26 entries":len(old),"2026–27 entries":len(new),
                                       "Audit status": "Unusable: identical athlete sets" if unchanged else "Incomplete" if old.empty or new.empty else "Tentative (season validation needed)"})
                 if summaries:
-                    st.dataframe(pd.DataFrame(summaries),hide_index=True,use_container_width=True)
+                    courtside_dataframe(pd.DataFrame(summaries),hide_index=True,use_container_width=True)
                 st.download_button("Download raw roster snapshots", snapshots.to_csv(index=False).encode(),"roster_snapshots.csv","text/csv",key="download_roster_snapshots")
                 st.info("Player-impact adjustments remain zero unless you upload sourced estimates. A true full-D1 transfer audit requires archived season-accurate rosters for every school and verified player IDs; this feature does not claim that coverage.")
 
@@ -870,7 +872,7 @@ if selected_section == "Model Lab":
         auto=st.session_state.get(f"auto_player_stats_{SPORTS[league]}")
         if auto is not None:
             data,diagnostic,failures=auto
-            st.dataframe(diagnostic,hide_index=True,use_container_width=True)
+            courtside_dataframe(diagnostic,hide_index=True,use_container_width=True)
             if failures: st.warning(f"{len(failures)} fetch issues. Some numbers may be incomplete; review the game coverage table.")
             if not data.empty:
                 st.download_button("Download automatically retrieved player totals",data.to_csv(index=False).encode(),"player_stats_2025_26.csv","text/csv",key="auto_stats_download_v18")
@@ -885,10 +887,10 @@ if selected_section == "Model Lab":
                 for note in notes: st.warning(note)
                 if summary.empty: st.info("No teams qualified for a returning-production calculation.")
                 else:
-                    st.dataframe(summary,hide_index=True,use_container_width=True)
+                    courtside_dataframe(summary,hide_index=True,use_container_width=True)
                     st.download_button("Download returning production summary",summary.to_csv(index=False).encode(),"returning_production_summary.csv","text/csv",key="return_summary_v17")
                     with st.expander("Player-by-player reconciliation"):
-                        st.dataframe(audit,hide_index=True,use_container_width=True)
+                        courtside_dataframe(audit,hide_index=True,use_container_width=True)
                         st.download_button("Download player audit",audit.to_csv(index=False).encode(),"returning_production_player_audit.csv","text/csv",key="return_audit_v17")
                 st.info("These are **known-data percentages**, not verified shares of all team production. Missing historical games/players can distort totals. Roster completeness must be reconciled before using them for ratings.")
             except Exception as exc:
@@ -925,7 +927,7 @@ if selected_section == "Model Lab":
                 st.caption(f"Prior-season roster coverage: {completed} of {n} directory schools returned nonempty rosters ({len(errors)} failed/empty). This does not independently establish season accuracy.")
                 if not errors.empty:
                     with st.expander("Schools with unavailable historical rosters"):
-                        st.dataframe(errors,hide_index=True,use_container_width=True)
+                        courtside_dataframe(errors,hide_index=True,use_container_width=True)
                 candidates=match_candidates(candidates,prior,source_stats[0] if source_stats is not None else None)
                 matched=int(candidates['Status'].astype(str).str.startswith('Potential transfer').sum()) if not candidates.empty else 0
                 st.metric("Possible prior-school ID matches",matched)
@@ -944,7 +946,7 @@ if selected_section == "Model Lab":
                     st.caption(f"Previous schools requested: {attempted2}; individual historical player totals retrieved: {len(data2)}. Only actual retrieved totals are shown.")
                     if not coverage2.empty:
                         with st.expander("Previous-school box-score coverage"):
-                            st.dataframe(coverage2,hide_index=True,use_container_width=True)
+                            courtside_dataframe(coverage2,hide_index=True,use_container_width=True)
                     if warnings2:
                         with st.expander("Fetch warnings"):
                             for warning in warnings2[:80]:st.caption(warning)
@@ -955,14 +957,14 @@ if selected_section == "Model Lab":
                     audit2=transfer_coverage(candidates,data2,coverage2)
                     if not audit2.empty:
                         with st.expander("Matched player and statistics coverage"):
-                            st.dataframe(audit2,hide_index=True,use_container_width=True)
+                            courtside_dataframe(audit2,hide_index=True,use_container_width=True)
             st.session_state[f"incoming_candidates_{SPORTS[league]}"]=candidates.copy()
             if candidates.empty:st.info("No incoming roster appearances identified for the audited teams.")
             else:
                 focus=st.selectbox("View arrivals for one team", sorted(candidates['Team'].dropna().unique().tolist()), key=f"incoming_focus_{SPORTS[league]}")
                 subset=candidates[candidates['Team']==focus]
                 st.metric("New roster appearances requiring verification",len(subset))
-                st.dataframe(subset[['Player','Prior school','Status','Previous minutes','Previous points','Previous rebounds','Previous assists']],hide_index=True,use_container_width=True)
+                courtside_dataframe(subset[['Player','Prior school','Status','Previous minutes','Previous points','Previous rebounds','Previous assists']],hide_index=True,use_container_width=True)
                 st.download_button("Download all audited incoming players",candidates.to_csv(index=False).encode(),"incoming_player_candidates.csv","text/csv",key=f"incoming_download_{SPORTS[league]}")
                 st.warning("All incoming-player classifications are provisional. No transfer bonuses are applied to ratings or lines.")
 
@@ -972,11 +974,11 @@ if selected_section == "Model Lab":
     st.caption(effect_message)
     if player_table is not None and not player_table.empty:
         with st.expander("Player adjustments and data audit", expanded=False):
-            st.dataframe(player_table, hide_index=True, use_container_width=True)
+            courtside_dataframe(player_table, hide_index=True, use_container_width=True)
             st.caption("Verify transfers, departures, current teams, playing time and all source URLs. Rows lacking a source or numeric adjustment will not change ratings.")
             if effects:
                 audit = pd.DataFrame([{"Team ID":t,"Net player adjustment":round(v,2)} for t,v in sorted(effects.items())])
-                st.dataframe(audit, hide_index=True, use_container_width=True)
+                courtside_dataframe(audit, hide_index=True, use_container_width=True)
     if st.button("Calculate current ratings, conference strength, SOS and lines", type="primary", key="v7_calculate"):
         st.session_state[f"v7_enabled_{SPORTS[league]}"] = True
     if st.session_state.get(f"v7_enabled_{SPORTS[league]}", False):
@@ -1005,7 +1007,7 @@ if selected_section == "Model Lab":
             st.warning("CAUTION: This first version fits each season separately and centers each fitted network independently. Blended ratings and point spreads are exploratory until cross-season calibration and roster coverage are validated.")
             t1,t2,t3,t4,t5=st.tabs(["Team ratings","Conference strength","Strength of schedule","Game lines","Model evaluation"])
             with t1:
-                st.dataframe(combined[["Rank","Team","Conference","Preseason rating","On-court rating","Games played","Preseason weight","Current power","Rating change"]], hide_index=True,use_container_width=True)
+                courtside_dataframe(combined[["Rank","Team","Conference","Preseason rating","On-court rating","Games played","Preseason weight","Current power","Rating change"]], hide_index=True,use_container_width=True)
                 st.download_button("Download team ratings", combined.to_csv(index=False).encode(),"team_ratings.csv","text/csv")
                 st.caption("At 0, 5, 10, 15, 20 and 25 games, on-court weights are 0%, 35%, 65%, 85%, 95% and 100%. Recruiting inputs have no influence after 25 games.")
             with t2:
@@ -1017,7 +1019,7 @@ if selected_section == "Model Lab":
                     top=known.groupby("Conference")["Current power"].apply(lambda x:x.nlargest(5).mean()).rename("Top-five power").reset_index()
                     conferences=conferences.merge(top,on="Conference").sort_values("Average_power",ascending=False)
                     st.session_state[f"conferences_{SPORTS[league]}"] = conferences.copy()
-                    st.dataframe(conferences,hide_index=True,use_container_width=True)
+                    courtside_dataframe(conferences,hide_index=True,use_container_width=True)
                     st.download_button("Download conference ratings",conferences.to_csv(index=False).encode(),"conference_ratings.csv","text/csv")
                     st.caption("Conference averages are affected by unmodeled programs. Check team coverage before comparing conferences.")
             rating_map=combined.set_index("Team ID")["Current power"].to_dict()
@@ -1072,7 +1074,7 @@ if selected_section == "Model Lab":
                             a.metric("D1 teams in SOS table",len(sos))
                             b.metric("Eligible provisional rankings",eligible_count)
                             c.metric("Need review / incomplete",len(sos)-eligible_count)
-                            st.dataframe(sos[["SOS rank (provisional)","Team","Conference","Schedule coverage status","D1 games loaded","Rated games","Rating coverage %","Full SOS","Played SOS","Remaining SOS","Played rated games","Coverage explanation"]],hide_index=True,use_container_width=True)
+                            courtside_dataframe(sos[["SOS rank (provisional)","Team","Conference","Schedule coverage status","D1 games loaded","Rated games","Rating coverage %","Full SOS","Played SOS","Remaining SOS","Played rated games","Coverage explanation"]],hide_index=True,use_container_width=True)
                             st.download_button("Download provisional D1 SOS with coverage",sos.to_csv(index=False).encode(),"d1_sos_v10_coverage.csv","text/csv")
                             st.caption("'D1 games loaded' counts verified D1-versus-D1 fixtures found in fetched dates, excluding non-D1 opponents. 'Rating coverage %' measures the fraction of these games with a rated opponent, not the fraction of a team's actual full schedule retrieved. Teams with unavailable schedule data may not appear at all.")
             with t4:
@@ -1085,7 +1087,7 @@ if selected_section == "Model Lab":
                     projections.append({"Date":g["Date"],"Away":g["Away"],"Home":g["Home"],"Venue":g["Venue"],"Home margin projection":margin,"Model favorite":g["Home"] if margin>=0 else g["Away"],"Model line":f"{abs(margin):.1f}","Home win %":win})
                 if projections:
                     prediction_df=pd.DataFrame(projections)
-                    st.dataframe(prediction_df,hide_index=True,use_container_width=True)
+                    courtside_dataframe(prediction_df,hide_index=True,use_container_width=True)
                     st.download_button("Download projected lines",prediction_df.to_csv(index=False).encode(),"model_lines.csv","text/csv")
                     st.caption("Only verified D1-v-D1 games are projected. Positive home margin = home team favored; model line is the absolute spread for the named favorite. Illustrative modeling method, not sportsbook odds. Scores/totals are not available without a separate pace model.")
                 else:
@@ -1116,7 +1118,7 @@ if selected_section == "Model Lab":
                         st.caption(f"Brier score: {metrics['Brier score']:.3f} (lower is better). {metrics['folds']} time-ordered test periods, {metrics['date_first']} to {metrics['date_last']}. This is retrospective and does not reproduce archived roster-based predictions.")
                         if metrics['MAE'] >= metrics['Baseline MAE']:
                             st.warning("The power model did not outperform a home-court-only margin baseline in this sample. Do not treat its point spreads as validated forecasts.")
-                        st.dataframe(results, hide_index=True, use_container_width=True)
+                        courtside_dataframe(results, hide_index=True, use_container_width=True)
                         st.download_button("Download held-out game predictions", results.to_csv(index=False).encode(), f"historical_backtest_{SPORTS[league]}.csv", "text/csv")
                 st.divider()
                 with st.expander("Historical 2025–26 roster reconstruction (research only)",expanded=False):
@@ -1135,9 +1137,9 @@ if selected_section == "Model Lab":
                         if isinstance(reconstructed,tuple) and len(reconstructed)==3:
                             h_audit,h_features,h_players=reconstructed
                             st.write('**Historical source audit**')
-                            st.dataframe(h_audit,hide_index=True,use_container_width=True)
+                            courtside_dataframe(h_audit,hide_index=True,use_container_width=True)
                             st.write('**Retrospective returning-production features (not for held-out scoring)**')
-                            st.dataframe(h_features,hide_index=True,use_container_width=True)
+                            courtside_dataframe(h_features,hide_index=True,use_container_width=True)
                             st.download_button('Download reconstructed features',h_features.to_csv(index=False).encode(),'historical_roster_features_2025_26.csv','text/csv',key='hist_feat_download')
                             if not h_players.empty:st.download_button('Download documented player totals',h_players.to_csv(index=False).encode(),'historical_2024_25_player_totals.csv','text/csv',key='hist_player_download')
                         st.divider()
@@ -1148,7 +1150,7 @@ if selected_section == "Model Lab":
                         historical_upload=st.file_uploader('Upload archived preseason membership evidence',type='csv',key=f'historical_evidence_{SPORTS[league]}')
                         dated,dated_message=source_cutoff_audit(historical_upload,source_teams['Team ID'].astype(str))
                         st.caption(dated_message)
-                        if historical_upload is not None:st.dataframe(dated,hide_index=True,use_container_width=True)
+                        if historical_upload is not None:courtside_dataframe(dated,hide_index=True,use_container_width=True)
                         st.write('**Point-in-time membership verification — research audit**')
                         st.caption('A preseason-confirmed label requires a dated source, an explicit manual confirmation, and a reviewer note. The app checks entered metadata only; it does not authenticate linked webpages. Later-season rosters or game appearances never qualify by themselves.')
                         st.download_button('Download membership review template',pd.DataFrame(columns=EVIDENCE_FIELDS).to_csv(index=False).encode(),'2025_26_preseason_membership_review.csv','text/csv',key=f'preseason_review_template_{SPORTS[league]}')
@@ -1159,14 +1161,14 @@ if selected_section == "Model Lab":
                                 allowed=set(source_teams['Team ID'].astype(str))
                                 reviewed.loc[~reviewed['Team ID'].isin(allowed),'Eligible for point-in-time feature']=False
                                 reviewed.loc[~reviewed['Team ID'].isin(allowed),'Evidence classification']='Unverified — team not in selected division directory'
-                                st.dataframe(reviewed,hide_index=True,use_container_width=True)
+                                courtside_dataframe(reviewed,hide_index=True,use_container_width=True)
                                 st.metric('Manually reviewed pre-cutoff membership rows',int(reviewed['Eligible for point-in-time feature'].sum()))
                                 st.download_button('Download evidence classification',reviewed.to_csv(index=False).encode(),'historical_evidence_audit.csv','text/csv',key=f'evidence_export_{SPORTS[league]}')
                                 if isinstance(reconstructed,tuple) and len(reconstructed)==3:
                                     joined=player_membership_audit(reconstructed[2],reviewed)
                                     if not joined.empty:
                                         st.write('**Prior-season players with reviewed target-season membership**')
-                                        st.dataframe(joined[['Team ID','Player ID','Player' if 'Player' in joined else 'Player ID','Evidence classification','Returning-production eligible']].loc[:,lambda d:~d.columns.duplicated()],hide_index=True,use_container_width=True)
+                                        courtside_dataframe(joined[['Team ID','Player ID','Player' if 'Player' in joined else 'Player ID','Evidence classification','Returning-production eligible']].loc[:,lambda d:~d.columns.duplicated()],hide_index=True,use_container_width=True)
                                         st.download_button('Download point-in-time eligibility audit',joined.to_csv(index=False).encode(),'player_membership_point_in_time_audit.csv','text/csv',key=f'membership_export_{SPORTS[league]}')
                             except Exception as exc:
                                 st.error(f'Could not audit review file: {type(exc).__name__}: {str(exc)[:160]}')
@@ -1177,7 +1179,7 @@ if selected_section == "Model Lab":
                 with st.expander("Roster model comparison — historical readiness", expanded=False):
                     st.write("**Comparison plan:** prior-season team rating versus prior-season rating plus returning production and incoming transfers, using the **same held-out November games**.")
                     st.caption("Historical 2025–26 roster and transfer snapshots must be collected as they stood before November 2025, with 2024–25 player totals. The current 2026–27 roster scan cannot be used to evaluate November 2025 predictions.")
-                    st.dataframe(pd.DataFrame([
+                    courtside_dataframe(pd.DataFrame([
                         {'Method':'Previous-season baseline','Historical test':'Available below','Roster evidence':'Not required'},
                         {'Method':'Returning production','Historical test':'Pending','Roster evidence':'Pre-November 2025 rosters + 2024–25 minutes'},
                         {'Method':'Incoming transfers','Historical test':'Pending','Roster evidence':'Verified former schools + 2024–25 game logs'},
@@ -1195,7 +1197,7 @@ if selected_section == "Model Lab":
                 st.caption(early_note)
                 if not audit.empty:
                     with st.expander("Historical input audit"):
-                        st.dataframe(audit,hide_index=True,use_container_width=True)
+                        courtside_dataframe(audit,hide_index=True,use_container_width=True)
                 if st.button("Run November 2025 preseason comparison",key=f"run_early_{SPORTS[league]}"):
                     with st.spinner("Fetching 2024–25 results and evaluating November 2025 games. Initial load may take several minutes..."):
                         early_prior, early_failed, early_trunc, _=get_schedule(SPORTS[league],date(2024,11,1),date(2025,4,8))
@@ -1208,7 +1210,7 @@ if selected_section == "Model Lab":
                         st.warning(f"Missing or truncated source requests: prior season {early_failures+early_truncations}; test season {len(he)+len(ht)}. Results may be incomplete.")
                     if early_error:st.warning(early_error)
                     elif isinstance(early_metrics,pd.DataFrame) and not early_metrics.empty:
-                        st.dataframe(early_metrics.style.format({"Margin MAE":"{:.2f}","Winner accuracy":"{:.1%}","Brier score":"{:.3f}"}),hide_index=True,use_container_width=True)
+                        courtside_dataframe(early_metrics.style.format({"Margin MAE":"{:.2f}","Winner accuracy":"{:.1%}","Brier score":"{:.3f}"}),hide_index=True,use_container_width=True)
                         st.caption("Identical held-out games for all compared methods. Historical manual roster adjustments are unvalidated assumptions; improvements are descriptive, not proof of out-of-sample roster-model gains if the estimates were chosen after outcomes were known.")
                         st.download_button("Download November comparison predictions",early_predictions.to_csv(index=False).encode(),"november_2025_backtest.csv","text/csv",key="early_download")
 
@@ -1259,7 +1261,7 @@ if selected_section == "Games":
     if shown.empty:
         st.info("No games match this selection. Try another date window or filter.")
     else:
-        st.dataframe(shown[["Date","Time (ET)","Away","Home","Status","Model line","Experimental line","Roster input status","Away score","Home score"]],
+        courtside_dataframe(shown[["Date","Time (ET)","Away","Home","Status","Model line","Experimental line","Roster input status","Away score","Home score"]],
                      hide_index=True, use_container_width=True, height=470)
     with st.expander("Download games and data notes"):
         st.download_button("Download selected games CSV", shown.to_csv(index=False).encode(), "basketball_games.csv", "text/csv",key="v12_download_games")
@@ -1288,7 +1290,7 @@ if selected_section == "Teams":
             m3.metric("Preseason", f"{float(row['Preseason rating']):+.1f}")
             m4.metric("Games played", int(row["Games played"]))
             with st.expander("📈 Detailed rating breakdown", expanded=False):
-                st.dataframe(pd.DataFrame([row])[['Preseason rating','On-court rating','Preseason weight','Current power','Rating change']],hide_index=True,use_container_width=True)
+                courtside_dataframe(pd.DataFrame([row])[['Preseason rating','On-court rating','Preseason weight','Current power','Rating change']],hide_index=True,use_container_width=True)
                 st.caption("Preseason weight drops with on-court results. Missing on-court rating means the season has not supplied enough games.")
         else:
             st.info("Power ratings have not been loaded for this team. Open Model Lab to calculate them.")
@@ -1336,7 +1338,7 @@ if selected_section == "Teams":
                         st.line_chart(valid_rank.set_index("Snapshot date")[["Rank"]], use_container_width=True)
                 with st.expander("View dated rating records"):
                     view_cols = [c for c in ["Snapshot date", "Rank", "Current power", "Preseason rating", "On-court rating", "Games played", "Preseason weight"] if c in trend.columns]
-                    st.dataframe(trend[view_cols].sort_values("Snapshot date", ascending=False), hide_index=True, use_container_width=True)
+                    courtside_dataframe(trend[view_cols].sort_values("Snapshot date", ascending=False), hide_index=True, use_container_width=True)
                 st.caption("Only successful saved daily runs appear here. A flat graph can simply mean no games were played between snapshots; preseason numbers remain experimental.")
         team_games=games[(games["Away ID"].astype(str)==tid)|(games["Home ID"].astype(str)==tid)].copy()
         team_games["Opponent"]=team_games.apply(lambda x:x["Away"] if str(x["Home ID"])==tid else x["Home"],axis=1) if not team_games.empty else pd.Series(dtype=str)
@@ -1345,14 +1347,14 @@ if selected_section == "Teams":
         st.markdown("#### Schedule and projected lines")
         st.caption(f"{len(team_games)} games found in the selected date window. Change the season coverage in the sidebar to see more.")
         if not team_games.empty:
-            st.dataframe(team_games[["Date","Opponent","Location","Status","Model line","Away score","Home score"]],hide_index=True,use_container_width=True,height=390)
+            courtside_dataframe(team_games[["Date","Opponent","Location","Status","Model line","Away score","Home score"]],hide_index=True,use_container_width=True,height=390)
         else:
             st.info("No games in the loaded date range.")
         with st.expander("📊 Strength of schedule & opponents",expanded=False):
             if isinstance(sos_ratings,pd.DataFrame) and not sos_ratings.empty:
                 matched=sos_ratings[sos_ratings["Team ID"].astype(str)==tid]
                 if not matched.empty:
-                    st.dataframe(matched[["Full SOS","Played SOS","Remaining SOS","D1 games loaded","Rating coverage %","Schedule coverage status"]],hide_index=True,use_container_width=True)
+                    courtside_dataframe(matched[["Full SOS","Played SOS","Remaining SOS","D1 games loaded","Rating coverage %","Schedule coverage status"]],hide_index=True,use_container_width=True)
                 else: st.info("No D1 SOS data for this team in the loaded window.")
             else: st.info("Calculate rankings in Model Lab, preferably with Full season selected.")
         with st.expander("📈 Strength of record",expanded=False):
@@ -1360,7 +1362,7 @@ if selected_section == "Teams":
             if isinstance(record_table,pd.DataFrame) and not record_table.empty:
                 team_record = record_table[record_table["Team ID"].astype(str)==tid]
                 if not team_record.empty:
-                    st.dataframe(team_record[["SOR rank (provisional)","Wins","Losses","SOR games","Reference expected wins","Wins above expected","SOR score"]],hide_index=True,use_container_width=True)
+                    courtside_dataframe(team_record[["SOR rank (provisional)","Wins","Losses","SOR games","Reference expected wins","Wins above expected","SOR score"]],hide_index=True,use_container_width=True)
                 else: st.info("No completed, rated Division I results for this team yet.")
             else: st.info("Strength of record becomes available when current-season games are final and ratings have been calculated in Model Lab.")
         with st.expander("🏀 Roster analysis", expanded=False):
@@ -1407,7 +1409,7 @@ if selected_section == "Teams":
                 with st.expander("Player matches and calculation details"):
                     if not player_audit.empty:
                         rows=player_audit[player_audit['Team ID'].astype(str)==tid] if 'Team ID' in player_audit else player_audit
-                        st.dataframe(rows,hide_index=True,use_container_width=True)
+                        courtside_dataframe(rows,hide_index=True,use_container_width=True)
                     if notes: st.caption("Some records may have incomplete coverage.")
             elif saved is not None:
                 st.info("Roster snapshots are archived, but reliable returning-production percentages are not yet available.")
@@ -1422,7 +1424,7 @@ if selected_section == "Teams":
                     incoming=prior_incoming[prior_incoming['Team ID'].astype(str)==tid]
             if isinstance(incoming,pd.DataFrame) and not incoming.empty:
                 fields=[x for x in ['Player','Prior school','Status','Previous minutes','Previous points','Previous rebounds','Previous assists'] if x in incoming]
-                st.dataframe(incoming[fields],hide_index=True,use_container_width=True)
+                courtside_dataframe(incoming[fields],hide_index=True,use_container_width=True)
                 st.caption("Prior-school matches are provisional. Unknown origin is not proof a player is a freshman; unavailable totals are not zero.")
             else:
                 st.caption("No matched incoming-player data available yet. Matches improve as more schools are archived.")
@@ -1484,7 +1486,7 @@ if selected_section == "Teams":
                 try:
                     athlete_df=fetch_roster(SPORTS[league],tid)
                     if athlete_df.empty: st.info("No roster data was available for this team.")
-                    else: st.dataframe(athlete_df,hide_index=True,use_container_width=True)
+                    else: courtside_dataframe(athlete_df,hide_index=True,use_container_width=True)
                 except Exception as exc: st.warning("Roster fetch unavailable: "+str(exc)[:160])
             st.caption("Roster listing is informational; unverified player impact is not included in ratings.")
 
@@ -1494,17 +1496,17 @@ if selected_section == "Conferences":
         display=conference_ratings.copy().sort_values("Average_power",ascending=False).reset_index(drop=True)
         display.insert(0,"Rank",range(1,len(display)+1))
         display=display.rename(columns={"Average_power":"Average power","Median_power":"Median power"})
-        st.dataframe(display[["Rank","Conference","Teams","Average power","Top-five power"]].round(2),hide_index=True,use_container_width=True)
+        courtside_dataframe(display[["Rank","Conference","Teams","Average power","Top-five power"]].round(2),hide_index=True,use_container_width=True)
         with st.expander("See a conference's teams"):
             conf=st.selectbox("Conference",display["Conference"].tolist(),key="v12_conf_detail")
             if isinstance(team_ratings,pd.DataFrame):
-                st.dataframe(team_ratings[team_ratings["Conference"]==conf][["Rank","Team","Current power"]],hide_index=True,use_container_width=True)
+                courtside_dataframe(team_ratings[team_ratings["Conference"]==conf][["Rank","Team","Current power"]],hide_index=True,use_container_width=True)
     else:
         st.info("Calculate conference power ratings in Model Lab to populate this page.")
         if not directory.empty:
             with st.expander("Browse conference memberships"):
                 cf=st.selectbox("Conference",sorted(directory["Conference"].dropna().unique()),key="v12_conf_dir")
-                st.dataframe(directory[directory["Conference"]==cf][["Team","Abbreviation"]],hide_index=True)
+                courtside_dataframe(directory[directory["Conference"]==cf][["Team","Abbreviation"]],hide_index=True)
 
 if selected_section == "Schedule strength":
     st.subheader("Strength of schedule")
@@ -1513,12 +1515,12 @@ if selected_section == "Schedule strength":
         scope=st.segmented_control("Schedule scope",["Full SOS","Played SOS","Remaining SOS"],default="Full SOS",key="v12_sos_scope")
         scored=sos_ratings.copy().sort_values(scope,ascending=False,na_position="last")
         visible_cols=["SOS rank (provisional)","Team","Conference",scope,"D1 games loaded","Schedule coverage status"]
-        st.dataframe(scored.reindex(columns=visible_cols),hide_index=True,use_container_width=True,height=480)
+        courtside_dataframe(scored.reindex(columns=visible_cols),hide_index=True,use_container_width=True,height=480)
         with st.expander("Coverage diagnostics"):
             detail_cols=["Team","D1 games loaded","Rated games","Rating coverage %","Coverage explanation"]
             detail=scored.reindex(columns=detail_cols).copy()
             detail["Coverage explanation"]=detail["Coverage explanation"].fillna("Coverage details unavailable for this calculation. Treat SOS as provisional.")
-            st.dataframe(detail,hide_index=True,use_container_width=True)
+            courtside_dataframe(detail,hide_index=True,use_container_width=True)
     else:
         st.info("Run the model with Full season selected to calculate schedule strength.")
 
@@ -1530,7 +1532,7 @@ if selected_section == "Record strength":
     if isinstance(sor_ratings,pd.DataFrame) and not sor_ratings.empty:
         st.warning("PROVISIONAL: Results depend on loaded completed D1 games, opponent-rating quality and an uncalibrated 11-point game-margin uncertainty. A minimum of five rated final games is required to show a provisional rank. This is not an official ESPN SOR measure.")
         display=sor_ratings.copy()
-        st.dataframe(display[["SOR rank (provisional)","Team","Conference","Wins","Losses","SOR games","Reference expected wins","Wins above expected","SOR score"]],hide_index=True,use_container_width=True,height=500)
+        courtside_dataframe(display[["SOR rank (provisional)","Team","Conference","Wins","Losses","SOR games","Reference expected wins","Wins above expected","SOR score"]],hide_index=True,use_container_width=True,height=500)
         with st.expander("How this is calculated"):
             st.write("For each completed D1 game, estimate the chance a reference-strength team would beat that opponent at the same location. Calculate the exact probability the reference team would achieve at least as many wins as the real team. SOR score = −log10(that probability); higher scores indicate a more impressive record. Only completed D1-v-D1 games with rated opponents count. Missing results are excluded; rankings may be incomplete. The probabilities assume independent games and use a provisional fixed point-margin uncertainty.")
         st.download_button("Download record strength",display.to_csv(index=False).encode(),"strength_of_record.csv","text/csv")
