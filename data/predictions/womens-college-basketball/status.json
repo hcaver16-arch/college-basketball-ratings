@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-10-21T01:44:50.915344+00:00",
+  "updated_utc": "2026-10-21T02:08:27.020968+00:00",
   "division": "womens-college-basketball",
   "forecast_horizon_days": 14,
   "forecast_diagnostics": {
@@ -13,12 +13,23 @@
     "baseline_eligible": 0,
     "roster_eligible": 0
   },
+  "roster_followup_diagnostics": {
+    "locked_games_checked": 209,
+    "already_has_roster_forecast": 2,
+    "past_tipoff": 0,
+    "invalid_tipoff": 0,
+    "missing_home_roster": 12,
+    "missing_away_roster": 19,
+    "missing_both_rosters": 176,
+    "missing_baseline_margin": 0,
+    "ready_for_new_roster_forecast": 0
+  },
   "new_forecasts": 0,
   "new_roster_eligible": 0,
   "archived_forecasts": 209,
   "evaluated_games": 0,
   "paired_model_games": 0,
-  "additional_roster_forecasts": 2,
+  "additional_roster_forecasts": 0,
   "total_roster_forecasts": 2,
   "d1_vs_d1_forecasts": 138,
   "d1_completed_games": 0,
