@@ -11,6 +11,7 @@ import requests
 from roster_tracking import read_roster
 from player_stats_import import fetch_prior_stats
 from roster_reconciliation import reconcile_prior_players
+from priority_schedule import upcoming_d1_ids
 
 ROOT=Path(__file__).resolve().parent/'data'
 ROOT.mkdir(exist_ok=True)
@@ -42,7 +43,7 @@ def merge(existing,updates,keys):
     joined=pd.concat(([existing] if not existing.empty else [])+updates,ignore_index=True)
     return joined.drop_duplicates(keys,keep='last')
 
-def select_batch(schools,status,limit,repair_only=False):
+def select_batch(schools,status,limit,repair_only=False,priority_ids=None):
     """Reserve ~1/3 of each normal batch for old records missing coverage metadata.
 
     Other slots keep the archive growing. Oldest attempted repairs first so
@@ -63,6 +64,9 @@ def select_batch(schools,status,limit,repair_only=False):
     repair['_last']=pd.to_datetime(repair.get('Last audit attempt',pd.Series(index=repair.index,dtype=str)),errors='coerce',utc=True)
     repair=repair.sort_values('_last',kind='stable',na_position='first')
     fresh=indexed.loc[state.eq('new')].copy()
+    priority_ids=set(priority_ids or [])
+    fresh['_priority']=fresh['Team ID'].astype(str).isin(priority_ids)
+    fresh=fresh.sort_values('_priority',ascending=False,kind='stable')
     if repair_only:
         return repair.head(limit)[['Team ID','Team']].copy()
     repair_slots=min(len(repair),max(1,limit//3)) if len(fresh) else limit
@@ -73,8 +77,11 @@ def select_batch(schools,status,limit,repair_only=False):
 
 def run(sport,limit,repair_only=False):
     schools=directory(sport)
+    prioritized,priority_errors=upcoming_d1_ids(sport,set(schools['Team ID'].astype(str)))
+    print(f'{sport}: {len(prioritized)} upcoming-opponent priority IDs; {len(priority_errors)} daily schedule errors',flush=True)
+    if priority_errors:print('  Priority scan incomplete; still preserving ordinary batch and retries',flush=True)
     old,new,stats,status=[read(k,sport) for k in ('previous_rosters','current_rosters','previous_stats','collection_status')]
-    selected=select_batch(schools,status,limit,repair_only=repair_only)
+    selected=select_batch(schools,status,limit,repair_only=repair_only,priority_ids=prioritized)
     existing_status={str(r['Team ID']):r.to_dict() for _,r in status.iterrows()} if not status.empty else {}
     log=[];past=[];now=[];totals=[]
     print(f'{sport}: selected {len(selected)} of {len(schools)} directory schools (repair_only={repair_only})',flush=True)
