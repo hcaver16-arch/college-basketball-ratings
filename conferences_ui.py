@@ -48,39 +48,66 @@ def render_conferences(ratings: pd.DataFrame, verified_d1_ids: set[str], league:
     top5=data.groupby('Conference')['Current power'].apply(lambda a:a.nlargest(5).mean()).rename('Top five').reset_index()
     summary=summary.merge(top5,on='Conference').sort_values('Average',ascending=False).reset_index(drop=True)
     summary['Power rank']=summary.index+1
-    search=st.text_input('Find conference',placeholder='Search conferences…',key='cc_find')
-    sort=st.selectbox('Compare by',['Average team power','Top-five power','Median team power'],key='cc_sort')
-    key={'Average team power':'Average','Top-five power':'Top five','Median team power':'Median'}[sort]
-    shown=summary[summary['Conference'].astype(str).str.contains(search,case=False,regex=False,na=False)] if search else summary
-    shown=shown.sort_values(key,ascending=False).reset_index(drop=True)
-    shown['Displayed rank']=shown.index+1
+    # A selected conference is rendered as a separate view at the top of the page.
+    # It never appears beneath the full list of conferences.
+    selected = st.session_state.get('cc_breakdown')
+    names = summary['Conference'].astype(str).tolist()
+    if selected not in names:
+        st.session_state.pop('cc_breakdown', None)
+        selected = None
+
+    if selected:
+        if st.button('← Back to all conferences', key='cc_back_to_all'):
+            st.session_state.pop('cc_breakdown', None)
+            st.rerun()
+        conference_summary = summary.loc[summary['Conference'].astype(str) == selected].iloc[0]
+        st.markdown(f'<div class="cc-head"><h2>{html.escape(selected)}</h2>'
+                    f'<div class="cc-note">{int(conference_summary["Teams"])} rated Division I teams '
+                    f'· Conference power rank #{int(conference_summary["Power rank"])} '
+                    f'· Average power {_number(conference_summary["Average"])}</div></div>',
+                    unsafe_allow_html=True)
+        member = data[data['Conference'].astype(str) == selected].sort_values('Current power', ascending=False)
+        st.caption('Teams are ordered by Courtside power rating; this is not a conference win-loss standing.')
+        for ix, (_, team) in enumerate(member.iterrows(), start=1):
+            a, b, c = st.columns([3, .9, 1.15], vertical_alignment='center')
+            with a:
+                st.markdown(f'<div class="cc-name">{ix}. {html.escape(str(team["Team"]))}</div>', unsafe_allow_html=True)
+            with b:
+                st.markdown(f'<div class="cc-number">{_number(team["Current power"])}</div>', unsafe_allow_html=True)
+            with c:
+                if st.button('View team →', key=f'cc_team_{league}_{team["Team ID"]}', use_container_width=True):
+                    st.session_state['v12_team_pick'] = str(team['Team'])
+                    st.session_state['courtside_page'] = 'Teams'
+                    st.rerun()
+            st.divider()
+        with st.expander('Conference rating details', expanded=False):
+            st.write(f'Median team power: {_number(conference_summary["Median"])}')
+            st.write(f'Top-five average power: {_number(conference_summary["Top five"])}')
+            st.caption('These values summarize saved ratings for verified Division I member teams.')
+        return
+
+    search = st.text_input('Find conference', placeholder='Search conferences…', key='cc_find')
+    sort = st.selectbox('Compare by', ['Average team power', 'Top-five power', 'Median team power'], key='cc_sort')
+    key = {'Average team power': 'Average', 'Top-five power': 'Top five', 'Median team power': 'Median'}[sort]
+    shown = summary[summary['Conference'].astype(str).str.contains(search, case=False, regex=False, na=False)] if search else summary
+    shown = shown.sort_values(key, ascending=False).reset_index(drop=True)
+    shown['Displayed rank'] = shown.index + 1
     st.caption(f'{len(shown)} conferences · Ranked by {sort.lower()} · D1 teams with saved ratings only')
-    for _,item in shown.iterrows():
-        c1,c2,c3,c4=st.columns([.5,3.1,1.3,1.3],vertical_alignment='center')
-        with c1: st.markdown(f'<div class="cc-number">#{int(item["Displayed rank"])}</div>',unsafe_allow_html=True)
-        with c2: st.markdown(f'<div class="cc-name">{html.escape(str(item["Conference"]))}</div><div class="cc-muted">{int(item["Teams"])} rated D1 teams</div>',unsafe_allow_html=True)
-        with c3: st.markdown(f'<div class="cc-number">{_number(item[key])}</div><div class="cc-muted" style="text-align:right">{html.escape(sort)}</div>',unsafe_allow_html=True)
+    for _, item in shown.iterrows():
+        c1, c2, c3, c4 = st.columns([.5, 3.1, 1.3, 1.3], vertical_alignment='center')
+        with c1:
+            st.markdown(f'<div class="cc-number">#{int(item["Displayed rank"])}</div>', unsafe_allow_html=True)
+        with c2:
+            st.markdown(f'<div class="cc-name">{html.escape(str(item["Conference"]))}</div>'
+                        f'<div class="cc-muted">{int(item["Teams"])} rated D1 teams</div>', unsafe_allow_html=True)
+        with c3:
+            st.markdown(f'<div class="cc-number">{_number(item[key])}</div>'
+                        f'<div class="cc-muted" style="text-align:right">{html.escape(sort)}</div>', unsafe_allow_html=True)
         with c4:
-            if st.button('View teams →',key=f'cc_open_{league}_{item["Conference"]}',use_container_width=True):
-                st.session_state['cc_breakdown']=str(item['Conference'])
+            if st.button('View teams →', key=f'cc_open_{league}_{item["Conference"]}', use_container_width=True):
+                st.session_state['cc_breakdown'] = str(item['Conference'])
                 st.rerun()
         st.divider()
-    names=summary['Conference'].astype(str).tolist()
-    preferred=st.session_state.get('cc_breakdown')
-    initial=names.index(preferred) if preferred in names else 0
-    selected=st.selectbox('Conference team breakdown',names,index=initial,key='cc_breakdown')
-    member=data[data['Conference'].astype(str)==selected].sort_values('Current power',ascending=False)
-    st.markdown(f'### {selected} teams')
-    st.caption(f'{len(member)} rated D1 schools in this conference · Select any school to open its profile')
-    for ix,(_,team) in enumerate(member.iterrows(),start=1):
-        a,b,c=st.columns([3,.9,1.15],vertical_alignment='center')
-        with a: st.markdown(f'<div class="cc-name">{ix}. {html.escape(str(team["Team"]))}</div>',unsafe_allow_html=True)
-        with b: st.markdown(f'<div class="cc-number">{_number(team["Current power"])}</div>',unsafe_allow_html=True)
-        with c:
-            if st.button('View team →',key=f'cc_team_{league}_{team["Team ID"]}',use_container_width=True):
-                st.session_state['v12_team_pick']=str(team['Team'])
-                st.session_state['courtside_page']='Teams'
-                st.rerun()
     with st.expander('Advanced conference data & download',expanded=False):
         st.dataframe(summary[['Power rank','Conference','Teams','Average','Median','Top five']],hide_index=True,use_container_width=True)
         st.download_button('Download conference power rankings',summary.to_csv(index=False).encode('utf-8'),'courtside_conference_power.csv','text/csv')
