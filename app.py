@@ -603,7 +603,7 @@ if selected_section == "Home":
     render_home(games, ratings_for_schedule, team_ratings, verified_d1_ids, league, period)
 
 if selected_section == "Rankings":
-    render_rankings(team_ratings, preliminary_ratings, league)
+    render_rankings(team_ratings, preliminary_ratings, league, verified_d1_ids)
 
 if selected_section == "Model Lab":
     st.subheader("Model Lab")
