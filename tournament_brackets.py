@@ -12,6 +12,7 @@ import html
 import math
 import pandas as pd
 import streamlit as st
+from tournament_rules import select_rule
 
 
 def is_sec(conference: str) -> bool:
@@ -124,26 +125,71 @@ def _render_rounds(rounds):
     st.markdown(markup, unsafe_allow_html=True)
 
 
+def _named(standings: pd.DataFrame, count: int):
+    return {i + 1: f'#{i + 1} {str(row["Team"])}'
+            for i, (_, row) in enumerate(standings.head(count).iterrows())}
+
+
+def staggered_15_bracket(standings: pd.DataFrame):
+    """15-team 3/4/4/2/1 progression. Pairings are only illustrative."""
+    if len(standings) < 15:
+        return []
+    s = _named(standings, 15)
+    return [
+        ('First round', [(s[10], s[15]), (s[11], s[14]), (s[12], s[13])]),
+        ('Second round', [(s[8], s[9]), (s[5], 'Winner G3'),
+                          (s[7], 'Winner G1'), (s[6], 'Winner G2')]),
+        ('Quarterfinals', [(s[1], 'Winner G4'), (s[4], 'Winner G5'),
+                           (s[2], 'Winner G6'), (s[3], 'Winner G7')]),
+        ('Semifinals', [('Winner G8', 'Winner G9'), ('Winner G10', 'Winner G11')]),
+        ('Championship', [('Winner G12', 'Winner G13')]),
+    ]
+
+
+def staggered_18_bracket(standings: pd.DataFrame):
+    """18-team 2/4/4/4/2/1 progression. Pairings are illustrative."""
+    if len(standings) < 18:
+        return []
+    s = _named(standings, 18)
+    return [
+        ('First round', [(s[15], s[18]), (s[16], s[17])]),
+        ('Second round', [(s[9], 'Winner G2'), (s[12], s[13]),
+                          (s[10], 'Winner G1'), (s[11], s[14])]),
+        ('Third round', [(s[8], 'Winner G3'), (s[5], 'Winner G4'),
+                         (s[7], 'Winner G5'), (s[6], 'Winner G6')]),
+        ('Quarterfinals', [(s[1], 'Winner G7'), (s[4], 'Winner G8'),
+                           (s[2], 'Winner G9'), (s[3], 'Winner G10')]),
+        ('Semifinals', [('Winner G11', 'Winner G12'), ('Winner G13', 'Winner G14')]),
+        ('Championship', [('Winner G15', 'Winner G16')]),
+    ]
+
+
 def render_tournament_bracket(standings: pd.DataFrame, conference: str, league: str):
-    """Render a visual tournament preview in every D1 conference view."""
-    if standings is None or standings.empty:
-        st.info('No conference teams available for a bracket.')
+    """Render provisional seeded brackets without implying universal verification."""
+    if standings is None or standings.empty or len(standings) < 2:
+        st.info('At least two conference teams are needed to draw a bracket.')
         return
-    if len(standings) < 2:
-        st.info('At least two qualifying teams are needed to draw a bracket.')
-        return
-    if is_sec(conference):
+    rule = select_rule(conference, league, len(standings))
+    if rule is None:
+        rounds = provisional_all_teams_bracket(standings)
+        st.warning('**Illustrative bracket (format not verified for this conference/division).** '
+                   'All listed teams are included using standard seeded pairings. '
+                   'The actual tournament may exclude teams or assign different byes.')
+    elif rule.layout == 'staggered16':
         rounds = sec_16_bracket(standings)
-        if rounds is None:
-            st.warning(f'The SEC tournament expects 16 teams; found {len(standings)}. Showing an all-teams provisional illustration instead, not the official SEC bracket.')
-            rounds = provisional_all_teams_bracket(standings)
-        else:
-            st.caption('SEC staggered-entry structure based on 2026 men’s/women’s tournament formats: seeds 9–16 enter round one, 5–8 round two, and 1–4 the quarterfinals. Confirm 2027 rules before treating the structure as official.')
+    elif rule.layout == 'staggered15':
+        rounds = staggered_15_bracket(standings)
+    elif rule.layout == 'staggered18':
+        rounds = staggered_18_bracket(standings)
     else:
         rounds = provisional_all_teams_bracket(standings)
-        st.warning('**Illustrative bracket — not this conference’s official tournament format.** All currently listed teams are included with a standard seeded layout and opening-round byes. Actual tournaments may limit qualifiers, use a different bracket, reseed, or apply different tiebreak rules. Men’s and women’s formats may differ.')
-    st.caption('Seed order is provisional and calculated from completed games in the selected schedule window, with Courtside ratings used to display ties. “Winner G…” is a placeholder, not a predicted result. These previews do not advance teams automatically.')
+    if rule is not None:
+        st.caption(f'**{rule.conference} — {rule.evidence}.** {rule.note}')
+        st.caption(f'Format reference: {rule.source}')
+    st.caption('Standings and seeds are provisional, based on the selected schedule window. '
+               'Tiebreakers are not official. Bracket matchups and Winner G placeholders '
+               'are previews, not confirmed tournament pairings or projected winners.')
     if rounds:
         _render_rounds(rounds)
     else:
-        st.info('A bracket could not be generated for the available standings.')
+        st.info('A bracket could not be generated for these standings.')
