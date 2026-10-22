@@ -41,6 +41,7 @@ from net_quadrants import load_net, annotate_games, quadrant_records
 from matchup_analysis import render_matchup
 from team_profile_ui import render_team_profile
 from rankings_ui import render_rankings
+from conferences_ui import render_conferences
 
 st.set_page_config(page_title="Courtside | College Basketball Analytics", page_icon="🏀", layout="wide", initial_sidebar_state="collapsed")
 courtside_style()
@@ -1548,22 +1549,7 @@ if selected_section == "Teams":
                 st.caption("Roster listing is informational; unverified player impact is not included in ratings.")
 
 if selected_section == "Conferences":
-    st.subheader("Conference rankings")
-    if isinstance(conference_ratings,pd.DataFrame) and not conference_ratings.empty:
-        display=conference_ratings.copy().sort_values("Average_power",ascending=False).reset_index(drop=True)
-        display.insert(0,"Rank",range(1,len(display)+1))
-        display=display.rename(columns={"Average_power":"Average power","Median_power":"Median power"})
-        courtside_dataframe(display[["Rank","Conference","Teams","Average power","Top-five power"]].round(2),hide_index=True,use_container_width=True)
-        with st.expander("See a conference's teams"):
-            conf=st.selectbox("Conference",display["Conference"].tolist(),key="v12_conf_detail")
-            if isinstance(team_ratings,pd.DataFrame):
-                courtside_dataframe(team_ratings[team_ratings["Conference"]==conf][["Rank","Team","Current power"]],hide_index=True,use_container_width=True)
-    else:
-        st.info("Calculate conference power ratings in Model Lab to populate this page.")
-        if not directory.empty:
-            with st.expander("Browse conference memberships"):
-                cf=st.selectbox("Conference",sorted(directory["Conference"].dropna().unique()),key="v12_conf_dir")
-                courtside_dataframe(directory[directory["Conference"]==cf][["Team","Abbreviation"]],hide_index=True)
+    render_conferences(team_ratings, verified_d1_ids, league)
 
 if selected_section == "Schedule strength":
     st.subheader("Strength of schedule")
