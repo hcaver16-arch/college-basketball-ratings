@@ -15,7 +15,7 @@ def _fmt(value, signed=False):
         return '—'
 
 
-def render_rankings(ratings: pd.DataFrame, preliminary: pd.DataFrame, league: str):
+def render_rankings(ratings: pd.DataFrame, preliminary: pd.DataFrame, league: str, verified_d1_ids: set[str]):
     st.markdown('''<style>
     .cr-head{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:17px 20px;margin-bottom:14px}
     .cr-head h2{font-size:1.5rem;color:#243449;margin:0 0 5px}
@@ -38,6 +38,21 @@ def render_rankings(ratings: pd.DataFrame, preliminary: pd.DataFrame, league: st
         return
     data['Current power']=pd.to_numeric(data['Current power'],errors='coerce')
     data=data.dropna(subset=['Team','Current power']).copy()
+    # D1 membership comes from the current-season ESPN conference hierarchy,
+    # not the rated schedule or the conference label in the saved snapshot.
+    # Fail closed instead of treating unverified/non-D1 opponents as D1.
+    if 'Team ID' not in data.columns:
+        st.warning('Cannot verify Division I membership: saved ratings lack Team ID.')
+        return
+    if not verified_d1_ids:
+        st.warning('Division I membership is currently unavailable. Rankings are hidden rather than including unverified schools.')
+        return
+    allowed = {str(team_id) for team_id in verified_d1_ids}
+    data['Team ID'] = data['Team ID'].astype(str)
+    data = data[data['Team ID'].isin(allowed)].copy()
+    if data.empty:
+        st.info('No rated, verified Division I teams are available yet.')
+        return
     if 'Conference' not in data: data['Conference']='Unassigned'
     data['Conference']=data['Conference'].fillna('Unassigned').astype(str)
     exp_available=isinstance(preliminary,pd.DataFrame) and not preliminary.empty and {'Team ID','Experimental power'}.issubset(preliminary.columns) and 'Team ID' in data.columns
@@ -61,7 +76,7 @@ def render_rankings(ratings: pd.DataFrame, preliminary: pd.DataFrame, league: st
     if order_col not in data:order_col='Current power'
     data=data.sort_values(order_col,ascending=(sort=='School name'),na_position='last',kind='stable')
     total=len(data)
-    st.caption(f'{total:,} matching teams · Rankings are model estimates, not NCAA NET rankings.')
+    st.caption(f'{total:,} matching verified Division I teams · Rankings are model estimates, not NCAA NET rankings.')
     if not total:
         st.info('No teams match these filters.')
         return
