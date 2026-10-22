@@ -40,6 +40,7 @@ from courtside_tables import apply_table_theme, dataframe as courtside_dataframe
 from net_quadrants import load_net, annotate_games, quadrant_records
 from matchup_analysis import render_matchup
 from team_profile_ui import render_team_profile
+from rankings_ui import render_rankings
 
 st.set_page_config(page_title="Courtside | College Basketball Analytics", page_icon="🏀", layout="wide", initial_sidebar_state="collapsed")
 courtside_style()
@@ -602,17 +603,7 @@ if selected_section == "Home":
     render_home(games, ratings_for_schedule, team_ratings, verified_d1_ids, league, period)
 
 if selected_section == "Rankings":
-    st.subheader("National power rankings")
-    st.caption("Saved baseline power ratings. The roster-adjusted model remains experimental.")
-    if isinstance(team_ratings,pd.DataFrame) and not team_ratings.empty:
-        order=team_ratings.sort_values('Current power',ascending=False).copy()
-        display_columns=[c for c in ['Rank','Team','Conference','Current power','Games played','Preseason rating'] if c in order.columns]
-        courtside_dataframe(order[display_columns],hide_index=True,use_container_width=True,height=600)
-        with st.expander('Experimental roster-adjusted rankings'):
-            if not preliminary_ratings.empty:
-                courtside_dataframe(preliminary_ratings[[c for c in ['Experimental rank','Team','Current power','Experimental power','Roster adjustment','Roster data status'] if c in preliminary_ratings.columns]],hide_index=True,use_container_width=True)
-            else:st.info('Experimental rankings are not available yet.')
-    else:st.info('Rankings will appear once saved ratings are available.')
+    render_rankings(team_ratings, preliminary_ratings, league)
 
 if selected_section == "Model Lab":
     st.subheader("Model Lab")
