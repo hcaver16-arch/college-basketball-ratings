@@ -164,12 +164,30 @@ def staggered_18_bracket(standings: pd.DataFrame):
     ]
 
 
+
+def stepladder_10_bracket(standings: pd.DataFrame, conference: str):
+    """Top-ten stepladder; SWAC official pairings, American pairing preview."""
+    if len(standings) < 10:
+        return []
+    s = _named(standings, 10)
+    # Winner references G1..G9 are numbered chronologically across rounds.
+    return [
+        ('First round', [(s[8], s[9]), (s[7], s[10])]),
+        ('Second round', [(s[5], 'Winner G1'), (s[6], 'Winner G2')]),
+        ('Quarterfinals', [(s[4], 'Winner G3'), (s[3], 'Winner G4')]),
+        ('Semifinals', [(s[1], 'Winner G5'), (s[2], 'Winner G6')]),
+        ('Championship', [('Winner G7', 'Winner G8')]),
+    ]
+
 def render_tournament_bracket(standings: pd.DataFrame, conference: str, league: str):
     """Render provisional seeded brackets without implying universal verification."""
     if standings is None or standings.empty or len(standings) < 2:
         st.info('At least two conference teams are needed to draw a bracket.')
         return
     rule = select_rule(conference, league, len(standings))
+    if rule is not None and len(standings) > rule.field_size:
+        st.info(f'Only the top {rule.field_size} provisional seeds are in this tournament preview; the remaining {len(standings)-rule.field_size} conference teams are excluded. Final qualifying teams and tie orders depend on official rules.')
+        standings = standings.head(rule.field_size)
     if rule is None:
         rounds = provisional_all_teams_bracket(standings)
         st.warning('**Illustrative bracket (format not verified for this conference/division).** '
@@ -179,6 +197,8 @@ def render_tournament_bracket(standings: pd.DataFrame, conference: str, league: 
         rounds = sec_16_bracket(standings)
     elif rule.layout == 'staggered15':
         rounds = staggered_15_bracket(standings)
+    elif rule.layout == 'stepladder10':
+        rounds = stepladder_10_bracket(standings, conference)
     elif rule.layout == 'staggered18':
         rounds = staggered_18_bracket(standings)
     else:
