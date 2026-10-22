@@ -1549,7 +1549,7 @@ if selected_section == "Teams":
                 st.caption("Roster listing is informational; unverified player impact is not included in ratings.")
 
 if selected_section == "Conferences":
-    render_conferences(team_ratings, verified_d1_ids, league)
+    render_conferences(team_ratings, verified_d1_ids, league, games, period)
 
 if selected_section == "Schedule strength":
     st.subheader("Strength of schedule")
