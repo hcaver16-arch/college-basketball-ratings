@@ -4,6 +4,7 @@ import html
 import math
 import pandas as pd
 import streamlit as st
+from conference_standings import standings_for_conference, provisional_bracket
 
 
 def _number(v, signed=True):
@@ -14,7 +15,7 @@ def _number(v, signed=True):
         return '—'
 
 
-def render_conferences(ratings: pd.DataFrame, verified_d1_ids: set[str], league: str):
+def render_conferences(ratings: pd.DataFrame, verified_d1_ids: set[str], league: str, games: pd.DataFrame | None = None, coverage: str = "Selected schedule window"):
     st.markdown('''<style>
     .cc-head{background:white;border:1px solid #e2e8f0;border-radius:14px;padding:16px 20px;margin-bottom:12px}
     .cc-head h2{font-size:1.5rem;color:#23354b;margin:0 0 5px}
@@ -67,6 +68,33 @@ def render_conferences(ratings: pd.DataFrame, verified_d1_ids: set[str], league:
                     f'· Average power {_number(conference_summary["Average"])}</div></div>',
                     unsafe_allow_html=True)
         member = data[data['Conference'].astype(str) == selected].sort_values('Current power', ascending=False)
+        st.markdown('### Conference standings')
+        standings = standings_for_conference(member, games)
+        st.caption(f'From completed games in: {coverage}. Conference games are contests between current verified members. This is NOT an official league standing or tiebreak calculation.')
+        if not standings.empty:
+            shown_standings = standings.copy()
+            shown_standings.insert(0, 'Provisional seed', range(1,len(shown_standings)+1))
+            shown_standings['Conf. record'] = shown_standings['Conference W'].astype(str)+'–'+shown_standings['Conference L'].astype(str)
+            shown_standings['Overall loaded'] = shown_standings['Overall W'].astype(str)+'–'+shown_standings['Overall L'].astype(str)
+            shown_standings['Conf. win %'] = shown_standings['Conference PCT'].map(lambda x:f'{x:.3f}')
+            st.dataframe(shown_standings[['Provisional seed','Team','Conf. record','Conf. win %','Overall loaded']],hide_index=True,use_container_width=True)
+            played_conf = int((standings['Conference W']+standings['Conference L']).sum()/2)
+            if played_conf == 0:
+                st.info('No completed conference games in the loaded schedule yet. Seed order below is an illustrative preseason placeholder determined by rating, not earned standings.')
+            elif coverage != 'Full season (Nov–Apr)':
+                st.warning('Only a portion of the schedule is loaded. Choose Full season (Nov–Apr) in the sidebar for more complete standings.')
+            st.markdown('### Conference championship preview')
+            st.caption('Provisional seed order follows the standings above. Ties are broken by Courtside rating for display only—not by official conference procedures. Actual tournament eligibility, participation limits, byes, and reseeding differ by conference and gender. Do not treat this as the official bracket.')
+            with st.expander('Illustrative all-teams single-elimination pairings (NOT official format)',expanded=False):
+                if played_conf == 0:
+                    st.info('Pairings are based only on a preseason placeholder order.')
+                for hi,first,lo,second in provisional_bracket(standings):
+                    if second=='BYE':
+                        st.write(f'Seed {hi}: {first} — illustrative bye')
+                    else:
+                        st.write(f'Seed {hi} {first} vs Seed {lo} {second}')
+            st.info('Verified conference-specific championship brackets and tiebreak rules can be added separately; these generic pairings do not claim to reproduce any conference’s actual championship.')
+        st.markdown('### Conference team power rankings')
         st.caption('Teams are ordered by Courtside power rating; this is not a conference win-loss standing.')
         for ix, (_, team) in enumerate(member.iterrows(), start=1):
             a, b, c = st.columns([3, .9, 1.15], vertical_alignment='center')
