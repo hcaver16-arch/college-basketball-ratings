@@ -4,7 +4,8 @@ import html
 import math
 import pandas as pd
 import streamlit as st
-from conference_standings import standings_for_conference, provisional_bracket
+from conference_standings import standings_for_conference
+from tournament_brackets import render_tournament_bracket
 
 
 def _number(v, signed=True):
@@ -83,17 +84,8 @@ def render_conferences(ratings: pd.DataFrame, verified_d1_ids: set[str], league:
                 st.info('No completed conference games in the loaded schedule yet. Seed order below is an illustrative preseason placeholder determined by rating, not earned standings.')
             elif coverage != 'Full season (Nov–Apr)':
                 st.warning('Only a portion of the schedule is loaded. Choose Full season (Nov–Apr) in the sidebar for more complete standings.')
-            st.markdown('### Conference championship preview')
-            st.caption('Provisional seed order follows the standings above. Ties are broken by Courtside rating for display only—not by official conference procedures. Actual tournament eligibility, participation limits, byes, and reseeding differ by conference and gender. Do not treat this as the official bracket.')
-            with st.expander('Illustrative all-teams single-elimination pairings (NOT official format)',expanded=False):
-                if played_conf == 0:
-                    st.info('Pairings are based only on a preseason placeholder order.')
-                for hi,first,lo,second in provisional_bracket(standings):
-                    if second=='BYE':
-                        st.write(f'Seed {hi}: {first} — illustrative bye')
-                    else:
-                        st.write(f'Seed {hi} {first} vs Seed {lo} {second}')
-            st.info('Verified conference-specific championship brackets and tiebreak rules can be added separately; these generic pairings do not claim to reproduce any conference’s actual championship.')
+            st.markdown('### Conference championship bracket')
+            render_tournament_bracket(standings, selected, league)
         st.markdown('### Conference team power rankings')
         st.caption('Teams are ordered by Courtside power rating; this is not a conference win-loss standing.')
         for ix, (_, team) in enumerate(member.iterrows(), start=1):
