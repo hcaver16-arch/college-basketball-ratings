@@ -1,6 +1,7 @@
 """Courtside V54 team profile presentation. No impact on ratings or forecasts."""
 from __future__ import annotations
 import html
+import re
 import pandas as pd
 import streamlit as st
 
@@ -28,13 +29,15 @@ def _card(title, value, caption=''):
 def render_team_profile(*, team, team_id, league, sport, ratings, games, preliminary, sos, sor, directory, history_loader):
     """Render the public profile. Call before optional legacy audit tools."""
     st.markdown('''<style>
-    .cs-profile-head {background:#fff;border:1px solid #e2e8f0;border-radius:15px;padding:18px 20px;margin:4px 0 16px;border-top:5px solid #34465f}
+    .cs-profile-head {background:#fff;border:1px solid #e2e8f0;border-radius:15px;padding:14px 18px;margin:4px 0 12px;border-top:5px solid #34465f}
     .cs-profile-head h2{margin:0;color:#23354b;font-size:1.65rem}
     .cs-profile-sub{color:#64748b;font-size:.9rem}
     .cs-profile-stat{background:#fff;border:1px solid #e2e8f0;padding:13px 16px;border-radius:12px;min-height:105px;margin:0 0 12px}
     .cs-profile-label{text-transform:uppercase;letter-spacing:.055em;font-size:.72rem;color:#64748b}
     .cs-profile-number{font-size:1.55rem;font-weight:720;color:#23354b;overflow-wrap:anywhere}
     .cs-profile-hint{font-size:.76rem;color:#718096}
+    .cs-profile-initials{width:76px;height:76px;background:#23354b;border-radius:14px;display:flex;align-items:center;justify-content:center;font-weight:750;font-size:1.45rem;color:white}
+    .cs-next-game{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px}
     </style>''', unsafe_allow_html=True)
     rating=_lookup(ratings,team_id)
     experimental=_lookup(preliminary,team_id)
@@ -42,45 +45,77 @@ def render_team_profile(*, team, team_id, league, sport, ratings, games, prelimi
     sor_row=_lookup(sor,team_id)
     dir_row=_lookup(directory,team_id)
     conference=str(dir_row.get('Conference','Conference not available')) if dir_row is not None else 'Conference not available'
-    st.markdown(f'<div class="cs-profile-head"><div class="cs-profile-sub">{html.escape(league)} basketball · {html.escape(conference)}</div><h2>{html.escape(team)}</h2><div class="cs-profile-sub">Team scouting and season overview</div></div>',unsafe_allow_html=True)
     if 'cs_profile_logos' not in st.session_state: st.session_state.cs_profile_logos=False
     with st.expander('Team identity settings',expanded=False):
         st.checkbox('Display ESPN-hosted team logo (optional external image)',key='cs_profile_logos',help='External image hosting does not guarantee permission to reuse an image.')
+    short = str(team).strip()
+    initials = ''.join(w[0] for w in re.findall(r"[A-Za-z]+",short)[:2]).upper() or '?'
+    head_logo = None
     if st.session_state.cs_profile_logos:
         try:
             from team_identity import logo_uri
-            url=logo_uri(team_id,league)
-            if url: st.image(url,width=90)
-        except Exception: pass
-    else:
-        st.caption('Team logo off · full school name remains visible')
+            head_logo=logo_uri(team_id,league)
+        except Exception:
+            pass
+    hlogo,hname=st.columns([1,7],vertical_alignment='center')
+    with hlogo:
+        if head_logo:
+            st.image(head_logo,width=82)
+        else:
+            st.markdown(f'<div class="cs-profile-initials">{html.escape(initials)}</div>',unsafe_allow_html=True)
+    with hname:
+        st.markdown(f'<div class="cs-profile-head"><div class="cs-profile-sub">{html.escape(league)} basketball · {html.escape(conference)}</div><h2>{html.escape(team)}</h2><div class="cs-profile-sub">Team scouting and season overview</div></div>',unsafe_allow_html=True)
     tabs=st.tabs(['Overview','Schedule','Roster','Analytics','Compare'])
     with tabs[0]:
-        c1,c2,c3,c4=st.columns(4)
+        tg=_team_games(games,team_id)
+        finals=tg[tg['Status'].astype(str).str.lower().str.contains('final')] if not tg.empty and 'Status' in tg else pd.DataFrame()
+        wins=losses=0
+        for _,result in finals.iterrows():
+            try:
+                a=float(result['Away score']);h=float(result['Home score'])
+                if pd.isna(a) or pd.isna(h) or a==h:continue
+                is_home=str(result.get('Home ID'))==str(team_id)
+                won=(h>a) if is_home else (a>h)
+                wins+=int(won);losses+=int(not won)
+            except (KeyError,ValueError,TypeError):continue
+        c1,c2,c3=st.columns(3)
         with c1:_card('National rank', f"#{int(rating['Rank'])}" if rating is not None and pd.notna(rating.get('Rank')) else '—')
         with c2:_card('Power rating', _num(rating.get('Current power'),signed=True) if rating is not None else '—')
-        with c3:_card('Games played', int(rating['Games played']) if rating is not None and pd.notna(rating.get('Games played')) else '—')
-        with c4:_card('Roster-adjusted rating',_num(experimental.get('Experimental power'),signed=True) if experimental is not None else '—','Experimental · not validated')
+        with c3:_card('Record (loaded games)',f'{wins}–{losses}')
         st.markdown('#### Rating history')
         history=history_loader(sport,str(team_id))
         if not isinstance(history,pd.DataFrame) or history.empty or 'Snapshot date' not in history or 'Current power' not in history:
-            st.info('No saved rating history is available yet.')
+            st.caption('Rating history will appear as daily snapshots accumulate.')
         else:
             hist=history.copy()
-            hist['Snapshot date']=pd.to_datetime(hist['Snapshot date'],errors='coerce')
+            hist['Snapshot date']=pd.to_datetime(hist['Snapshot date'],errors='coerce',utc=True)
             hist['Current power']=pd.to_numeric(hist['Current power'],errors='coerce')
-            hist=hist.dropna(subset=['Snapshot date','Current power']).sort_values('Snapshot date').drop_duplicates('Snapshot date',keep='last')
-            if hist['Snapshot date'].nunique() >= 2: st.line_chart(hist.set_index('Snapshot date')['Current power'])
-            elif not hist.empty: st.info('One dated snapshot available. The trend chart appears after the next distinct update.')
-            else: st.info('No valid dated rating points yet.')
+            hist=hist.dropna(subset=['Snapshot date','Current power']).sort_values('Snapshot date')
+            hist['Day']=hist['Snapshot date'].dt.date
+            hist=hist.drop_duplicates('Day',keep='last')
+            if len(hist)>=3 and hist['Current power'].max()-hist['Current power'].min()>=0.1:
+                st.line_chart(hist.set_index('Snapshot date')['Current power'])
+            else:
+                st.caption(f"Current rating: {_num(rating.get('Current power'),signed=True) if rating is not None else '—'} · More dated snapshots and rating movement are needed for a meaningful trend.")
         st.markdown('#### Next matchup')
-        tg=_team_games(games,team_id)
         upcoming=tg[~tg['Status'].astype(str).str.lower().str.contains('final')].sort_values('Date') if not tg.empty and 'Status' in tg else pd.DataFrame()
-        if upcoming.empty: st.caption('No upcoming game in the currently loaded schedule window.')
+        if upcoming.empty:
+            st.caption('No upcoming game in the currently loaded schedule window.')
         else:
             g=upcoming.iloc[0]
-            st.markdown(f"**{html.escape(str(g.get('Opponent','Unknown opponent')))}** · {html.escape(str(g.get('Date','Date unavailable')))} · {html.escape(str(g.get('Location','')))}")
-        if experimental is not None:st.caption(str(experimental.get('Roster data status','Roster evidence is incomplete'))+' · Roster impact remains experimental.')
+            opp=html.escape(str(g.get('Opponent','Unknown opponent')))
+            gd=html.escape(str(g.get('Date','Date unavailable')))
+            loc=html.escape(str(g.get('Location','')))
+            st.markdown(f'<div class="cs-next-game"><strong>{opp}</strong><div class="cs-profile-sub">{gd} · {loc}</div></div>',unsafe_allow_html=True)
+            game_id=g.get('Game ID')
+            if pd.notna(game_id) and st.button('View matchup →',key=f'profile_next_{sport}_{team_id}'):
+                st.session_state['courtside_selected_game']=str(game_id)
+                st.session_state['courtside_page']='Games'
+                st.rerun()
+        if experimental is not None:
+            delta=pd.to_numeric(experimental.get('Roster adjustment'),errors='coerce')
+            if pd.notna(delta) and abs(float(delta))>=0.05:
+                st.caption(f"Experimental roster effect: {float(delta):+.1f} rating points · Not validated")
     with tabs[1]:
         st.markdown('#### Schedule and results')
         tg=_team_games(games,team_id)
