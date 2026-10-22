@@ -39,6 +39,7 @@ from courtside_home import style as courtside_style, render_home
 from courtside_tables import apply_table_theme, dataframe as courtside_dataframe
 from net_quadrants import load_net, annotate_games, quadrant_records
 from matchup_analysis import render_matchup
+from team_profile_ui import render_team_profile
 
 st.set_page_config(page_title="Courtside | College Basketball Analytics", page_icon="🏀", layout="wide", initial_sidebar_state="collapsed")
 courtside_style()
@@ -1337,217 +1338,223 @@ if selected_section == "Teams":
         chosen=st.selectbox("Find a Division I team",team_options,key="v12_team_pick")
         selected_team=available[available["Team"]==chosen].iloc[0]
         tid=str(selected_team["Team ID"])
-        st.caption(str(selected_team.get("Conference", "Conference unavailable")))
-        row=None
-        if isinstance(team_ratings,pd.DataFrame) and not team_ratings.empty:
-            match=team_ratings[team_ratings["Team ID"].astype(str)==tid]
-            if not match.empty: row=match.iloc[0]
-        if row is not None:
-            m1,m2,m3,m4=st.columns(4)
-            m1.metric("National power rank", f"#{int(row['Rank'])}")
-            m2.metric("Power rating", f"{float(row['Current power']):+.1f}")
-            m3.metric("Preseason", f"{float(row['Preseason rating']):+.1f}")
-            m4.metric("Games played", int(row["Games played"]))
-            with st.expander("📈 Detailed rating breakdown", expanded=False):
-                courtside_dataframe(pd.DataFrame([row])[['Preseason rating','On-court rating','Preseason weight','Current power','Rating change']],hide_index=True,use_container_width=True)
-                st.caption("Preseason weight drops with on-court results. Missing on-court rating means the season has not supplied enough games.")
-        else:
-            st.info("Power ratings have not been loaded for this team. Open Model Lab to calculate them.")
-        if not preliminary_ratings.empty:
-            sample=preliminary_ratings[preliminary_ratings['Team ID']==tid]
-            if not sample.empty:
-                exp=sample.iloc[0]
-                with st.expander("🧪 Preliminary roster-adjusted rating",expanded=False):
-                    c1,c2,c3=st.columns(3)
-                    c1.metric("Official power",f"{float(exp['Current power']):+.2f}")
-                    c2.metric("Experimental power",f"{float(exp['Experimental power']):+.2f}")
-                    c3.metric("Roster change",f"{float(exp['Roster adjustment']):+.2f}")
-                    st.caption(str(exp['Roster data status'])+" · The assumption-based adjustment fades as on-court games receive more weight. Official rankings and locked forecasts stay unchanged.")
-        with st.expander("📈 Power rating & ranking history", expanded=False):
-            saved_team_history = load_history(SPORTS[league], tid)
-            if saved_team_history.empty:
-                st.info("No archived daily rating snapshots for this team yet. Run 'Refresh basketball power ratings' in GitHub Actions and check again after the next successful update.")
+        render_team_profile(
+            team=chosen, team_id=tid, league=league, sport=SPORTS[league],
+            ratings=team_ratings, games=games, preliminary=preliminary_ratings,
+            sos=sos_ratings, sor=st.session_state.get(f"sor_{SPORTS[league]}"),
+            directory=directory, history_loader=load_history,
+        )
+        with st.expander("Detailed data & tools (original team analysis)", expanded=False):
+            row=None
+            if isinstance(team_ratings,pd.DataFrame) and not team_ratings.empty:
+                match=team_ratings[team_ratings["Team ID"].astype(str)==tid]
+                if not match.empty: row=match.iloc[0]
+            if row is not None:
+                m1,m2,m3,m4=st.columns(4)
+                m1.metric("National power rank", f"#{int(row['Rank'])}")
+                m2.metric("Power rating", f"{float(row['Current power']):+.1f}")
+                m3.metric("Preseason", f"{float(row['Preseason rating']):+.1f}")
+                m4.metric("Games played", int(row["Games played"]))
+                with st.expander("📈 Detailed rating breakdown", expanded=False):
+                    courtside_dataframe(pd.DataFrame([row])[['Preseason rating','On-court rating','Preseason weight','Current power','Rating change']],hide_index=True,use_container_width=True)
+                    st.caption("Preseason weight drops with on-court results. Missing on-court rating means the season has not supplied enough games.")
             else:
-                trend = saved_team_history.copy()
-                trend["Snapshot date"] = pd.to_datetime(trend["Snapshot date"], errors="coerce")
-                trend["Current power"] = pd.to_numeric(trend["Current power"], errors="coerce")
-                trend["Rank"] = pd.to_numeric(trend["Rank"], errors="coerce")
-                trend = trend.dropna(subset=["Snapshot date"]).sort_values("Snapshot date").drop_duplicates("Snapshot date", keep="last")
-                valid_rating = trend.dropna(subset=["Current power"])
-                valid_rank = trend.dropna(subset=["Rank"])
-                dates_count = trend["Snapshot date"].nunique()
-                if dates_count < 2:
-                    st.info("One saved rating snapshot is available. Trend lines and ranking changes will appear after another dated update.")
-                    if not valid_rating.empty:
-                        st.metric("Saved power rating", f"{valid_rating.iloc[-1]['Current power']:+.2f}")
-                    if not valid_rank.empty:
-                        st.metric("Saved national rank", f"#{int(valid_rank.iloc[-1]['Rank'])}")
+                st.info("Power ratings have not been loaded for this team. Open Model Lab to calculate them.")
+            if not preliminary_ratings.empty:
+                sample=preliminary_ratings[preliminary_ratings['Team ID']==tid]
+                if not sample.empty:
+                    exp=sample.iloc[0]
+                    with st.expander("🧪 Preliminary roster-adjusted rating",expanded=False):
+                        c1,c2,c3=st.columns(3)
+                        c1.metric("Official power",f"{float(exp['Current power']):+.2f}")
+                        c2.metric("Experimental power",f"{float(exp['Experimental power']):+.2f}")
+                        c3.metric("Roster change",f"{float(exp['Roster adjustment']):+.2f}")
+                        st.caption(str(exp['Roster data status'])+" · The assumption-based adjustment fades as on-court games receive more weight. Official rankings and locked forecasts stay unchanged.")
+            with st.expander("📈 Power rating & ranking history", expanded=False):
+                saved_team_history = load_history(SPORTS[league], tid)
+                if saved_team_history.empty:
+                    st.info("No archived daily rating snapshots for this team yet. Run 'Refresh basketball power ratings' in GitHub Actions and check again after the next successful update.")
                 else:
-                    if len(valid_rating) > 1:
-                        delta = valid_rating.iloc[-1]["Current power"] - valid_rating.iloc[0]["Current power"]
-                        c1, c2 = st.columns(2)
-                        c1.metric("Latest saved power", f"{valid_rating.iloc[-1]['Current power']:+.2f}", delta=f"{delta:+.2f} since first snapshot")
-                        if len(valid_rank)>1:
-                            rank_change = int(valid_rank.iloc[0]["Rank"] - valid_rank.iloc[-1]["Rank"])
-                            c2.metric("National rank", f"#{int(valid_rank.iloc[-1]['Rank'])}", delta=f"{rank_change:+d} places since first snapshot")
-                        st.markdown("**Power rating over time**")
-                        st.line_chart(valid_rating.set_index("Snapshot date")[["Current power"]], use_container_width=True)
-                    if len(valid_rank)>1:
-                        st.markdown("**National rank over time** (lower is better)")
-                        st.line_chart(valid_rank.set_index("Snapshot date")[["Rank"]], use_container_width=True)
-                with st.expander("View dated rating records"):
-                    view_cols = [c for c in ["Snapshot date", "Rank", "Current power", "Preseason rating", "On-court rating", "Games played", "Preseason weight"] if c in trend.columns]
-                    courtside_dataframe(trend[view_cols].sort_values("Snapshot date", ascending=False), hide_index=True, use_container_width=True)
-                st.caption("Only successful saved daily runs appear here. A flat graph can simply mean no games were played between snapshots; preseason numbers remain experimental.")
-        team_games=games[(games["Away ID"].astype(str)==tid)|(games["Home ID"].astype(str)==tid)].copy()
-        team_games["Opponent"]=team_games.apply(lambda x:x["Away"] if str(x["Home ID"])==tid else x["Home"],axis=1) if not team_games.empty else pd.Series(dtype=str)
-        team_games["Location"]=team_games.apply(lambda x:"Neutral" if x["Venue"]=="Neutral" else ("Home" if str(x["Home ID"])==tid else "Away"),axis=1) if not team_games.empty else pd.Series(dtype=str)
-        team_games=attach_model_lines(team_games,ratings_for_schedule,verified_d1_ids)
-        st.markdown("#### Schedule and projected lines")
-        st.caption(f"{len(team_games)} games found in the selected date window. Change the season coverage in the sidebar to see more.")
-        if not team_games.empty:
-            courtside_dataframe(team_games[["Date","Opponent","Location","Status","Model line","Away score","Home score"]],hide_index=True,use_container_width=True,height=390)
-        else:
-            st.info("No games in the loaded date range.")
-        with st.expander("📊 Strength of schedule & opponents",expanded=False):
-            if isinstance(sos_ratings,pd.DataFrame) and not sos_ratings.empty:
-                matched=sos_ratings[sos_ratings["Team ID"].astype(str)==tid]
-                if not matched.empty:
-                    courtside_dataframe(matched[["Full SOS","Played SOS","Remaining SOS","D1 games loaded","Rating coverage %","Schedule coverage status"]],hide_index=True,use_container_width=True)
-                else: st.info("No D1 SOS data for this team in the loaded window.")
-            else: st.info("Calculate rankings in Model Lab, preferably with Full season selected.")
-        with st.expander("📈 Strength of record",expanded=False):
-            record_table = st.session_state.get(f"sor_{SPORTS[league]}")
-            if isinstance(record_table,pd.DataFrame) and not record_table.empty:
-                team_record = record_table[record_table["Team ID"].astype(str)==tid]
-                if not team_record.empty:
-                    courtside_dataframe(team_record[["SOR rank (provisional)","Wins","Losses","SOR games","Reference expected wins","Wins above expected","SOR score"]],hide_index=True,use_container_width=True)
-                else: st.info("No completed, rated Division I results for this team yet.")
-            else: st.info("Strength of record becomes available when current-season games are final and ratings have been calculated in Model Lab.")
-        with st.expander("🏀 Roster analysis", expanded=False):
-            @st.cache_data(ttl=86400, show_spinner=False)
-            def _single_team_roster_bundle(sport, school_id, school_name):
-                team_ref=pd.DataFrame([{"Team ID":str(school_id),"Team":str(school_name)}])
-                snapshots, problems=audit_teams(sport, team_ref, max_teams=1)
-                totals, diagnostics, errors=fetch_prior_stats(sport, team_ref, season=2026, max_games=45, max_workers=4)
-                return snapshots,problems,totals,diagnostics,errors
-
-            old_rosters, new_rosters, prior_totals, collection_status = load_saved_data(SPORTS[league])
-            saved = team_saved_analysis(tid, old_rosters, new_rosters, prior_totals)
-            cache_key=f"team_roster_bundle_{SPORTS[league]}_{tid}"
-            bundle=st.session_state.get(cache_key)
-            if bundle is not None:
-                st.caption("On-demand player data (current session). Stored archive may be refreshed in the background.")
-                roster_snap, roster_issues, stat_totals, stat_coverage, stat_errors=bundle
-                if not roster_issues.empty: st.warning(f"{len(roster_issues)} roster requests had missing data.")
-                if stat_errors: st.warning(f"{len(stat_errors)} player-stat requests were incomplete or failed.")
-                if not roster_snap.empty and not stat_totals.empty:
-                    returning, player_audit, notes=calculate_returning_production(roster_snap,stat_totals)
-                else:
-                    returning,player_audit=pd.DataFrame(),pd.DataFrame()
-            elif saved is not None:
-                st.caption("Using saved GitHub roster records — no manual audit needed.")
-                returning=saved['returning']
-                player_audit=saved['player_audit']
-                stat_totals=saved['stats']
-                roster_snap=pd.concat([saved['previous'],saved['current']], ignore_index=True)
-                notes=saved['warnings']
-            else:
-                st.info("This team's data is not archived yet. It will appear automatically as the daily collection progresses.")
-                returning=pd.DataFrame(); player_audit=pd.DataFrame();stat_totals=pd.DataFrame();roster_snap=pd.DataFrame();notes=[]
-
-            if isinstance(returning,pd.DataFrame) and not returning.empty:
-                r=returning.loc[returning['Team ID'].astype(str)==tid]
-                if not r.empty:
-                    r=r.iloc[0]
-                    cols=st.columns(4)
-                    for col,stat in zip(cols,['minutes','points','rebounds','assists']):
-                        val=r.get(f'Returning {stat} % (known only)')
-                        col.metric(f'Returning {stat}', f'{float(val):.1f}%' if pd.notna(val) else 'N/A')
-                    st.caption(f"Historical roster players with documented totals: {int(r.get('Prior roster players with stats',0))} / {int(r.get('Prior roster entries',0))}. Percentages reflect documented production, not verified full-season totals.")
-                with st.expander("Player matches and calculation details"):
-                    if not player_audit.empty:
-                        rows=player_audit[player_audit['Team ID'].astype(str)==tid] if 'Team ID' in player_audit else player_audit
-                        courtside_dataframe(rows,hide_index=True,use_container_width=True)
-                    if notes: st.caption("Some records may have incomplete coverage.")
-            elif saved is not None:
-                st.info("Roster snapshots are archived, but reliable returning-production percentages are not yet available.")
-
-            st.markdown("**Incoming players and possible transfers**")
-            incoming=pd.DataFrame()
-            if not old_rosters.empty and not new_rosters.empty:
-                incoming=build_team_roster_view(tid,old_rosters,new_rosters,prior_totals)
-            if incoming.empty:
-                prior_incoming=st.session_state.get(f"incoming_candidates_{SPORTS[league]}")
-                if isinstance(prior_incoming,pd.DataFrame) and 'Team ID' in prior_incoming:
-                    incoming=prior_incoming[prior_incoming['Team ID'].astype(str)==tid]
-            if isinstance(incoming,pd.DataFrame) and not incoming.empty:
-                fields=[x for x in ['Player','Prior school','Status','Previous minutes','Previous points','Previous rebounds','Previous assists'] if x in incoming]
-                courtside_dataframe(incoming[fields],hide_index=True,use_container_width=True)
-                st.caption("Prior-school matches are provisional. Unknown origin is not proof a player is a freshman; unavailable totals are not zero.")
-            else:
-                st.caption("No matched incoming-player data available yet. Matches improve as more schools are archived.")
-
-            with st.expander("Experimental preseason rating — what-if analysis", expanded=False):
-                st.caption("This is an assumption-driven sensitivity check, NOT a trained roster model. It never changes official rankings, projections, SOS, or SOR.")
-                row = (returning[returning['Team ID'].astype(str) == tid].iloc[0]
-                       if isinstance(returning, pd.DataFrame) and not returning.empty
-                       and 'Team ID' in returning and (returning['Team ID'].astype(str) == tid).any()
-                       else None)
-                quality = roster_quality(row, incoming)
-                st.warning(quality['message'])
-                baseline = None
-                if isinstance(team_ratings, pd.DataFrame) and not team_ratings.empty:
-                    br = team_ratings[team_ratings['Team ID'].astype(str) == tid] if 'Team ID' in team_ratings else pd.DataFrame()
-                    if not br.empty:
-                        for field in ['Preseason rating','Current power','Power','Rating']:
-                            if field in br.columns and pd.notna(br.iloc[0][field]):
-                                baseline = float(br.iloc[0][field]);break
-                if baseline is None:
-                    st.info("First calculate power ratings in Model Lab to see the historical baseline and a hypothetical adjustment.")
-                elif row is None:
-                    st.info("This team needs returning-production records before a roster sensitivity can be shown.")
-                else:
-                    retention = pd.to_numeric(row.get('Returning minutes % (known only)'), errors='coerce')
-                    if pd.isna(retention):
-                        st.info("Returning minutes are unavailable; no speculative adjustment is generated.")
+                    trend = saved_team_history.copy()
+                    trend["Snapshot date"] = pd.to_datetime(trend["Snapshot date"], errors="coerce")
+                    trend["Current power"] = pd.to_numeric(trend["Current power"], errors="coerce")
+                    trend["Rank"] = pd.to_numeric(trend["Rank"], errors="coerce")
+                    trend = trend.dropna(subset=["Snapshot date"]).sort_values("Snapshot date").drop_duplicates("Snapshot date", keep="last")
+                    valid_rating = trend.dropna(subset=["Current power"])
+                    valid_rank = trend.dropna(subset=["Rank"])
+                    dates_count = trend["Snapshot date"].nunique()
+                    if dates_count < 2:
+                        st.info("One saved rating snapshot is available. Trend lines and ranking changes will appear after another dated update.")
+                        if not valid_rating.empty:
+                            st.metric("Saved power rating", f"{valid_rating.iloc[-1]['Current power']:+.2f}")
+                        if not valid_rank.empty:
+                            st.metric("Saved national rank", f"#{int(valid_rank.iloc[-1]['Rank'])}")
                     else:
-                        slope = st.slider("Assumed rating points per 10 percentage points of returning minutes", 0.0, 2.0, 0.5, 0.1, key=f'roster_slope_{SPORTS[league]}_{tid}')
-                        reference = st.slider("Reference retention level (%)", 20, 80, 50, 5, key=f'roster_reference_{SPORTS[league]}_{tid}')
-                        scenario=roster_sensitivity(baseline, retention, reference, slope)
-                        if scenario:
-                            c1,c2,c3=st.columns(3)
-                            c1.metric("Historical preseason baseline", f"{scenario['Historical team baseline']:+.2f}")
-                            c2.metric("Hypothetical difference", f"{scenario['Hypothetical change (pts)']:+.2f}")
-                            c3.metric("What-if rating", f"{scenario['Hypothetical rating (NOT validated)']:+.2f}")
-                            st.caption("The default 0.5-point coefficient and 50% reference are illustrative, NOT learned from historical games. Transfer production, player quality, coaching and availability are not assigned point effects.")
-                st.markdown("**Historical validation — still required**")
-                st.caption("The November 2025 previous-season-only model's historical benchmark was 11.36 points MAE across 1,233 games (based on the earlier dashboard test). This is NOT a roster-model result. A fair comparison needs preseason roster snapshots dated before each tested season, previous-season player totals, and truly held-out games. No roster-model accuracy or improvement is claimed yet.")
+                        if len(valid_rating) > 1:
+                            delta = valid_rating.iloc[-1]["Current power"] - valid_rating.iloc[0]["Current power"]
+                            c1, c2 = st.columns(2)
+                            c1.metric("Latest saved power", f"{valid_rating.iloc[-1]['Current power']:+.2f}", delta=f"{delta:+.2f} since first snapshot")
+                            if len(valid_rank)>1:
+                                rank_change = int(valid_rank.iloc[0]["Rank"] - valid_rank.iloc[-1]["Rank"])
+                                c2.metric("National rank", f"#{int(valid_rank.iloc[-1]['Rank'])}", delta=f"{rank_change:+d} places since first snapshot")
+                            st.markdown("**Power rating over time**")
+                            st.line_chart(valid_rating.set_index("Snapshot date")[["Current power"]], use_container_width=True)
+                        if len(valid_rank)>1:
+                            st.markdown("**National rank over time** (lower is better)")
+                            st.line_chart(valid_rank.set_index("Snapshot date")[["Rank"]], use_container_width=True)
+                    with st.expander("View dated rating records"):
+                        view_cols = [c for c in ["Snapshot date", "Rank", "Current power", "Preseason rating", "On-court rating", "Games played", "Preseason weight"] if c in trend.columns]
+                        courtside_dataframe(trend[view_cols].sort_values("Snapshot date", ascending=False), hide_index=True, use_container_width=True)
+                    st.caption("Only successful saved daily runs appear here. A flat graph can simply mean no games were played between snapshots; preseason numbers remain experimental.")
+            team_games=games[(games["Away ID"].astype(str)==tid)|(games["Home ID"].astype(str)==tid)].copy()
+            team_games["Opponent"]=team_games.apply(lambda x:x["Away"] if str(x["Home ID"])==tid else x["Home"],axis=1) if not team_games.empty else pd.Series(dtype=str)
+            team_games["Location"]=team_games.apply(lambda x:"Neutral" if x["Venue"]=="Neutral" else ("Home" if str(x["Home ID"])==tid else "Away"),axis=1) if not team_games.empty else pd.Series(dtype=str)
+            team_games=attach_model_lines(team_games,ratings_for_schedule,verified_d1_ids)
+            st.markdown("#### Schedule and projected lines")
+            st.caption(f"{len(team_games)} games found in the selected date window. Change the season coverage in the sidebar to see more.")
+            if not team_games.empty:
+                courtside_dataframe(team_games[["Date","Opponent","Location","Status","Model line","Away score","Home score"]],hide_index=True,use_container_width=True,height=390)
+            else:
+                st.info("No games in the loaded date range.")
+            with st.expander("📊 Strength of schedule & opponents",expanded=False):
+                if isinstance(sos_ratings,pd.DataFrame) and not sos_ratings.empty:
+                    matched=sos_ratings[sos_ratings["Team ID"].astype(str)==tid]
+                    if not matched.empty:
+                        courtside_dataframe(matched[["Full SOS","Played SOS","Remaining SOS","D1 games loaded","Rating coverage %","Schedule coverage status"]],hide_index=True,use_container_width=True)
+                    else: st.info("No D1 SOS data for this team in the loaded window.")
+                else: st.info("Calculate rankings in Model Lab, preferably with Full season selected.")
+            with st.expander("📈 Strength of record",expanded=False):
+                record_table = st.session_state.get(f"sor_{SPORTS[league]}")
+                if isinstance(record_table,pd.DataFrame) and not record_table.empty:
+                    team_record = record_table[record_table["Team ID"].astype(str)==tid]
+                    if not team_record.empty:
+                        courtside_dataframe(team_record[["SOR rank (provisional)","Wins","Losses","SOR games","Reference expected wins","Wins above expected","SOR score"]],hide_index=True,use_container_width=True)
+                    else: st.info("No completed, rated Division I results for this team yet.")
+                else: st.info("Strength of record becomes available when current-season games are final and ratings have been calculated in Model Lab.")
+            with st.expander("🏀 Roster analysis", expanded=False):
+                @st.cache_data(ttl=86400, show_spinner=False)
+                def _single_team_roster_bundle(sport, school_id, school_name):
+                    team_ref=pd.DataFrame([{"Team ID":str(school_id),"Team":str(school_name)}])
+                    snapshots, problems=audit_teams(sport, team_ref, max_teams=1)
+                    totals, diagnostics, errors=fetch_prior_stats(sport, team_ref, season=2026, max_games=45, max_workers=4)
+                    return snapshots,problems,totals,diagnostics,errors
 
-            with st.expander("Data quality and optional refresh",expanded=False):
-                st.caption("The scheduled GitHub collection is the default. Use a manual refresh only for teams not yet archived or when you need a new source check.")
-                st.caption(roster_archive_summary(old_rosters,new_rosters,prior_totals,collection_status))
-                if st.button("Refresh this team's roster analysis",key=f"refresh_team_roster_{SPORTS[league]}_{tid}"):
-                    with st.spinner("Fetching this team's roster and historical player totals..."):
-                        try:
-                            st.session_state[cache_key]=_single_team_roster_bundle(SPORTS[league],tid,chosen)
-                            st.rerun()
-                        except Exception as exc:
-                            st.error(f"Unable to refresh: {type(exc).__name__}: {str(exc)[:180]}")
-                if not stat_totals.empty:
-                    st.download_button("Download documented prior-season player totals",stat_totals.to_csv(index=False).encode(),f"team_{tid}_previous_player_totals.csv","text/csv",key=f"single_roster_download_{tid}")
-                st.warning("Season and roster completeness are not independently verified. These figures do not change official power ratings or game lines.")
-                st.info("Experimental roster-based rating adjustments remain disabled until historical validation is completed.")
-        with st.expander("👥 Roster and scouting details",expanded=False):
-            if st.button("Load player roster",key="v12_roster_btn"):
-                st.session_state["v12_roster_team"]=(SPORTS[league],tid)
-            if st.session_state.get("v12_roster_team")== (SPORTS[league],tid):
-                try:
-                    athlete_df=fetch_roster(SPORTS[league],tid)
-                    if athlete_df.empty: st.info("No roster data was available for this team.")
-                    else: courtside_dataframe(athlete_df,hide_index=True,use_container_width=True)
-                except Exception as exc: st.warning("Roster fetch unavailable: "+str(exc)[:160])
-            st.caption("Roster listing is informational; unverified player impact is not included in ratings.")
+                old_rosters, new_rosters, prior_totals, collection_status = load_saved_data(SPORTS[league])
+                saved = team_saved_analysis(tid, old_rosters, new_rosters, prior_totals)
+                cache_key=f"team_roster_bundle_{SPORTS[league]}_{tid}"
+                bundle=st.session_state.get(cache_key)
+                if bundle is not None:
+                    st.caption("On-demand player data (current session). Stored archive may be refreshed in the background.")
+                    roster_snap, roster_issues, stat_totals, stat_coverage, stat_errors=bundle
+                    if not roster_issues.empty: st.warning(f"{len(roster_issues)} roster requests had missing data.")
+                    if stat_errors: st.warning(f"{len(stat_errors)} player-stat requests were incomplete or failed.")
+                    if not roster_snap.empty and not stat_totals.empty:
+                        returning, player_audit, notes=calculate_returning_production(roster_snap,stat_totals)
+                    else:
+                        returning,player_audit=pd.DataFrame(),pd.DataFrame()
+                elif saved is not None:
+                    st.caption("Using saved GitHub roster records — no manual audit needed.")
+                    returning=saved['returning']
+                    player_audit=saved['player_audit']
+                    stat_totals=saved['stats']
+                    roster_snap=pd.concat([saved['previous'],saved['current']], ignore_index=True)
+                    notes=saved['warnings']
+                else:
+                    st.info("This team's data is not archived yet. It will appear automatically as the daily collection progresses.")
+                    returning=pd.DataFrame(); player_audit=pd.DataFrame();stat_totals=pd.DataFrame();roster_snap=pd.DataFrame();notes=[]
+
+                if isinstance(returning,pd.DataFrame) and not returning.empty:
+                    r=returning.loc[returning['Team ID'].astype(str)==tid]
+                    if not r.empty:
+                        r=r.iloc[0]
+                        cols=st.columns(4)
+                        for col,stat in zip(cols,['minutes','points','rebounds','assists']):
+                            val=r.get(f'Returning {stat} % (known only)')
+                            col.metric(f'Returning {stat}', f'{float(val):.1f}%' if pd.notna(val) else 'N/A')
+                        st.caption(f"Historical roster players with documented totals: {int(r.get('Prior roster players with stats',0))} / {int(r.get('Prior roster entries',0))}. Percentages reflect documented production, not verified full-season totals.")
+                    with st.expander("Player matches and calculation details"):
+                        if not player_audit.empty:
+                            rows=player_audit[player_audit['Team ID'].astype(str)==tid] if 'Team ID' in player_audit else player_audit
+                            courtside_dataframe(rows,hide_index=True,use_container_width=True)
+                        if notes: st.caption("Some records may have incomplete coverage.")
+                elif saved is not None:
+                    st.info("Roster snapshots are archived, but reliable returning-production percentages are not yet available.")
+
+                st.markdown("**Incoming players and possible transfers**")
+                incoming=pd.DataFrame()
+                if not old_rosters.empty and not new_rosters.empty:
+                    incoming=build_team_roster_view(tid,old_rosters,new_rosters,prior_totals)
+                if incoming.empty:
+                    prior_incoming=st.session_state.get(f"incoming_candidates_{SPORTS[league]}")
+                    if isinstance(prior_incoming,pd.DataFrame) and 'Team ID' in prior_incoming:
+                        incoming=prior_incoming[prior_incoming['Team ID'].astype(str)==tid]
+                if isinstance(incoming,pd.DataFrame) and not incoming.empty:
+                    fields=[x for x in ['Player','Prior school','Status','Previous minutes','Previous points','Previous rebounds','Previous assists'] if x in incoming]
+                    courtside_dataframe(incoming[fields],hide_index=True,use_container_width=True)
+                    st.caption("Prior-school matches are provisional. Unknown origin is not proof a player is a freshman; unavailable totals are not zero.")
+                else:
+                    st.caption("No matched incoming-player data available yet. Matches improve as more schools are archived.")
+
+                with st.expander("Experimental preseason rating — what-if analysis", expanded=False):
+                    st.caption("This is an assumption-driven sensitivity check, NOT a trained roster model. It never changes official rankings, projections, SOS, or SOR.")
+                    row = (returning[returning['Team ID'].astype(str) == tid].iloc[0]
+                           if isinstance(returning, pd.DataFrame) and not returning.empty
+                           and 'Team ID' in returning and (returning['Team ID'].astype(str) == tid).any()
+                           else None)
+                    quality = roster_quality(row, incoming)
+                    st.warning(quality['message'])
+                    baseline = None
+                    if isinstance(team_ratings, pd.DataFrame) and not team_ratings.empty:
+                        br = team_ratings[team_ratings['Team ID'].astype(str) == tid] if 'Team ID' in team_ratings else pd.DataFrame()
+                        if not br.empty:
+                            for field in ['Preseason rating','Current power','Power','Rating']:
+                                if field in br.columns and pd.notna(br.iloc[0][field]):
+                                    baseline = float(br.iloc[0][field]);break
+                    if baseline is None:
+                        st.info("First calculate power ratings in Model Lab to see the historical baseline and a hypothetical adjustment.")
+                    elif row is None:
+                        st.info("This team needs returning-production records before a roster sensitivity can be shown.")
+                    else:
+                        retention = pd.to_numeric(row.get('Returning minutes % (known only)'), errors='coerce')
+                        if pd.isna(retention):
+                            st.info("Returning minutes are unavailable; no speculative adjustment is generated.")
+                        else:
+                            slope = st.slider("Assumed rating points per 10 percentage points of returning minutes", 0.0, 2.0, 0.5, 0.1, key=f'roster_slope_{SPORTS[league]}_{tid}')
+                            reference = st.slider("Reference retention level (%)", 20, 80, 50, 5, key=f'roster_reference_{SPORTS[league]}_{tid}')
+                            scenario=roster_sensitivity(baseline, retention, reference, slope)
+                            if scenario:
+                                c1,c2,c3=st.columns(3)
+                                c1.metric("Historical preseason baseline", f"{scenario['Historical team baseline']:+.2f}")
+                                c2.metric("Hypothetical difference", f"{scenario['Hypothetical change (pts)']:+.2f}")
+                                c3.metric("What-if rating", f"{scenario['Hypothetical rating (NOT validated)']:+.2f}")
+                                st.caption("The default 0.5-point coefficient and 50% reference are illustrative, NOT learned from historical games. Transfer production, player quality, coaching and availability are not assigned point effects.")
+                    st.markdown("**Historical validation — still required**")
+                    st.caption("The November 2025 previous-season-only model's historical benchmark was 11.36 points MAE across 1,233 games (based on the earlier dashboard test). This is NOT a roster-model result. A fair comparison needs preseason roster snapshots dated before each tested season, previous-season player totals, and truly held-out games. No roster-model accuracy or improvement is claimed yet.")
+
+                with st.expander("Data quality and optional refresh",expanded=False):
+                    st.caption("The scheduled GitHub collection is the default. Use a manual refresh only for teams not yet archived or when you need a new source check.")
+                    st.caption(roster_archive_summary(old_rosters,new_rosters,prior_totals,collection_status))
+                    if st.button("Refresh this team's roster analysis",key=f"refresh_team_roster_{SPORTS[league]}_{tid}"):
+                        with st.spinner("Fetching this team's roster and historical player totals..."):
+                            try:
+                                st.session_state[cache_key]=_single_team_roster_bundle(SPORTS[league],tid,chosen)
+                                st.rerun()
+                            except Exception as exc:
+                                st.error(f"Unable to refresh: {type(exc).__name__}: {str(exc)[:180]}")
+                    if not stat_totals.empty:
+                        st.download_button("Download documented prior-season player totals",stat_totals.to_csv(index=False).encode(),f"team_{tid}_previous_player_totals.csv","text/csv",key=f"single_roster_download_{tid}")
+                    st.warning("Season and roster completeness are not independently verified. These figures do not change official power ratings or game lines.")
+                    st.info("Experimental roster-based rating adjustments remain disabled until historical validation is completed.")
+            with st.expander("👥 Roster and scouting details",expanded=False):
+                if st.button("Load player roster",key="v12_roster_btn"):
+                    st.session_state["v12_roster_team"]=(SPORTS[league],tid)
+                if st.session_state.get("v12_roster_team")== (SPORTS[league],tid):
+                    try:
+                        athlete_df=fetch_roster(SPORTS[league],tid)
+                        if athlete_df.empty: st.info("No roster data was available for this team.")
+                        else: courtside_dataframe(athlete_df,hide_index=True,use_container_width=True)
+                    except Exception as exc: st.warning("Roster fetch unavailable: "+str(exc)[:160])
+                st.caption("Roster listing is informational; unverified player impact is not included in ratings.")
 
 if selected_section == "Conferences":
     st.subheader("Conference rankings")
