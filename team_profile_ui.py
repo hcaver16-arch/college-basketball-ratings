@@ -124,6 +124,9 @@ def render_team_profile(*, team, team_id, league, sport, ratings, games, prelimi
                 else:
                     st.session_state['cs_calendar_span'] = 'Full season (Nov–Apr)'
                 st.session_state['courtside_games_page'] = 1
+                # Retain the exact fixture across a page switch. The Games calendar
+                # may fetch a different window or the ESPN daily feed may omit it.
+                st.session_state['courtside_selected_game_payload'] = g.to_dict()
                 st.session_state['courtside_selected_game'] = str(game_id)
                 st.session_state['courtside_page'] = 'Games'
                 st.rerun()
