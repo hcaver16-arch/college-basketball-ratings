@@ -470,7 +470,13 @@ for div_col, div_label in zip(division_cols[:2], ("Men's", "Women's")):
             st.rerun()
 league = st.session_state["courtside_division"]
 st.sidebar.subheader("Season coverage")
-period = st.sidebar.selectbox("Load schedules for", ["Next 14 days", "November 2026", "November–December", "January–February", "March–April", "Full season (Nov–Apr)"], index=0)
+# Season-wide analysis pages must not silently inherit a short game window.
+season_wide_pages = {"Schedule strength", "Record strength", "Conferences"}
+if selected_section in season_wide_pages:
+    period = "Full season (Nov–Apr)"
+    st.sidebar.info("Full-season schedule coverage is used automatically for this page.")
+else:
+    period = st.sidebar.selectbox("Load schedules for", ["Next 14 days", "November 2026", "November–December", "January–February", "March–April", "Full season (Nov–Apr)"], index=0)
 today = date.today()
 windows = {"Next 14 days": (max(START, today), min(END, max(START, today) + timedelta(days=13))),
            "November 2026": (START, date(2026, 11, 30)),
@@ -589,9 +595,22 @@ if isinstance(team_ratings, pd.DataFrame) and not team_ratings.empty:
             live_sos=live_sos.merge(team_ratings[['Team ID','Team','Conference']].drop_duplicates('Team ID'),on='Team ID',how='left')
             live_sos=live_sos[live_sos['Team'].notna()].copy()
             if not live_sos.empty:
+                # Official-looking ranks require complete-enough schedule coverage.
+                # Always publish a separate, explicitly unverified score order for browsing.
+                full_window = first <= START and last >= END
+                feed_clean = not (failures or truncated)
+                live_sos['SOS eligible'] = (
+                    full_window & feed_clean
+                    & pd.to_numeric(live_sos['D1 games loaded'], errors='coerce').ge(20)
+                    & pd.to_numeric(live_sos['Rating coverage %'], errors='coerce').ge(90)
+                )
                 live_sos['SOS rank (provisional)']=pd.NA
-                live_sos['Schedule coverage status']='Selected date window; not full-season verified'
-                live_sos['Coverage explanation']='These SOS values use only currently loaded games; full-season schedule coverage has not been verified.'
+                order=live_sos.sort_values('Full SOS', ascending=False, na_position='last')
+                eligible_order=order[order['SOS eligible'] & pd.to_numeric(order['Full SOS'],errors='coerce').notna()]
+                if not eligible_order.empty:
+                    live_sos.loc[eligible_order.index,'SOS rank (provisional)']=range(1,len(eligible_order)+1)
+                live_sos['Schedule coverage status'] = live_sos['SOS eligible'].map({True:'Provisional criteria met',False:'Incomplete / unverified'})
+                live_sos['Coverage explanation']='Rank eligibility needs full-season fetch, 20+ D1 games, 90% rated coverage and no failed dates. SOS position is display-only when not eligible.'
                 sos_ratings=live_sos
                 st.session_state[f"sos_{SPORTS[league]}"]=live_sos
         live_sor = strength_of_record(games, ratings_for_schedule, set(map(str,memberships.keys())))
