@@ -41,6 +41,7 @@ from net_quadrants import load_net, annotate_games, quadrant_records
 from matchup_analysis import render_matchup
 from team_profile_ui import render_team_profile
 from rankings_ui import render_rankings
+from strength_pages_ui import render_sos, render_sor
 from conferences_ui import render_conferences
 
 st.set_page_config(page_title="Courtside | College Basketball Analytics", page_icon="🏀", layout="wide", initial_sidebar_state="collapsed")
@@ -1552,35 +1553,10 @@ if selected_section == "Conferences":
     render_conferences(team_ratings, verified_d1_ids, league, games, period)
 
 if selected_section == "Schedule strength":
-    st.subheader("Strength of schedule")
-    st.caption("Provisional difficulty of D1 opponents. View full, played or remaining schedules. Coverage matters: an incomplete slate may not have a rank.")
-    if isinstance(sos_ratings,pd.DataFrame) and not sos_ratings.empty:
-        scope=st.segmented_control("Schedule scope",["Full SOS","Played SOS","Remaining SOS"],default="Full SOS",key="v12_sos_scope")
-        scored=sos_ratings.copy().sort_values(scope,ascending=False,na_position="last")
-        visible_cols=["SOS rank (provisional)","Team","Conference",scope,"D1 games loaded","Schedule coverage status"]
-        courtside_dataframe(scored.reindex(columns=visible_cols),hide_index=True,use_container_width=True,height=480)
-        with st.expander("Coverage diagnostics"):
-            detail_cols=["Team","D1 games loaded","Rated games","Rating coverage %","Coverage explanation"]
-            detail=scored.reindex(columns=detail_cols).copy()
-            detail["Coverage explanation"]=detail["Coverage explanation"].fillna("Coverage details unavailable for this calculation. Treat SOS as provisional.")
-            courtside_dataframe(detail,hide_index=True,use_container_width=True)
-    else:
-        st.info("Run the model with Full season selected to calculate schedule strength.")
-
-
+    render_sos(sos_ratings, league, verified_d1_ids)
 
 if selected_section == "Record strength":
-    st.subheader("Strength of record")
-    st.caption("How difficult has each team's achieved win-loss record been? Based on the chance a reference D1 team (rating 0) would match or exceed it against the same opponents and venues.")
-    if isinstance(sor_ratings,pd.DataFrame) and not sor_ratings.empty:
-        st.warning("PROVISIONAL: Results depend on loaded completed D1 games, opponent-rating quality and an uncalibrated 11-point game-margin uncertainty. A minimum of five rated final games is required to show a provisional rank. This is not an official ESPN SOR measure.")
-        display=sor_ratings.copy()
-        courtside_dataframe(display[["SOR rank (provisional)","Team","Conference","Wins","Losses","SOR games","Reference expected wins","Wins above expected","SOR score"]],hide_index=True,use_container_width=True,height=500)
-        with st.expander("How this is calculated"):
-            st.write("For each completed D1 game, estimate the chance a reference-strength team would beat that opponent at the same location. Calculate the exact probability the reference team would achieve at least as many wins as the real team. SOR score = −log10(that probability); higher scores indicate a more impressive record. Only completed D1-v-D1 games with rated opponents count. Missing results are excluded; rankings may be incomplete. The probabilities assume independent games and use a provisional fixed point-margin uncertainty.")
-        st.download_button("Download record strength",display.to_csv(index=False).encode(),"strength_of_record.csv","text/csv")
-    else:
-        st.info("No completed current-season Division I games with usable results yet. SOR will populate after the season begins and you calculate ratings in Model Lab.")
+    render_sor(sor_ratings, league, verified_d1_ids)
 
 st.divider()
 st.caption("Data: ESPN unofficial public scoreboard feed. Historical ratings are experimental; lines are independent model estimates and not betting odds. Some game and roster data may be incomplete.")
