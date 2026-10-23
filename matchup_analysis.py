@@ -165,12 +165,8 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
         a=pd.to_numeric(game.get("Away score"),errors="coerce")
         h=pd.to_numeric(game.get("Home score"),errors="coerce")
         if pd.notna(a) and pd.notna(h): st.markdown(f"### {away} {int(a)} — {home} {int(h)}")
-    # Private/personal site: opt in to third-party logos, with initials as safe default.
-    external_logos = st.toggle(
-        "Show external school logos (ESPN-hosted)", value=False,
-        key="courtside_show_external_team_logos",
-        help="School logos may be protected by trademark/copyright. An image URL does not grant permission to reuse it."
-    )
+    # Shared, site-wide logo setting is owned by app.py.
+    external_logos = st.session_state.get("courtside_logos_enabled", True)
     with st.container(border=True):
         a_col, vs_col, h_col = st.columns([4, 1, 4], vertical_alignment="center")
         team_identity(a_col, away, aid, league, external_logos=external_logos)
