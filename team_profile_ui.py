@@ -109,8 +109,23 @@ def render_team_profile(*, team, team_id, league, sport, ratings, games, prelimi
             st.markdown(f'<div class="cs-next-game"><strong>{opp}</strong><div class="cs-profile-sub">{gd} · {loc}</div></div>',unsafe_allow_html=True)
             game_id=g.get('Game ID')
             if pd.notna(game_id) and st.button('View matchup →',key=f'profile_next_{sport}_{team_id}'):
-                st.session_state['courtside_selected_game']=str(game_id)
-                st.session_state['courtside_page']='Games'
+                # Games normally shows only its selected calendar window.  Keep the
+                # specific fixture in that window when navigating from a profile.
+                # The schedule's Date column is already in Eastern calendar time.
+                selected_date = pd.to_datetime(g.get('Date'), errors='coerce')
+                if pd.notna(selected_date):
+                    from datetime import date
+                    day = selected_date.date()
+                    if date(2026, 11, 1) <= day <= date(2027, 4, 12):
+                        st.session_state['cs_calendar_anchor'] = day
+                        st.session_state['cs_calendar_span'] = 'Selected day'
+                    else:
+                        st.session_state['cs_calendar_span'] = 'Full season (Nov–Apr)'
+                else:
+                    st.session_state['cs_calendar_span'] = 'Full season (Nov–Apr)'
+                st.session_state['courtside_games_page'] = 1
+                st.session_state['courtside_selected_game'] = str(game_id)
+                st.session_state['courtside_page'] = 'Games'
                 st.rerun()
         if experimental is not None:
             delta=pd.to_numeric(experimental.get('Roster adjustment'),errors='coerce')
