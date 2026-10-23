@@ -181,6 +181,12 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
             st.caption("Logos are externally hosted and belong to their respective rights holders; Courtside is not affiliated with or endorsed by these schools.")
     if not record_coverage_ok:
         st.caption("Records may be incomplete because some season schedule dates could not be loaded.")
+    watch = game.get("Watch")
+    if not isinstance(watch, str) or not watch.strip() or watch.lower() in ("nan", "none"):
+        watch = "Not announced"
+    st.markdown("#### Where to watch")
+    st.markdown(f"**{escape(watch)}**")
+    st.caption("Broadcast listings are supplied by ESPN and may be added or changed closer to tipoff. Check the broadcaster or game page for streaming availability and subscription requirements.")
     st.markdown("#### Model forecast")
     c1,c2,c3=st.columns(3)
     with c1:
