@@ -48,6 +48,35 @@ from conferences_ui import render_conferences
 st.set_page_config(page_title="Courtside | College Basketball Analytics", page_icon="🏀", layout="wide", initial_sidebar_state="collapsed")
 courtside_style()
 apply_table_theme()
+
+# Responsive overrides: keep desktop presentation and shrink only phone widths.
+st.markdown("""<style>
+/* Native select is easier to use on narrow phones than eight stacked buttons. */
+.st-key-courtside_mobile_nav, .st-key-courtside_mobile_division_control {display:none;}
+@media (max-width: 700px) {
+  .block-container {padding: 0.8rem 0.75rem 3rem !important; max-width:100% !important;}
+  .st-key-courtside_desktop_nav, .st-key-courtside_desktop_division {display:none !important;}
+  .st-key-courtside_mobile_nav, .st-key-courtside_mobile_division_control {display:block !important;}
+  .st-key-courtside_mobile_nav [data-testid='stSelectbox'],
+  .st-key-courtside_mobile_division_control [data-testid='stSelectbox'] {margin-bottom:.35rem;}
+  h1 {font-size:1.75rem !important;}
+  h2 {font-size:1.35rem !important;}
+  h3 {font-size:1.15rem !important;}
+  /* Keep metric labels and team names from escaping their cards. */
+  [data-testid='stMetricValue'], .cs-profile-number {overflow-wrap:anywhere; font-size:1.15rem !important;}
+  [data-testid='stHorizontalBlock'] {gap:.5rem;}
+  .cs-profile-head {padding:10px 12px !important;}
+  .cs-profile-head h2 {font-size:1.25rem !important;}
+  .cs-profile-stat {min-height:74px !important; padding:9px 8px !important;}
+  .cs-profile-label {font-size:.58rem !important;letter-spacing:0 !important;}
+  .cs-profile-hint {font-size:.64rem !important;}
+  /* Tables and brackets scroll inside themselves, not across the whole page. */
+  [data-testid='stDataFrame'], .st-key-courtside-bracket {max-width:100%; overflow-x:auto;}
+  .element-container {max-width:100%;}
+  [data-testid='stTabs'] [data-baseweb='tab-list'] {overflow-x:auto; flex-wrap:nowrap;}
+  [data-testid='stTabs'] [data-baseweb='tab'] {flex-shrink:0;}
+}
+</style>""", unsafe_allow_html=True)
 # One site-wide logo preference. The URL setting survives browser refreshes,
 # and session state makes it consistent across every page and matchup.
 def _persist_logo_preference():
@@ -67,20 +96,27 @@ if st.session_state.get('courtside_requested_page') in sections:
     st.session_state['courtside_page'] = st.session_state.pop('courtside_requested_page')
 if st.session_state.get('courtside_page') not in sections:
     st.session_state['courtside_page']='Home'
-# Actual buttons rather than radio inputs. Keeping page selection in session state
-# also preserves the Home -> Games / Rankings links elsewhere in the dashboard.
-nav_cols = st.columns([1.0, 1.0, 1.15, 1.0, 1.45, 1.9, 1.8, 1.2], gap="small")
-for nav_col, nav_label in zip(nav_cols, sections):
-    with nav_col:
-        is_active = st.session_state['courtside_page'] == nav_label
-        if st.button(
-            nav_label,
-            key=f"courtside_nav_{nav_label.lower().replace(' ', '_')}",
-            type="primary" if is_active else "secondary",
-            use_container_width=True,
-        ):
-            st.session_state['courtside_page'] = nav_label
-            st.rerun()
+# Mobile uses one compact navigation select; desktop keeps the button row.
+# The two controls mirror the same session-state destination.
+def _mobile_go():
+    st.session_state['courtside_page'] = st.session_state['courtside_mobile_page']
+
+st.session_state['courtside_mobile_page'] = st.session_state['courtside_page']
+with st.container(key='courtside_mobile_nav'):
+    st.selectbox('Navigate Courtside', sections, key='courtside_mobile_page', on_change=_mobile_go)
+with st.container(key='courtside_desktop_nav'):
+    nav_cols = st.columns([1.0, 1.0, 1.15, 1.0, 1.45, 1.9, 1.8, 1.2], gap="small")
+    for nav_col, nav_label in zip(nav_cols, sections):
+        with nav_col:
+            is_active = st.session_state['courtside_page'] == nav_label
+            if st.button(
+                nav_label,
+                key=f"courtside_nav_{nav_label.lower().replace(' ', '_')}",
+                type="primary" if is_active else "secondary",
+                use_container_width=True,
+            ):
+                st.session_state['courtside_page'] = nav_label
+                st.rerun()
 selected_section = st.session_state['courtside_page']
 
 SPORTS = {"Men's": "mens-college-basketball", "Women's": "womens-college-basketball"}
@@ -497,17 +533,24 @@ def attach_model_lines(frame: pd.DataFrame, rating_lookup: dict, verified_d1: se
 st.caption("Basketball division")
 if st.session_state.get("courtside_division") not in ("Men's", "Women's"):
     st.session_state["courtside_division"] = "Men's"
-division_cols = st.columns([1, 1, 6], gap="small")
-for div_col, div_label in zip(division_cols[:2], ("Men's", "Women's")):
-    with div_col:
-        if st.button(
-            div_label,
-            key=f"courtside_division_{div_label.lower().replace(chr(39), '')}",
-            type="primary" if st.session_state["courtside_division"] == div_label else "secondary",
-            use_container_width=True,
-        ):
-            st.session_state["courtside_division"] = div_label
-            st.rerun()
+def _mobile_division_change():
+    st.session_state['courtside_division'] = st.session_state['courtside_mobile_division']
+
+st.session_state['courtside_mobile_division'] = st.session_state['courtside_division']
+with st.container(key='courtside_mobile_division_control'):
+    st.selectbox('Basketball division', ["Men's", "Women's"], key='courtside_mobile_division', on_change=_mobile_division_change)
+with st.container(key='courtside_desktop_division'):
+    division_cols = st.columns([1, 1, 6], gap="small")
+    for div_col, div_label in zip(division_cols[:2], ("Men's", "Women's")):
+        with div_col:
+            if st.button(
+                div_label,
+                key=f"courtside_division_{div_label.lower().replace(chr(39), '')}",
+                type="primary" if st.session_state["courtside_division"] == div_label else "secondary",
+                use_container_width=True,
+            ):
+                st.session_state["courtside_division"] = div_label
+                st.rerun()
 league = st.session_state["courtside_division"]
 st.sidebar.subheader("Season coverage")
 # Season-wide analysis pages must not silently inherit a short game window.
