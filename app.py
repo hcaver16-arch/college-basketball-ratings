@@ -39,6 +39,7 @@ from courtside_home import style as courtside_style, render_home
 from courtside_tables import apply_table_theme, dataframe as courtside_dataframe
 from net_quadrants import load_net, annotate_games, quadrant_records
 from matchup_analysis import render_matchup
+from season_records import game_records
 from team_profile_ui import render_team_profile
 from rankings_ui import render_rankings
 from strength_pages_ui import render_sos, render_sor
@@ -1258,6 +1259,14 @@ if selected_section == "Model Lab":
 
 
 if selected_section == "Games":
+    # Records must use the season, not the narrow calendar view on this page.
+    # ESPN day requests are cached by retrieve_day; a full-season retrieval may
+    # initially take longer. Never treat request failures as complete records.
+    with st.spinner("Loading season results for team records…"):
+        record_schedule, record_failures, record_truncated, _ = get_schedule(SPORTS[league], START, END)
+    record_coverage_ok = not record_failures and not record_truncated
+    if not record_coverage_ok:
+        st.warning("Some season dates could not be loaded. Team records below may be incomplete; they are marked as partial.")
     st.subheader("Games")
     st.caption(f"{first:%B %d, %Y} – {last:%B %d, %Y} · Times Eastern · Select a matchup for the full preview.")
     view = st.segmented_control("Game status", ["Upcoming", "All games", "Final scores"], default="Upcoming", key="courtside_games_status")
@@ -1329,6 +1338,8 @@ if selected_section == "Games":
                         st.session_state.pop("courtside_selected_game", None)
                         st.session_state.pop("courtside_selected_game_payload", None)
                         st.rerun()
+                away_record, home_record = game_records(record_schedule, game)
+                st.caption(f"Pregame season records · {game['Away']}: {away_record} · {game['Home']}: {home_record}" + (" · Partial schedule coverage" if not record_coverage_ok else ""))
                 render_matchup(
                     game, team_ratings=team_ratings, ratings=ratings_for_schedule,
                     preliminary_ratings=preliminary_ratings, sos_ratings=sos_ratings,
@@ -1362,6 +1373,8 @@ if selected_section == "Games":
                 with c_game:
                     st.markdown(f"**{game['Away']} at {game['Home']}**")
                     st.caption(f"{game['Date']} · {game['Time (ET)']} ET · {game['Status']}")
+                    away_record, home_record = game_records(record_schedule, game)
+                    st.caption(f"{game['Away']}: {away_record}  ·  {game['Home']}: {home_record}" + ("  ·  Partial" if not record_coverage_ok else ""))
                     if net_ranks:
                         st.caption(f"NET: Away {game.get('Away quadrant','—')} · Home {game.get('Home quadrant','—')}")
                 with c_line:
