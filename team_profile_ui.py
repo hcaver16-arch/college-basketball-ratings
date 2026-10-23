@@ -100,7 +100,7 @@ def render_team_profile(*, team, team_id, league, sport, ratings, games, prelimi
         st.markdown('#### Next matchup')
         upcoming=tg[~tg['Status'].astype(str).str.lower().str.contains('final')].sort_values('Date') if not tg.empty and 'Status' in tg else pd.DataFrame()
         if upcoming.empty:
-            st.caption('No upcoming game in the currently loaded schedule window.')
+            st.caption('No future matchup found in the currently published season schedule.')
         else:
             g=upcoming.iloc[0]
             opp=html.escape(str(g.get('Opponent','Unknown opponent')))
@@ -117,13 +117,13 @@ def render_team_profile(*, team, team_id, league, sport, ratings, games, prelimi
             if pd.notna(delta) and abs(float(delta))>=0.05:
                 st.caption(f"Experimental roster effect: {float(delta):+.1f} rating points · Not validated")
     with tabs[1]:
-        st.markdown('#### Schedule and results')
+        st.markdown('#### Full-season schedule and results')
         tg=_team_games(games,team_id)
-        if tg.empty:st.info('No fixtures in the loaded date window. Broaden season coverage to see more.')
+        if tg.empty:st.info('No fixtures were found in the current full-season feed. Some school schedules may not be published yet.')
         else:
             fields=[c for c in ['Date','Opponent','Location','Status','Away score','Home score'] if c in tg]
             st.dataframe(tg[fields],hide_index=True,use_container_width=True,height=400)
-            st.caption('Scores are shown in the original away/home order. Coverage depends on loaded ESPN schedules.')
+            st.caption(f'{len(tg)} published games loaded for this team, across the full season. Scores are in original away/home order. Missing or unpublished fixtures cannot be displayed.')
     with tabs[2]:
         st.markdown('#### Roster continuity')
         if experimental is None:st.info('Returning-production data is not available for this team yet.')
