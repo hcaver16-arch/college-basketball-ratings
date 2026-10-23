@@ -29,6 +29,9 @@ def _card(title, value, caption=''):
 def render_team_profile(*, team, team_id, league, sport, ratings, games, preliminary, sos, sor, directory, history_loader):
     """Render the public profile. Call before optional legacy audit tools."""
     st.markdown('''<style>
+    .cs-profile-stats-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+    .cs-profile-stats-grid .cs-profile-stat{min-width:0}
+    @media(max-width:700px){.cs-profile-stats-grid{gap:6px}.cs-profile-stats-grid .cs-profile-stat{padding:9px 7px;min-height:76px}.cs-profile-stats-grid .cs-profile-number{font-size:1.1rem}.cs-profile-stats-grid .cs-profile-label{font-size:.59rem}}
     .cs-profile-head {background:#fff;border:1px solid #e2e8f0;border-radius:15px;padding:14px 18px;margin:4px 0 12px;border-top:5px solid #34465f}
     .cs-profile-head h2{margin:0;color:#23354b;font-size:1.65rem}
     .cs-profile-sub{color:#64748b;font-size:.9rem}
@@ -77,10 +80,18 @@ def render_team_profile(*, team, team_id, league, sport, ratings, games, prelimi
                 won=(h>a) if is_home else (a>h)
                 wins+=int(won);losses+=int(not won)
             except (KeyError,ValueError,TypeError):continue
-        c1,c2,c3=st.columns(3)
-        with c1:_card('National rank', f"#{int(rating['Rank'])}" if rating is not None and pd.notna(rating.get('Rank')) else '—')
-        with c2:_card('Power rating', _num(rating.get('Current power'),signed=True) if rating is not None else '—')
-        with c3:_card('Record (loaded games)',f'{wins}–{losses}')
+        # A real CSS grid prevents Streamlit's automatic mobile column stacking.
+        overview_stats = [
+            ('National rank', f"#{int(rating['Rank'])}" if rating is not None and pd.notna(rating.get('Rank')) else '—'),
+            ('Power rating', _num(rating.get('Current power'),signed=True) if rating is not None else '—'),
+            ('Record', f'{wins}–{losses}'),
+        ]
+        cards = ''.join(
+            f'<div class="cs-profile-stat"><div class="cs-profile-label">{html.escape(label)}</div>'
+            f'<div class="cs-profile-number">{html.escape(value)}</div></div>'
+            for label,value in overview_stats
+        )
+        st.markdown(f'<div class="cs-profile-stats-grid">{cards}</div>', unsafe_allow_html=True)
         st.markdown('#### Rating history')
         history=history_loader(sport,str(team_id))
         if not isinstance(history,pd.DataFrame) or history.empty or 'Snapshot date' not in history or 'Current power' not in history:
