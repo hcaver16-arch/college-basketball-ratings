@@ -58,8 +58,14 @@ def _render(df,league,kind,score_col,rank_col,details,sort_options):
     if col not in df.columns:col=score_col
     df=df.assign(_sortvalue=pd.to_numeric(df[col],errors='coerce'))
     df=df.sort_values(['_sortvalue','Team'],ascending=[False,True],na_position='last',kind='stable')
+    if kind == 'sos':
+        # Visible, non-authoritative positions even when schedules aren't rank-eligible.
+        # Use the chosen SOS measure, not the possibly unrelated sorting column.
+        valid_scores=pd.to_numeric(df[score_col],errors='coerce')
+        score_positions=valid_scores.rank(method='min',ascending=False)
+        df=df.assign(_display_sos_position=score_positions)
     n=len(df)
-    st.caption(f'{n:,} matching D1 teams · Higher {kind.upper()} scores indicate stronger schedule difficulty or résumé strength, respectively. Rankings are provisional.')
+    st.caption(f'{n:,} matching D1 teams · Higher {kind.upper()} scores indicate stronger schedule difficulty or résumé strength, respectively. SOS numbers without verified coverage are display positions, not certified ranks.')
     if n==0:st.info('No teams match these filters.');return
     page_size=25
     pages=max(1,math.ceil(n/page_size))
@@ -69,7 +75,10 @@ def _render(df,league,kind,score_col,rank_col,details,sort_options):
         a,b,c=st.columns([5,1.5,1.35],vertical_alignment='center',gap='small')
         title=html.escape(str(r['Team']))
         conference=html.escape(str(r['Conference']))
-        rk=html.escape(_rank(r.get(rank_col)))
+        rk=_rank(r.get(rank_col))
+        if kind == 'sos' and rk == '—':
+            rk=_rank(r.get('_display_sos_position'))
+        rk=html.escape(rk)
         with a:
             st.markdown(f'<div class="cs-row"><span class="cs-rank">{rk}</span><div><div class="cs-name">{title}</div><div class="cs-conf">{conference}</div></div></div>',unsafe_allow_html=True)
         with b:
@@ -77,7 +86,7 @@ def _render(df,league,kind,score_col,rank_col,details,sort_options):
             if kind=='sor' and pd.isna(r.get(rank_col)):
                 sub='Not rank-eligible'
             elif kind=='sos' and pd.isna(r.get(rank_col)):
-                sub='Coverage unverified'
+                sub='Unverified SOS position'
             else:sub=score_col
             st.markdown(f'<div class="cs-metric">{html.escape(val)}</div><div class="cs-submetric">{html.escape(sub)}</div>',unsafe_allow_html=True)
         with c:
@@ -94,7 +103,7 @@ def render_sos(df,league,verified_d1_ids):
     data=_base(df,verified_d1_ids)
     if data.empty:
         st.info('SOS is not available for verified D1 teams yet. Use Full season coverage and calculate ratings in Model Lab.');return
-    st.warning('Schedule strength is provisional. Loaded games may not include the full schedule. Schools without verified coverage are unranked even if a score is displayed.')
+    st.warning('SOS positions are provisional and based on the available full-season schedule feed. When a team fails coverage requirements, its number is a display position—not a verified SOS rank.')
     scope=st.segmented_control('Schedule scope',['Full SOS','Played SOS','Remaining SOS'],default='Full SOS',key='cs_sos_scope')
     if scope is None:scope='Full SOS'
     if scope not in data:st.info('The selected schedule measure is not available.');return
