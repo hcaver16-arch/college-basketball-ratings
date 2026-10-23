@@ -140,7 +140,7 @@ def _compact_line(game, projection):
     return str(game.get("Model line") or "Unavailable")
 
 
-def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_ratings, sor_ratings, games, net_ranks, net_status, verified_d1_ids, league, game_projection):
+def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_ratings, sor_ratings, games, net_ranks, net_status, verified_d1_ids, league, game_projection, away_record=None, home_record=None, record_coverage_ok=True):
     """Render under an already open game header, using only existing verified app datasets."""
     st.markdown("""<style>
     .cs-kpi {background:#fff;border:1px solid #e2e8f0;border-radius:13px;padding:15px 16px;min-height:116px;box-sizing:border-box}
@@ -174,11 +174,17 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
     with st.container(border=True):
         a_col, vs_col, h_col = st.columns([4, 1, 4], vertical_alignment="center")
         team_identity(a_col, away, aid, league, external_logos=external_logos)
+        with a_col:
+            st.markdown(f"**{away_record}** · Pregame record" if away_record is not None else "Record unavailable")
         with vs_col:
             st.markdown("### at" if str(game.get("Venue")) != "Neutral" else "### vs")
         team_identity(h_col, home, hid, league, external_logos=external_logos)
+        with h_col:
+            st.markdown(f"**{home_record}** · Pregame record" if home_record is not None else "Record unavailable")
         if external_logos:
             st.caption("Logos are externally hosted and belong to their respective rights holders; Courtside is not affiliated with or endorsed by these schools.")
+    if not record_coverage_ok:
+        st.caption("Records may be incomplete because some season schedule dates could not be loaded.")
     st.markdown("#### Model forecast")
     c1,c2,c3=st.columns(3)
     with c1:
