@@ -45,13 +45,12 @@ def render_team_profile(*, team, team_id, league, sport, ratings, games, prelimi
     sor_row=_lookup(sor,team_id)
     dir_row=_lookup(directory,team_id)
     conference=str(dir_row.get('Conference','Conference not available')) if dir_row is not None else 'Conference not available'
-    if 'cs_profile_logos' not in st.session_state: st.session_state.cs_profile_logos=False
-    with st.expander('Team identity settings',expanded=False):
-        st.checkbox('Display ESPN-hosted team logo (optional external image)',key='cs_profile_logos',help='External image hosting does not guarantee permission to reuse an image.')
+    # Read the same single preference used by Matchup Analysis and the site header.
+    external_logos = st.session_state.get("courtside_logos_enabled", True)
     short = str(team).strip()
     initials = ''.join(w[0] for w in re.findall(r"[A-Za-z]+",short)[:2]).upper() or '?'
     head_logo = None
-    if st.session_state.cs_profile_logos:
+    if external_logos:
         try:
             from team_identity import logo_uri
             head_logo=logo_uri(team_id,league)
