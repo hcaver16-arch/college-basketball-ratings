@@ -18,6 +18,9 @@ class Rule:
     note: str
 
 RULES = (
+    Rule('WCC', 'mens', 10, 'wcc10', '2027 ten-team, four-round field verified by conference; pairing slots illustrative',
+         'https://wccsports.com/news/2026/10/5/wcc-finalizes-2026-27-mens-basketball-conference-schedule.aspx',
+         'Ten teams, nine games and four rounds March 5–9, 2027. Pairings and tiebreakers must be verified against the eventual official bracket.'),
     Rule('American', 'both', 10, 'stepladder10', '2027 entry/byes verified by conference',
          'https://theamerican.org/news/2026/9/30/american-conference-announces-2026-27-mens-basketball-conference-schedule.aspx',
          'Only top 10 qualify. Seeds 1–2 to semifinals, 3–4 to quarterfinals, 5–6 to round two. Pairings provisional; applies to both divisions per official releases.'),
@@ -42,6 +45,7 @@ RULES = (
 )
 
 ALIASES = {
+ 'WCC': {'wcc', 'west coast', 'west coast conference'},
  'American': {'american', 'american conference', 'aac', 'american athletic', 'american athletic conference'},
  'SWAC': {'swac', 'southwestern athletic', 'southwestern athletic conference'},
  'Big 12': {'big 12', 'big 12 conference', 'big twelve'},
@@ -62,6 +66,6 @@ def select_rule(conference: str, league: str, size: int) -> Rule | None:
     text = str(conference).strip().casefold()
     sex = _league(league)
     for rule in RULES:
-        if text in ALIASES[rule.conference] and (rule.league == sex or rule.league == 'both') and (size == rule.field_size or (rule.conference in ("American", "SWAC", "ACC") and size > rule.field_size)):
+        if text in ALIASES[rule.conference] and (rule.league == sex or rule.league == 'both') and (size == rule.field_size or (rule.conference in ("American", "SWAC", "ACC", "WCC") and size > rule.field_size)):
             return rule
     return None
