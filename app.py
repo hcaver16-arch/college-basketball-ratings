@@ -86,7 +86,7 @@ selected_section = st.session_state['courtside_page']
 SPORTS = {"Men's": "mens-college-basketball", "Women's": "womens-college-basketball"}
 START = date(2026, 11, 1)
 END = date(2027, 4, 12)
-COLUMNS = ["Game ID", "Date", "Time (ET)", "Away", "Home", "Away conference", "Home conference", "Away ID", "Home ID", "Venue", "Status", "Away score", "Home score", "Game URL"]
+COLUMNS = ["Game ID", "Date", "Time (ET)", "Away", "Home", "Away conference", "Home conference", "Away ID", "Home ID", "Venue", "Status", "Away score", "Home score", "Game URL", "Watch"]
 
 
 def days_between(start: date, end: date):
@@ -98,6 +98,32 @@ def days_between(start: date, end: date):
 
 def safe_name(team):
     return team.get("displayName") or team.get("name") or "Unknown"
+
+
+def broadcast_names(event, competition):
+    """Best-effort broadcast labels published in ESPN scoreboard data.
+
+    Do not infer a streaming service from the conference or network.
+    """
+    results = []
+    sources = [competition.get("broadcasts"), competition.get("geoBroadcasts"),
+               event.get("broadcasts"), event.get("geoBroadcasts")]
+    def collect(value):
+        if isinstance(value, str):
+            name = value.strip()
+            if name and name.lower() not in ("none", "null", "tbd", "n/a"):
+                results.append(name)
+        elif isinstance(value, list):
+            for item in value: collect(item)
+        elif isinstance(value, dict):
+            for key in ("names", "shortName", "name", "displayName"):
+                if key in value: collect(value[key])
+            # geoBroadcasts contain media nested under 'media'; avoid collecting
+            # generic labels such as 'national' from type/market fields.
+            if "media" in value: collect(value["media"])
+    for source in sources: collect(source)
+    unique = list(dict.fromkeys(results))
+    return ", ".join(unique) if unique else "Not announced"
 
 
 def parse_game(event):
@@ -137,7 +163,8 @@ def parse_game(event):
             "Away conference": conference(away), "Home conference": conference(home),
             "Away ID": str((away.get("team") or {}).get("id", "")), "Home ID": str((home.get("team") or {}).get("id", "")),
             "Venue": venue, "Status": status, "Away score": score(away) if status != "Scheduled" else None,
-            "Home score": score(home) if status != "Scheduled" else None, "Game URL": game_url}
+            "Home score": score(home) if status != "Scheduled" else None, "Game URL": game_url,
+            "Watch": broadcast_names(event, competition)}
 
 
 @st.cache_data(ttl=12 * 60 * 60, show_spinner=False)
@@ -1386,6 +1413,7 @@ if selected_section == "Games":
                     away_record, home_record = game_records(record_schedule, game)
                     st.markdown(f"**{game['Away']} ({away_record}) at {game['Home']} ({home_record})**")
                     st.caption(f"{game['Date']} · {game['Time (ET)']} ET · {game['Status']}" + (" · Records partial" if not record_coverage_ok else ""))
+                    st.caption("📺 Watch: " + str(game.get("Watch") or "Not announced"))
                     if net_ranks:
                         st.caption(f"NET: Away {game.get('Away quadrant','—')} · Home {game.get('Home quadrant','—')}")
                 with c_line:
