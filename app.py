@@ -1339,13 +1339,13 @@ if selected_section == "Games":
                         st.session_state.pop("courtside_selected_game_payload", None)
                         st.rerun()
                 away_record, home_record = game_records(record_schedule, game)
-                st.caption(f"Pregame season records · {game['Away']}: {away_record} · {game['Home']}: {home_record}" + (" · Partial schedule coverage" if not record_coverage_ok else ""))
                 render_matchup(
                     game, team_ratings=team_ratings, ratings=ratings_for_schedule,
                     preliminary_ratings=preliminary_ratings, sos_ratings=sos_ratings,
                     sor_ratings=sor_ratings, games=games, net_ranks=net_ranks,
                     net_status=net_status, verified_d1_ids=verified_d1_ids,
                     league=league, game_projection=game_projection,
+                    away_record=away_record, home_record=home_record, record_coverage_ok=record_coverage_ok,
                 )
         else:
             st.session_state.pop("courtside_selected_game", None)
@@ -1371,10 +1371,9 @@ if selected_section == "Games":
             with st.container(border=True):
                 c_game, c_line, c_action = st.columns([5, 2.7, 1.5], vertical_alignment="center")
                 with c_game:
-                    st.markdown(f"**{game['Away']} at {game['Home']}**")
-                    st.caption(f"{game['Date']} · {game['Time (ET)']} ET · {game['Status']}")
                     away_record, home_record = game_records(record_schedule, game)
-                    st.caption(f"{game['Away']}: {away_record}  ·  {game['Home']}: {home_record}" + ("  ·  Partial" if not record_coverage_ok else ""))
+                    st.markdown(f"**{game['Away']} ({away_record}) at {game['Home']} ({home_record})**")
+                    st.caption(f"{game['Date']} · {game['Time (ET)']} ET · {game['Status']}" + (" · Records partial" if not record_coverage_ok else ""))
                     if net_ranks:
                         st.caption(f"NET: Away {game.get('Away quadrant','—')} · Home {game.get('Home quadrant','—')}")
                 with c_line:
