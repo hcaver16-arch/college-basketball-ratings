@@ -471,20 +471,47 @@ for div_col, div_label in zip(division_cols[:2], ("Men's", "Women's")):
 league = st.session_state["courtside_division"]
 st.sidebar.subheader("Season coverage")
 # Season-wide analysis pages must not silently inherit a short game window.
-season_wide_pages = {"Schedule strength", "Record strength", "Conferences"}
+season_wide_pages = {"Schedule strength", "Record strength", "Conferences", "Teams"}
+today = date.today()
 if selected_section in season_wide_pages:
     period = "Full season (Nov–Apr)"
+    first, last = START, END
     st.sidebar.info("Full-season schedule coverage is used automatically for this page.")
+elif selected_section == "Games":
+    st.sidebar.markdown("#### Game calendar")
+    if "cs_calendar_anchor" not in st.session_state:
+        st.session_state["cs_calendar_anchor"] = min(END, max(START, today))
+    anchor = st.sidebar.date_input("Browse date (Eastern)", min_value=START, max_value=END, key="cs_calendar_anchor")
+    period = st.sidebar.selectbox("Show games for", ["Selected day", "Selected week", "Selected month", "Next 14 days", "Full season (Nov–Apr)"], key="cs_calendar_span")
+    a, b, c = st.sidebar.columns(3)
+    step = 1 if period == "Selected day" else (7 if period == "Selected week" else 30)
+    def move_calendar(days):
+        current = st.session_state["cs_calendar_anchor"]
+        st.session_state["cs_calendar_anchor"] = min(END, max(START, current + timedelta(days=days)))
+        st.session_state["courtside_games_page"] = 1
+    def reset_calendar():
+        st.session_state["cs_calendar_anchor"] = min(END, max(START, date.today()))
+        st.session_state["courtside_games_page"] = 1
+    a.button("← Earlier", key="cs_calendar_previous", on_click=move_calendar, args=(-step,))
+    b.button("Today", key="cs_calendar_today", on_click=reset_calendar)
+    c.button("Later →", key="cs_calendar_next", on_click=move_calendar, args=(step,))
+    if period == "Selected day": first, last = anchor, anchor
+    elif period == "Selected week": first, last = anchor, min(END, anchor + timedelta(days=6))
+    elif period == "Selected month":
+        first = anchor.replace(day=1)
+        last = min(END, (first.replace(year=first.year + 1, month=1) if first.month == 12 else first.replace(month=first.month + 1)) - timedelta(days=1))
+    elif period == "Next 14 days": first, last = anchor, min(END, anchor + timedelta(days=13))
+    else: first, last = START, END
+    st.sidebar.caption(f"Showing {first:%b %d, %Y} – {last:%b %d, %Y} (ET)")
 else:
     period = st.sidebar.selectbox("Load schedules for", ["Next 14 days", "November 2026", "November–December", "January–February", "March–April", "Full season (Nov–Apr)"], index=0)
-today = date.today()
-windows = {"Next 14 days": (max(START, today), min(END, max(START, today) + timedelta(days=13))),
-           "November 2026": (START, date(2026, 11, 30)),
-           "Full season (Nov–Apr)": (START, END),
-           "November–December": (START, date(2026, 12, 31)),
-           "January–February": (date(2027, 1, 1), date(2027, 2, 28)),
-           "March–April": (date(2027, 3, 1), END)}
-first, last = windows[period]
+    windows = {"Next 14 days": (max(START, today), min(END, max(START, today) + timedelta(days=13))),
+               "November 2026": (START, date(2026, 11, 30)),
+               "Full season (Nov–Apr)": (START, END),
+               "November–December": (START, date(2026, 12, 31)),
+               "January–February": (date(2027, 1, 1), date(2027, 2, 28)),
+               "March–April": (date(2027, 3, 1), END)}
+    first, last = windows[period]
 st.sidebar.caption("Times shown in Eastern Time; game times and schedules may change.")
 if st.sidebar.button("🔄 Refresh schedule now", use_container_width=True):
     retrieve_day.clear()
@@ -1232,7 +1259,7 @@ if selected_section == "Model Lab":
 
 if selected_section == "Games":
     st.subheader("Games")
-    st.caption("Select a matchup for the full preview. All times Eastern.")
+    st.caption(f"{first:%B %d, %Y} – {last:%B %d, %Y} · Times Eastern · Select a matchup for the full preview.")
     view = st.segmented_control("Game status", ["Upcoming", "All games", "Final scores"], default="Upcoming", key="courtside_games_status")
     shown = games.copy()
     if view == "Upcoming":
