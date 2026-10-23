@@ -48,6 +48,18 @@ from conferences_ui import render_conferences
 st.set_page_config(page_title="Courtside | College Basketball Analytics", page_icon="🏀", layout="wide", initial_sidebar_state="collapsed")
 courtside_style()
 apply_table_theme()
+# One site-wide logo preference. The URL setting survives browser refreshes,
+# and session state makes it consistent across every page and matchup.
+def _persist_logo_preference():
+    st.query_params["logos"] = "1" if st.session_state["courtside_logos_enabled"] else "0"
+
+if "courtside_logos_enabled" not in st.session_state:
+    st.session_state["courtside_logos_enabled"] = str(st.query_params.get("logos", "1")).lower() not in ("0", "false", "off")
+st.sidebar.toggle(
+    "Show team logos", key="courtside_logos_enabled",
+    on_change=_persist_logo_preference,
+    help="Uses externally hosted ESPN team logos when available; otherwise shows team initials. School marks belong to their respective rights holders."
+)
 st.title("🏀 Courtside")
 st.caption("College Basketball Analytics · 2026–27")
 sections=["Home","Games","Rankings","Teams","Conferences","Schedule strength","Record strength","Model Lab"]
