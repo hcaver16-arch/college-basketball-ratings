@@ -179,6 +179,25 @@ def stepladder_10_bracket(standings: pd.DataFrame, conference: str):
         ('Championship', [('Winner G7', 'Winner G8')]),
     ]
 
+def wcc_2027_mens_bracket(standings: pd.DataFrame):
+    """Four-round, 10-team WCC 2027 layout; seed pairings illustrative.
+
+    The league has verified the field size, nine games and four rounds.
+    Do not describe the specific seed pairings below as official.
+    """
+    if len(standings) < 10:
+        return []
+    s = _named(standings, 10)
+    return [
+        ('First round', [(s[7], s[10]), (s[8], s[9])]),
+        ('Quarterfinals', [(s[1], 'Winner G2'), (s[4], s[5]),
+                           (s[2], 'Winner G1'), (s[3], s[6])]),
+        ('Semifinals', [('Winner G3', 'Winner G4'),
+                        ('Winner G5', 'Winner G6')]),
+        ('Championship', [('Winner G7', 'Winner G8')]),
+    ]
+
+
 def render_tournament_bracket(standings: pd.DataFrame, conference: str, league: str):
     """Render provisional seeded brackets without implying universal verification."""
     if standings is None or standings.empty or len(standings) < 2:
@@ -199,6 +218,8 @@ def render_tournament_bracket(standings: pd.DataFrame, conference: str, league: 
         rounds = staggered_15_bracket(standings)
     elif rule.layout == 'stepladder10':
         rounds = stepladder_10_bracket(standings, conference)
+    elif rule.layout == 'wcc10':
+        rounds = wcc_2027_mens_bracket(standings)
     elif rule.layout == 'staggered18':
         rounds = staggered_18_bracket(standings)
     else:
