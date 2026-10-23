@@ -1307,6 +1307,16 @@ if selected_section == "Games":
             selected = games[games["Game ID"].astype(str) == selected_id]
             if not selected.empty:
                 selected = add_experimental_lines(attach_model_lines(annotate_games(selected, net_ranks, verified_d1_ids, league), ratings_for_schedule, verified_d1_ids), preliminary_ratings, verified_d1_ids)
+        # A team-profile link carries the complete fixture row. Use it when the
+        # requested calendar day's scoreboard does not contain the fixture.
+        # A game ID check prevents a stale row being used for another selection.
+        if selected.empty:
+            linked = st.session_state.get("courtside_selected_game_payload")
+            if isinstance(linked, dict) and str(linked.get("Game ID", "")) == selected_id:
+                selected = pd.DataFrame([linked])
+                selected = annotate_games(selected, net_ranks, verified_d1_ids, league)
+                selected = attach_model_lines(selected, ratings_for_schedule, verified_d1_ids)
+                selected = add_experimental_lines(selected, preliminary_ratings, verified_d1_ids)
         if not selected.empty:
             game = selected.iloc[0]
             with st.container(border=True):
@@ -1317,6 +1327,7 @@ if selected_section == "Games":
                 with col_close:
                     if st.button("Close details", key="close_game_details", use_container_width=True):
                         st.session_state.pop("courtside_selected_game", None)
+                        st.session_state.pop("courtside_selected_game_payload", None)
                         st.rerun()
                 render_matchup(
                     game, team_ratings=team_ratings, ratings=ratings_for_schedule,
@@ -1361,6 +1372,7 @@ if selected_section == "Games":
                 with c_action:
                     if st.button("View matchup →", key=f"game_detail_{league}_{game['Game ID']}", use_container_width=True):
                         st.session_state["courtside_selected_game"] = str(game["Game ID"])
+                        st.session_state["courtside_selected_game_payload"] = game.to_dict()
                         st.rerun()
     with st.expander("Download full game data and notes"):
         st.download_button("Download filtered games CSV", shown.to_csv(index=False).encode(), "basketball_games.csv", "text/csv", key="v12_download_games")
