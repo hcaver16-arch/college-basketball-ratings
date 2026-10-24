@@ -1,0 +1,72 @@
+name: Backtest historical efficiency
+
+on:
+  workflow_dispatch:
+    inputs:
+      division:
+        description: 'Historical division to evaluate'
+        type: choice
+        required: true
+        default: both
+        options:
+          - both
+          - mens
+          - womens
+
+permissions:
+  contents: read
+
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: python -m pip install numpy pandas
+      - name: Run available historical backtests
+        shell: bash
+        env:
+          DIVISION: ${{ inputs.division }}
+        run: |
+          set -euo pipefail
+          if [[ ! -f historical_efficiency_test.py || ! -f adjusted_efficiency.py ]]; then
+            echo 'Missing historical_efficiency_test.py or adjusted_efficiency.py in repository root.' >&2
+            exit 1
+          fi
+          mkdir -p backtest_results
+          found=0
+          for sport in mens womens; do
+            if [[ "$DIVISION" != both && "$DIVISION" != "$sport" ]]; then
+              continue
+            fi
+            file="data/historical_efficiency/2025-26_${sport}_paired_games.csv.gz"
+            if [[ ! -f "$file" ]]; then
+              echo "Missing $file; run the V86 collection workflow first." | tee -a "$GITHUB_STEP_SUMMARY"
+              continue
+            fi
+            found=$((found+1))
+            python historical_efficiency_test.py --input "$file" --output-dir "backtest_results/$sport"
+            echo "### ${sport} historical efficiency" >> "$GITHUB_STEP_SUMMARY"
+            python - "$sport" <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json,sys
+          from pathlib import Path
+          p=Path('backtest_results')/sys.argv[1]/'historical_efficiency_summary.json'
+          d=json.loads(p.read_text())
+          for k,v in d.items():
+              print(f'- **{k}**: {v}')
+          PY
+          done
+          if [[ "$found" == 0 ]]; then
+            echo 'No historical datasets available yet; run V86 collector first.' >&2
+            exit 1
+          fi
+      - name: Downloadable predictions and reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: historical-efficiency-backtest
+          path: backtest_results/
+          if-no-files-found: warn
