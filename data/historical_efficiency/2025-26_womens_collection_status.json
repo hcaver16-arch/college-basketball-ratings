@@ -3,7 +3,7 @@
   "season": "2025-26",
   "first_date": "2025-11-01",
   "last_date": "2026-04-15",
-  "last_completed_date": "2026-02-22",
+  "last_completed_date": "2026-03-04",
   "days": {
     "2025-11-01": {
       "events": 0,
@@ -802,8 +802,78 @@
       "d1_finals": 42,
       "usable": 42,
       "missing_box": 0
+    },
+    "2026-02-23": {
+      "events": 3,
+      "completed": 3,
+      "d1_finals": 3,
+      "usable": 3,
+      "missing_box": 0
+    },
+    "2026-02-24": {
+      "events": 10,
+      "completed": 10,
+      "d1_finals": 10,
+      "usable": 10,
+      "missing_box": 0
+    },
+    "2026-02-25": {
+      "events": 56,
+      "completed": 56,
+      "d1_finals": 56,
+      "usable": 56,
+      "missing_box": 0
+    },
+    "2026-02-26": {
+      "events": 84,
+      "completed": 84,
+      "d1_finals": 84,
+      "usable": 84,
+      "missing_box": 0
+    },
+    "2026-02-27": {
+      "events": 23,
+      "completed": 23,
+      "d1_finals": 23,
+      "usable": 23,
+      "missing_box": 0
+    },
+    "2026-02-28": {
+      "events": 121,
+      "completed": 121,
+      "d1_finals": 121,
+      "usable": 121,
+      "missing_box": 0
+    },
+    "2026-03-01": {
+      "events": 40,
+      "completed": 40,
+      "d1_finals": 40,
+      "usable": 40,
+      "missing_box": 0
+    },
+    "2026-03-02": {
+      "events": 11,
+      "completed": 11,
+      "d1_finals": 11,
+      "usable": 11,
+      "missing_box": 0
+    },
+    "2026-03-03": {
+      "events": 21,
+      "completed": 21,
+      "d1_finals": 21,
+      "usable": 21,
+      "missing_box": 0
+    },
+    "2026-03-04": {
+      "events": 41,
+      "completed": 41,
+      "d1_finals": 41,
+      "usable": 41,
+      "missing_box": 0
     }
   },
-  "games_archived": 4727,
+  "games_archived": 5137,
   "notes": "Days marked complete if scoreboard fetched; individual missing box scores counted, not silently discarded. ESPN unofficial API."
 }
