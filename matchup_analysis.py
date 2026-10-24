@@ -5,6 +5,7 @@ from html import escape
 import streamlit as st
 from net_quadrants import annotate_games, quadrant_records
 from team_identity import team_identity
+from efficiency_ui import render_matchup_stats
 
 
 def _number(x, fmt="+.1f"):
@@ -235,6 +236,9 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
     comp.append('</div>')
     st.markdown(''.join(comp),unsafe_allow_html=True)
     st.caption("SOS/SOR may cover only the currently loaded schedule. Provisional ranks must not be interpreted as official NCAA rankings.")
+
+    with st.expander("Offense, defense & matchup statistics — awaiting validated data", expanded=False):
+        render_matchup_stats(away, home)
 
     has_recent = bool(_recent(games,aid) or _recent(games,hid))
     with st.expander("Recent results — last five loaded final games" + ("" if has_recent else " (not yet available)"),expanded=False):
