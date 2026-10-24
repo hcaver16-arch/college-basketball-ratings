@@ -3,7 +3,7 @@
   "season": "2025-26",
   "first_date": "2025-11-01",
   "last_date": "2026-04-15",
-  "last_completed_date": "2026-02-04",
+  "last_completed_date": "2026-02-07",
   "days": {
     "2025-11-01": {
       "events": 0,
@@ -676,8 +676,29 @@
       "d1_finals": 62,
       "usable": 62,
       "missing_box": 0
+    },
+    "2026-02-05": {
+      "events": 51,
+      "completed": 51,
+      "d1_finals": 51,
+      "usable": 51,
+      "missing_box": 0
+    },
+    "2026-02-06": {
+      "events": 9,
+      "completed": 9,
+      "d1_finals": 9,
+      "usable": 9,
+      "missing_box": 0
+    },
+    "2026-02-07": {
+      "events": 155,
+      "completed": 155,
+      "d1_finals": 155,
+      "usable": 155,
+      "missing_box": 0
     }
   },
-  "games_archived": 3893,
+  "games_archived": 4108,
   "notes": "Days marked complete if scoreboard fetched; individual missing box scores counted, not silently discarded. ESPN unofficial API."
 }
