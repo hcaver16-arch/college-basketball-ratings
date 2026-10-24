@@ -15,6 +15,13 @@ EFFICIENCY = [
     ('tempo', 'Tempo', 'possessions / 40 minutes'),
 ]
 GROUPS = [
+    ('Box-score averages', [
+        ('reb_pg', 'Rebounds per game', 'per game'),
+        ('ast_pg', 'Assists per game', 'per game'),
+        ('tov_pg', 'Turnovers per game', 'per game'),
+        ('stl_pg', 'Steals per game', 'per game'),
+        ('blk_pg', 'Blocks per game', 'per game'),
+    ]),
     ('Efficiency & pace', EFFICIENCY + [
         ('off_eff', 'Raw offensive efficiency', 'points / 100 possessions'),
         ('def_eff', 'Raw defensive efficiency', 'allowed / 100 possessions'),
@@ -84,7 +91,7 @@ def _css():
 
 def render_team_efficiency(stats=None, *, compact=False):
     st.markdown('#### Offensive & defensive efficiency')
-    st.caption('These statistics will populate only after the underlying game data has been validated. They are not inferred from the current power rating.')
+    st.caption('Adjusted ratings require a later model update. Raw box-score statistics populate from completed games when available.')
     tiles = []
     for key, label, unit in EFFICIENCY:
         tiles.append(f'<div class="cs-eff-tile"><div class="cs-eff-label">{html.escape(label)}</div>'
@@ -94,6 +101,8 @@ def render_team_efficiency(stats=None, *, compact=False):
     if compact:
         st.caption('Shooting, rebounding, turnovers, pace and recent-form statistics are in the Analytics tab.')
         return
+    if stats and stats.get('boxscore_games'):
+        st.caption(f"ESPN box scores available for {stats['boxscore_games']} of {stats.get('eligible_final_games', 0)} loaded final games; missing-game coverage may bias averages.")
     st.markdown('#### Additional team statistics')
     for title, rows in GROUPS:
         if title == 'Efficiency & pace':
@@ -107,7 +116,7 @@ def render_team_efficiency(stats=None, *, compact=False):
 
 def render_matchup_stats(away, home, *, away_stats=None, home_stats=None):
     st.markdown('#### Offense, defense & matchup statistics')
-    st.caption('Missing data is shown as unavailable, never as an estimated value or zero. Opponent-adjusted efficiency will require separate validation.')
+    st.caption('Raw stats use available completed-game ESPN box scores. Adjusted ratings remain unavailable; missing values are not treated as zero.')
     st.markdown(_css(), unsafe_allow_html=True)
     for group_index, (group_title, metrics) in enumerate(GROUPS):
         with st.expander(group_title, expanded=(group_index == 0)):
