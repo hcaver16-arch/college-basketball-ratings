@@ -6,6 +6,7 @@ import pandas as pd
 import streamlit as st
 from efficiency_ui import render_team_efficiency
 from raw_team_stats import team_raw_stats
+from adjusted_display import merge_team_stats
 
 
 def _num(value, decimals=1, signed=False):
@@ -69,7 +70,7 @@ def render_team_profile(*, team, team_id, league, sport, ratings, games, prelimi
             st.markdown(f'<div class="cs-profile-initials">{html.escape(initials)}</div>',unsafe_allow_html=True)
     with hname:
         st.markdown(f'<div class="cs-profile-head"><div class="cs-profile-sub">{html.escape(league)} basketball · {html.escape(conference)}</div><h2>{html.escape(team)}</h2><div class="cs-profile-sub">Team scouting and season overview</div></div>',unsafe_allow_html=True)
-    raw_stats = team_raw_stats(games,team_id,league)
+    raw_stats = merge_team_stats(team_raw_stats(games,team_id,league), team_id, league)
     tabs=st.tabs(['Overview','Schedule','Roster','Analytics','Compare'])
     with tabs[0]:
         tg=_team_games(games,team_id)
