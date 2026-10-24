@@ -1,4 +1,4 @@
-"""Courtside V66: consistent, navigable SOS and SOR presentation; no model changes."""
+"""Courtside V77: mobile-safe SOS/SOR rows; no model changes."""
 from __future__ import annotations
 import html
 import math
@@ -9,13 +9,25 @@ STYLE='''<style>
 .cs-head{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:18px 20px;margin:0 0 15px}
 .cs-head h2{font-size:1.5rem;color:#23354b;margin:0 0 5px}
 .cs-head p{color:#66788b;font-size:.88rem;margin:0}
-.cs-row{background:#fff;border:1px solid #e3e8ef;border-radius:11px;min-height:66px;padding:11px 14px;display:flex;gap:12px;align-items:center;margin:0 0 5px;color:#23354b}
+.cs-row{background:#fff;border:1px solid #e3e8ef;border-radius:11px;min-height:66px;padding:11px 14px;display:flex;gap:12px;align-items:center;margin:0 0 5px;color:#23354b;width:100%;box-sizing:border-box;min-width:0}
 .cs-rank{min-width:44px;color:#67788e;font-size:.9rem;font-weight:700}
-.cs-name{color:#23354b;font-weight:700;font-size:.96rem;overflow-wrap:anywhere}
+.cs-name{color:#23354b;font-weight:700;font-size:.96rem;overflow-wrap:anywhere;line-height:1.35}
 .cs-conf{font-size:.76rem;color:#728096}
 .cs-metric{text-align:right;font-size:1.02rem;font-weight:750;color:#23354b;white-space:nowrap}
 .cs-submetric{text-align:right;color:#718096;font-size:.72rem}
-.cs-muted{font-size:.74rem;color:#906a34}
+ .cs-muted{font-size:.74rem;color:#906a34}
+.cs-school{flex:1;min-width:0}
+.cs-score-block{margin-left:auto;flex-shrink:0;text-align:right;min-width:78px}
+@media(max-width:640px){
+ .cs-row{padding:12px;gap:9px;min-height:65px;margin-bottom:3px}
+ .cs-rank{min-width:32px;font-size:.81rem}
+ .cs-name{font-size:.89rem}
+ .cs-conf{font-size:.71rem}
+ .cs-score-block{min-width:62px;max-width:85px}
+ .cs-metric{font-size:1rem}
+ .cs-submetric{font-size:.65rem;white-space:normal;line-height:1.2}
+}
+
 </style>'''
 
 def _s(value, fmt='.1f', signed=False):
@@ -72,25 +84,35 @@ def _render(df,league,kind,score_col,rank_col,details,sort_options):
     page=st.number_input('Page',min_value=1,max_value=pages,value=1,step=1,key=f'cs_{kind}_page') if pages>1 else 1
     start=(int(page)-1)*page_size
     for i,(_,r) in enumerate(df.iloc[start:start+page_size].iterrows()):
-        a,b,c=st.columns([5,1.5,1.35],vertical_alignment='center',gap='small')
         title=html.escape(str(r['Team']))
         conference=html.escape(str(r['Conference']))
         rk=_rank(r.get(rank_col))
         if kind == 'sos' and rk == '—':
             rk=_rank(r.get('_display_sos_position'))
-        rk=html.escape(rk)
-        with a:
-            st.markdown(f'<div class="cs-row"><span class="cs-rank">{rk}</span><div><div class="cs-name">{title}</div><div class="cs-conf">{conference}</div></div></div>',unsafe_allow_html=True)
-        with b:
-            val=_s(r.get(score_col),signed=True)
-            if kind=='sor' and pd.isna(r.get(rank_col)):
-                sub='Not rank-eligible'
-            elif kind=='sos' and pd.isna(r.get(rank_col)):
-                sub='Unverified SOS position'
-            else:sub=score_col
-            st.markdown(f'<div class="cs-metric">{html.escape(val)}</div><div class="cs-submetric">{html.escape(sub)}</div>',unsafe_allow_html=True)
-        with c:
-            if st.button('View team →',key=f'cs_{kind}_{league}_{r["Team ID"]}_{start+i}',use_container_width=True):_navigate(r)
+        val=_s(r.get(score_col),signed=True)
+        if kind=='sor' and pd.isna(r.get(rank_col)):
+            sub='Not rank-eligible'
+        elif kind=='sos' and pd.isna(r.get(rank_col)):
+            sub='Unverified position'
+        else:
+            sub=score_col
+        # One flexible HTML row prevents Streamlit columns from stacking the
+        # score outside the team card on narrow mobile screens.
+        st.markdown(
+            '<div class="cs-row">'
+            f'<span class="cs-rank">{html.escape(rk)}</span>'
+            '<div class="cs-school">'
+            f'<div class="cs-name">{title}</div>'
+            f'<div class="cs-conf">{conference}</div>'
+            '</div>'
+            '<div class="cs-score-block">'
+            f'<div class="cs-metric">{html.escape(val)}</div>'
+            f'<div class="cs-submetric">{html.escape(sub)}</div>'
+            '</div></div>',
+            unsafe_allow_html=True,
+        )
+        if st.button('View team →',key=f'cs_{kind}_{league}_{r["Team ID"]}_{start+i}',use_container_width=True):
+            _navigate(r)
     if pages>1:st.caption(f'Page {page} of {pages} · Showing {start+1}–{min(start+page_size,n)}')
     with st.expander('Advanced statistics, coverage and CSV download'):
         cols=[c for c in details if c in df.columns]
