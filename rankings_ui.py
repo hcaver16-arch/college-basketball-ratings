@@ -6,6 +6,18 @@ import pandas as pd
 import streamlit as st
 
 
+MOBILE_CARD_STYLE = '''<style>
+.cs79-grid{display:grid!important;grid-template-columns:38px minmax(0,1fr) minmax(76px,max-content)!important;align-items:center!important;gap:12px!important;width:100%!important;min-width:0!important;color:#23354b}
+.cs79-rank{color:#64748b;font-weight:750;font-size:.9rem}
+.cs79-team{min-width:0!important;overflow-wrap:anywhere!important}
+.cs79-name{font-weight:700;font-size:.96rem;line-height:1.25;color:#23354b}
+.cs79-meta{font-size:.77rem;color:#718096;margin-top:4px}
+.cs79-result{text-align:right!important;min-width:0!important;justify-self:end!important}
+.cs79-number{font-size:1.08rem;color:#23354b;font-weight:750;white-space:nowrap}
+.cs79-label{color:#718096;font-size:.69rem;line-height:1.22;overflow-wrap:anywhere}
+@media(max-width:640px){.cs79-grid{grid-template-columns:29px minmax(0,1fr) 80px!important;gap:8px!important}.cs79-name{font-size:.87rem}.cs79-meta{font-size:.71rem}.cs79-number{font-size:1rem}.cs79-label{font-size:.63rem}}
+</style>'''
+
 def _fmt(value, signed=False):
     try:
         x=float(value)
@@ -28,6 +40,7 @@ def render_rankings(ratings: pd.DataFrame, preliminary: pd.DataFrame, league: st
     .cr-value{font-weight:750;color:#23354b;font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
     .cr-label{font-size:.71rem;color:#728096;text-align:right}
     </style>''',unsafe_allow_html=True)
+    st.markdown(MOBILE_CARD_STYLE, unsafe_allow_html=True)
     st.markdown(f'<div class="cr-head"><h2>National Power Rankings</h2><div class="cr-sub">{html.escape(league)} Division I · Saved baseline ratings · Select a team for its scouting report</div></div>',unsafe_allow_html=True)
     if not isinstance(ratings,pd.DataFrame) or ratings.empty:
         st.info('Rankings will appear once saved ratings are available.')
@@ -89,14 +102,20 @@ def render_rankings(ratings: pd.DataFrame, preliminary: pd.DataFrame, league: st
         rank=item.get('Rank')
         try: rank_label=f'#{int(rank)}' if pd.notna(rank) else '—'
         except (TypeError,ValueError):rank_label='—'
-        row,val,action=st.columns([5,1.2,1.25],vertical_alignment='center',gap='small')
-        with row:
-            st.markdown('<div class="cr-row"><span class="cr-rank">'+html.escape(rank_label)+'</span><span class="cr-dot"></span><div><div class="cr-name">'+html.escape(str(item['Team']))+'</div><div class="cr-conf">'+html.escape(str(item['Conference']))+'</div></div></div>',unsafe_allow_html=True)
-        with val:
-            v=item.get('Experimental power') if sort=='Experimental rating' else item['Current power']
-            label='Experimental' if sort=='Experimental rating' else 'Power rating'
-            st.markdown('<div class="cr-value">'+html.escape(_fmt(v,True))+'</div><div class="cr-label">'+label+'</div>',unsafe_allow_html=True)
-        with action:
+        v=item.get('Experimental power') if sort=='Experimental rating' else item['Current power']
+        label='Experimental' if sort=='Experimental rating' else 'Power rating'
+        with st.container(border=True):
+            st.html(
+                '<div class="cs79-grid">'
+                f'<div class="cs79-rank">{html.escape(rank_label)}</div>'
+                '<div class="cs79-team">'
+                f'<div class="cs79-name">{html.escape(str(item["Team"]))}</div>'
+                f'<div class="cs79-meta">{html.escape(str(item["Conference"]))}</div>'
+                '</div><div class="cs79-result">'
+                f'<div class="cs79-number">{html.escape(_fmt(v, True))}</div>'
+                f'<div class="cs79-label">{html.escape(label)}</div>'
+                '</div></div>'
+            )
             if st.button('View team →',key=f'cr_open_{league}_{item.get("Team ID",str(item["Team"]))}_{start+j}',use_container_width=True):
                 st.session_state['v12_team_pick']=str(item['Team'])
                 st.session_state['courtside_page']='Teams'
