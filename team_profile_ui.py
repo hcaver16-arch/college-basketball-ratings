@@ -5,6 +5,7 @@ import re
 import pandas as pd
 import streamlit as st
 from efficiency_ui import render_team_efficiency
+from raw_team_stats import team_raw_stats
 
 
 def _num(value, decimals=1, signed=False):
@@ -68,6 +69,7 @@ def render_team_profile(*, team, team_id, league, sport, ratings, games, prelimi
             st.markdown(f'<div class="cs-profile-initials">{html.escape(initials)}</div>',unsafe_allow_html=True)
     with hname:
         st.markdown(f'<div class="cs-profile-head"><div class="cs-profile-sub">{html.escape(league)} basketball · {html.escape(conference)}</div><h2>{html.escape(team)}</h2><div class="cs-profile-sub">Team scouting and season overview</div></div>',unsafe_allow_html=True)
+    raw_stats = team_raw_stats(games,team_id,league)
     tabs=st.tabs(['Overview','Schedule','Roster','Analytics','Compare'])
     with tabs[0]:
         tg=_team_games(games,team_id)
@@ -93,7 +95,7 @@ def render_team_profile(*, team, team_id, league, sport, ratings, games, prelimi
             for label,value in overview_stats
         )
         st.markdown(f'<div class="cs-profile-stats-grid">{cards}</div>', unsafe_allow_html=True)
-        render_team_efficiency(compact=True)
+        render_team_efficiency(raw_stats,compact=True)
         st.markdown('#### Rating history')
         history=history_loader(sport,str(team_id))
         if not isinstance(history,pd.DataFrame) or history.empty or 'Snapshot date' not in history or 'Current power' not in history:
@@ -165,7 +167,7 @@ def render_team_profile(*, team, team_id, league, sport, ratings, games, prelimi
         st.info('Detailed player records, optional roster fetch, and collection-quality checks remain in Detailed data & tools below.')
     with tabs[3]:
         st.markdown('#### Team analytics')
-        render_team_efficiency()
+        render_team_efficiency(raw_stats)
         c1,c2,c3=st.columns(3)
         with c1:_card('Schedule strength',_num(sos_row.get('Full SOS'),signed=True) if sos_row is not None else '—','Model-based; loaded opponents')
         with c2:_card('Record strength',_num(sor_row.get('SOR score')) if sor_row is not None else '—','Availability depends on final games')
