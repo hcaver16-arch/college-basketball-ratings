@@ -53,9 +53,15 @@ apply_table_theme()
 st.markdown("""<style>
 /* Native select is easier to use on narrow phones than eight stacked buttons. */
 .st-key-courtside_mobile_nav, .st-key-courtside_mobile_division_control {display:none;}
+.st-key-courtside_desktop_division_caption {display:block;}
 @media (max-width: 700px) {
-  .block-container {padding: 0.8rem 0.75rem 3rem !important; max-width:100% !important;}
-  .st-key-courtside_desktop_nav, .st-key-courtside_desktop_division {display:none !important;}
+  .block-container {padding: 0.55rem 0.75rem 2rem !important; max-width:100% !important;}
+  .st-key-courtside_mobile_nav, .st-key-courtside_mobile_division_control {margin-top:-0.15rem !important; margin-bottom:0 !important;}
+  .st-key-courtside_mobile_nav [data-testid="stWidgetLabel"], .st-key-courtside_mobile_division_control [data-testid="stWidgetLabel"] {margin-bottom:0.15rem !important;}
+  [data-testid="stMainBlockContainer"] > [data-testid="stVerticalBlock"] {gap:0.75rem !important;}
+  h1 {margin-bottom:0 !important;}
+  [data-testid="stCaptionContainer"] {margin-top:0 !important;}
+  .st-key-courtside_desktop_nav, .st-key-courtside_desktop_division, .st-key-courtside_desktop_division_caption {display:none !important;}
   .st-key-courtside_mobile_nav, .st-key-courtside_mobile_division_control {display:block !important;}
   .st-key-courtside_mobile_nav [data-testid='stSelectbox'],
   .st-key-courtside_mobile_division_control [data-testid='stSelectbox'] {margin-bottom:.35rem;}
@@ -530,7 +536,8 @@ def attach_model_lines(frame: pd.DataFrame, rating_lookup: dict, verified_d1: se
     return out
 
 # Horizontal division buttons avoid the unreadable native radio selectors.
-st.caption("Basketball division")
+with st.container(key="courtside_desktop_division_caption"):
+    st.caption("Basketball division")
 if st.session_state.get("courtside_division") not in ("Men's", "Women's"):
     st.session_state["courtside_division"] = "Men's"
 def _mobile_division_change():
