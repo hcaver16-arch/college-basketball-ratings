@@ -1,0 +1,50 @@
+name: Compare Courtside models (V88)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: python -m pip install pandas numpy
+      - name: Compare genuine matching historical forecasts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p model_comparison_v88
+          for division in mens womens; do
+            historical="data/historical_efficiency/2025-26_${division}_paired_games.csv.gz"
+            archive="data/predictions/${division}-college-basketball/first_forecasts.csv.gz"
+            # The existing official archive is likely for 2026-27; do not assume season overlap.
+            echo "### ${division}" >> "$GITHUB_STEP_SUMMARY"
+            if [[ ! -f "$historical" ]]; then
+              echo 'Historical games missing; run the collection workflow.' >> "$GITHUB_STEP_SUMMARY"
+              continue
+            fi
+            if [[ ! -f "$archive" ]]; then
+              echo 'No immutable official prediction archive found. Cannot compare to Courtside yet.' >> "$GITHUB_STEP_SUMMARY"
+              continue
+            fi
+            python historical_efficiency_test.py --input "$historical" --output-dir "model_comparison_v88/${division}"
+            python compare_models_v88.py --efficiency "model_comparison_v88/${division}/historical_efficiency_predictions.csv" --forecasts "$archive" --division "$division" --output-dir "model_comparison_v88/${division}"
+            python - "$division" <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json,sys
+          from pathlib import Path
+          d=json.loads((Path('model_comparison_v88')/sys.argv[1]/'comparison_summary.json').read_text())
+          for key in ('status','efficiency_game_count','archive_game_count_for_division','matching_game_ids','valid_same_game_comparisons','efficiency','courtside_official_baseline','fixed_equal_blend_exploratory'):
+              print(f'- **{key}**: {d.get(key)}')
+          PY
+          done
+      - name: Download comparison reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: courtside-v88-comparison
+          path: model_comparison_v88/
+          if-no-files-found: ignore
