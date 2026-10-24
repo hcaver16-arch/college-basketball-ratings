@@ -9,25 +9,22 @@ STYLE='''<style>
 .cs-head{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:18px 20px;margin:0 0 15px}
 .cs-head h2{font-size:1.5rem;color:#23354b;margin:0 0 5px}
 .cs-head p{color:#66788b;font-size:.88rem;margin:0}
-.cs-row{background:#fff;border:1px solid #e3e8ef;border-radius:11px;min-height:66px;padding:11px 14px;display:flex;gap:12px;align-items:center;margin:0 0 5px;color:#23354b;width:100%;box-sizing:border-box;min-width:0}
-.cs-rank{min-width:44px;color:#67788e;font-size:.9rem;font-weight:700}
-.cs-name{color:#23354b;font-weight:700;font-size:.96rem;overflow-wrap:anywhere;line-height:1.35}
-.cs-conf{font-size:.76rem;color:#728096}
-.cs-metric{text-align:right;font-size:1.02rem;font-weight:750;color:#23354b;white-space:nowrap}
-.cs-submetric{text-align:right;color:#718096;font-size:.72rem}
- .cs-muted{font-size:.74rem;color:#906a34}
-.cs-school{flex:1;min-width:0}
-.cs-score-block{margin-left:auto;flex-shrink:0;text-align:right;min-width:78px}
+/* One cohesive native Streamlit bordered container per team */
+.st-key-cs_strength_card [data-testid="stVerticalBlock"]{gap:.20rem!important}
+.st-key-cs_strength_card button{margin-top:0!important}
+.cs-team-grid{box-sizing:border-box;display:grid!important;grid-template-columns:38px minmax(0,1fr) max-content!important;gap:12px!important;align-items:center!important;width:100%!important;max-width:100%!important;min-width:0!important;color:#23354b}
+.cs-team-rank{font-weight:700;color:#67788e;font-size:.91rem}
+.cs-team-school{min-width:0!important;overflow-wrap:anywhere!important;word-break:normal!important}
+.cs-team-name{font-size:.96rem;font-weight:700;line-height:1.28}
+.cs-team-conf{font-size:.78rem;color:#718096;margin-top:4px}
+.cs-team-score{min-width:68px;max-width:95px;text-align:right!important;justify-self:end!important;align-self:center!important}
+.cs-team-value{font-weight:750;font-size:1.1rem;white-space:nowrap}
+.cs-team-detail{font-size:.69rem;color:#718096;line-height:1.2;overflow-wrap:anywhere}
 @media(max-width:640px){
- .cs-row{padding:12px;gap:9px;min-height:65px;margin-bottom:3px}
- .cs-rank{min-width:32px;font-size:.81rem}
- .cs-name{font-size:.89rem}
- .cs-conf{font-size:.71rem}
- .cs-score-block{min-width:62px;max-width:85px}
- .cs-metric{font-size:1rem}
- .cs-submetric{font-size:.65rem;white-space:normal;line-height:1.2}
+ .cs-team-grid{grid-template-columns:30px minmax(0,1fr) 68px!important;gap:8px!important}
+ .cs-team-name{font-size:.89rem}.cs-team-conf{font-size:.72rem}
+ .cs-team-value{font-size:1rem}.cs-team-detail{font-size:.65rem}
 }
-
 </style>'''
 
 def _s(value, fmt='.1f', signed=False):
@@ -96,23 +93,23 @@ def _render(df,league,kind,score_col,rank_col,details,sort_options):
             sub='Unverified position'
         else:
             sub=score_col
-        # One flexible HTML row prevents Streamlit columns from stacking the
-        # score outside the team card on narrow mobile screens.
-        st.markdown(
-            '<div class="cs-row">'
-            f'<span class="cs-rank">{html.escape(rk)}</span>'
-            '<div class="cs-school">'
-            f'<div class="cs-name">{title}</div>'
-            f'<div class="cs-conf">{conference}</div>'
-            '</div>'
-            '<div class="cs-score-block">'
-            f'<div class="cs-metric">{html.escape(val)}</div>'
-            f'<div class="cs-submetric">{html.escape(sub)}</div>'
-            '</div></div>',
-            unsafe_allow_html=True,
-        )
-        if st.button('View team →',key=f'cs_{kind}_{league}_{r["Team ID"]}_{start+i}',use_container_width=True):
-            _navigate(r)
+        # Keep the row and its native navigation button in ONE bordered Streamlit
+        # container; separate HTML cards and buttons got split by the mobile layout.
+        with st.container(border=True):
+            st.html(
+                '<div class="cs-team-grid">'
+                f'<div class="cs-team-rank">{html.escape(rk)}</div>'
+                '<div class="cs-team-school">'
+                f'<div class="cs-team-name">{title}</div>'
+                f'<div class="cs-team-conf">{conference}</div>'
+                '</div>'
+                '<div class="cs-team-score">'
+                f'<div class="cs-team-value">{html.escape(val)}</div>'
+                f'<div class="cs-team-detail">{html.escape(sub)}</div>'
+                '</div></div>'
+            )
+            if st.button('View team →',key=f'cs_{kind}_{league}_{r["Team ID"]}_{start+i}',use_container_width=True):
+                _navigate(r)
     if pages>1:st.caption(f'Page {page} of {pages} · Showing {start+1}–{min(start+page_size,n)}')
     with st.expander('Advanced statistics, coverage and CSV download'):
         cols=[c for c in details if c in df.columns]
