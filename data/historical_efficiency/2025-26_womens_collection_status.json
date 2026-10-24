@@ -1,0 +1,32 @@
+{
+  "sport": "womens-college-basketball",
+  "season": "2025-26",
+  "first_date": "2025-11-01",
+  "last_date": "2026-04-15",
+  "last_completed_date": "2025-11-03",
+  "days": {
+    "2025-11-01": {
+      "events": 0,
+      "completed": 0,
+      "d1_finals": 0,
+      "usable": 0,
+      "missing_box": 0
+    },
+    "2025-11-02": {
+      "events": 0,
+      "completed": 0,
+      "d1_finals": 0,
+      "usable": 0,
+      "missing_box": 0
+    },
+    "2025-11-03": {
+      "events": 146,
+      "completed": 145,
+      "d1_finals": 87,
+      "usable": 87,
+      "missing_box": 0
+    }
+  },
+  "games_archived": 87,
+  "notes": "Days marked complete if scoreboard fetched; individual missing box scores counted, not silently discarded. ESPN unofficial API."
+}
