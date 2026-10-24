@@ -8,6 +8,18 @@ from conference_standings import standings_for_conference
 from tournament_brackets import render_tournament_bracket
 
 
+MOBILE_CARD_STYLE = '''<style>
+.cs79-grid{display:grid!important;grid-template-columns:38px minmax(0,1fr) minmax(76px,max-content)!important;align-items:center!important;gap:12px!important;width:100%!important;min-width:0!important;color:#23354b}
+.cs79-rank{color:#64748b;font-weight:750;font-size:.9rem}
+.cs79-team{min-width:0!important;overflow-wrap:anywhere!important}
+.cs79-name{font-weight:700;font-size:.96rem;line-height:1.25;color:#23354b}
+.cs79-meta{font-size:.77rem;color:#718096;margin-top:4px}
+.cs79-result{text-align:right!important;min-width:0!important;justify-self:end!important}
+.cs79-number{font-size:1.08rem;color:#23354b;font-weight:750;white-space:nowrap}
+.cs79-label{color:#718096;font-size:.69rem;line-height:1.22;overflow-wrap:anywhere}
+@media(max-width:640px){.cs79-grid{grid-template-columns:29px minmax(0,1fr) 80px!important;gap:8px!important}.cs79-name{font-size:.87rem}.cs79-meta{font-size:.71rem}.cs79-number{font-size:1rem}.cs79-label{font-size:.63rem}}
+</style>'''
+
 def _number(v, signed=True):
     try:
         x=float(v)
@@ -26,6 +38,7 @@ def render_conferences(ratings: pd.DataFrame, verified_d1_ids: set[str], league:
     .cc-muted{font-size:.8rem;color:#718096}
     .cc-number{font-weight:700;color:#23354b;font-variant-numeric:tabular-nums;text-align:right}
     </style>''',unsafe_allow_html=True)
+    st.markdown(MOBILE_CARD_STYLE, unsafe_allow_html=True)
     st.markdown(f'<div class="cc-head"><h2>Conference Power Rankings</h2><div class="cc-note">{html.escape(league)} Division I · Saved team-rating averages · Not conference standings</div></div>',unsafe_allow_html=True)
     if not isinstance(ratings,pd.DataFrame) or ratings.empty:
         st.info('Conference power rankings will appear once saved ratings are available.')
@@ -89,17 +102,18 @@ def render_conferences(ratings: pd.DataFrame, verified_d1_ids: set[str], league:
         st.markdown('### Conference team power rankings')
         st.caption('Teams are ordered by Courtside power rating; this is not a conference win-loss standing.')
         for ix, (_, team) in enumerate(member.iterrows(), start=1):
-            a, b, c = st.columns([3, .9, 1.15], vertical_alignment='center')
-            with a:
-                st.markdown(f'<div class="cc-name">{ix}. {html.escape(str(team["Team"]))}</div>', unsafe_allow_html=True)
-            with b:
-                st.markdown(f'<div class="cc-number">{_number(team["Current power"])}</div>', unsafe_allow_html=True)
-            with c:
+            with st.container(border=True):
+                st.html('<div class="cs79-grid">'
+                        f'<div class="cs79-rank">#{ix}</div>'
+                        '<div class="cs79-team">'
+                        f'<div class="cs79-name">{html.escape(str(team["Team"]))}</div>'
+                        '</div><div class="cs79-result">'
+                        f'<div class="cs79-number">{html.escape(_number(team["Current power"]))}</div>'
+                        '<div class="cs79-label">Power rating</div></div></div>')
                 if st.button('View team →', key=f'cc_team_{league}_{team["Team ID"]}', use_container_width=True):
                     st.session_state['v12_team_pick'] = str(team['Team'])
                     st.session_state['courtside_page'] = 'Teams'
                     st.rerun()
-            st.divider()
         with st.expander('Conference rating details', expanded=False):
             st.write(f'Median team power: {_number(conference_summary["Median"])}')
             st.write(f'Top-five average power: {_number(conference_summary["Top five"])}')
@@ -114,20 +128,19 @@ def render_conferences(ratings: pd.DataFrame, verified_d1_ids: set[str], league:
     shown['Displayed rank'] = shown.index + 1
     st.caption(f'{len(shown)} conferences · Ranked by {sort.lower()} · D1 teams with saved ratings only')
     for _, item in shown.iterrows():
-        c1, c2, c3, c4 = st.columns([.5, 3.1, 1.3, 1.3], vertical_alignment='center')
-        with c1:
-            st.markdown(f'<div class="cc-number">#{int(item["Displayed rank"])}</div>', unsafe_allow_html=True)
-        with c2:
-            st.markdown(f'<div class="cc-name">{html.escape(str(item["Conference"]))}</div>'
-                        f'<div class="cc-muted">{int(item["Teams"])} rated D1 teams</div>', unsafe_allow_html=True)
-        with c3:
-            st.markdown(f'<div class="cc-number">{_number(item[key])}</div>'
-                        f'<div class="cc-muted" style="text-align:right">{html.escape(sort)}</div>', unsafe_allow_html=True)
-        with c4:
+        with st.container(border=True):
+            st.html('<div class="cs79-grid">'
+                    f'<div class="cs79-rank">#{int(item["Displayed rank"])}</div>'
+                    '<div class="cs79-team">'
+                    f'<div class="cs79-name">{html.escape(str(item["Conference"]))}</div>'
+                    f'<div class="cs79-meta">{int(item["Teams"])} rated D1 teams</div>'
+                    '</div><div class="cs79-result">'
+                    f'<div class="cs79-number">{html.escape(_number(item[key]))}</div>'
+                    f'<div class="cs79-label">{html.escape(sort)}</div>'
+                    '</div></div>')
             if st.button('View teams →', key=f'cc_open_{league}_{item["Conference"]}', use_container_width=True):
                 st.session_state['cc_breakdown'] = str(item['Conference'])
                 st.rerun()
-        st.divider()
     with st.expander('Advanced conference data & download',expanded=False):
         st.dataframe(summary[['Power rank','Conference','Teams','Average','Median','Top five']],hide_index=True,use_container_width=True)
         st.download_button('Download conference power rankings',summary.to_csv(index=False).encode('utf-8'),'courtside_conference_power.csv','text/csv')
