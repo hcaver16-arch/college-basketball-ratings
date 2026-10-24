@@ -93,13 +93,15 @@ def _css():
 
 def render_team_efficiency(stats=None, *, compact=False):
     st.markdown('#### Offensive & defensive efficiency')
-    st.caption('Adjusted ratings require a later model update. Raw box-score statistics populate from completed games when available.')
+    st.caption('Opponent-adjusted ratings are experimental and populate from verified daily snapshots only. Raw statistics use completed box scores.')
     tiles = []
     for key, label, unit in EFFICIENCY:
         tiles.append(f'<div class="cs-eff-tile"><div class="cs-eff-label">{html.escape(label)}</div>'
                      f'<div class="cs-eff-value">{html.escape(_value(stats,key))}</div>'
                      f'<div class="cs-eff-unit">{html.escape(unit)}</div></div>')
     st.markdown(_css() + '<div class="cs-eff-grid">' + ''.join(tiles) + '</div>', unsafe_allow_html=True)
+    if stats and stats.get('adjusted_snapshot'):
+        st.caption(f"Experimental adjusted snapshot: {stats['adjusted_snapshot']} · {stats.get('adjusted_games', 0)} qualifying games.")
     st.markdown('##### Raw efficiencies (unadjusted)')
     raw_tiles = []
     for key, label, unit in [
@@ -130,7 +132,7 @@ def render_team_efficiency(stats=None, *, compact=False):
 
 def render_matchup_stats(away, home, *, away_stats=None, home_stats=None):
     st.markdown('#### Offense, defense & matchup statistics')
-    st.caption('Raw efficiencies use completed games before this matchup. Adjusted ratings remain unavailable; missing values are not treated as zero.')
+    st.caption('Pregame comparisons use only prior completed games. Current-day adjusted ratings are withheld here to prevent future information leaking into historical matchups.')
     if away_stats or home_stats:
         st.caption(f"Efficiency sample: {away} — {(away_stats or {}).get('efficiency_games',0)} games; {home} — {(home_stats or {}).get('efficiency_games',0)} games.")
     st.markdown(_css(), unsafe_allow_html=True)
