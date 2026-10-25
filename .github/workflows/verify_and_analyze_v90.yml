@@ -1,0 +1,41 @@
+name: Verify historical venues and analyze V90
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - run: pip install pandas numpy requests
+      - name: Verify historical site data and evaluate both divisions
+        shell: bash
+        run: |
+          set -euo pipefail
+          for division in mens womens; do
+            game_file="data/historical_efficiency/2025-26_${division}_paired_games.csv.gz"
+            venue_file="v90_results/${division}/verified_venues.csv"
+            if [ ! -f "$game_file" ]; then echo "Missing $game_file" >&2; exit 1; fi
+            mkdir -p "v90_results/${division}" "v90_efficiency/${division}"
+            python verify_historical_venues.py --games "$game_file" --division "$division" --out "$venue_file"
+            python historical_efficiency_test.py --input "$game_file" --output-dir "v90_efficiency/${division}"
+            python reconstruct_courtside_v90.py --games "$game_file" --efficiency "v90_efficiency/${division}/historical_efficiency_predictions.csv" --venues "$venue_file" --out "v90_results/${division}"
+            {
+              echo "## ${division} V90 verified-site research comparison"
+              echo '```json'
+              cat "v90_results/${division}/comparison_summary.json"
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: courtside-v90-venue-audit-and-errors
+          path: v90_results/
+          if-no-files-found: warn
