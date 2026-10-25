@@ -1,0 +1,46 @@
+name: Research combined prediction models V92
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install pandas numpy requests
+      - name: Regenerate verified historical forecasts and compare combinations
+        shell: bash
+        run: |
+          set -euo pipefail
+          for division in mens womens; do
+            games="data/historical_efficiency/2025-26_${division}_paired_games.csv.gz"
+            out="v92_results/${division}"
+            mkdir -p "$out" "v92_work/${division}"
+            test -f "$games" || { echo "Missing historical games: $games" >&2; exit 1; }
+            python verify_historical_venues.py --games "$games" --division "$division" --out "$out/verified_venues.csv"
+            python historical_efficiency_test.py --input "$games" --output-dir "v92_work/${division}"
+            python reconstruct_courtside_v90.py --games "$games" --efficiency "v92_work/${division}/historical_efficiency_predictions.csv" --venues "$out/verified_venues.csv" --out "$out/v90"
+            python blowout_research_v91.py --games "$games" --venues "$out/verified_venues.csv" --predictions "$out/v90/same_game_reconstructed_predictions.csv" --out "$out/v91"
+            python combined_model_research_v92.py --predictions "$out/v91/candidate_game_predictions.csv.gz" --out "$out"
+            {
+              echo "## ${division} — V92 combined-model research"
+              echo 'Exploratory chronological split within already studied 2025-26; not independent 2024-25 validation.'
+              echo '```json'
+              cat "$out/v92_summary.json"
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: courtside-v92-combined-model-research
+          path: v92_results/
+          if-no-files-found: warn
