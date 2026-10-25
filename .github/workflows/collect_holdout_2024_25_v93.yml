@@ -1,0 +1,64 @@
+name: Collect 2024-25 holdout V93
+on:
+  workflow_dispatch:
+    inputs:
+      batches:
+        description: Ten-day batches to collect per division (max 18)
+        required: false
+        default: '18'
+  schedule:
+    - cron: '17 6 * * *'
+permissions:
+  contents: write
+concurrency:
+  group: courtside-holdout-2024-25-collector
+  cancel-in-progress: false
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install pandas requests
+      - name: Collect resumable ten-day batches
+        shell: bash
+        env:
+          REQUESTED_BATCHES: ${{ inputs.batches || '18' }}
+        run: |
+          set -euo pipefail
+          case "$REQUESTED_BATCHES" in ''|*[!0-9]*) echo 'Invalid batch count' >&2; exit 1 ;; esac
+          if [ "$REQUESTED_BATCHES" -lt 1 ] || [ "$REQUESTED_BATCHES" -gt 18 ]; then exit 1; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for n in $(seq 1 "$REQUESTED_BATCHES"); do
+            echo "Starting batch $n/$REQUESTED_BATCHES"
+            python collect_historical_2024_25.py --sport both --batch-days 10
+            git add data/historical_efficiency/2024-25_*
+            if ! git diff --cached --quiet; then
+              git commit -m "Update 2024-25 historical research archive batch $n"
+              git push origin HEAD:main
+            else
+              echo 'No new data; archive may already be complete'
+              break
+            fi
+          done
+          for division in mens womens; do
+            status="data/historical_efficiency/2024-25_${division}_collection_status.json"
+            echo "### $division collection" >> "$GITHUB_STEP_SUMMARY"
+            python - "$status" <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json,sys
+          from pathlib import Path
+          p=Path(sys.argv[1]);d=json.loads(p.read_text()) if p.exists() else {}
+          print('Last completed date:',d.get('last_completed_date','NONE'))
+          print('Archived games:',d.get('games_archived',0))
+          print('Done:',d.get('last_completed_date')=='2025-04-15')
+          PY
+          done

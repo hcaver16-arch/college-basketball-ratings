@@ -1,0 +1,60 @@
+name: Validate combined model V93
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit_and_validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install pandas numpy requests
+      - name: Confirm holdout archive is complete
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          for div in ('mens','womens'):
+              p=Path(f'data/historical_efficiency/2024-25_{div}_collection_status.json')
+              if not p.exists():raise SystemExit(f'MISSING 2024-25 {div} archive status. Run collection workflow first.')
+              d=json.loads(p.read_text())
+              if d.get('last_completed_date')!='2025-04-15':raise SystemExit(f'INCOMPLETE 2024-25 {div}: {d.get("last_completed_date")}. Collect more data.')
+              games=Path(f'data/historical_efficiency/2024-25_{div}_paired_games.csv.gz')
+              if not games.exists():raise SystemExit('Missing '+str(games))
+              print(f'{div}: through 2025-04-15, games archived={d.get("games_archived")}')
+          PY
+      - name: Run independent 2024-25 comparison and V92 efficiency audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          for division in mens womens; do
+            g="data/historical_efficiency/2024-25_${division}_paired_games.csv.gz"
+            new="v93_results/${division}";mkdir -p "$new" "v93_work/${division}"
+            python verify_historical_venues.py --games "$g" --division "$division" --out "$new/verified_venues.csv"
+            python historical_efficiency_test.py --input "$g" --output-dir "v93_work/${division}"
+            python reconstruct_courtside_v90.py --games "$g" --efficiency "v93_work/${division}/historical_efficiency_predictions.csv" --venues "$new/verified_venues.csv" --out "$new/v90"
+            python blowout_research_v91.py --games "$g" --venues "$new/verified_venues.csv" --predictions "$new/v90/same_game_reconstructed_predictions.csv" --out "$new/v91"
+            python validate_combination_v93.py --predictions "$new/v91/candidate_game_predictions.csv.gz" --division "$division" --out "$new/holdout_comparison.json"
+            python audit_efficiency_v93.py --candidates "$new/v91/candidate_game_predictions.csv.gz" --efficiency "v93_work/${division}/historical_efficiency_predictions.csv" --out "$new/efficiency_location_audit.json"
+            {
+              echo "## $division: 2024-25 locked model comparison"
+              echo '```json';cat "$new/holdout_comparison.json";echo '```'
+              echo "## $division: efficiency conversion ablation"
+              echo '```json';cat "$new/efficiency_location_audit.json";echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: courtside-v93-holdout-and-audit
+          path: v93_results/
+          if-no-files-found: warn
