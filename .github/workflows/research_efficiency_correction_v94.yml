@@ -1,0 +1,63 @@
+name: Research corrected efficiency V94
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install pandas numpy requests
+      - name: Check both archives are present
+        shell: bash
+        run: |
+          set -euo pipefail
+          for div in mens womens; do
+            test -f "data/historical_efficiency/2025-26_${div}_paired_games.csv.gz" || exit 1
+            test -f "data/historical_efficiency/2024-25_${div}_paired_games.csv.gz" || exit 1
+          done
+      - name: Rebuild comparable pregame predictions; fit correction on earlier 2025-26 only
+        shell: bash
+        run: |
+          set -euo pipefail
+          for division in mens womens; do
+            for season in 2025-26 2024-25; do
+              games="data/historical_efficiency/${season}_${division}_paired_games.csv.gz"
+              out="v94_work/${division}/${season}"
+              mkdir -p "$out"
+              python verify_historical_venues.py --games "$games" --division "$division" --out "$out/venues.csv"
+              python historical_efficiency_test.py --input "$games" --output-dir "$out/efficiency"
+              python reconstruct_courtside_v90.py --games "$games" --efficiency "$out/efficiency/historical_efficiency_predictions.csv" --venues "$out/venues.csv" --out "$out/v90"
+              python blowout_research_v91.py --games "$games" --venues "$out/venues.csv" --predictions "$out/v90/same_game_reconstructed_predictions.csv" --out "$out/v91"
+            done
+            prior="v94_work/${division}/2025-26"
+            hold="v94_work/${division}/2024-25"
+            mkdir -p "v94_results/${division}"
+            python efficiency_correction_v94.py \
+              --train-candidates "$prior/v91/candidate_game_predictions.csv.gz" \
+              --train-efficiency "$prior/efficiency/historical_efficiency_predictions.csv" \
+              --holdout-candidates "$hold/v91/candidate_game_predictions.csv.gz" \
+              --holdout-efficiency "$hold/efficiency/historical_efficiency_predictions.csv" \
+              --division "$division" --out "v94_results/${division}/report.json"
+            {
+              echo "## V94 ${division}: venue-aware margin correction"
+              echo 'Research only; no live-model changes.'
+              echo '```json'
+              cat "v94_results/${division}/report.json"
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: courtside-v94-efficiency-research
+          path: v94_results/
+          if-no-files-found: warn
