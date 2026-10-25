@@ -1,0 +1,42 @@
+name: Compare reconstructed on-court model V89
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  reconstruct:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install pandas numpy
+      - name: Build same-game proxy comparison
+        shell: bash
+        run: |
+          set -euo pipefail
+          for division in mens womens; do
+            game_file="data/historical_efficiency/2025-26_${division}_paired_games.csv.gz"
+            efficiency_file="v89_efficiency/${division}/historical_efficiency_predictions.csv"
+            if [ ! -f "$game_file" ]; then
+              echo "Historical archive missing: $game_file" >&2
+              exit 1
+            fi
+            mkdir -p "v89_efficiency/${division}"
+            python historical_efficiency_test.py --input "$game_file" --output-dir "v89_efficiency/${division}"
+            python reconstruct_courtside_v89.py --games "$game_file" --efficiency "$efficiency_file" --out "v89_results/${division}"
+            {
+              echo "## ${division} reconstructed on-court comparison"
+              echo '```json'
+              cat "v89_results/${division}/comparison_summary.json"
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: courtside-v89-reconstructed-comparison
+          path: v89_results/
+          if-no-files-found: warn
