@@ -1,0 +1,31 @@
+name: Install Courtside preseason profiles V101
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install safely
+        run: |
+          python -m py_compile preseason_profile_v101.py install_preseason_v101.py
+          python install_preseason_v101.py
+          python -m py_compile team_profile_ui.py
+      - name: Commit website enhancement
+        run: |
+          if ! git diff --quiet -- team_profile_ui.py; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add team_profile_ui.py
+            git commit -m 'Install V101 preseason team profile snapshot'
+            git push
+          else
+            echo 'No changes required.'
+          fi
