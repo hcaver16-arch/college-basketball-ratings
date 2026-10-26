@@ -1,5 +1,6 @@
 """Courtside V49 matchup scouting report. Presentation only; no model changes."""
 from __future__ import annotations
+from matchup_preview_v100 import render_matchup_preview
 import pandas as pd
 from html import escape
 import streamlit as st
@@ -238,8 +239,12 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
     st.markdown(''.join(comp),unsafe_allow_html=True)
     st.caption("SOS/SOR may cover only the currently loaded schedule. Provisional ranks must not be interpreted as official NCAA rankings.")
 
+    # V100: use the same pregame raw box-score data for the concise preview and detail.
+    cs_away_stats = team_raw_stats(games,aid,league,before=game.get('Date'))
+    cs_home_stats = team_raw_stats(games,hid,league,before=game.get('Date'))
+    render_matchup_preview(away,home,away_stats=cs_away_stats,home_stats=cs_home_stats)
     with st.expander("Offense, defense & matchup statistics", expanded=False):
-        render_matchup_stats(away, home,away_stats=team_raw_stats(games,aid,league,before=game.get('Date')),home_stats=team_raw_stats(games,hid,league,before=game.get('Date')))
+        render_matchup_stats(away,home,away_stats=cs_away_stats,home_stats=cs_home_stats)
 
     has_recent = bool(_recent(games,aid) or _recent(games,hid))
     with st.expander("Recent results — last five loaded final games" + ("" if has_recent else " (not yet available)"),expanded=False):
