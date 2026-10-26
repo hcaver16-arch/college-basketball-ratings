@@ -1,22 +1,25 @@
 {
   "version": "102.1",
-  "generated_at": "2026-10-26T21:18:46.251582+00:00",
-  "read_only": true,
+  "generated_at": "2026-10-26T21:20:45.443405+00:00",
+  "read_only": false,
   "note": "Data-source failures are preserved, not excused as complete.",
   "teams": [
     {
       "division": "mens-college-basketball",
       "team_id": "2697",
       "team": "West Florida Argonauts",
-      "attempted_at": "2026-10-26T21:18:35.018340+00:00",
-      "mode": "read_only_diagnostic",
+      "attempted_at": "2026-10-26T21:20:40.854417+00:00",
+      "mode": "write_verified_source_data",
       "source": "ESPN unofficial API",
       "current_season": 2027,
       "previous_season": 2026,
       "warnings": [
         "West Florida Argonauts: schedule response returned no completed events for season 2026; check ESPN season and response structure."
       ],
-      "changes": [],
+      "changes": [
+        "current_rosters: source rows merged, existing rows retained",
+        "collection_status: diagnostic state updated"
+      ],
       "previous_rosters_fetched_players": 0,
       "current_rosters_fetched_players": 15,
       "boxscore_audit": {
@@ -34,15 +37,18 @@
       "division": "womens-college-basketball",
       "team_id": "2697",
       "team": "West Florida Argonauts",
-      "attempted_at": "2026-10-26T21:18:35.497621+00:00",
-      "mode": "read_only_diagnostic",
+      "attempted_at": "2026-10-26T21:20:41.366508+00:00",
+      "mode": "write_verified_source_data",
       "source": "ESPN unofficial API",
       "current_season": 2027,
       "previous_season": 2026,
       "warnings": [
         "West Florida Argonauts: schedule response returned no completed events for season 2026; check ESPN season and response structure."
       ],
-      "changes": [],
+      "changes": [
+        "current_rosters: source rows merged, existing rows retained",
+        "collection_status: diagnostic state updated"
+      ],
       "previous_rosters_fetched_players": 0,
       "current_rosters_fetched_players": 13,
       "boxscore_audit": {
@@ -60,13 +66,18 @@
       "division": "womens-college-basketball",
       "team_id": "2426",
       "team": "Navy Midshipmen",
-      "attempted_at": "2026-10-26T21:18:36.025763+00:00",
-      "mode": "read_only_diagnostic",
+      "attempted_at": "2026-10-26T21:20:41.894963+00:00",
+      "mode": "write_verified_source_data",
       "source": "ESPN unofficial API",
       "current_season": 2027,
       "previous_season": 2026,
       "warnings": [],
-      "changes": [],
+      "changes": [
+        "previous_rosters: source rows merged, existing rows retained",
+        "current_rosters: source rows merged, existing rows retained",
+        "previous_stats: source rows merged, existing rows retained",
+        "collection_status: diagnostic state updated"
+      ],
       "previous_rosters_fetched_players": 11,
       "current_rosters_fetched_players": 14,
       "boxscore_audit": {

@@ -1,12 +1,12 @@
 {
   "version": 102,
-  "checked_at_utc": "2026-10-26T21:13:47.252669+00:00",
+  "checked_at_utc": "2026-10-26T21:20:46.095145+00:00",
   "divisions": [
     {
       "division": "mens-college-basketball",
       "directory_source": "live_espn_d1_directory",
       "directory_teams": 362,
-      "teams_with_current_roster": 361,
+      "teams_with_current_roster": 362,
       "teams_with_prior_roster": 361,
       "teams_with_prior_player_stats": 361,
       "teams_marked_collected": 361,
@@ -22,7 +22,7 @@
       "division": "womens-college-basketball",
       "directory_source": "live_espn_d1_directory",
       "directory_teams": 362,
-      "teams_with_current_roster": 361,
+      "teams_with_current_roster": 362,
       "teams_with_prior_roster": 361,
       "teams_with_prior_player_stats": 361,
       "teams_marked_collected": 359,

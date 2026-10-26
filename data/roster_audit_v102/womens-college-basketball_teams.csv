@@ -1,363 +1,363 @@
 division,team_id,team,state,current_roster_players,prior_roster_players,prior_player_stats_rows,boxscores_parsed,completed_games_in_feed,archive_ready_unverified,issues,details
-womens-college-basketball,2000,Abilene Christian Wildcats,collected,13,13,13,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2005,Air Force Falcons,collected,16,10,13,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2006,Akron Zips,collected,15,12,13,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2010,Alabama A&M Bulldogs,collected,14,4,15,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,333,Alabama Crimson Tide,collected,13,12,15,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2011,Alabama State Lady Hornets,collected,15,8,16,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2016,Alcorn State Lady Braves,collected,13,10,16,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,44,American University Eagles,collected,16,10,13,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2026,App State Mountaineers,collected,13,6,12,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,9,Arizona State Sun Devils,collected,13,10,11,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,12,Arizona Wildcats,collected,12,9,11,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,8,Arkansas Razorbacks,collected,14,11,12,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2032,Arkansas State Red Wolves,collected,13,4,12,37.0,37.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2029,Arkansas-Pine Bluff Golden Lions,collected,14,10,14,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,349,Army Black Knights,collected,19,12,13,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2,Auburn Tigers,collected,14,11,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2046,Austin Peay Governors,collected,15,8,12,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,252,BYU Cougars,collected,12,9,13,38.0,38.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2050,Ball State Cardinals,collected,10,12,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,239,Baylor Bears,collected,12,9,12,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,91,Bellarmine Knights,collected,14,11,17,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2057,Belmont Bruins,collected,11,12,12,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2065,Bethune-Cookman Wildcats,collected,10,7,15,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2066,Binghamton Bearcats,collected,14,12,11,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,68,Boise State Broncos,collected,15,10,14,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,103,Boston College Eagles,collected,10,9,13,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,104,Boston University Terriers,collected,15,13,14,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,189,Bowling Green Falcons,collected,13,10,13,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,71,Bradley Braves,collected,13,9,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,225,Brown Bears,collected,15,11,15,27.0,27.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2803,Bryant Bulldogs,collected,13,6,13,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2083,Bucknell Bison,collected,12,11,13,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2084,Buffalo Bulls,collected,15,9,12,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2086,Butler Bulldogs,collected,13,11,11,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,13,Cal Poly Mustangs,collected,16,10,16,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2934,Cal State Bakersfield Roadrunners,collected,15,4,13,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2239,Cal State Fullerton Titans,collected,14,10,12,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2463,Cal State Northridge Matadors,collected,12,9,13,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2856,California Baptist Lancers,collected,13,9,13,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,25,California Golden Bears,collected,14,11,13,36.0,36.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2097,Campbell Fighting Camels,collected,13,10,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2099,Canisius Golden Griffins,collected,15,11,14,29.0,29.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2110,Central Arkansas Sugar Bears,collected,14,9,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2115,Central Connecticut Blue Devils,collected,13,7,13,29.0,29.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2117,Central Michigan Chippewas,collected,13,9,11,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,232,Charleston Cougars,collected,11,11,15,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2127,Charleston Southern Buccaneers,collected,14,8,12,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2429,Charlotte 49ers,collected,14,10,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,236,Chattanooga Mocs,collected,13,11,11,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2130,Chicago State Cougars,collected,15,13,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2132,Cincinnati Bearcats,collected,15,11,13,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,228,Clemson Tigers,collected,13,12,12,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,325,Cleveland State Vikings,collected,13,7,14,36.0,36.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,324,Coastal Carolina Chanticleers,collected,12,8,11,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2142,Colgate Raiders,collected,15,10,15,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,38,Colorado Buffaloes,collected,14,12,14,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,36,Colorado State Rams,collected,15,9,12,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,171,Columbia Lions,collected,14,12,15,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2154,Coppin State Eagles,collected,12,5,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,172,Cornell Big Red,collected,16,11,13,27.0,27.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,156,Creighton Bluejays,collected,11,8,10,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,159,Dartmouth Big Green,collected,16,10,13,27.0,27.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2166,Davidson Wildcats,collected,13,13,15,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2168,Dayton Flyers,collected,12,8,13,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,305,DePaul Blue Demons,collected,11,10,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,48,Delaware Blue Hens,collected,14,12,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2169,Delaware State Hornets,collected,14,9,15,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2172,Denver Pioneers,collected,11,10,14,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2174,Detroit Mercy Titans,collected,15,6,14,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2181,Drake Bulldogs,collected,14,10,11,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2182,Drexel Dragons,collected,13,9,12,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,150,Duke Blue Devils,collected,14,11,12,36.0,36.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2184,Duquesne Dukes,collected,12,13,12,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,151,East Carolina Pirates,collected,14,8,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2193,East Tennessee State Buccaneers,collected,13,10,14,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2837,East Texas A&M Lions,collected,13,9,13,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2197,Eastern Illinois Panthers,collected,14,9,14,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2198,Eastern Kentucky Colonels,collected,11,6,11,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2199,Eastern Michigan Eagles,collected,14,9,14,29.0,29.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,331,Eastern Washington Eagles,collected,14,8,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2210,Elon Phoenix,collected,14,10,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,339,Evansville Purple Aces,collected,12,12,13,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2217,Fairfield Stags,collected,14,9,14,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,161,Fairleigh Dickinson Knights,collected,16,11,13,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,50,Florida A&M Rattlers,collected,15,8,15,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2226,Florida Atlantic Owls,collected,14,7,10,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,57,Florida Gators,collected,13,11,12,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,526,Florida Gulf Coast Eagles,collected,13,7,12,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2229,Florida International Panthers,collected,13,11,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,52,Florida State Seminoles,collected,16,6,10,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2230,Fordham Rams,collected,13,8,12,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,278,Fresno State Bulldogs,collected,15,8,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,231,Furman Paladins,collected,14,10,12,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2241,Gardner-Webb Runnin' Bulldogs,collected,14,6,13,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2244,George Mason Patriots,collected,13,11,14,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,45,George Washington Revolutionaries,collected,13,9,13,36.0,36.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,46,Georgetown Hoyas,collected,12,11,15,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,61,Georgia Lady Bulldogs,collected,13,11,12,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,290,Georgia Southern Eagles,collected,14,9,14,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2247,Georgia State Panthers,collected,13,7,11,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,59,Georgia Tech Yellow Jackets,collected,14,10,10,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2250,Gonzaga Bulldogs,collected,13,12,12,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2755,Grambling Lady Tigers,collected,14,3,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2253,Grand Canyon Lopes,collected,16,8,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2739,Green Bay Phoenix,collected,16,9,13,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2261,Hampton Lady Pirates,collected,14,7,14,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,108,Harvard Crimson,collected,15,13,16,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,62,Hawai'i Rainbow Wahine,collected,12,12,15,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2272,High Point Panthers,collected,13,13,14,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2275,Hofstra Pride,collected,13,7,15,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,107,Holy Cross Crusaders,collected,14,11,14,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2277,Houston Christian Huskies,collected,14,10,13,29.0,29.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,248,Houston Cougars,collected,13,9,12,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,47,Howard Bison,collected,15,12,13,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,85,IU Indianapolis Jaguars,collected,14,12,13,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,304,Idaho State Bengals,collected,13,5,12,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,70,Idaho Vandals,collected,14,9,13,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,356,Illinois Fighting Illini,collected,15,14,13,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2287,Illinois State Redbirds,collected,15,9,13,38.0,38.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2916,Incarnate Word Cardinals,collected,15,10,15,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,84,Indiana Hoosiers,collected,14,11,12,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,282,Indiana State Sycamores,collected,15,5,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,314,Iona Gaels,collected,16,9,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2294,Iowa Hawkeyes,collected,11,10,14,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,66,Iowa State Cyclones,collected,13,12,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2296,Jackson State Lady Tigers,collected,15,5,14,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,294,Jacksonville Dolphins,collected,15,11,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,55,Jacksonville State Gamecocks,collected,13,4,11,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,256,James Madison Dukes,collected,13,10,12,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,140,Kansas City Roos,collected,15,4,15,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2305,Kansas Jayhawks,collected,13,8,12,36.0,36.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2306,Kansas State Wildcats,collected,12,11,13,37.0,37.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,338,Kennesaw State Owls,collected,14,9,13,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2309,Kent State Golden Flashes,collected,13,10,13,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,96,Kentucky Wildcats,collected,12,7,10,36.0,36.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2443,LSU New Orleans Privateers,collected,14,4,14,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,99,LSU Tigers,collected,11,11,13,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2325,La Salle Explorers,collected,16,11,14,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,322,Lafayette Leopards,collected,14,12,12,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2320,Lamar Cardinals,collected,13,11,12,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2330,Le Moyne Dolphins,collected,13,11,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2329,Lehigh Mountain Hawks,partial,13,10,13,32.0,33.0,False,boxscore_coverage_unverified_or_partial;collection_state_partial,Incomplete box scores: 32/33; player rows 13. 
-womens-college-basketball,2335,Liberty Flames,collected,14,10,11,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2815,Lindenwood Lions,collected,14,10,14,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,288,Lipscomb Bisons,collected,14,9,10,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2031,Little Rock Trojans,collected,14,10,14,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,299,Long Beach State Beach,collected,13,7,11,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,112358,Long Island University Sharks,collected,15,8,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2344,Longwood Lancers,collected,15,9,14,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,309,Louisiana Ragin' Cajuns,collected,15,9,12,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2348,Louisiana Tech Lady Techsters,collected,12,11,11,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,97,Louisville Cardinals,collected,13,12,13,37.0,37.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2350,Loyola Chicago Ramblers,collected,12,10,13,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2352,Loyola Maryland Greyhounds,collected,16,9,13,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2351,Loyola Marymount Lions,collected,14,9,12,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,311,Maine Black Bears,collected,14,11,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2363,Manhattan Jaspers,collected,15,5,14,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2368,Marist Red Foxes,collected,15,10,12,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,269,Marquette Golden Eagles,collected,12,8,13,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,276,Marshall Thundering Herd,collected,14,9,12,37.0,37.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2379,Maryland Eastern Shore Hawks,collected,13,5,12,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,120,Maryland Terrapins,collected,13,12,14,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,113,Massachusetts Minutewomen,collected,15,10,12,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2377,McNeese Cowgirls,collected,13,5,12,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,235,Memphis Tigers,collected,12,9,12,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2382,Mercer Bears,collected,13,9,12,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2771,Merrimack Warriors,collected,15,8,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,193,Miami (OH) RedHawks,collected,14,8,12,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2390,Miami Hurricanes,collected,11,13,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,127,Michigan State Spartans,collected,15,11,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,130,Michigan Wolverines,collected,14,12,14,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2393,Middle Tennessee Blue Raiders,collected,14,12,12,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,270,Milwaukee Panthers,collected,15,14,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,135,Minnesota Golden Gophers,collected,15,11,14,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,344,Mississippi State Bulldogs,collected,13,9,13,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2400,Mississippi Valley State Devilettes,collected,15,9,15,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2623,Missouri State Lady Bears,collected,13,9,14,36.0,36.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,142,Missouri Tigers,collected,13,10,10,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2405,Monmouth Hawks,collected,13,11,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,149,Montana Lady Griz,collected,15,10,14,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,147,Montana State Bobcats,collected,14,13,12,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2413,Morehead State Eagles,collected,12,6,11,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2415,Morgan State Lady Bears,collected,15,7,13,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,116,Mount St. Mary's Mountaineers,collected,16,11,15,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,93,Murray State Racers,collected,13,12,11,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,152,NC State Wolfpack,collected,12,11,11,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2885,NJIT Highlanders,collected,14,11,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2426,Navy Midshipmen,partial,14,11,15,31.0,32.0,False,boxscore_coverage_unverified_or_partial;collection_state_partial,Incomplete box scores: 31/32; player rows 15. 
-womens-college-basketball,158,Nebraska Cornhuskers,collected,12,12,12,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2440,Nevada Wolf Pack,collected,15,15,14,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,160,New Hampshire Wildcats,collected,15,10,13,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2441,New Haven Chargers,collected,18,10,17,29.0,29.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,167,New Mexico Lobos,collected,15,11,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,166,New Mexico State Aggies,collected,12,11,14,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,315,Niagara Purple Eagles,collected,14,8,11,29.0,29.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2447,Nicholls Colonels,collected,13,6,14,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2450,Norfolk State Spartans,collected,14,5,11,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2453,North Alabama Lions,collected,15,6,12,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2448,North Carolina A&T Aggies,collected,15,11,14,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2428,North Carolina Central Eagles,collected,15,8,15,29.0,29.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,153,North Carolina Tar Heels,collected,14,12,14,36.0,36.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,155,North Dakota Fighting Hawks,collected,15,7,15,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2449,North Dakota State Bison,collected,13,10,12,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2454,North Florida Ospreys,collected,13,10,14,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,249,North Texas Mean Green,collected,13,7,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,111,Northeastern Huskies,collected,13,11,13,29.0,29.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2464,Northern Arizona Lumberjacks,collected,14,8,15,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2458,Northern Colorado Bears,collected,12,7,14,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2459,Northern Illinois Huskies,collected,14,8,13,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2460,Northern Iowa Panthers,collected,13,9,11,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,94,Northern Kentucky Norse,collected,13,10,15,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2466,Northwestern State Lady Demons,collected,15,7,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,77,Northwestern Wildcats,collected,15,10,15,29.0,29.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,87,Notre Dame Fighting Irish,collected,12,4,11,36.0,36.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2473,Oakland Golden Grizzlies,collected,14,9,12,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,195,Ohio Bobcats,collected,16,11,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,194,Ohio State Buckeyes,collected,11,10,11,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,201,Oklahoma Sooners,collected,14,8,11,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,197,Oklahoma State Cowgirls,collected,12,10,12,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,295,Old Dominion Monarchs,collected,15,8,15,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,145,Ole Miss Rebels,collected,12,5,12,36.0,36.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2437,Omaha Mavericks,collected,15,10,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,198,Oral Roberts Golden Eagles,collected,12,8,12,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2483,Oregon Ducks,collected,12,12,14,36.0,36.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,204,Oregon State Beavers,collected,13,11,14,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,279,Pacific Tigers,collected,14,9,14,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,213,Penn State Lady Lions,collected,11,11,12,29.0,29.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,219,Pennsylvania Quakers,collected,16,12,17,27.0,27.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2492,Pepperdine Waves,collected,12,8,12,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,221,Pittsburgh Panthers,collected,12,12,13,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2501,Portland Pilots,collected,15,13,13,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2502,Portland State Vikings,collected,15,7,13,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2504,Prairie View A&M Lady Panthers,collected,12,8,13,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2506,Presbyterian Blue Hose,collected,13,9,13,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,163,Princeton Tigers,collected,14,10,11,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2507,Providence Friars,collected,15,10,15,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2509,Purdue Boilermakers,collected,13,11,12,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2870,Purdue Fort Wayne Mastodons,collected,13,10,12,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2511,Queens University Royals,collected,14,7,12,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2514,Quinnipiac Bobcats,collected,14,9,13,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2515,Radford Highlanders,collected,13,10,14,36.0,36.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,227,Rhode Island Rams,collected,13,8,12,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,242,Rice Owls,collected,14,11,13,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,257,Richmond Spiders,collected,13,9,14,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2520,Rider Broncs,collected,12,9,11,29.0,29.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2523,Robert Morris Colonials,collected,13,9,14,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,164,Rutgers Scarlet Knights,collected,14,11,13,29.0,29.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2545,SE Louisiana Lady Lions,collected,14,7,12,29.0,29.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2565,SIU Edwardsville Cougars,collected,12,7,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2567,SMU Mustangs,collected,13,8,12,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,16,Sacramento State Hornets,collected,15,12,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2529,Sacred Heart Pioneers,collected,14,8,14,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2603,Saint Joseph's Hawks,collected,15,11,14,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,139,Saint Louis Billikens,collected,12,6,12,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2608,Saint Mary's Gaels,collected,15,22,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2612,Saint Peter's Peacocks,collected,15,8,12,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2534,Sam Houston Bearkats,collected,14,7,13,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2535,Samford Bulldogs,collected,11,9,14,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,21,San Diego State Aztecs,collected,14,11,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,301,San Diego Toreros,collected,13,13,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2539,San Francisco Dons,collected,12,9,13,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,23,San José State Spartans,collected,14,10,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2541,Santa Clara Broncos,collected,14,11,12,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2547,Seattle U Redhawks,collected,14,6,11,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2550,Seton Hall Pirates,collected,15,11,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2561,Siena Saints,collected,13,9,14,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,6,South Alabama Jaguars,collected,13,12,13,36.0,36.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2579,South Carolina Gamecocks,collected,13,7,11,40.0,40.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2569,South Carolina State Lady Bulldogs,collected,19,10,18,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2908,South Carolina Upstate Spartans,collected,13,10,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,233,South Dakota Coyotes,collected,14,8,14,36.0,36.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2571,South Dakota State Jackrabbits,collected,12,10,13,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,58,South Florida Bulls,collected,13,10,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2546,Southeast Missouri State Redhawks,collected,13,5,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,79,Southern Illinois Salukis,collected,14,10,13,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,88,Southern Indiana Screaming Eagles,collected,14,11,12,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2582,Southern Jaguars,collected,15,8,13,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2572,Southern Miss Lady Eagles,collected,12,7,13,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,253,Southern Utah Thunderbirds,collected,13,11,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,179,St. Bonaventure Bonnies,collected,15,11,14,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2599,St. John's Red Storm,collected,13,9,12,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2900,St. Thomas Tommies,collected,16,11,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,24,Stanford Cardinal,collected,12,12,14,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2617,Stephen F. Austin Ladyjacks,collected,13,8,9,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,56,Stetson Hatters,collected,13,7,12,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,284,Stonehill Skyhawks,collected,16,13,14,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2619,Stony Brook Seawolves,collected,12,10,14,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,183,Syracuse Orange,collected,13,11,15,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2628,TCU Horned Frogs,collected,12,7,12,38.0,38.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2627,Tarleton State Texans,collected,14,9,15,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,218,Temple Owls,collected,11,12,11,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2633,Tennessee Lady Volunteers,collected,15,9,13,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2634,Tennessee State Lady Tigers,collected,13,8,13,29.0,29.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2635,Tennessee Tech Golden Eagles,collected,13,8,12,29.0,29.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,245,Texas A&M Aggies,collected,15,12,15,27.0,27.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,357,Texas A&M-Corpus Christi Islanders,collected,12,6,10,29.0,29.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,251,Texas Longhorns,collected,14,9,12,39.0,39.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2640,Texas Southern Tigers,collected,14,3,12,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,326,Texas State Bobcats,collected,13,9,13,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2641,Texas Tech Lady Raiders,collected,15,3,12,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2649,Toledo Rockets,collected,14,13,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,119,Towson Tigers,collected,15,10,14,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2653,Troy Trojans,collected,13,5,12,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2655,Tulane Green Wave,collected,13,7,13,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,202,Tulsa Golden Hurricane,collected,14,13,12,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,5,UAB Blazers,collected,11,8,13,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,399,UAlbany Great Danes,collected,14,9,12,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,302,UC Davis Aggies,collected,14,8,11,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,300,UC Irvine Anteaters,collected,15,10,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,27,UC Riverside Highlanders,collected,14,9,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,28,UC San Diego Tritons,collected,13,7,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2540,UC Santa Barbara Gauchos,collected,13,7,13,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2116,UCF Knights,collected,13,11,14,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,26,UCLA Bruins,collected,12,5,11,38.0,38.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,41,UConn Huskies,collected,13,12,14,39.0,39.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,82,UIC Flames,collected,16,9,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2433,UL Monroe Warhawks,collected,12,2,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2378,UMBC Retrievers,collected,14,10,11,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2349,UMass Lowell River Hawks,collected,14,8,13,29.0,29.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2427,UNC Asheville Bulldogs,collected,14,5,13,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2430,UNC Greensboro Spartans,collected,15,6,13,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,350,UNC Wilmington Seahawks,collected,16,8,13,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2439,UNLV Lady Rebels,collected,12,7,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,30,USC Trojans,collected,12,12,12,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,250,UT Arlington Mavericks,collected,15,7,12,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2630,UT Martin Skyhawks,collected,14,8,12,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,292,UT Rio Grande Valley Vaqueros,collected,13,11,13,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2638,UTEP Miners,collected,13,6,14,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2636,UTSA Roadrunners,collected,15,12,11,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,328,Utah State Aggies,collected,15,10,12,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,3101,Utah Tech Trailblazers,collected,14,5,12,29.0,29.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,254,Utah Utes,collected,13,10,12,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,3084,Utah Valley Wolverines,collected,13,4,13,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2670,VCU Rams,collected,14,10,14,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2674,Valparaiso Beacons,collected,14,10,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,238,Vanderbilt Commodores,collected,12,9,12,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,261,Vermont Catamounts,collected,14,10,14,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,222,Villanova Wildcats,collected,12,10,12,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,258,Virginia Cavaliers,collected,13,8,13,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,259,Virginia Tech Hokies,collected,13,11,12,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2681,Wagner Seahawks,collected,15,7,13,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,154,Wake Forest Demon Deacons,collected,13,11,12,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,264,Washington Huskies,collected,12,9,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,265,Washington State Cougars,collected,12,9,11,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2692,Weber State Wildcats,collected,14,8,12,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2697,West Florida Argonauts,retry,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_retry,Repair/collection failed; existing archived player records retained: ValueError: prior or current roster is empty
-womens-college-basketball,2698,West Georgia Wolves,collected,11,6,12,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,277,West Virginia Mountaineers,collected,12,6,11,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2717,Western Carolina Catamounts,collected,12,8,12,29.0,29.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2710,Western Illinois Leathernecks,collected,12,10,12,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,98,Western Kentucky Lady Toppers,collected,13,8,13,29.0,29.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2711,Western Michigan Broncos,collected,13,7,11,29.0,29.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2724,Wichita State Shockers,collected,12,3,14,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2729,William & Mary Tribe,collected,13,13,14,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2737,Winthrop Eagles,collected,14,9,11,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,275,Wisconsin Badgers,collected,14,9,15,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2747,Wofford Terriers,collected,13,9,13,29.0,29.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2750,Wright State Raiders,collected,14,8,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2751,Wyoming Cowgirls,collected,14,8,14,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2752,Xavier Musketeers,collected,12,13,11,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,43,Yale Bulldogs,collected,19,13,12,27.0,27.0,True,,All discovered completed box scores parsed; full season/roster unverified
-womens-college-basketball,2754,Youngstown State Penguins,collected,12,8,12,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2000,Abilene Christian Wildcats,collected,13,13,13,35,35,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2005,Air Force Falcons,collected,16,10,13,35,35,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2006,Akron Zips,collected,15,12,13,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2010,Alabama A&M Bulldogs,collected,14,4,15,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,333,Alabama Crimson Tide,collected,13,12,15,35,35,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2011,Alabama State Lady Hornets,collected,15,8,16,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2016,Alcorn State Lady Braves,collected,13,10,16,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,44,American University Eagles,collected,16,10,13,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2026,App State Mountaineers,collected,13,6,12,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,9,Arizona State Sun Devils,collected,13,10,11,35,35,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,12,Arizona Wildcats,collected,12,9,11,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,8,Arkansas Razorbacks,collected,14,11,12,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2032,Arkansas State Red Wolves,collected,13,4,12,37,37,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2029,Arkansas-Pine Bluff Golden Lions,collected,14,10,14,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,349,Army Black Knights,collected,19,12,13,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2,Auburn Tigers,collected,14,11,13,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2046,Austin Peay Governors,collected,15,8,12,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,252,BYU Cougars,collected,12,9,13,38,38,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2050,Ball State Cardinals,collected,10,12,13,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,239,Baylor Bears,collected,12,9,12,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,91,Bellarmine Knights,collected,14,11,17,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2057,Belmont Bruins,collected,11,12,12,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2065,Bethune-Cookman Wildcats,collected,10,7,15,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2066,Binghamton Bearcats,collected,14,12,11,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,68,Boise State Broncos,collected,15,10,14,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,103,Boston College Eagles,collected,10,9,13,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,104,Boston University Terriers,collected,15,13,14,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,189,Bowling Green Falcons,collected,13,10,13,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,71,Bradley Braves,collected,13,9,13,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,225,Brown Bears,collected,15,11,15,27,27,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2803,Bryant Bulldogs,collected,13,6,13,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2083,Bucknell Bison,collected,12,11,13,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2084,Buffalo Bulls,collected,15,9,12,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2086,Butler Bulldogs,collected,13,11,11,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,13,Cal Poly Mustangs,collected,16,10,16,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2934,Cal State Bakersfield Roadrunners,collected,15,4,13,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2239,Cal State Fullerton Titans,collected,14,10,12,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2463,Cal State Northridge Matadors,collected,12,9,13,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2856,California Baptist Lancers,collected,13,9,13,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,25,California Golden Bears,collected,14,11,13,36,36,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2097,Campbell Fighting Camels,collected,13,10,13,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2099,Canisius Golden Griffins,collected,15,11,14,29,29,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2110,Central Arkansas Sugar Bears,collected,14,9,14,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2115,Central Connecticut Blue Devils,collected,13,7,13,29,29,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2117,Central Michigan Chippewas,collected,13,9,11,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,232,Charleston Cougars,collected,11,11,15,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2127,Charleston Southern Buccaneers,collected,14,8,12,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2429,Charlotte 49ers,collected,14,10,13,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,236,Chattanooga Mocs,collected,13,11,11,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2130,Chicago State Cougars,collected,15,13,14,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2132,Cincinnati Bearcats,collected,15,11,13,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,228,Clemson Tigers,collected,13,12,12,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,325,Cleveland State Vikings,collected,13,7,14,36,36,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,324,Coastal Carolina Chanticleers,collected,12,8,11,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2142,Colgate Raiders,collected,15,10,15,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,38,Colorado Buffaloes,collected,14,12,14,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,36,Colorado State Rams,collected,15,9,12,35,35,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,171,Columbia Lions,collected,14,12,15,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2154,Coppin State Eagles,collected,12,5,13,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,172,Cornell Big Red,collected,16,11,13,27,27,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,156,Creighton Bluejays,collected,11,8,10,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,159,Dartmouth Big Green,collected,16,10,13,27,27,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2166,Davidson Wildcats,collected,13,13,15,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2168,Dayton Flyers,collected,12,8,13,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,305,DePaul Blue Demons,collected,11,10,14,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,48,Delaware Blue Hens,collected,14,12,13,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2169,Delaware State Hornets,collected,14,9,15,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2172,Denver Pioneers,collected,11,10,14,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2174,Detroit Mercy Titans,collected,15,6,14,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2181,Drake Bulldogs,collected,14,10,11,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2182,Drexel Dragons,collected,13,9,12,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,150,Duke Blue Devils,collected,14,11,12,36,36,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2184,Duquesne Dukes,collected,12,13,12,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,151,East Carolina Pirates,collected,14,8,13,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2193,East Tennessee State Buccaneers,collected,13,10,14,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2837,East Texas A&M Lions,collected,13,9,13,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2197,Eastern Illinois Panthers,collected,14,9,14,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2198,Eastern Kentucky Colonels,collected,11,6,11,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2199,Eastern Michigan Eagles,collected,14,9,14,29,29,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,331,Eastern Washington Eagles,collected,14,8,13,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2210,Elon Phoenix,collected,14,10,13,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,339,Evansville Purple Aces,collected,12,12,13,35,35,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2217,Fairfield Stags,collected,14,9,14,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,161,Fairleigh Dickinson Knights,collected,16,11,13,35,35,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,50,Florida A&M Rattlers,collected,15,8,15,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2226,Florida Atlantic Owls,collected,14,7,10,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,57,Florida Gators,collected,13,11,12,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,526,Florida Gulf Coast Eagles,collected,13,7,12,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2229,Florida International Panthers,collected,13,11,13,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,52,Florida State Seminoles,collected,16,6,10,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2230,Fordham Rams,collected,13,8,12,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,278,Fresno State Bulldogs,collected,15,8,13,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,231,Furman Paladins,collected,14,10,12,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2241,Gardner-Webb Runnin' Bulldogs,collected,14,6,13,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2244,George Mason Patriots,collected,13,11,14,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,45,George Washington Revolutionaries,collected,13,9,13,36,36,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,46,Georgetown Hoyas,collected,12,11,15,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,61,Georgia Lady Bulldogs,collected,13,11,12,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,290,Georgia Southern Eagles,collected,14,9,14,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2247,Georgia State Panthers,collected,13,7,11,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,59,Georgia Tech Yellow Jackets,collected,14,10,10,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2250,Gonzaga Bulldogs,collected,13,12,12,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2755,Grambling Lady Tigers,collected,14,3,14,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2253,Grand Canyon Lopes,collected,16,8,14,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2739,Green Bay Phoenix,collected,16,9,13,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2261,Hampton Lady Pirates,collected,14,7,14,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,108,Harvard Crimson,collected,15,13,16,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,62,Hawai'i Rainbow Wahine,collected,12,12,15,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2272,High Point Panthers,collected,13,13,14,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2275,Hofstra Pride,collected,13,7,15,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,107,Holy Cross Crusaders,collected,14,11,14,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2277,Houston Christian Huskies,collected,14,10,13,29,29,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,248,Houston Cougars,collected,13,9,12,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,47,Howard Bison,collected,15,12,13,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,85,IU Indianapolis Jaguars,collected,14,12,13,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,304,Idaho State Bengals,collected,13,5,12,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,70,Idaho Vandals,collected,14,9,13,35,35,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,356,Illinois Fighting Illini,collected,15,14,13,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2287,Illinois State Redbirds,collected,15,9,13,38,38,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2916,Incarnate Word Cardinals,collected,15,10,15,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,84,Indiana Hoosiers,collected,14,11,12,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,282,Indiana State Sycamores,collected,15,5,13,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,314,Iona Gaels,collected,16,9,13,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2294,Iowa Hawkeyes,collected,11,10,14,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,66,Iowa State Cyclones,collected,13,12,13,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2296,Jackson State Lady Tigers,collected,15,5,14,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,294,Jacksonville Dolphins,collected,15,11,13,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,55,Jacksonville State Gamecocks,collected,13,4,11,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,256,James Madison Dukes,collected,13,10,12,35,35,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,140,Kansas City Roos,collected,15,4,15,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2305,Kansas Jayhawks,collected,13,8,12,36,36,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2306,Kansas State Wildcats,collected,12,11,13,37,37,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,338,Kennesaw State Owls,collected,14,9,13,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2309,Kent State Golden Flashes,collected,13,10,13,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,96,Kentucky Wildcats,collected,12,7,10,36,36,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2443,LSU New Orleans Privateers,collected,14,4,14,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,99,LSU Tigers,collected,11,11,13,35,35,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2325,La Salle Explorers,collected,16,11,14,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,322,Lafayette Leopards,collected,14,12,12,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2320,Lamar Cardinals,collected,13,11,12,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2330,Le Moyne Dolphins,collected,13,11,13,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2329,Lehigh Mountain Hawks,partial,13,10,13,32,33,False,boxscore_coverage_unverified_or_partial;collection_state_partial,Incomplete box scores: 32/33; player rows 13. 
+womens-college-basketball,2335,Liberty Flames,collected,14,10,11,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2815,Lindenwood Lions,collected,14,10,14,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,288,Lipscomb Bisons,collected,14,9,10,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2031,Little Rock Trojans,collected,14,10,14,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,299,Long Beach State Beach,collected,13,7,11,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,112358,Long Island University Sharks,collected,15,8,13,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2344,Longwood Lancers,collected,15,9,14,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,309,Louisiana Ragin' Cajuns,collected,15,9,12,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2348,Louisiana Tech Lady Techsters,collected,12,11,11,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,97,Louisville Cardinals,collected,13,12,13,37,37,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2350,Loyola Chicago Ramblers,collected,12,10,13,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2352,Loyola Maryland Greyhounds,collected,16,9,13,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2351,Loyola Marymount Lions,collected,14,9,12,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,311,Maine Black Bears,collected,14,11,13,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2363,Manhattan Jaspers,collected,15,5,14,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2368,Marist Red Foxes,collected,15,10,12,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,269,Marquette Golden Eagles,collected,12,8,13,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,276,Marshall Thundering Herd,collected,14,9,12,37,37,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2379,Maryland Eastern Shore Hawks,collected,13,5,12,35,35,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,120,Maryland Terrapins,collected,13,12,14,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,113,Massachusetts Minutewomen,collected,15,10,12,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2377,McNeese Cowgirls,collected,13,5,12,35,35,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,235,Memphis Tigers,collected,12,9,12,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2382,Mercer Bears,collected,13,9,12,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2771,Merrimack Warriors,collected,15,8,14,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,193,Miami (OH) RedHawks,collected,14,8,12,35,35,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2390,Miami Hurricanes,collected,11,13,13,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,127,Michigan State Spartans,collected,15,11,14,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,130,Michigan Wolverines,collected,14,12,14,35,35,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2393,Middle Tennessee Blue Raiders,collected,14,12,12,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,270,Milwaukee Panthers,collected,15,14,13,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,135,Minnesota Golden Gophers,collected,15,11,14,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,344,Mississippi State Bulldogs,collected,13,9,13,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2400,Mississippi Valley State Devilettes,collected,15,9,15,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2623,Missouri State Lady Bears,collected,13,9,14,36,36,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,142,Missouri Tigers,collected,13,10,10,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2405,Monmouth Hawks,collected,13,11,13,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,149,Montana Lady Griz,collected,15,10,14,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,147,Montana State Bobcats,collected,14,13,12,35,35,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2413,Morehead State Eagles,collected,12,6,11,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2415,Morgan State Lady Bears,collected,15,7,13,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,116,Mount St. Mary's Mountaineers,collected,16,11,15,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,93,Murray State Racers,collected,13,12,11,35,35,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,152,NC State Wolfpack,collected,12,11,11,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2885,NJIT Highlanders,collected,14,11,13,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2426,Navy Midshipmen,partial,14,11,15,31,32,False,boxscore_coverage_unverified_or_partial;collection_state_partial,V102.1 targeted: prior_boxscore_incomplete; source data not fabricated
+womens-college-basketball,158,Nebraska Cornhuskers,collected,12,12,12,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2440,Nevada Wolf Pack,collected,15,15,14,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,160,New Hampshire Wildcats,collected,15,10,13,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2441,New Haven Chargers,collected,18,10,17,29,29,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,167,New Mexico Lobos,collected,15,11,13,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,166,New Mexico State Aggies,collected,12,11,14,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,315,Niagara Purple Eagles,collected,14,8,11,29,29,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2447,Nicholls Colonels,collected,13,6,14,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2450,Norfolk State Spartans,collected,14,5,11,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2453,North Alabama Lions,collected,15,6,12,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2448,North Carolina A&T Aggies,collected,15,11,14,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2428,North Carolina Central Eagles,collected,15,8,15,29,29,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,153,North Carolina Tar Heels,collected,14,12,14,36,36,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,155,North Dakota Fighting Hawks,collected,15,7,15,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2449,North Dakota State Bison,collected,13,10,12,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2454,North Florida Ospreys,collected,13,10,14,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,249,North Texas Mean Green,collected,13,7,13,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,111,Northeastern Huskies,collected,13,11,13,29,29,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2464,Northern Arizona Lumberjacks,collected,14,8,15,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2458,Northern Colorado Bears,collected,12,7,14,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2459,Northern Illinois Huskies,collected,14,8,13,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2460,Northern Iowa Panthers,collected,13,9,11,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,94,Northern Kentucky Norse,collected,13,10,15,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2466,Northwestern State Lady Demons,collected,15,7,14,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,77,Northwestern Wildcats,collected,15,10,15,29,29,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,87,Notre Dame Fighting Irish,collected,12,4,11,36,36,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2473,Oakland Golden Grizzlies,collected,14,9,12,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,195,Ohio Bobcats,collected,16,11,13,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,194,Ohio State Buckeyes,collected,11,10,11,35,35,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,201,Oklahoma Sooners,collected,14,8,11,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,197,Oklahoma State Cowgirls,collected,12,10,12,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,295,Old Dominion Monarchs,collected,15,8,15,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,145,Ole Miss Rebels,collected,12,5,12,36,36,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2437,Omaha Mavericks,collected,15,10,13,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,198,Oral Roberts Golden Eagles,collected,12,8,12,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2483,Oregon Ducks,collected,12,12,14,36,36,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,204,Oregon State Beavers,collected,13,11,14,35,35,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,279,Pacific Tigers,collected,14,9,14,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,213,Penn State Lady Lions,collected,11,11,12,29,29,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,219,Pennsylvania Quakers,collected,16,12,17,27,27,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2492,Pepperdine Waves,collected,12,8,12,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,221,Pittsburgh Panthers,collected,12,12,13,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2501,Portland Pilots,collected,15,13,13,35,35,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2502,Portland State Vikings,collected,15,7,13,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2504,Prairie View A&M Lady Panthers,collected,12,8,13,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2506,Presbyterian Blue Hose,collected,13,9,13,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,163,Princeton Tigers,collected,14,10,11,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2507,Providence Friars,collected,15,10,15,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2509,Purdue Boilermakers,collected,13,11,12,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2870,Purdue Fort Wayne Mastodons,collected,13,10,12,35,35,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2511,Queens University Royals,collected,14,7,12,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2514,Quinnipiac Bobcats,collected,14,9,13,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2515,Radford Highlanders,collected,13,10,14,36,36,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,227,Rhode Island Rams,collected,13,8,12,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,242,Rice Owls,collected,14,11,13,35,35,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,257,Richmond Spiders,collected,13,9,14,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2520,Rider Broncs,collected,12,9,11,29,29,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2523,Robert Morris Colonials,collected,13,9,14,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,164,Rutgers Scarlet Knights,collected,14,11,13,29,29,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2545,SE Louisiana Lady Lions,collected,14,7,12,29,29,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2565,SIU Edwardsville Cougars,collected,12,7,14,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2567,SMU Mustangs,collected,13,8,12,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,16,Sacramento State Hornets,collected,15,12,13,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2529,Sacred Heart Pioneers,collected,14,8,14,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2603,Saint Joseph's Hawks,collected,15,11,14,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,139,Saint Louis Billikens,collected,12,6,12,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2608,Saint Mary's Gaels,collected,15,22,13,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2612,Saint Peter's Peacocks,collected,15,8,12,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2534,Sam Houston Bearkats,collected,14,7,13,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2535,Samford Bulldogs,collected,11,9,14,35,35,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,21,San Diego State Aztecs,collected,14,11,13,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,301,San Diego Toreros,collected,13,13,13,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2539,San Francisco Dons,collected,12,9,13,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,23,San José State Spartans,collected,14,10,14,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2541,Santa Clara Broncos,collected,14,11,12,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2547,Seattle U Redhawks,collected,14,6,11,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2550,Seton Hall Pirates,collected,15,11,13,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2561,Siena Saints,collected,13,9,14,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,6,South Alabama Jaguars,collected,13,12,13,36,36,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2579,South Carolina Gamecocks,collected,13,7,11,40,40,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2569,South Carolina State Lady Bulldogs,collected,19,10,18,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2908,South Carolina Upstate Spartans,collected,13,10,14,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,233,South Dakota Coyotes,collected,14,8,14,36,36,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2571,South Dakota State Jackrabbits,collected,12,10,13,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,58,South Florida Bulls,collected,13,10,13,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2546,Southeast Missouri State Redhawks,collected,13,5,14,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,79,Southern Illinois Salukis,collected,14,10,13,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,88,Southern Indiana Screaming Eagles,collected,14,11,12,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2582,Southern Jaguars,collected,15,8,13,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2572,Southern Miss Lady Eagles,collected,12,7,13,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,253,Southern Utah Thunderbirds,collected,13,11,13,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,179,St. Bonaventure Bonnies,collected,15,11,14,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2599,St. John's Red Storm,collected,13,9,12,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2900,St. Thomas Tommies,collected,16,11,13,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,24,Stanford Cardinal,collected,12,12,14,35,35,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2617,Stephen F. Austin Ladyjacks,collected,13,8,9,35,35,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,56,Stetson Hatters,collected,13,7,12,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,284,Stonehill Skyhawks,collected,16,13,14,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2619,Stony Brook Seawolves,collected,12,10,14,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,183,Syracuse Orange,collected,13,11,15,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2628,TCU Horned Frogs,collected,12,7,12,38,38,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2627,Tarleton State Texans,collected,14,9,15,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,218,Temple Owls,collected,11,12,11,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2633,Tennessee Lady Volunteers,collected,15,9,13,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2634,Tennessee State Lady Tigers,collected,13,8,13,29,29,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2635,Tennessee Tech Golden Eagles,collected,13,8,12,29,29,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,245,Texas A&M Aggies,collected,15,12,15,27,27,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,357,Texas A&M-Corpus Christi Islanders,collected,12,6,10,29,29,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,251,Texas Longhorns,collected,14,9,12,39,39,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2640,Texas Southern Tigers,collected,14,3,12,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,326,Texas State Bobcats,collected,13,9,13,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2641,Texas Tech Lady Raiders,collected,15,3,12,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2649,Toledo Rockets,collected,14,13,13,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,119,Towson Tigers,collected,15,10,14,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2653,Troy Trojans,collected,13,5,12,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2655,Tulane Green Wave,collected,13,7,13,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,202,Tulsa Golden Hurricane,collected,14,13,12,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,5,UAB Blazers,collected,11,8,13,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,399,UAlbany Great Danes,collected,14,9,12,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,302,UC Davis Aggies,collected,14,8,11,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,300,UC Irvine Anteaters,collected,15,10,13,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,27,UC Riverside Highlanders,collected,14,9,13,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,28,UC San Diego Tritons,collected,13,7,13,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2540,UC Santa Barbara Gauchos,collected,13,7,13,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2116,UCF Knights,collected,13,11,14,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,26,UCLA Bruins,collected,12,5,11,38,38,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,41,UConn Huskies,collected,13,12,14,39,39,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,82,UIC Flames,collected,16,9,13,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2433,UL Monroe Warhawks,collected,12,2,13,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2378,UMBC Retrievers,collected,14,10,11,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2349,UMass Lowell River Hawks,collected,14,8,13,29,29,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2427,UNC Asheville Bulldogs,collected,14,5,13,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2430,UNC Greensboro Spartans,collected,15,6,13,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,350,UNC Wilmington Seahawks,collected,16,8,13,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2439,UNLV Lady Rebels,collected,12,7,14,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,30,USC Trojans,collected,12,12,12,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,250,UT Arlington Mavericks,collected,15,7,12,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2630,UT Martin Skyhawks,collected,14,8,12,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,292,UT Rio Grande Valley Vaqueros,collected,13,11,13,35,35,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2638,UTEP Miners,collected,13,6,14,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2636,UTSA Roadrunners,collected,15,12,11,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,328,Utah State Aggies,collected,15,10,12,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,3101,Utah Tech Trailblazers,collected,14,5,12,29,29,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,254,Utah Utes,collected,13,10,12,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,3084,Utah Valley Wolverines,collected,13,4,13,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2670,VCU Rams,collected,14,10,14,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2674,Valparaiso Beacons,collected,14,10,13,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,238,Vanderbilt Commodores,collected,12,9,12,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,261,Vermont Catamounts,collected,14,10,14,35,35,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,222,Villanova Wildcats,collected,12,10,12,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,258,Virginia Cavaliers,collected,13,8,13,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,259,Virginia Tech Hokies,collected,13,11,12,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2681,Wagner Seahawks,collected,15,7,13,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,154,Wake Forest Demon Deacons,collected,13,11,12,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,264,Washington Huskies,collected,12,9,13,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,265,Washington State Cougars,collected,12,9,11,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2692,Weber State Wildcats,collected,14,8,12,33,33,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2697,West Florida Argonauts,partial,13,0,0,0,0,False,missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_partial,V102.1 targeted: espn_roster_unavailable; source data not fabricated
+womens-college-basketball,2698,West Georgia Wolves,collected,11,6,12,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,277,West Virginia Mountaineers,collected,12,6,11,35,35,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2717,Western Carolina Catamounts,collected,12,8,12,29,29,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2710,Western Illinois Leathernecks,collected,12,10,12,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,98,Western Kentucky Lady Toppers,collected,13,8,13,29,29,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2711,Western Michigan Broncos,collected,13,7,11,29,29,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2724,Wichita State Shockers,collected,12,3,14,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2729,William & Mary Tribe,collected,13,13,14,31,31,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2737,Winthrop Eagles,collected,14,9,11,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,275,Wisconsin Badgers,collected,14,9,15,34,34,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2747,Wofford Terriers,collected,13,9,13,29,29,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2750,Wright State Raiders,collected,14,8,13,32,32,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2751,Wyoming Cowgirls,collected,14,8,14,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2752,Xavier Musketeers,collected,12,13,11,30,30,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,43,Yale Bulldogs,collected,19,13,12,27,27,True,,All discovered completed box scores parsed; full season/roster unverified
+womens-college-basketball,2754,Youngstown State Penguins,collected,12,8,12,35,35,True,,All discovered completed box scores parsed; full season/roster unverified
