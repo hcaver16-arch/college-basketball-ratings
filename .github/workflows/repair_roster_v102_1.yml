@@ -1,0 +1,59 @@
+name: Diagnose West Florida and Navy rosters V102.1
+on:
+  workflow_dispatch:
+    inputs:
+      apply_source_repairs:
+        description: 'Merge only real ESPN source records into the archive (default diagnostic only)'
+        required: true
+        type: boolean
+        default: false
+permissions:
+  contents: write
+concurrency:
+  group: basketball-roster-archive
+  cancel-in-progress: false
+jobs:
+  targeted-repair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install pandas requests
+      - name: Check source scripts
+        run: |
+          test -f archive_roster_batch.py
+          test -f roster_tracking.py
+          test -f player_stats_import.py
+      - name: Diagnose and optionally repair three records
+        env:
+          APPLY: ${{ inputs.apply_source_repairs }}
+        run: |
+          if [ "$APPLY" = 'true' ]; then
+            python repair_roster_v102_1.py --apply
+          else
+            python repair_roster_v102_1.py
+          fi
+      - name: Refresh V102 audit after repairs
+        if: ${{ inputs.apply_source_repairs }}
+        run: python roster_coverage_v102.py
+      - name: Save report and verified archive changes
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/roster_audit_v102_1/
+          if [ "${{ inputs.apply_source_repairs }}" = 'true' ]; then
+            git add data/*_current_rosters.csv.gz data/*_previous_rosters.csv.gz data/*_previous_stats.csv.gz data/*_collection_status.csv.gz data/roster_audit_v102/ || true
+          fi
+          if ! git diff --cached --quiet; then
+            git commit -m 'V102.1 targeted roster diagnosis and source-safe repair'
+            git push
+          fi
+          cat data/roster_audit_v102_1/summary.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: roster-targeted-v102-1
+          path: data/roster_audit_v102_1/
