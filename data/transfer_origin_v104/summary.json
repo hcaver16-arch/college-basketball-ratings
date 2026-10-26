@@ -1,0 +1,43 @@
+{
+  "version": 104,
+  "generated_at_utc": "2026-10-26T21:44:23.713437+00:00",
+  "season": "2026-27",
+  "prior_season": "2025-26",
+  "status": "RESEARCH_ONLY_EXACT_ID_ROSTER_MATCHES",
+  "divisions": {
+    "mens-college-basketball": {
+      "status": "research_only",
+      "teams": 362,
+      "current_players": 5487,
+      "same_team_id_matches": 1875,
+      "unique_cross_school_id_matches": 1624,
+      "ambiguous_cross_school_id_matches": 10,
+      "unknown_origin": 1978,
+      "cross_school_with_origin_statistics": 1516,
+      "cautions": [
+        "Prior season roster and statistics are from ESPN archive and may be incomplete.",
+        "Cross-school ID match is evidence of a roster change, not verified transfer enrollment.",
+        "Incoming production totals cover documented matched players only; not team-level projections.",
+        "Prior stats are sourced from origin school, never from destination school.",
+        "Player identities are matched on exact ESPN IDs only; unmatched players are not labeled recruits."
+      ]
+    },
+    "womens-college-basketball": {
+      "status": "research_only",
+      "teams": 362,
+      "current_players": 4925,
+      "same_team_id_matches": 2160,
+      "unique_cross_school_id_matches": 1128,
+      "ambiguous_cross_school_id_matches": 2,
+      "unknown_origin": 1635,
+      "cross_school_with_origin_statistics": 1070,
+      "cautions": [
+        "Prior season roster and statistics are from ESPN archive and may be incomplete.",
+        "Cross-school ID match is evidence of a roster change, not verified transfer enrollment.",
+        "Incoming production totals cover documented matched players only; not team-level projections.",
+        "Prior stats are sourced from origin school, never from destination school.",
+        "Player identities are matched on exact ESPN IDs only; unmatched players are not labeled recruits."
+      ]
+    }
+  }
+}
