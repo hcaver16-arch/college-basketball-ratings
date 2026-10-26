@@ -1,0 +1,90 @@
+{
+  "version": "102.1",
+  "generated_at": "2026-10-26T21:18:46.251582+00:00",
+  "read_only": true,
+  "note": "Data-source failures are preserved, not excused as complete.",
+  "teams": [
+    {
+      "division": "mens-college-basketball",
+      "team_id": "2697",
+      "team": "West Florida Argonauts",
+      "attempted_at": "2026-10-26T21:18:35.018340+00:00",
+      "mode": "read_only_diagnostic",
+      "source": "ESPN unofficial API",
+      "current_season": 2027,
+      "previous_season": 2026,
+      "warnings": [
+        "West Florida Argonauts: schedule response returned no completed events for season 2026; check ESPN season and response structure."
+      ],
+      "changes": [],
+      "previous_rosters_fetched_players": 0,
+      "current_rosters_fetched_players": 15,
+      "boxscore_audit": {
+        "completed_game_ids": 0,
+        "parsed_games": 0,
+        "unparsed_games": []
+      },
+      "prior_stats_fetched_players": 0,
+      "completed_games": 0,
+      "parsed_games": 0,
+      "fully_collected_from_espn": false,
+      "diagnosis": "espn_roster_unavailable"
+    },
+    {
+      "division": "womens-college-basketball",
+      "team_id": "2697",
+      "team": "West Florida Argonauts",
+      "attempted_at": "2026-10-26T21:18:35.497621+00:00",
+      "mode": "read_only_diagnostic",
+      "source": "ESPN unofficial API",
+      "current_season": 2027,
+      "previous_season": 2026,
+      "warnings": [
+        "West Florida Argonauts: schedule response returned no completed events for season 2026; check ESPN season and response structure."
+      ],
+      "changes": [],
+      "previous_rosters_fetched_players": 0,
+      "current_rosters_fetched_players": 13,
+      "boxscore_audit": {
+        "completed_game_ids": 0,
+        "parsed_games": 0,
+        "unparsed_games": []
+      },
+      "prior_stats_fetched_players": 0,
+      "completed_games": 0,
+      "parsed_games": 0,
+      "fully_collected_from_espn": false,
+      "diagnosis": "espn_roster_unavailable"
+    },
+    {
+      "division": "womens-college-basketball",
+      "team_id": "2426",
+      "team": "Navy Midshipmen",
+      "attempted_at": "2026-10-26T21:18:36.025763+00:00",
+      "mode": "read_only_diagnostic",
+      "source": "ESPN unofficial API",
+      "current_season": 2027,
+      "previous_season": 2026,
+      "warnings": [],
+      "changes": [],
+      "previous_rosters_fetched_players": 11,
+      "current_rosters_fetched_players": 14,
+      "boxscore_audit": {
+        "completed_game_ids": 32,
+        "parsed_games": 31,
+        "unparsed_games": [
+          {
+            "game_id": "401823071",
+            "parsed_players": 0,
+            "state": "missing_player_boxscore"
+          }
+        ]
+      },
+      "prior_stats_fetched_players": 15,
+      "completed_games": 32,
+      "parsed_games": 31,
+      "fully_collected_from_espn": false,
+      "diagnosis": "prior_boxscore_incomplete"
+    }
+  ]
+}
