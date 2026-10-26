@@ -1,0 +1,55 @@
+name: Research preseason and early-season priors V96
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  early_prior:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install numpy pandas requests
+      - name: Research previous-season priors without changing live forecasts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile early_season_prior_v96.py
+          for division in mens womens; do
+            prev="data/historical_efficiency/2024-25_${division}_paired_games.csv.gz"
+            curr="data/historical_efficiency/2025-26_${division}_paired_games.csv.gz"
+            test -f "$prev"
+            test -f "$curr"
+            work="v96_work/${division}"
+            mkdir -p "$work"
+            python verify_historical_venues.py --games "$prev" --division "$division" --out "$work/venues_2024.csv"
+            python verify_historical_venues.py --games "$curr" --division "$division" --out "$work/venues_2025.csv"
+            python historical_efficiency_test.py --input "$curr" --output-dir "$work/efficiency"
+            python reconstruct_courtside_v90.py --games "$curr" --efficiency "$work/efficiency/historical_efficiency_predictions.csv" --venues "$work/venues_2025.csv" --out "$work/v90"
+            python blowout_research_v91.py --games "$curr" --venues "$work/venues_2025.csv" --predictions "$work/v90/same_game_reconstructed_predictions.csv" --out "$work/v91"
+            extra=()
+            if test -f "data/roster_evidence/2025-26_${division}_preseason_verified.csv"; then
+              extra=(--roster-evidence "data/roster_evidence/2025-26_${division}_preseason_verified.csv")
+            fi
+            python early_season_prior_v96.py --prior-games "$prev" --current-games "$curr" --prior-venues "$work/venues_2024.csv" --current-venues "$work/venues_2025.csv" --candidates "$work/v91/candidate_game_predictions.csv.gz" --division "$division" --out "v96_results/${division}" "${extra[@]}"
+            {
+              echo "## V96 ${division}"
+              echo 'Research only; 2025-26 is not a fresh holdout. Matched games only.'
+              echo '```json'
+              cat "v96_results/${division}/report.json"
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: courtside-v96-early-season-prior-research
+          path: v96_results/
+          if-no-files-found: warn
