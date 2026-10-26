@@ -1,5 +1,6 @@
 """Courtside V54 team profile presentation. No impact on ratings or forecasts."""
 from __future__ import annotations
+from preseason_profile_v101 import render_preseason_profile_v101
 import html
 import re
 import pandas as pd
@@ -73,6 +74,8 @@ def render_team_profile(*, team, team_id, league, sport, ratings, games, prelimi
     raw_stats = merge_team_stats(team_raw_stats(games,team_id,league), team_id, league)
     tabs=st.tabs(['Overview','Schedule','Roster','Analytics','Compare'])
     with tabs[0]:
+        # V101: descriptive preseason team context, no model changes.
+        render_preseason_profile_v101(team_id=team_id, division=league, rating=rating, games=games)
         tg=_team_games(games,team_id)
         finals=tg[tg['Status'].astype(str).str.lower().str.contains('final')] if not tg.empty and 'Status' in tg else pd.DataFrame()
         wins=losses=0
