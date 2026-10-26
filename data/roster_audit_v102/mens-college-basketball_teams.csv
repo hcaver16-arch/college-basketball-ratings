@@ -1,0 +1,363 @@
+division,team_id,team,state,current_roster_players,prior_roster_players,prior_player_stats_rows,boxscores_parsed,completed_games_in_feed,archive_ready_unverified,issues,details
+mens-college-basketball,2000,Abilene Christian Wildcats,collected,15,9,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2005,Air Force Falcons,collected,20,15,17,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2006,Akron Zips,collected,15,13,13,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2010,Alabama A&M Bulldogs,collected,15,8,14,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,333,Alabama Crimson Tide,collected,15,12,18,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2011,Alabama State Hornets,collected,15,7,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2016,Alcorn State Braves,collected,15,3,11,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,44,American University Eagles,collected,17,14,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2026,App State Mountaineers,collected,18,14,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,9,Arizona State Sun Devils,collected,13,13,12,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,12,Arizona Wildcats,collected,16,10,14,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,8,Arkansas Razorbacks,collected,15,11,13,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2032,Arkansas State Red Wolves,collected,15,10,11,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2029,Arkansas-Pine Bluff Golden Lions,collected,13,15,15,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,349,Army Black Knights,collected,16,13,18,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2,Auburn Tigers,collected,17,14,15,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2046,Austin Peay Governors,collected,12,7,13,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,252,BYU Cougars,collected,15,11,14,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2050,Ball State Cardinals,collected,14,6,14,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,239,Baylor Bears,collected,15,11,12,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,91,Bellarmine Knights,collected,16,11,15,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2057,Belmont Bruins,collected,14,11,15,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2065,Bethune-Cookman Wildcats,collected,15,3,15,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2066,Binghamton Bearcats,collected,15,10,11,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,68,Boise State Broncos,collected,16,13,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,103,Boston College Eagles,collected,14,14,13,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,104,Boston University Terriers,collected,15,11,13,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,189,Bowling Green Falcons,collected,15,9,15,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,71,Bradley Braves,collected,15,10,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,225,Brown Bears,collected,18,13,13,27.0,27.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2803,Bryant Bulldogs,collected,17,14,18,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2083,Bucknell Bison,collected,17,11,14,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2084,Buffalo Bulls,collected,15,10,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2086,Butler Bulldogs,collected,15,12,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,13,Cal Poly Mustangs,collected,15,14,15,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2934,Cal State Bakersfield Roadrunners,collected,14,2,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2239,Cal State Fullerton Titans,collected,13,17,12,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2463,Cal State Northridge Matadors,collected,16,8,13,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2856,California Baptist Lancers,collected,15,8,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,25,California Golden Bears,collected,18,12,16,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2097,Campbell Fighting Camels,collected,16,3,12,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2099,Canisius Golden Griffins,collected,14,6,16,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2110,Central Arkansas Bears,collected,15,11,15,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2115,Central Connecticut Blue Devils,collected,16,11,14,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2117,Central Michigan Chippewas,collected,15,8,12,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,232,Charleston Cougars,collected,15,12,16,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2127,Charleston Southern Buccaneers,collected,13,6,15,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2429,Charlotte 49ers,collected,12,9,15,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,236,Chattanooga Mocs,collected,17,11,15,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2130,Chicago State Cougars,collected,14,17,15,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2132,Cincinnati Bearcats,collected,15,9,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,228,Clemson Tigers,collected,14,10,12,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,325,Cleveland State Vikings,collected,14,6,14,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,324,Coastal Carolina Chanticleers,collected,15,7,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2142,Colgate Raiders,collected,14,13,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,38,Colorado Buffaloes,collected,16,13,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,36,Colorado State Rams,collected,15,13,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,171,Columbia Lions,collected,18,15,14,28.0,28.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2154,Coppin State Eagles,collected,16,11,15,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,172,Cornell Big Red,collected,19,16,17,28.0,28.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,156,Creighton Bluejays,collected,15,14,15,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,159,Dartmouth Big Green,collected,14,10,14,27.0,27.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2166,Davidson Wildcats,collected,15,15,16,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2168,Dayton Flyers,collected,17,12,14,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,305,DePaul Blue Demons,collected,16,13,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,48,Delaware Blue Hens,collected,15,11,14,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2169,Delaware State Hornets,collected,14,8,15,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2172,Denver Pioneers,collected,14,5,12,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2174,Detroit Mercy Titans,collected,15,11,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2181,Drake Bulldogs,collected,14,10,10,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2182,Drexel Dragons,collected,15,11,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,150,Duke Blue Devils,collected,15,9,12,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2184,Duquesne Dukes,collected,16,12,16,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,151,East Carolina Pirates,collected,14,11,13,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2193,East Tennessee State Buccaneers,collected,14,7,13,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2837,East Texas A&M Lions,collected,15,7,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2197,Eastern Illinois Panthers,collected,15,9,12,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2198,Eastern Kentucky Colonels,collected,15,8,12,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2199,Eastern Michigan Eagles,collected,14,4,14,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,331,Eastern Washington Eagles,collected,14,7,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2210,Elon Phoenix,collected,16,9,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,339,Evansville Purple Aces,collected,15,7,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2217,Fairfield Stags,collected,17,13,15,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,161,Fairleigh Dickinson Knights,collected,16,7,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,50,Florida A&M Rattlers,collected,15,4,15,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2226,Florida Atlantic Owls,collected,15,15,14,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,57,Florida Gators,collected,15,14,14,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,526,Florida Gulf Coast Eagles,collected,16,11,13,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2229,Florida International Panthers,collected,15,7,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,52,Florida State Seminoles,collected,15,9,12,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2230,Fordham Rams,collected,15,11,16,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,278,Fresno State Bulldogs,collected,14,11,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,231,Furman Paladins,collected,16,12,14,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2241,Gardner-Webb Runnin' Bulldogs,collected,14,7,16,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2244,George Mason Patriots,collected,17,12,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,45,George Washington Revolutionaries,collected,16,11,12,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,46,Georgetown Hoyas,collected,15,13,15,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,61,Georgia Bulldogs,collected,15,12,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,290,Georgia Southern Eagles,collected,14,7,13,37.0,37.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2247,Georgia State Panthers,collected,15,10,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,59,Georgia Tech Yellow Jackets,collected,15,12,13,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2250,Gonzaga Bulldogs,collected,15,9,14,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2755,Grambling Tigers,collected,14,3,14,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2253,Grand Canyon Lopes,collected,17,11,12,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2739,Green Bay Phoenix,collected,16,10,15,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2261,Hampton Pirates,collected,17,7,15,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,108,Harvard Crimson,collected,20,15,16,29.0,29.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,62,Hawai'i Rainbow Warriors,collected,14,6,12,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2272,High Point Panthers,collected,17,9,15,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2275,Hofstra Pride,collected,15,8,12,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,107,Holy Cross Crusaders,collected,16,12,16,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2277,Houston Christian Huskies,collected,15,6,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,248,Houston Cougars,collected,14,8,13,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,47,Howard Bison,collected,15,12,16,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,85,IU Indianapolis Jaguars,collected,14,6,15,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,304,Idaho State Bengals,collected,16,7,14,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,70,Idaho Vandals,collected,16,9,12,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,356,Illinois Fighting Illini,collected,14,10,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2287,Illinois State Redbirds,collected,15,10,12,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2916,Incarnate Word Cardinals,collected,15,5,14,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,84,Indiana Hoosiers,collected,17,12,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,282,Indiana State Sycamores,collected,16,8,15,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,314,Iona Gaels,collected,17,10,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2294,Iowa Hawkeyes,collected,14,11,12,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,66,Iowa State Cyclones,collected,15,11,13,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2296,Jackson State Tigers,collected,17,12,15,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,294,Jacksonville Dolphins,collected,14,8,17,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,55,Jacksonville State Gamecocks,collected,15,7,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,256,James Madison Dukes,collected,15,6,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,140,Kansas City Roos,collected,15,6,12,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2305,Kansas Jayhawks,collected,15,12,15,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2306,Kansas State Wildcats,collected,14,10,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,338,Kennesaw State Owls,collected,15,12,15,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2309,Kent State Golden Flashes,collected,15,14,16,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,96,Kentucky Wildcats,collected,14,12,14,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2443,LSU New Orleans Privateers,collected,17,10,15,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,99,LSU Tigers,collected,14,8,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2325,La Salle Explorers,collected,18,11,16,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,322,Lafayette Leopards,collected,16,15,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2320,Lamar Cardinals,collected,14,4,12,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2330,Le Moyne Dolphins,collected,16,10,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2329,Lehigh Mountain Hawks,collected,15,11,13,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2335,Liberty Flames,collected,15,8,15,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,288,Lipscomb Bisons,collected,16,11,11,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2031,Little Rock Trojans,collected,16,6,11,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,299,Long Beach State Beach,collected,15,10,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,112358,Long Island University Sharks,collected,14,5,14,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2344,Longwood Lancers,collected,15,10,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,309,Louisiana Ragin' Cajuns,collected,16,12,15,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2348,Louisiana Tech Bulldogs,collected,12,9,14,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,97,Louisville Cardinals,collected,13,6,14,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2350,Loyola Chicago Ramblers,collected,16,10,16,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2352,Loyola Maryland Greyhounds,collected,16,11,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2351,Loyola Marymount Lions,collected,17,11,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,311,Maine Black Bears,collected,15,10,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2363,Manhattan Jaspers,collected,18,14,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2368,Marist Red Foxes,collected,14,7,14,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,269,Marquette Golden Eagles,collected,16,14,15,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,276,Marshall Thundering Herd,collected,15,9,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2379,Maryland Eastern Shore Hawks,collected,15,4,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,120,Maryland Terrapins,collected,16,9,12,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,113,Massachusetts Minutemen,collected,14,9,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2377,McNeese Cowboys,collected,16,11,11,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,235,Memphis Tigers,collected,15,8,15,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2382,Mercer Bears,collected,15,7,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2385,Mercyhurst Lakers,collected,13,9,14,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2771,Merrimack Warriors,collected,15,10,12,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,193,Miami (OH) RedHawks,collected,17,14,15,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2390,Miami Hurricanes,collected,15,10,12,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,127,Michigan State Spartans,collected,15,12,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,130,Michigan Wolverines,collected,17,10,14,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2393,Middle Tennessee Blue Raiders,collected,14,8,12,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,270,Milwaukee Panthers,collected,15,10,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,135,Minnesota Golden Gophers,collected,15,11,12,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,344,Mississippi State Bulldogs,collected,15,10,12,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2400,Mississippi Valley State Delta Devils,collected,12,2,16,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2623,Missouri State Bears,collected,15,7,13,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,142,Missouri Tigers,collected,15,10,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2405,Monmouth Hawks,collected,17,12,16,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,149,Montana Grizzlies,collected,15,9,13,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,147,Montana State Bobcats,collected,16,12,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2413,Morehead State Eagles,collected,14,8,12,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2415,Morgan State Bears,collected,14,8,15,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,116,Mount St. Mary's Mountaineers,collected,16,8,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,93,Murray State Racers,collected,14,12,11,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,152,NC State Wolfpack,collected,14,11,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2885,NJIT Highlanders,collected,13,12,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2426,Navy Midshipmen,collected,25,12,17,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,158,Nebraska Cornhuskers,collected,15,12,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2440,Nevada Wolf Pack,collected,13,9,14,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,160,New Hampshire Wildcats,collected,15,10,14,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2441,New Haven Chargers,collected,20,16,17,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,167,New Mexico Lobos,collected,12,10,12,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,166,New Mexico State Aggies,collected,15,5,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,315,Niagara Purple Eagles,collected,14,7,13,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2447,Nicholls Colonels,collected,14,3,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2450,Norfolk State Spartans,collected,13,3,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2453,North Alabama Lions,collected,15,7,12,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2448,North Carolina A&T Aggies,collected,15,11,12,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2428,North Carolina Central Eagles,collected,15,2,16,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,153,North Carolina Tar Heels,collected,16,14,16,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,155,North Dakota Fighting Hawks,collected,14,9,15,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2449,North Dakota State Bison,collected,16,10,13,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2454,North Florida Ospreys,collected,14,7,12,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,249,North Texas Mean Green,collected,12,9,12,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,111,Northeastern Huskies,collected,14,13,14,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2464,Northern Arizona Lumberjacks,collected,15,8,14,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2458,Northern Colorado Bears,collected,15,8,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2459,Northern Illinois Huskies,collected,16,10,15,30.0,30.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2460,Northern Iowa Panthers,collected,14,11,12,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,94,Northern Kentucky Norse,collected,13,8,12,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2466,Northwestern State Demons,collected,14,8,13,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,77,Northwestern Wildcats,collected,14,12,13,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,87,Notre Dame Fighting Irish,collected,16,12,14,31.0,31.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2473,Oakland Golden Grizzlies,collected,15,8,11,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,195,Ohio Bobcats,collected,15,10,12,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,194,Ohio State Buckeyes,collected,15,11,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,201,Oklahoma Sooners,collected,14,9,14,34.0,34.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,197,Oklahoma State Cowboys,collected,15,10,15,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,295,Old Dominion Monarchs,collected,17,11,14,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,145,Ole Miss Rebels,collected,15,12,15,35.0,35.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2437,Omaha Mavericks,collected,15,9,12,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,198,Oral Roberts Golden Eagles,collected,15,10,12,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2483,Oregon Ducks,collected,14,13,15,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,204,Oregon State Beavers,collected,13,12,14,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,279,Pacific Tigers,collected,16,10,13,33.0,33.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,213,Penn State Nittany Lions,collected,14,10,12,32.0,32.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,219,Pennsylvania Quakers,collected,19,17,17,29.0,29.0,True,,All discovered completed box scores parsed; full season/roster unverified
+mens-college-basketball,2492,Pepperdine Waves,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,221,Pittsburgh Panthers,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2501,Portland Pilots,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2502,Portland State Vikings,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2504,Prairie View A&M Panthers,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2506,Presbyterian Blue Hose,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,163,Princeton Tigers,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2507,Providence Friars,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2509,Purdue Boilermakers,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2870,Purdue Fort Wayne Mastodons,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2514,Quinnipiac Bobcats,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2515,Radford Highlanders,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,227,Rhode Island Rams,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,242,Rice Owls,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,257,Richmond Spiders,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2520,Rider Broncs,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2523,Robert Morris Colonials,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,164,Rutgers Scarlet Knights,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2545,SE Louisiana Lions,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2565,SIU Edwardsville Cougars,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2567,SMU Mustangs,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,16,Sacramento State Hornets,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2529,Sacred Heart Pioneers,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2603,Saint Joseph's Hawks,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,139,Saint Louis Billikens,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2608,Saint Mary's Gaels,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2612,Saint Peter's Peacocks,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2534,Sam Houston Bearkats,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2535,Samford Bulldogs,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,21,San Diego State Aztecs,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,301,San Diego Toreros,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2539,San Francisco Dons,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,23,San José State Spartans,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2541,Santa Clara Broncos,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2547,Seattle U Redhawks,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2550,Seton Hall Pirates,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2561,Siena Saints,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,6,South Alabama Jaguars,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2579,South Carolina Gamecocks,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2569,South Carolina State Bulldogs,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2908,South Carolina Upstate Spartans,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,233,South Dakota Coyotes,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2571,South Dakota State Jackrabbits,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,58,South Florida Bulls,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2546,Southeast Missouri State Redhawks,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,79,Southern Illinois Salukis,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2582,Southern Jaguars,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2572,Southern Miss Golden Eagles,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,253,Southern Utah Thunderbirds,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,179,St. Bonaventure Bonnies,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2599,St. John's Red Storm,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2900,St. Thomas Tommies,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,24,Stanford Cardinal,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2617,Stephen F. Austin Lumberjacks,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,56,Stetson Hatters,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,284,Stonehill Skyhawks,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2619,Stony Brook Seawolves,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,183,Syracuse Orange,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2628,TCU Horned Frogs,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2627,Tarleton State Texans,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,218,Temple Owls,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2634,Tennessee State Tigers,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2635,Tennessee Tech Golden Eagles,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2633,Tennessee Volunteers,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,245,Texas A&M Aggies,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,357,Texas A&M-Corpus Christi Islanders,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,251,Texas Longhorns,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2640,Texas Southern Tigers,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,326,Texas State Bobcats,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2641,Texas Tech Red Raiders,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2643,The Citadel Bulldogs,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2649,Toledo Rockets,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,119,Towson Tigers,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2653,Troy Trojans,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2655,Tulane Green Wave,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,202,Tulsa Golden Hurricane,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,5,UAB Blazers,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,399,UAlbany Great Danes,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,302,UC Davis Aggies,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,300,UC Irvine Anteaters,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,27,UC Riverside Highlanders,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,28,UC San Diego Tritons,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2540,UC Santa Barbara Gauchos,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2116,UCF Knights,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,26,UCLA Bruins,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,41,UConn Huskies,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,82,UIC Flames,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2433,UL Monroe Warhawks,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2378,UMBC Retrievers,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2349,UMass Lowell River Hawks,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2427,UNC Asheville Bulldogs,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2430,UNC Greensboro Spartans,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,350,UNC Wilmington Seahawks,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2439,UNLV Rebels,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,30,USC Trojans,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,250,UT Arlington Mavericks,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2630,UT Martin Skyhawks,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,292,UT Rio Grande Valley Vaqueros,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2638,UTEP Miners,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2636,UTSA Roadrunners,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,328,Utah State Aggies,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,3101,Utah Tech Trailblazers,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,254,Utah Utes,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,3084,Utah Valley Wolverines,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2670,VCU Rams,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2678,VMI Keydets,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2674,Valparaiso Beacons,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,238,Vanderbilt Commodores,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,261,Vermont Catamounts,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,222,Villanova Wildcats,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,258,Virginia Cavaliers,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,259,Virginia Tech Hokies,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2681,Wagner Seahawks,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,154,Wake Forest Demon Deacons,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,264,Washington Huskies,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,265,Washington State Cougars,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2692,Weber State Wildcats,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2697,West Florida Argonauts,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2698,West Georgia Wolves,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,277,West Virginia Mountaineers,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2717,Western Carolina Catamounts,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2710,Western Illinois Leathernecks,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,98,Western Kentucky Hilltoppers,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2711,Western Michigan Broncos,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2724,Wichita State Shockers,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2729,William & Mary Tribe,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2737,Winthrop Eagles,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,275,Wisconsin Badgers,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2747,Wofford Terriers,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2750,Wright State Raiders,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2751,Wyoming Cowboys,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2752,Xavier Musketeers,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,43,Yale Bulldogs,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
+mens-college-basketball,2754,Youngstown State Penguins,unattempted,0,0,0,,,False,missing_current_roster;missing_prior_roster;missing_prior_player_stats;boxscore_coverage_unverified_or_partial;collection_state_unattempted,
