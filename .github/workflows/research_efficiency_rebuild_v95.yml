@@ -1,0 +1,49 @@
+name: Research possession-aware efficiency V95
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install numpy pandas requests
+      - name: Generate venue-verified same-game candidate predictions and run V95
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile efficiency_rebuild_v95.py
+          for division in mens womens; do
+            for season in 2025-26 2024-25; do
+              games="data/historical_efficiency/${season}_${division}_paired_games.csv.gz"
+              test -f "$games"
+              folder="v95_work/${division}/${season}"
+              mkdir -p "$folder"
+              python verify_historical_venues.py --games "$games" --division "$division" --out "$folder/venues.csv"
+              python historical_efficiency_test.py --input "$games" --output-dir "$folder/efficiency"
+              python reconstruct_courtside_v90.py --games "$games" --efficiency "$folder/efficiency/historical_efficiency_predictions.csv" --venues "$folder/venues.csv" --out "$folder/v90"
+              python blowout_research_v91.py --games "$games" --venues "$folder/venues.csv" --predictions "$folder/v90/same_game_reconstructed_predictions.csv" --out "$folder/v91"
+              python efficiency_rebuild_v95.py --games "$games" --venues "$folder/venues.csv" --candidates "$folder/v91/candidate_game_predictions.csv.gz" --division "$division" --season "$season" --out-dir "v95_results/${division}/${season}"
+              {
+                echo "## V95 ${division} ${season}"
+                echo 'Research-only; not the production baseline.'
+                echo '```json'
+                cat "v95_results/${division}/${season}/report.json"
+                echo '```'
+              } >> "$GITHUB_STEP_SUMMARY"
+            done
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: courtside-v95-possession-aware-research
+          path: v95_results/
+          if-no-files-found: warn
