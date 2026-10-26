@@ -1,0 +1,28 @@
+name: Install Model Lab prospective tracking V98
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate read-only dashboard
+        run: python -m py_compile prospective_model_lab_v98.py install_model_lab_v98.py
+      - name: Safely integrate existing Model Lab
+        run: python install_model_lab_v98.py --app app.py
+      - name: Commit Model Lab integration
+        run: |
+          if git diff --quiet -- app.py; then
+            echo 'App already integrated.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add app.py
+          git commit -m 'V98: show prospective tracker inside Model Lab'
+          git push
