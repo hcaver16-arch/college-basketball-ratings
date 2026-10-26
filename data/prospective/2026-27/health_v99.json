@@ -1,0 +1,49 @@
+{
+  "version": 99,
+  "season": "2026-27",
+  "checked_at_utc": "2026-10-26T18:30:30+00:00",
+  "status": "ok",
+  "divisions": {
+    "mens": {
+      "status": "ok",
+      "games_seen": 0,
+      "upcoming_12h": 0,
+      "upcoming_3h": 0,
+      "official_forecasts_total": 0,
+      "final_results_total": 0,
+      "issues": [
+        {
+          "severity": "info",
+          "code": "NO_SCHEDULED_GAMES",
+          "message": "No games returned for the inspected days; normal before the season",
+          "count": 0,
+          "examples": []
+        }
+      ]
+    },
+    "womens": {
+      "status": "ok",
+      "games_seen": 0,
+      "upcoming_12h": 0,
+      "upcoming_3h": 0,
+      "official_forecasts_total": 0,
+      "final_results_total": 0,
+      "issues": [
+        {
+          "severity": "info",
+          "code": "NO_SCHEDULED_GAMES",
+          "message": "No games returned for the inspected days; normal before the season",
+          "count": 0,
+          "examples": []
+        }
+      ]
+    }
+  },
+  "scoreboard_fetch_errors": [],
+  "notes": [
+    "Read-only inspection of saved ratings and immutable V97 records.",
+    "Schedule coverage is based on ESPN scoreboard; missing API dates cause critical status.",
+    "No completed games or stale preseason ratings are not alerts by themselves.",
+    "V97 must run separately; this workflow diagnoses but cannot guarantee every forecast is captured."
+  ]
+}
