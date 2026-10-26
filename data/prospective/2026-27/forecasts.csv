@@ -1,0 +1,1 @@
+season,division,game_id,game_start_utc,game_date_et,home_id,away_id,home_team,away_team,neutral,model_id,forecast_created_utc,ratings_snapshot_utc,snapshot_file,snapshot_sha256,home_rating,away_rating,predicted_home_margin,forecast_type
