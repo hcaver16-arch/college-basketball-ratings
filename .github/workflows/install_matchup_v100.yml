@@ -1,0 +1,29 @@
+name: Install Courtside matchup previews V100
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate and safely insert previews
+        run: |
+          python -m py_compile matchup_preview_v100.py install_matchup_v100.py
+          python install_matchup_v100.py --file matchup_analysis.py
+          python -m py_compile matchup_analysis.py
+      - name: Commit updated matchup UI
+        run: |
+          if git diff --quiet -- matchup_analysis.py; then
+            echo 'Matchup previews already installed.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add matchup_analysis.py
+          git commit -m 'V100: add descriptive pregame matchup previews'
+          git push
