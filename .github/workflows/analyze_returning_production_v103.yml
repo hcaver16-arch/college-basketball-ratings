@@ -1,0 +1,28 @@
+name: Analyze roster continuity and returning production V103
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  roster-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: python -m pip install pandas
+      - name: Analyze saved archive only
+        run: python returning_production_v103.py
+      - name: Show report
+        run: cat data/returning_production_v103/summary.json
+      - name: Save reports to repository
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/returning_production_v103/
+          if ! git diff --cached --quiet; then
+            git commit -m 'Update V103 roster continuity research reports'
+            git push
+          fi
