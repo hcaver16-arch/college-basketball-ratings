@@ -1,0 +1,80 @@
+name: Audit and complete roster archive V102
+on:
+  workflow_dispatch:
+    inputs:
+      batches:
+        description: 'Number of collection batches (1-12)'
+        required: false
+        default: '8'
+      batch_size:
+        description: 'Teams per division per batch (1-20)'
+        required: false
+        default: '12'
+      audit_only:
+        description: 'Skip collection; audit current archive only'
+        type: boolean
+        required: false
+        default: false
+permissions:
+  contents: write
+concurrency:
+  group: basketball-roster-archive
+  cancel-in-progress: false
+jobs:
+  collect-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install pandas requests
+      - name: Validate existing collector
+        run: |
+          test -f archive_roster_batch.py || { echo 'Missing archive_roster_batch.py. Install the existing roster collection pipeline first.'; exit 1; }
+          test -f roster_tracking.py || { echo 'Missing roster_tracking.py required by the collector.'; exit 1; }
+          test -f player_stats_import.py || { echo 'Missing player_stats_import.py required by the collector.'; exit 1; }
+          test -f roster_reconciliation.py || { echo 'Missing roster_reconciliation.py required by the collector.'; exit 1; }
+          test -f priority_schedule.py || { echo 'Missing priority_schedule.py required by the collector.'; exit 1; }
+      - name: Collect and commit resumable batches
+        env:
+          BATCHES: ${{ inputs.batches || '8' }}
+          BATCH_SIZE: ${{ inputs.batch_size || '12' }}
+          AUDIT_ONLY: ${{ inputs.audit_only || 'false' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          if [ "$AUDIT_ONLY" != 'true' ]; then
+            if ! [[ "$BATCHES" =~ ^[0-9]+$ ]] || ((BATCHES < 1 || BATCHES > 12)); then echo 'batches must be 1-12'; exit 1; fi
+            if ! [[ "$BATCH_SIZE" =~ ^[0-9]+$ ]] || ((BATCH_SIZE < 1 || BATCH_SIZE > 20)); then echo 'batch_size must be 1-20'; exit 1; fi
+            for (( i=1; i<=BATCHES; i++ )); do
+              echo "=== Roster batch $i/$BATCHES ==="
+              python archive_roster_batch.py --batch "$BATCH_SIZE" --sport both
+              git add data/
+              if ! git diff --cached --quiet; then
+                git commit -m "V102 roster archive batch $i"
+                git push
+              fi
+            done
+          fi
+      - name: Audit current roster coverage
+        run: python roster_coverage_v102.py
+      - name: Save and publish audit report
+        shell: bash
+        run: |
+          git add data/roster_audit_v102/
+          if ! git diff --cached --quiet; then
+            git commit -m 'Update V102 roster coverage audit'
+            git push
+          fi
+          cat data/roster_audit_v102/summary.json >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: roster-coverage-v102
+          path: data/roster_audit_v102/
+          if-no-files-found: ignore
