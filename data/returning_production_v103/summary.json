@@ -1,0 +1,98 @@
+{
+  "version": 103,
+  "generated_at_utc": "2026-10-26T21:34:21.677110+00:00",
+  "season": "2026-27",
+  "notice": "Research only. Snapshot-matched IDs are not verified returning production; no origin inference or rating changes.",
+  "divisions": {
+    "mens-college-basketball": {
+      "archive_team_ids": 362,
+      "with_current_roster": 362,
+      "with_prior_roster": 361,
+      "with_prior_player_stats": 361,
+      "with_complete_reported_boxscore_coverage": 361,
+      "returning_minutes_share_available": 361,
+      "known_exceptions": [
+        {
+          "division": "mens-college-basketball",
+          "team_id": "2697",
+          "team": "West Florida Argonauts",
+          "current_roster_players": 15,
+          "prior_roster_players": 0,
+          "prior_stats_players": 0,
+          "matched_returning_players": 0,
+          "unmatched_current_players_NOT_CONFIRMED_TRANSFERS": 15,
+          "prior_players_not_on_current_snapshot": 0,
+          "evidence_quality": "unavailable",
+          "completed_games_in_feed": 0,
+          "parsed_games": 0,
+          "returning_minutes_pct_documented": null,
+          "returning_points_pct_documented": null,
+          "returning_rebounds_pct_documented": null,
+          "returning_assists_pct_documented": null,
+          "caveats": [
+            "missing prior roster: no confirmed player continuity",
+            "historical box-score coverage incomplete or unverified",
+            "no historical player totals",
+            "West Florida transition: 2025-26 D2 history not in ESPN D1 archive; never treat missing history as zero"
+          ]
+        }
+      ]
+    },
+    "womens-college-basketball": {
+      "archive_team_ids": 362,
+      "with_current_roster": 362,
+      "with_prior_roster": 361,
+      "with_prior_player_stats": 361,
+      "with_complete_reported_boxscore_coverage": 359,
+      "returning_minutes_share_available": 361,
+      "known_exceptions": [
+        {
+          "division": "womens-college-basketball",
+          "team_id": "2426",
+          "team": "Navy Midshipmen",
+          "current_roster_players": 14,
+          "prior_roster_players": 11,
+          "prior_stats_players": 15,
+          "matched_returning_players": 11,
+          "unmatched_current_players_NOT_CONFIRMED_TRANSFERS": 3,
+          "prior_players_not_on_current_snapshot": 0,
+          "evidence_quality": "partial_or_unverified_boxscores",
+          "completed_games_in_feed": 32,
+          "parsed_games": 31,
+          "returning_minutes_pct_documented": 78.22,
+          "returning_points_pct_documented": 82.89,
+          "returning_rebounds_pct_documented": 70.1,
+          "returning_assists_pct_documented": 80.74,
+          "caveats": [
+            "historical box-score coverage incomplete or unverified",
+            "Navy: ESPN game 401823071 player box score missing in V102.1; shares provisional"
+          ]
+        },
+        {
+          "division": "womens-college-basketball",
+          "team_id": "2697",
+          "team": "West Florida Argonauts",
+          "current_roster_players": 13,
+          "prior_roster_players": 0,
+          "prior_stats_players": 0,
+          "matched_returning_players": 0,
+          "unmatched_current_players_NOT_CONFIRMED_TRANSFERS": 13,
+          "prior_players_not_on_current_snapshot": 0,
+          "evidence_quality": "unavailable",
+          "completed_games_in_feed": 0,
+          "parsed_games": 0,
+          "returning_minutes_pct_documented": null,
+          "returning_points_pct_documented": null,
+          "returning_rebounds_pct_documented": null,
+          "returning_assists_pct_documented": null,
+          "caveats": [
+            "missing prior roster: no confirmed player continuity",
+            "historical box-score coverage incomplete or unverified",
+            "no historical player totals",
+            "West Florida transition: 2025-26 D2 history not in ESPN D1 archive; never treat missing history as zero"
+          ]
+        }
+      ]
+    }
+  }
+}
