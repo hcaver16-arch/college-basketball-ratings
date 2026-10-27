@@ -1,0 +1,29 @@
+name: Audit rating engine integrity V111
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: courtside-v111-rating-audit
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Analyze checked-out source and saved rating snapshots
+        run: python audit_rating_engine_v111.py
+      - name: Commit research reports only
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/rating_audit_v111/summary.json data/rating_audit_v111/report.md
+          if ! git diff --cached --quiet; then
+            git commit -m "Add V111 read-only rating audit"
+            git push
+          fi
