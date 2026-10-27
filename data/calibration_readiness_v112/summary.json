@@ -1,0 +1,305 @@
+{
+  "version": 112,
+  "created_utc": "2026-10-27T16:33:10.366390+00:00",
+  "status": "RESEARCH_ONLY_CALIBRATION_READINESS",
+  "production_modified": false,
+  "rating_engine": {
+    "exists": true,
+    "sha256": "3e058fea5aaacc0f0a8870ead49fe9a54bfe37054b561e42f2d9ef2bad236adb",
+    "v111_expected_sha256": "3e058fea5aaacc0f0a8870ead49fe9a54bfe37054b561e42f2d9ef2bad236adb",
+    "source_changed_since_v111": false,
+    "mentions_prior_roster_adjustment": true,
+    "id_cast_occurrences": 6
+  },
+  "ratings": {
+    "mens-college-basketball": {
+      "exists": true,
+      "path": "/home/runner/work/college-basketball-ratings/college-basketball-ratings/data/ratings/mens-college-basketball/latest.csv.gz",
+      "kind": "latest_ratings",
+      "rows": 727,
+      "columns": [
+        "Rank",
+        "Team ID",
+        "Team",
+        "Prior team rating",
+        "On-court rating",
+        "Games played",
+        "Preseason roster adjustment",
+        "Preseason rating",
+        "On-court weight",
+        "Preseason weight",
+        "Current power",
+        "Rating change",
+        "Division",
+        "As of UTC",
+        "Rating source"
+      ],
+      "time_column": null,
+      "start_column": null,
+      "game_id_column": null,
+      "preseason_roster_adjustment": {
+        "column": "Preseason roster adjustment",
+        "nonzero_rows": 0,
+        "invalid_rows": 0,
+        "mean_absolute": 0.0
+      },
+      "double_counting_risk": "NO NONZERO SAVED ADJUSTMENTS DETECTED; overlap not otherwise ruled out",
+      "team_id_sample": [
+        "130",
+        "12",
+        "150"
+      ],
+      "latest_is_valid_historical_training_archive": false
+    },
+    "womens-college-basketball": {
+      "exists": true,
+      "path": "/home/runner/work/college-basketball-ratings/college-basketball-ratings/data/ratings/womens-college-basketball/latest.csv.gz",
+      "kind": "latest_ratings",
+      "rows": 663,
+      "columns": [
+        "Rank",
+        "Team ID",
+        "Team",
+        "Prior team rating",
+        "On-court rating",
+        "Games played",
+        "Preseason roster adjustment",
+        "Preseason rating",
+        "On-court weight",
+        "Preseason weight",
+        "Current power",
+        "Rating change",
+        "Division",
+        "As of UTC",
+        "Rating source"
+      ],
+      "time_column": null,
+      "start_column": null,
+      "game_id_column": null,
+      "preseason_roster_adjustment": {
+        "column": "Preseason roster adjustment",
+        "nonzero_rows": 0,
+        "invalid_rows": 0,
+        "mean_absolute": 0.0
+      },
+      "double_counting_risk": "NO NONZERO SAVED ADJUSTMENTS DETECTED; overlap not otherwise ruled out",
+      "team_id_sample": [
+        "41",
+        "26",
+        "2579"
+      ],
+      "latest_is_valid_historical_training_archive": false
+    }
+  },
+  "prospective_inputs": {
+    "v97_forecasts": {
+      "exists": true,
+      "path": "/home/runner/work/college-basketball-ratings/college-basketball-ratings/data/prospective/2026-27/forecasts.csv",
+      "kind": "existing_archive",
+      "rows": 0,
+      "columns": [
+        "season",
+        "division",
+        "game_id",
+        "game_start_utc",
+        "game_date_et",
+        "home_id",
+        "away_id",
+        "home_team",
+        "away_team",
+        "neutral",
+        "model_id",
+        "forecast_created_utc",
+        "ratings_snapshot_utc",
+        "snapshot_file",
+        "snapshot_sha256",
+        "home_rating",
+        "away_rating",
+        "predicted_home_margin",
+        "forecast_type"
+      ],
+      "time_column": "forecast_created_utc",
+      "start_column": "game_start_utc",
+      "game_id_column": "game_id",
+      "timestamp_parseable": 0,
+      "timestamp_missing_or_invalid": 0,
+      "pregame_timing": {
+        "before_tipoff": 0,
+        "at_or_after_tipoff": 0,
+        "unverifiable": 0
+      },
+      "distinct_game_ids": 0,
+      "repeated_game_id_rows": 0
+    },
+    "v97_results": {
+      "exists": true,
+      "path": "/home/runner/work/college-basketball-ratings/college-basketball-ratings/data/prospective/2026-27/results.csv",
+      "kind": "existing_archive",
+      "rows": 0,
+      "columns": [
+        "season",
+        "division",
+        "game_id",
+        "game_start_utc",
+        "result_checked_utc",
+        "home_score",
+        "away_score",
+        "actual_home_margin",
+        "status"
+      ],
+      "time_column": null,
+      "start_column": "game_start_utc",
+      "game_id_column": "game_id",
+      "distinct_game_ids": 0,
+      "repeated_game_id_rows": 0
+    },
+    "v109_pairs": {
+      "exists": true,
+      "path": "/home/runner/work/college-basketball-ratings/college-basketball-ratings/data/prospective/2026-27/roster_pairs_v109.csv",
+      "kind": "existing_archive",
+      "rows": 0,
+      "columns": [
+        "season",
+        "division",
+        "game_id",
+        "game_start_utc",
+        "home_id",
+        "away_id",
+        "home_team",
+        "away_team",
+        "neutral",
+        "baseline_model_id",
+        "baseline_forecast_created_utc",
+        "paired_created_utc",
+        "ratings_snapshot_utc",
+        "baseline_snapshot_sha256",
+        "roster_snapshot_created_utc",
+        "roster_snapshot_sha256",
+        "baseline_predicted_home_margin",
+        "home_roster_adjustment",
+        "away_roster_adjustment",
+        "experimental_predicted_home_margin",
+        "model_id",
+        "experiment_note"
+      ],
+      "time_column": "paired_created_utc",
+      "start_column": "game_start_utc",
+      "game_id_column": "game_id",
+      "timestamp_parseable": 0,
+      "timestamp_missing_or_invalid": 0,
+      "pregame_timing": {
+        "before_tipoff": 0,
+        "at_or_after_tipoff": 0,
+        "unverifiable": 0
+      },
+      "distinct_game_ids": 0,
+      "repeated_game_id_rows": 0
+    }
+  },
+  "auxiliary_inputs": {
+    "v105_summary": {
+      "exists": false,
+      "path": "data/roster_sensitivity_v105/summary.json"
+    },
+    "v111_summary": {
+      "exists": true,
+      "path": "data/rating_audit_v111/summary.json"
+    }
+  },
+  "historical_file_manifest": {
+    "sample_files": [
+      {
+        "path": "data/prospective/2026-27/diagnostics_v110.json",
+        "size_bytes": 3122,
+        "looks_like_pregame_snapshot": false,
+        "historical_availability_verified": false
+      },
+      {
+        "path": "data/prospective/2026-27/forecasts.csv",
+        "size_bytes": 238,
+        "looks_like_pregame_snapshot": true,
+        "historical_availability_verified": false
+      },
+      {
+        "path": "data/prospective/2026-27/health_v99.json",
+        "size_bytes": 1414,
+        "looks_like_pregame_snapshot": false,
+        "historical_availability_verified": false
+      },
+      {
+        "path": "data/prospective/2026-27/results.csv",
+        "size_bytes": 107,
+        "looks_like_pregame_snapshot": false,
+        "historical_availability_verified": false
+      },
+      {
+        "path": "data/prospective/2026-27/roster_evaluation_v109.json",
+        "size_bytes": 1043,
+        "looks_like_pregame_snapshot": false,
+        "historical_availability_verified": false
+      },
+      {
+        "path": "data/prospective/2026-27/roster_pairs_v109.csv",
+        "size_bytes": 385,
+        "looks_like_pregame_snapshot": false,
+        "historical_availability_verified": false
+      },
+      {
+        "path": "data/prospective/2026-27/summary.json",
+        "size_bytes": 1088,
+        "looks_like_pregame_snapshot": false,
+        "historical_availability_verified": false
+      }
+    ],
+    "file_count_listed": 7,
+    "truncated": false,
+    "note": "Path/filename inspection only. Historical availability and lack of leakage are not established."
+  },
+  "decision": {
+    "can_run_historical_hyperparameter_search": false,
+    "why_historical_blocked": "No independently validated historical walk-forward dataset, per-game as-of ratings and matching period-correct roster snapshots have been demonstrated by this readiness audit.",
+    "can_run_paired_prospective_scoring": false,
+    "why_prospective_blocked": "Await locked forecasts created before tipoff and corresponding completed results; V112 does not manufacture a backtest.",
+    "roster_addition_risk": "Cannot rule out feature overlap from current files",
+    "eligible_parameter_grid": {
+      "home_advantage_points": [
+        2,
+        2.5,
+        3,
+        3.5,
+        4
+      ],
+      "ridge": [
+        4,
+        6,
+        8,
+        10,
+        12
+      ],
+      "margin_cap": [
+        25,
+        30,
+        40,
+        50
+      ],
+      "blend_full_weight_games": [
+        15,
+        20,
+        25,
+        30,
+        35
+      ],
+      "roster_scenario": [
+        "as_saved_no_extra",
+        "v105_extra_only_if_not_already_counted"
+      ],
+      "missing_prior": [
+        "missing_as_missing",
+        "zero_prior",
+        "conference_peer_research_only"
+      ]
+    },
+    "hyperparameter_selection_performed": false,
+    "backtest_metrics_computed": false
+  }
+}
