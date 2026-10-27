@@ -1,0 +1,65 @@
+{
+  "version": 117,
+  "status": "RESEARCH_ONLY_RESUMABLE_ESPN_EVIDENCE",
+  "generated_utc": "2026-10-27T21:37:25.570151Z",
+  "production_modified": false,
+  "target_per_stratum": 200,
+  "max_new_per_run": 200,
+  "source_stats": {
+    "2024-25/mens": {
+      "source": "data/historical_efficiency/2024-25_mens_paired_games.csv.gz",
+      "exists": true,
+      "valid_rows": 5759,
+      "conflicts": 0,
+      "target": 200
+    },
+    "2024-25/womens": {
+      "source": "data/historical_efficiency/2024-25_womens_paired_games.csv.gz",
+      "exists": true,
+      "valid_rows": 5584,
+      "conflicts": 0,
+      "target": 200
+    },
+    "2025-26/mens": {
+      "source": "data/historical_efficiency/2025-26_mens_paired_games.csv.gz",
+      "exists": true,
+      "valid_rows": 5752,
+      "conflicts": 0,
+      "target": 200
+    },
+    "2025-26/womens": {
+      "source": "data/historical_efficiency/2025-26_womens_paired_games.csv.gz",
+      "exists": true,
+      "valid_rows": 5623,
+      "conflicts": 0,
+      "target": 200
+    }
+  },
+  "target_games": 800,
+  "checkpoint_total_records": 200,
+  "target_records_present": 200,
+  "target_remaining": 600,
+  "new_requests_this_run": 200,
+  "new_outcomes_this_run": {
+    "ok": 200
+  },
+  "all_outcomes": {
+    "ok": 200
+  },
+  "team_id_mismatches": 0,
+  "score_mismatches": 0,
+  "eastern_date_disagreements": 0,
+  "venue_label_comparison": {
+    "not_comparable": 200
+  },
+  "independent_venue_verified": 0,
+  "first_final_availability_verified": 0,
+  "strict_replay_eligible": 0,
+  "warnings": [
+    "Retrospective ESPN response is not a record of first result publication.",
+    "ESPN neutralSite and archived Venue originate from data feeds that may be dependent; agreement is not independent corroboration.",
+    "America/New_York date is a comparison convention, not proof archive dates are ET.",
+    "Resuming needs evidence.csv persisted in research output directory between GitHub Actions runs.",
+    "No replay scoring or model tuning authorized."
+  ]
+}
