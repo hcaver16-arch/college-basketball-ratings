@@ -1,0 +1,89 @@
+{
+  "version": 110,
+  "as_of_utc": "2026-10-27T03:54:51.511611Z",
+  "season": "2026-27",
+  "status": "READ_ONLY_DIAGNOSTIC",
+  "production_modified": false,
+  "input_status": {
+    "v97_summary": "found",
+    "v109_summary": "found",
+    "v105_summary": "found",
+    "v97_forecasts": "found",
+    "v97_results": "found",
+    "v109_pairs": "found"
+  },
+  "v97_reported_today": {
+    "mens": {
+      "games_seen": 0,
+      "forecasts_created": 0,
+      "results_added": 0,
+      "official_ratings": "available",
+      "experimental_ratings": "not provided"
+    },
+    "womens": {
+      "games_seen": 0,
+      "forecasts_created": 0,
+      "results_added": 0,
+      "official_ratings": "available",
+      "experimental_ratings": "not provided"
+    }
+  },
+  "v109_reported_skips": {},
+  "divisions": {
+    "mens": {
+      "v97_total_forecasts": 0,
+      "v97_official_forecasts": 0,
+      "v97_unpaired_official_forecasts": 0,
+      "v109_locked_pairs": 0,
+      "v97_final_results": 0,
+      "v97_future_official_forecasts": 0,
+      "v97_future_forecasts_within_42h": 0,
+      "next_saved_forecast_game_start_utc": null,
+      "ratings_snapshot_exists": true,
+      "ratings_updated_utc": "2026-10-26T15:01:34.518570+00:00",
+      "ratings_age_hours": 12.89,
+      "ratings_fresh_48h": true,
+      "v105_roster_status": "available",
+      "v105_roster_team_count": 362,
+      "v109_unpaired_forecast_reasons": {},
+      "v97_last_run_info": {
+        "games_seen": 0,
+        "forecasts_created": 0,
+        "results_added": 0,
+        "official_ratings": "available",
+        "experimental_ratings": "not provided"
+      }
+    },
+    "womens": {
+      "v97_total_forecasts": 0,
+      "v97_official_forecasts": 0,
+      "v97_unpaired_official_forecasts": 0,
+      "v109_locked_pairs": 0,
+      "v97_final_results": 0,
+      "v97_future_official_forecasts": 0,
+      "v97_future_forecasts_within_42h": 0,
+      "next_saved_forecast_game_start_utc": null,
+      "ratings_snapshot_exists": true,
+      "ratings_updated_utc": "2026-10-26T15:01:34.991521+00:00",
+      "ratings_age_hours": 12.89,
+      "ratings_fresh_48h": true,
+      "v105_roster_status": "available",
+      "v105_roster_team_count": 362,
+      "v109_unpaired_forecast_reasons": {},
+      "v97_last_run_info": {
+        "games_seen": 0,
+        "forecasts_created": 0,
+        "results_added": 0,
+        "official_ratings": "available",
+        "experimental_ratings": "not provided"
+      }
+    }
+  },
+  "conclusions": [
+    "mens: no official V97 forecasts saved. Inspect V97 summary games_seen, forecasts_created and official_ratings; V97 only forecasts games within 42h of tipoff.",
+    "mens: latest V97 run saw zero games in its ESPN five-day scoreboard window.",
+    "womens: no official V97 forecasts saved. Inspect V97 summary games_seen, forecasts_created and official_ratings; V97 only forecasts games within 42h of tipoff.",
+    "womens: latest V97 run saw zero games in its ESPN five-day scoreboard window.",
+    "No saved forecast records. The diagnostic cannot establish whether games exist upstream; check V97 output in GitHub Actions."
+  ]
+}
