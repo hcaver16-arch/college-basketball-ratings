@@ -1,7 +1,7 @@
 {
   "version": 117,
   "status": "RESEARCH_ONLY_RESUMABLE_ESPN_EVIDENCE",
-  "generated_utc": "2026-10-27T21:41:16.544333Z",
+  "generated_utc": "2026-10-27T21:44:15.590049Z",
   "production_modified": false,
   "target_per_stratum": 200,
   "max_new_per_run": 200,
@@ -36,21 +36,22 @@
     }
   },
   "target_games": 800,
-  "checkpoint_total_records": 400,
-  "target_records_present": 400,
-  "target_remaining": 400,
+  "checkpoint_total_records": 600,
+  "target_records_present": 600,
+  "target_remaining": 200,
   "new_requests_this_run": 200,
   "new_outcomes_this_run": {
     "ok": 200
   },
   "all_outcomes": {
-    "ok": 400
+    "ok": 600
   },
   "team_id_mismatches": 0,
   "score_mismatches": 0,
   "eastern_date_disagreements": 0,
   "venue_label_comparison": {
-    "not_comparable": 400
+    "not_comparable": 400,
+    "labels_agree_NOT_independent_verification": 200
   },
   "independent_venue_verified": 0,
   "first_final_availability_verified": 0,
