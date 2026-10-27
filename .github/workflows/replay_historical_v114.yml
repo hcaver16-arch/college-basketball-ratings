@@ -1,0 +1,21 @@
+name: Research historical replay phase 1 V114
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy
+      - name: Build strict research-only historical replay
+        run: python replay_historical_v114.py --max-predictions 35
+      - uses: actions/upload-artifact@v4
+        with:
+          name: courtside-v114-replay-report
+          path: data/historical_replay_v114/
+          if-no-files-found: error
