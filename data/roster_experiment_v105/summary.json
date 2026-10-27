@@ -1,0 +1,38 @@
+{
+  "version": 105,
+  "generated_at_utc": "2026-10-27T02:39:48.778059+00:00",
+  "status": "RESEARCH_ONLY_UNCALIBRATED_SENSITIVITY_NOT_A_PREDICTIVE_MODEL",
+  "formula": "raw = .5*returning_minutes_fraction + .5*min(incoming_prior_minutes/current_roster_players/450,1); adjustment = clip(2*(raw - division_median_raw)*coverage_weight,-2,2); coverage_weight=observed_origin_fraction*(0.8+0.2*complete_own_boxscores)",
+  "limitations": [
+    "No previous school-strength normalization; no role/eligibility/recruiting correction",
+    "Documented minutes are historical evidence, not expected minutes or future points",
+    "Transfer matching by ESPN ID is not proof of eligibility or enrollment",
+    "Unknown-origin players are not assumed to have zero skill",
+    "The 450-minute normalization and 2-point multiplier are illustrative, not fitted",
+    "Roster index ranks are not power rankings",
+    "Without an explicitly supplied baseline there are no rating or rank changes",
+    "No official ratings, forecast snapshots, or application code modified"
+  ],
+  "divisions": {
+    "mens-college-basketball": {
+      "teams": 362,
+      "data_available": 361,
+      "unavailable": 1,
+      "with_partial_reported_boxscores": 0,
+      "with_low_origin_coverage": 177,
+      "with_baseline_ratings": 0,
+      "division_median_composite_index": 0.3029,
+      "baseline_used": false
+    },
+    "womens-college-basketball": {
+      "teams": 362,
+      "data_available": 361,
+      "unavailable": 1,
+      "with_partial_reported_boxscores": 2,
+      "with_low_origin_coverage": 140,
+      "with_baseline_ratings": 0,
+      "division_median_composite_index": 0.3303,
+      "baseline_used": false
+    }
+  }
+}
