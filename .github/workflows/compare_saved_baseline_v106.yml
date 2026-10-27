@@ -1,0 +1,44 @@
+name: Compare saved ratings with roster research V106
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependency
+        run: python -m pip install 'pandas>=2.0,<3'
+      - name: Analyze frozen copies of saved latest ratings
+        run: python compare_baseline_v106.py
+      - name: Workflow summary
+        if: always()
+        run: |
+          if test -f data/baseline_comparison_v106/summary.json; then
+            python - <<'PY'
+          import json, os
+          d=json.load(open('data/baseline_comparison_v106/summary.json'))
+          with open(os.environ['GITHUB_STEP_SUMMARY'],'a') as f:
+              f.write('## V106 — Saved baseline vs experimental roster adjustments\n\n')
+              f.write('Research only — **no production ratings changed**.\n\n')
+              f.write('| Division | Baseline available | Matched | Adjusted | Unchanged for unavailable evidence |\n|---|---|---:|---:|---:|\n')
+              for division,x in d['divisions'].items():
+                  f.write(f"| {division} | {x['baseline_available']} | {x['matched_teams']} | {x['adjusted_teams']} | {x['unavailable_roster_teams_unchanged']} |\n")
+                  if x['baseline_warning']: f.write(f"\n{division}: {x['baseline_warning']}\n")
+          PY
+          fi
+      - name: Commit research reports only
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/baseline_comparison_v106/
+          if ! git diff --cached --quiet; then
+            git commit -m 'V106 research-only saved baseline comparison'
+            git push
+          fi
