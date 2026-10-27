@@ -1,0 +1,219 @@
+{
+  "version": 106,
+  "generated_at_utc": "2026-10-27T02:48:20.988798+00:00",
+  "status": "RESEARCH_ONLY_NO_LIVE_RATING_OR_FORECAST_CHANGES",
+  "baseline_kind": "SAVED_LATEST_SNAPSHOT_NOT_VERIFIED_PRESEASON",
+  "limitations": [
+    "V105 coefficients are illustrative and unvalidated",
+    "Latest saved ratings can change over time; this is a point-in-time snapshot, not a historical backtest",
+    "No results-based validation, conference normalization, or recruiting assessment",
+    "Unavailable or unmatched roster signals yield zero experimental change, NOT assumed zero player talent",
+    "Rank comparisons cover teams present in saved baseline; unmatched baseline records are retained and unchanged"
+  ],
+  "divisions": {
+    "mens-college-basketball": {
+      "teams_in_v105": 362,
+      "baseline_path": "data/ratings/mens-college-basketball/latest.csv.gz",
+      "baseline_available": true,
+      "baseline_warning": null,
+      "matched_teams": 361,
+      "baseline_only_teams": 366,
+      "v105_only_teams": 1,
+      "adjusted_teams": 361,
+      "unavailable_roster_teams_unchanged": 366,
+      "ranked_comparison_teams": 727,
+      "mean_absolute_adjustment": 0.06543,
+      "largest_absolute_rank_change": 24,
+      "max_adjustment_cap": 2.0,
+      "interpretation": "Sensitivity study; baseline is current saved ratings snapshot, not necessarily a frozen preseason snapshot. Not a prediction accuracy test.",
+      "largest_rank_movements": [
+        {
+          "team": "Texas Southern Tigers",
+          "baseline_rank": 437,
+          "experimental_rank": 461,
+          "rank_change": -24,
+          "illustrative_adjustment": -0.2503
+        },
+        {
+          "team": "Manhattan Jaspers",
+          "baseline_rank": 563,
+          "experimental_rank": 586,
+          "rank_change": -23,
+          "illustrative_adjustment": -0.1936
+        },
+        {
+          "team": "Alabama State Hornets",
+          "baseline_rank": 559,
+          "experimental_rank": 580,
+          "rank_change": -21,
+          "illustrative_adjustment": -0.1534
+        },
+        {
+          "team": "North Carolina Central Eagles",
+          "baseline_rank": 513,
+          "experimental_rank": 534,
+          "rank_change": -21,
+          "illustrative_adjustment": -0.1087
+        },
+        {
+          "team": "Florida A&M Rattlers",
+          "baseline_rank": 513,
+          "experimental_rank": 531,
+          "rank_change": -18,
+          "illustrative_adjustment": -0.0815
+        },
+        {
+          "team": "Western Michigan Broncos",
+          "baseline_rank": 309,
+          "experimental_rank": 293,
+          "rank_change": 16,
+          "illustrative_adjustment": 0.2534
+        },
+        {
+          "team": "Wagner Seahawks",
+          "baseline_rank": 306,
+          "experimental_rank": 321,
+          "rank_change": -15,
+          "illustrative_adjustment": -0.2903
+        },
+        {
+          "team": "Ball State Cardinals",
+          "baseline_rank": 295,
+          "experimental_rank": 280,
+          "rank_change": 15,
+          "illustrative_adjustment": 0.2403
+        },
+        {
+          "team": "Lafayette Leopards",
+          "baseline_rank": 433,
+          "experimental_rank": 447,
+          "rank_change": -14,
+          "illustrative_adjustment": -0.2061
+        },
+        {
+          "team": "New Haven Chargers",
+          "baseline_rank": 344,
+          "experimental_rank": 357,
+          "rank_change": -13,
+          "illustrative_adjustment": -0.2371
+        },
+        {
+          "team": "The Citadel Bulldogs",
+          "baseline_rank": 591,
+          "experimental_rank": 604,
+          "rank_change": -13,
+          "illustrative_adjustment": -0.1699
+        },
+        {
+          "team": "USC Trojans",
+          "baseline_rank": 127,
+          "experimental_rank": 114,
+          "rank_change": 13,
+          "illustrative_adjustment": 0.2361
+        }
+      ]
+    },
+    "womens-college-basketball": {
+      "teams_in_v105": 362,
+      "baseline_path": "data/ratings/womens-college-basketball/latest.csv.gz",
+      "baseline_available": true,
+      "baseline_warning": null,
+      "matched_teams": 361,
+      "baseline_only_teams": 302,
+      "v105_only_teams": 1,
+      "adjusted_teams": 361,
+      "unavailable_roster_teams_unchanged": 302,
+      "ranked_comparison_teams": 663,
+      "mean_absolute_adjustment": 0.06771,
+      "largest_absolute_rank_change": 35,
+      "max_adjustment_cap": 2.0,
+      "interpretation": "Sensitivity study; baseline is current saved ratings snapshot, not necessarily a frozen preseason snapshot. Not a prediction accuracy test.",
+      "largest_rank_movements": [
+        {
+          "team": "North Florida Ospreys",
+          "baseline_rank": 468,
+          "experimental_rank": 433,
+          "rank_change": 35,
+          "illustrative_adjustment": 0.2887
+        },
+        {
+          "team": "Coppin State Eagles",
+          "baseline_rank": 479,
+          "experimental_rank": 503,
+          "rank_change": -24,
+          "illustrative_adjustment": -0.2495
+        },
+        {
+          "team": "Evansville Purple Aces",
+          "baseline_rank": 440,
+          "experimental_rank": 462,
+          "rank_change": -22,
+          "illustrative_adjustment": -0.151
+        },
+        {
+          "team": "Alcorn State Lady Braves",
+          "baseline_rank": 372,
+          "experimental_rank": 392,
+          "rank_change": -20,
+          "illustrative_adjustment": -0.2033
+        },
+        {
+          "team": "North Carolina Central Eagles",
+          "baseline_rank": 409,
+          "experimental_rank": 427,
+          "rank_change": -18,
+          "illustrative_adjustment": -0.1446
+        },
+        {
+          "team": "DePaul Blue Demons",
+          "baseline_rank": 315,
+          "experimental_rank": 298,
+          "rank_change": 17,
+          "illustrative_adjustment": 0.3341
+        },
+        {
+          "team": "Montana Lady Griz",
+          "baseline_rank": 425,
+          "experimental_rank": 409,
+          "rank_change": 16,
+          "illustrative_adjustment": 0.1271
+        },
+        {
+          "team": "Manhattan Jaspers",
+          "baseline_rank": 433,
+          "experimental_rank": 448,
+          "rank_change": -15,
+          "illustrative_adjustment": -0.1082
+        },
+        {
+          "team": "Rutgers Scarlet Knights",
+          "baseline_rank": 299,
+          "experimental_rank": 284,
+          "rank_change": 15,
+          "illustrative_adjustment": 0.2505
+        },
+        {
+          "team": "Mount St. Mary's Mountaineers",
+          "baseline_rank": 375,
+          "experimental_rank": 389,
+          "rank_change": -14,
+          "illustrative_adjustment": -0.1415
+        },
+        {
+          "team": "VCU Rams",
+          "baseline_rank": 479,
+          "experimental_rank": 466,
+          "rank_change": 13,
+          "illustrative_adjustment": 0.1787
+        },
+        {
+          "team": "Wright State Raiders",
+          "baseline_rank": 441,
+          "experimental_rank": 454,
+          "rank_change": -13,
+          "illustrative_adjustment": -0.0811
+        }
+      ]
+    }
+  }
+}
