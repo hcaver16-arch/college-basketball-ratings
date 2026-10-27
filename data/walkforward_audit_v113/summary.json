@@ -1,0 +1,56 @@
+{
+  "version": 113,
+  "generated_utc": "2026-10-27T16:45:34.946731+00:00",
+  "status": "READ_ONLY_WALKFORWARD_ARCHIVE_INVENTORY",
+  "production_modified": false,
+  "file_count_scanned": 77,
+  "file_limit_reached": false,
+  "classification_counts": {
+    "ratings_or_priors": 47,
+    "game_results_or_schedule": 5,
+    "roster_or_player": 23,
+    "forecast_or_model_snapshot": 2
+  },
+  "evidence_counts": {
+    "files_with_both_timestamps": 2
+  },
+  "division_rows_by_category": {
+    "mens-college-basketball": {
+      "ratings_or_priors": 4180,
+      "roster_or_player": 13833
+    },
+    "womens-college-basketball": {
+      "ratings_or_priors": 3899,
+      "roster_or_player": 12230
+    }
+  },
+  "v105_named_paths": [
+    "data/roster_experiment_v105/mens-college-basketball_experimental_roster_sensitivity.csv",
+    "data/roster_experiment_v105/summary.json",
+    "data/roster_experiment_v105/womens-college-basketball_experimental_roster_sensitivity.csv"
+  ],
+  "known_prospective_files_missing": [],
+  "decision": {
+    "historical_walkforward_validated": false,
+    "hyperparameter_tuning_allowed": false,
+    "notes": "Pre-tipoff timestamps alone do not establish complete upstream data provenance or prevent leakage",
+    "blockers": [
+      "No verified historical input-availability timestamps or replayable per-game as-of ratings established by file inventory alone",
+      "Competition venue requires source verification: populated Neutral values are not proof they are accurate",
+      "Roster snapshots must be specific to the season and collected before each forecast, not just labeled with a season",
+      "Separate chronological train/validation/test partitions and identical-game evaluation remain to be implemented"
+    ]
+  },
+  "limits": [
+    "Max 1500 files; 220000 CSV rows per file; 140 MB/file by default",
+    "JSON and Parquet are inventoried by filename/size only; content not validated",
+    "CSV timestamps require explicit timezone; date-only or timezone-naive values are unverifiable",
+    "Repeated game IDs may legitimately reflect forecast versions; not automatically data errors",
+    "Rows are grouped by fields and filenames, not authoritative NCAA classification"
+  ],
+  "output_paths": [
+    "data/walkforward_audit_v113/summary.json",
+    "data/walkforward_audit_v113/inventory.json",
+    "data/walkforward_audit_v113/report.md"
+  ]
+}
