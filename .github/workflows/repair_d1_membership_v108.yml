@@ -1,0 +1,26 @@
+name: Audit independently sourced D1 basketball membership V108
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Research-only membership repair
+        run: python repair_membership_v108.py
+      - name: Show report
+        run: cat data/d1_repair_v108/summary.json
+      - name: Commit research reports only
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/d1_repair_v108/
+          if ! git diff --cached --quiet; then
+            git commit -m 'V108: source-labeled basketball membership audit (research only)'
+            git push
+          fi
