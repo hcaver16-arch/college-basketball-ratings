@@ -1,0 +1,59 @@
+name: Research expand ESPN game evidence V117
+on:
+  workflow_dispatch:
+    inputs:
+      per_stratum:
+        description: 'Target games per season/division (default 200 = 800 total)'
+        required: false
+        default: '200'
+      max_new:
+        description: 'Maximum ESPN requests per run (default 200; run repeatedly to finish)'
+        required: false
+        default: '200'
+      retry_failed:
+        description: 'Retry previously failed requests? true or false'
+        required: false
+        default: 'false'
+permissions:
+  contents: write
+concurrency:
+  group: courtside-v117-research-checkpoint
+  cancel-in-progress: false
+jobs:
+  expand:
+    runs-on: ubuntu-latest
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Recover and reconcile ESPN evidence
+        env:
+          PER_STRATUM: ${{ inputs.per_stratum }}
+          MAX_NEW: ${{ inputs.max_new }}
+          RETRY_FAILED: ${{ inputs.retry_failed }}
+        run: |
+          args=(--per-stratum "${PER_STRATUM:-200}" --max-new "${MAX_NEW:-200}")
+          if [ "${RETRY_FAILED:-false}" = true ]; then args+=(--retry-failed); fi
+          python expand_espn_evidence_v117.py "${args[@]}"
+      - name: Save research checkpoint (never production files)
+        if: always()
+        run: |
+          if [ ! -f data/game_evidence_v117/evidence.csv ]; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -f data/game_evidence_v117/evidence.csv data/game_evidence_v117/summary.json data/game_evidence_v117/report.md data/game_evidence_v117/venue_disagreements.csv data/game_evidence_v117/date_disagreements.csv data/game_evidence_v117/team_or_score_conflicts.csv
+          if ! git diff --cached --quiet; then
+            git commit -m 'Research V117: checkpoint historical ESPN evidence'
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: courtside-v117-evidence
+          path: data/game_evidence_v117/
+          if-no-files-found: warn
