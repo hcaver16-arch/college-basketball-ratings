@@ -1,0 +1,67 @@
+{
+  "version": 108,
+  "generated_at_utc": "2026-10-27T03:37:09.935973+00:00",
+  "status": "RESEARCH_ONLY_PARTIAL_SOURCE_VERIFICATION",
+  "production_modified": false,
+  "complete_authoritative_2026_27_list": false,
+  "source_references": [
+    "https://asunsports.org/news/2026/7/16/atlantic-sun-conference-announces-2026-27-mens-womens-basketball-schedules.aspx",
+    "https://web3.ncaa.org/directory/orgDetail?id=11740",
+    "https://www.ncaa.org/about-us/membership-directory/membership-composition-and-sport-sponsorship/"
+  ],
+  "cautions": [
+    "NCAA reports 361 active DI institutions as of Sep 2026; figure is not a list of all basketball-participating transition schools",
+    "ASUN conference appearance is verified basketball participation, NOT proof of active NCAA Division I membership",
+    "No unverified archive or baseline-only entry is automatically promoted to verified or excluded",
+    "Fallback ratings are research-only proposals and must not be interpreted as learned player talent",
+    "No official ranking changes, prediction changes, or historical accuracy claims"
+  ],
+  "divisions": {
+    "mens-college-basketball": {
+      "records_reviewed": 728,
+      "source_confirmed_basketball_participants": 8,
+      "status_counts": {
+        "baseline_only_needs_review": 365,
+        "unverified_candidate": 355,
+        "conference_confirmed_d1_basketball": 7,
+        "reclassifying_d1_basketball": 1
+      },
+      "confirmed_missing_baseline": [
+        {
+          "team": "West Florida Argonauts",
+          "team_id": "2697"
+        }
+      ],
+      "research_fallback_proposals": 1,
+      "source_confirmed_comparison_teams": 7,
+      "fallback_asun_peer_reference": 0.18,
+      "unreviewed_baseline_only": 365,
+      "unverified_roster_candidates": 355,
+      "minimum_expected_asun_teams": 8,
+      "asun_evidence_coverage_warning": null
+    },
+    "womens-college-basketball": {
+      "records_reviewed": 664,
+      "source_confirmed_basketball_participants": 8,
+      "status_counts": {
+        "baseline_only_needs_review": 302,
+        "unverified_candidate": 354,
+        "conference_confirmed_d1_basketball": 7,
+        "reclassifying_d1_basketball": 1
+      },
+      "confirmed_missing_baseline": [
+        {
+          "team": "West Florida Argonauts",
+          "team_id": "2697"
+        }
+      ],
+      "research_fallback_proposals": 1,
+      "source_confirmed_comparison_teams": 7,
+      "fallback_asun_peer_reference": -0.48,
+      "unreviewed_baseline_only": 302,
+      "unverified_roster_candidates": 354,
+      "minimum_expected_asun_teams": 8,
+      "asun_evidence_coverage_warning": null
+    }
+  }
+}

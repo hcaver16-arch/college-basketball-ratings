@@ -1,0 +1,729 @@
+division,team_id,team,membership_status,evidence_method,source_url,review_note,in_roster_archive,in_baseline,baseline_rating,has_roster_evidence,illustrative_adjustment,research_rating,unavailable_rating,warning
+mens-college-basketball,1,Alaska Anchorage Seawolves,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.37,False,,-3.37,False,
+mens-college-basketball,2,Auburn Tigers,unverified_candidate,roster_archive_only,,,True,True,11.06,True,0.19829152889914142,11.258291528899141,False,
+mens-college-basketball,5,UAB Blazers,unverified_candidate,roster_archive_only,,,True,True,6.09,True,0.12475771604938272,6.214757716049383,False,Low roster-origin coverage
+mens-college-basketball,6,South Alabama Jaguars,unverified_candidate,roster_archive_only,,,True,True,4.47,True,-0.14045502645502642,4.329544973544973,False,Low roster-origin coverage
+mens-college-basketball,8,Arkansas Razorbacks,unverified_candidate,roster_archive_only,,,True,True,15.01,True,-0.1393622222222222,14.870637777777777,False,Low roster-origin coverage
+mens-college-basketball,9,Arizona State Sun Devils,unverified_candidate,roster_archive_only,,,True,True,5.78,True,0.20722927898312518,5.987229278983126,False,Low roster-origin coverage
+mens-college-basketball,12,Arizona Wildcats,unverified_candidate,roster_archive_only,,,True,True,21.82,True,0.004389814814814874,21.824389814814815,False,
+mens-college-basketball,13,Cal Poly Mustangs,unverified_candidate,roster_archive_only,,,True,True,0.79,True,0.20132691358024696,0.9913269135802469,False,
+mens-college-basketball,16,Sacramento State Hornets,unverified_candidate,roster_archive_only,,,True,True,-0.23,True,0.18007280092592598,-0.04992719907407403,False,
+mens-college-basketball,21,San Diego State Aztecs,unverified_candidate,roster_archive_only,,,True,True,10.45,True,-0.01506145833333327,10.434938541666666,False,Low roster-origin coverage
+mens-college-basketball,22,San Francisco State Gators,baseline_only_needs_review,baseline_archive_only,,,False,True,-5.99,False,,-5.99,False,
+mens-college-basketball,23,San José State Spartans,unverified_candidate,roster_archive_only,,,True,True,-1.48,True,-0.11334905517762654,-1.5933490551776266,False,Low roster-origin coverage
+mens-college-basketball,24,Stanford Cardinal,unverified_candidate,roster_archive_only,,,True,True,7.79,True,-0.036136111111111036,7.753863888888889,False,
+mens-college-basketball,25,California Golden Bears,unverified_candidate,roster_archive_only,,,True,True,7.84,True,-0.06115637860082294,7.778843621399177,False,
+mens-college-basketball,26,UCLA Bruins,unverified_candidate,roster_archive_only,,,True,True,11.29,True,0.14630617283950623,11.436306172839505,False,
+mens-college-basketball,27,UC Riverside Highlanders,unverified_candidate,roster_archive_only,,,True,True,-0.7,True,-0.15293580246913577,-0.8529358024691357,False,
+mens-college-basketball,28,UC San Diego Tritons,unverified_candidate,roster_archive_only,,,True,True,6.2,True,0.5414127314814815,6.741412731481482,False,
+mens-college-basketball,29,Redlands Bulldogs,baseline_only_needs_review,baseline_archive_only,,,False,True,-0.25,False,,-0.25,False,
+mens-college-basketball,30,USC Trojans,unverified_candidate,roster_archive_only,,,True,True,6.0,True,0.23612433862433868,6.236124338624339,False,
+mens-college-basketball,36,Colorado State Rams,unverified_candidate,roster_archive_only,,,True,True,7.22,True,0.06451555555555555,7.284515555555555,False,Low roster-origin coverage
+mens-college-basketball,38,Colorado Buffaloes,unverified_candidate,roster_archive_only,,,True,True,6.08,True,0.05188229166666664,6.131882291666667,False,Low roster-origin coverage
+mens-college-basketball,40,Curry Colonels,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.51,False,,-4.51,False,
+mens-college-basketball,41,UConn Huskies,unverified_candidate,roster_archive_only,,,True,True,16.19,True,0.3808237037037038,16.570823703703706,False,
+mens-college-basketball,43,Yale Bulldogs,unverified_candidate,roster_archive_only,,,True,True,10.9,True,-0.1415955555555555,10.758404444444444,False,Low roster-origin coverage
+mens-college-basketball,44,American University Eagles,unverified_candidate,roster_archive_only,,,True,True,2.29,True,0.19938257080610022,2.4893825708061,False,
+mens-college-basketball,45,George Washington Revolutionaries,unverified_candidate,roster_archive_only,,,True,True,9.7,True,0.1728972222222223,9.872897222222221,False,
+mens-college-basketball,46,Georgetown Hoyas,unverified_candidate,roster_archive_only,,,True,True,5.64,True,0.10184592592592603,5.741845925925926,False,
+mens-college-basketball,47,Howard Bison,unverified_candidate,roster_archive_only,,,True,True,5.98,True,0.08430098765432106,6.064300987654321,False,
+mens-college-basketball,48,Delaware Blue Hens,unverified_candidate,roster_archive_only,,,True,True,-1.91,True,0.11607555555555557,-1.7939244444444444,False,
+mens-college-basketball,50,Florida A&M Rattlers,unverified_candidate,roster_archive_only,,,True,True,-3.62,True,-0.08147703703703701,-3.701477037037037,False,Low roster-origin coverage
+mens-college-basketball,52,Florida State Seminoles,unverified_candidate,roster_archive_only,,,True,True,7.58,True,0.012707160493827216,7.592707160493827,False,Low roster-origin coverage
+mens-college-basketball,55,Jacksonville State Gamecocks,unverified_candidate,roster_archive_only,,,True,True,4.47,True,-0.1357802469135802,4.33421975308642,False,
+mens-college-basketball,56,Stetson Hatters,conference_confirmed_d1_basketball,conference_schedule_2026_27,https://asunsports.org/news/2026/7/16/atlantic-sun-conference-announces-2026-27-mens-womens-basketball-schedules.aspx,,True,True,-2.72,True,0.0,-2.72,False,
+mens-college-basketball,57,Florida Gators,unverified_candidate,roster_archive_only,,,True,True,19.53,True,0.26708740740740755,19.79708740740741,False,
+mens-college-basketball,58,South Florida Bulls,unverified_candidate,roster_archive_only,,,True,True,12.78,True,0.2524741898148149,13.032474189814815,False,
+mens-college-basketball,59,Georgia Tech Yellow Jackets,unverified_candidate,roster_archive_only,,,True,True,1.35,True,0.0349955555555556,1.3849955555555558,False,Low roster-origin coverage
+mens-college-basketball,60,Morehouse Maroon Tigers,baseline_only_needs_review,baseline_archive_only,,,False,True,0.0,False,,0.0,False,
+mens-college-basketball,61,Georgia Bulldogs,unverified_candidate,roster_archive_only,,,True,True,12.66,True,0.13136543209876544,12.791365432098766,False,
+mens-college-basketball,62,Hawai'i Rainbow Warriors,unverified_candidate,roster_archive_only,,,True,True,7.91,True,-0.004307482993197205,7.905692517006803,False,Low roster-origin coverage
+mens-college-basketball,63,Buena Vista Beavers,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.74,False,,-3.74,False,
+mens-college-basketball,66,Iowa State Cyclones,unverified_candidate,roster_archive_only,,,True,True,18.9,True,0.497291851851852,19.39729185185185,False,
+mens-college-basketball,68,Boise State Broncos,unverified_candidate,roster_archive_only,,,True,True,8.55,True,0.13872233796296302,8.688722337962965,False,
+mens-college-basketball,70,Idaho Vandals,unverified_candidate,roster_archive_only,,,True,True,6.36,True,-0.17769467592592592,6.182305324074075,False,Low roster-origin coverage
+mens-college-basketball,71,Bradley Braves,unverified_candidate,roster_archive_only,,,True,True,6.34,True,-0.13602962962962958,6.20397037037037,False,Low roster-origin coverage
+mens-college-basketball,73,Illinois Tech Scarlet Hawks,baseline_only_needs_review,baseline_archive_only,,,False,True,-5.28,False,,-5.28,False,
+mens-college-basketball,77,Northwestern Wildcats,unverified_candidate,roster_archive_only,,,True,True,7.1,True,0.2370558201058201,7.33705582010582,False,
+mens-college-basketball,79,Southern Illinois Salukis,unverified_candidate,roster_archive_only,,,True,True,6.55,True,-0.19633504273504274,6.353664957264957,False,Low roster-origin coverage
+mens-college-basketball,82,UIC Flames,unverified_candidate,roster_archive_only,,,True,True,7.56,True,0.18494245802896328,7.744942458028963,False,Low roster-origin coverage
+mens-college-basketball,84,Indiana Hoosiers,unverified_candidate,roster_archive_only,,,True,True,10.41,True,0.14048863257721403,10.550488632577213,False,
+mens-college-basketball,85,IU Indianapolis Jaguars,unverified_candidate,roster_archive_only,,,True,True,-2.09,True,-0.08616175359032502,-2.176161753590325,False,Low roster-origin coverage
+mens-college-basketball,87,Notre Dame Fighting Irish,unverified_candidate,roster_archive_only,,,True,True,5.13,True,0.13058425925925934,5.260584259259259,False,
+mens-college-basketball,88,Southern Indiana Screaming Eagles,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.76,False,,-2.76,False,
+mens-college-basketball,91,Bellarmine Knights,conference_confirmed_d1_basketball,conference_schedule_2026_27,https://asunsports.org/news/2026/7/16/atlantic-sun-conference-announces-2026-27-mens-womens-basketball-schedules.aspx,,True,True,0.18,True,-0.04997083333333334,0.13002916666666664,False,Low roster-origin coverage
+mens-college-basketball,93,Murray State Racers,unverified_candidate,roster_archive_only,,,True,True,5.96,True,0.03521957671957676,5.995219576719577,False,
+mens-college-basketball,94,Northern Kentucky Norse,unverified_candidate,roster_archive_only,,,True,True,6.09,True,-0.0029726057418364943,6.087027394258163,False,
+mens-college-basketball,96,Kentucky Wildcats,unverified_candidate,roster_archive_only,,,True,True,12.39,True,0.35104674981103556,12.741046749811035,False,
+mens-college-basketball,97,Louisville Cardinals,unverified_candidate,roster_archive_only,,,True,True,15.15,True,0.3765040543502083,15.526504054350209,False,
+mens-college-basketball,98,Western Kentucky Hilltoppers,unverified_candidate,roster_archive_only,,,True,True,5.96,True,0.12467309145880576,6.084673091458805,False,
+mens-college-basketball,99,LSU Tigers,unverified_candidate,roster_archive_only,,,True,True,8.16,True,0.002916780045351516,8.162916780045352,False,Low roster-origin coverage
+mens-college-basketball,101,Eureka Red Devils,baseline_only_needs_review,baseline_archive_only,,,False,True,-6.74,False,,-6.74,False,
+mens-college-basketball,103,Boston College Eagles,unverified_candidate,roster_archive_only,,,True,True,2.1,True,0.36614259259259263,2.466142592592593,False,
+mens-college-basketball,104,Boston University Terriers,unverified_candidate,roster_archive_only,,,True,True,1.64,True,-0.11011555555555552,1.5298844444444444,False,Low roster-origin coverage
+mens-college-basketball,107,Holy Cross Crusaders,unverified_candidate,roster_archive_only,,,True,True,-2.97,True,-0.1352349537037037,-3.105234953703704,False,Low roster-origin coverage
+mens-college-basketball,108,Harvard Crimson,unverified_candidate,roster_archive_only,,,True,True,5.11,True,0.17025555555555566,5.280255555555556,False,
+mens-college-basketball,109,MIT Engineers,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.32,False,,-2.32,False,
+mens-college-basketball,111,Northeastern Huskies,unverified_candidate,roster_archive_only,,,True,True,-1.65,True,-0.07831670445956154,-1.7283167044595615,False,
+mens-college-basketball,113,Massachusetts Minutemen,unverified_candidate,roster_archive_only,,,True,True,4.28,True,0.0037802721088435985,4.283780272108844,False,Low roster-origin coverage
+mens-college-basketball,116,Mount St. Mary's Mountaineers,unverified_candidate,roster_archive_only,,,True,True,-0.57,True,-0.08209259259259256,-0.6520925925925926,False,Low roster-origin coverage
+mens-college-basketball,117,St. Mary's (MD) Seahawks,baseline_only_needs_review,baseline_archive_only,,,False,True,-5.83,False,,-5.83,False,
+mens-college-basketball,119,Towson Tigers,unverified_candidate,roster_archive_only,,,True,True,5.39,True,-0.1510511111111111,5.238948888888888,False,Low roster-origin coverage
+mens-college-basketball,120,Maryland Terrapins,unverified_candidate,roster_archive_only,,,True,True,1.08,True,0.0886678240740741,1.1686678240740742,False,Low roster-origin coverage
+mens-college-basketball,127,Michigan State Spartans,unverified_candidate,roster_archive_only,,,True,True,15.78,True,0.09213925925925934,15.872139259259258,False,
+mens-college-basketball,130,Michigan Wolverines,unverified_candidate,roster_archive_only,,,True,True,23.2,True,0.03586369345123673,23.235863693451236,False,Low roster-origin coverage
+mens-college-basketball,135,Minnesota Golden Gophers,unverified_candidate,roster_archive_only,,,True,True,5.74,True,0.15038765432098763,5.890387654320988,False,
+mens-college-basketball,139,Saint Louis Billikens,unverified_candidate,roster_archive_only,,,True,True,15.82,True,0.10420011574074078,15.92420011574074,False,
+mens-college-basketball,140,Kansas City Roos,unverified_candidate,roster_archive_only,,,True,True,-8.68,True,-0.07169259259259256,-8.751692592592592,False,Low roster-origin coverage
+mens-college-basketball,142,Missouri Tigers,unverified_candidate,roster_archive_only,,,True,True,8.87,True,0.2723585185185186,9.142358518518519,False,
+mens-college-basketball,144,Franklin Pierce Ravens,baseline_only_needs_review,baseline_archive_only,,,False,True,0.32,False,,0.32,False,
+mens-college-basketball,145,Ole Miss Rebels,unverified_candidate,roster_archive_only,,,True,True,6.43,True,0.41131580246913574,6.841315802469135,False,
+mens-college-basketball,147,Montana State Bobcats,unverified_candidate,roster_archive_only,,,True,True,7.0,True,0.07690914351851866,7.0769091435185185,False,
+mens-college-basketball,148,Montana Tech Orediggers,baseline_only_needs_review,baseline_archive_only,,,False,True,1.56,False,,1.56,False,
+mens-college-basketball,149,Montana Grizzlies,unverified_candidate,roster_archive_only,,,True,True,4.06,True,-0.12879654320987652,3.931203456790123,False,Low roster-origin coverage
+mens-college-basketball,150,Duke Blue Devils,unverified_candidate,roster_archive_only,,,True,True,21.71,True,0.12231604938271601,21.832316049382715,False,
+mens-college-basketball,151,East Carolina Pirates,unverified_candidate,roster_archive_only,,,True,True,-1.64,True,0.018834164777021947,-1.6211658352229779,False,Low roster-origin coverage
+mens-college-basketball,152,NC State Wolfpack,unverified_candidate,roster_archive_only,,,True,True,11.54,True,0.5190923280423282,12.059092328042327,False,
+mens-college-basketball,153,North Carolina Tar Heels,unverified_candidate,roster_archive_only,,,True,True,12.73,True,0.13855972222222226,12.868559722222223,False,
+mens-college-basketball,154,Wake Forest Demon Deacons,unverified_candidate,roster_archive_only,,,True,True,7.57,True,0.037099537037037056,7.607099537037037,False,
+mens-college-basketball,155,North Dakota Fighting Hawks,unverified_candidate,roster_archive_only,,,True,True,0.72,True,-0.10740495086923657,0.6125950491307635,False,Low roster-origin coverage
+mens-college-basketball,156,Creighton Bluejays,unverified_candidate,roster_archive_only,,,True,True,5.65,True,0.37613037037037045,6.026130370370371,False,
+mens-college-basketball,158,Nebraska Cornhuskers,unverified_candidate,roster_archive_only,,,True,True,15.14,True,0.3572175308641974,15.497217530864198,False,
+mens-college-basketball,159,Dartmouth Big Green,unverified_candidate,roster_archive_only,,,True,True,1.1,True,-0.12364625850340132,0.9763537414965988,False,Low roster-origin coverage
+mens-college-basketball,160,New Hampshire Wildcats,unverified_candidate,roster_archive_only,,,True,True,-3.58,True,-0.016857777777777704,-3.5968577777777777,False,Low roster-origin coverage
+mens-college-basketball,161,Fairleigh Dickinson Knights,unverified_candidate,roster_archive_only,,,True,True,-2.16,True,-0.1289208333333333,-2.2889208333333335,False,Low roster-origin coverage
+mens-college-basketball,163,Princeton Tigers,unverified_candidate,roster_archive_only,,,True,True,0.54,True,0.3001199294532628,0.8401199294532629,False,
+mens-college-basketball,164,Rutgers Scarlet Knights,unverified_candidate,roster_archive_only,,,True,True,1.54,True,0.2598722222222222,1.7998722222222223,False,
+mens-college-basketball,166,New Mexico State Aggies,unverified_candidate,roster_archive_only,,,True,True,4.74,True,0.23280246913580244,4.972802469135803,False,
+mens-college-basketball,167,New Mexico Lobos,unverified_candidate,roster_archive_only,,,True,True,12.07,True,0.025992901234567926,12.095992901234569,False,Low roster-origin coverage
+mens-college-basketball,170,City College NY Beavers,baseline_only_needs_review,baseline_archive_only,,,False,True,-6.92,False,,-6.92,False,
+mens-college-basketball,171,Columbia Lions,unverified_candidate,roster_archive_only,,,True,True,5.52,True,-0.006813168724279839,5.5131868312757195,False,
+mens-college-basketball,172,Cornell Big Red,unverified_candidate,roster_archive_only,,,True,True,6.2,True,-0.11235321637426897,6.087646783625731,False,Low roster-origin coverage
+mens-college-basketball,177,Plattsburgh Cardinals,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.71,False,,-3.71,False,
+mens-college-basketball,178,RIT Tigers,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.22,False,,-2.22,False,
+mens-college-basketball,179,St. Bonaventure Bonnies,unverified_candidate,roster_archive_only,,,True,True,5.15,True,-0.11375833333333331,5.036241666666667,False,Low roster-origin coverage
+mens-college-basketball,183,Syracuse Orange,unverified_candidate,roster_archive_only,,,True,True,6.34,True,0.22402469135802475,6.564024691358025,False,
+mens-college-basketball,185,Vassar Brewers,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.72,False,,-2.72,False,
+mens-college-basketball,189,Bowling Green Falcons,unverified_candidate,roster_archive_only,,,True,True,7.68,True,-0.06941481481481473,7.610585185185185,False,
+mens-college-basketball,190,Defiance Yellow Jackets,baseline_only_needs_review,baseline_archive_only,,,False,True,-6.71,False,,-6.71,False,
+mens-college-basketball,193,Miami (OH) RedHawks,unverified_candidate,roster_archive_only,,,True,True,11.8,True,0.12232336280917601,11.922323362809177,False,
+mens-college-basketball,194,Ohio State Buckeyes,unverified_candidate,roster_archive_only,,,True,True,11.94,True,0.11726913580246918,12.05726913580247,False,
+mens-college-basketball,195,Ohio Bobcats,unverified_candidate,roster_archive_only,,,True,True,2.32,True,0.041015555555555604,2.3610155555555554,False,Low roster-origin coverage
+mens-college-basketball,196,Northeastern State RiverHawks,baseline_only_needs_review,baseline_archive_only,,,False,True,-1.56,False,,-1.56,False,
+mens-college-basketball,197,Oklahoma State Cowboys,unverified_candidate,roster_archive_only,,,True,True,6.48,True,0.29396888888888884,6.77396888888889,False,
+mens-college-basketball,198,Oral Roberts Golden Eagles,unverified_candidate,roster_archive_only,,,True,True,-1.22,True,0.0060355555555555935,-1.2139644444444444,False,Low roster-origin coverage
+mens-college-basketball,201,Oklahoma Sooners,unverified_candidate,roster_archive_only,,,True,True,9.91,True,0.3596933484504914,10.269693348450492,False,
+mens-college-basketball,202,Tulsa Golden Hurricane,unverified_candidate,roster_archive_only,,,True,True,12.24,True,0.40131802469135813,12.641318024691358,False,
+mens-college-basketball,204,Oregon State Beavers,unverified_candidate,roster_archive_only,,,True,True,1.55,True,0.22754744685513922,1.7775474468551393,False,
+mens-college-basketball,212,John Jay Bloodhounds,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.05,False,,-4.05,False,
+mens-college-basketball,213,Penn State Nittany Lions,unverified_candidate,roster_archive_only,,,True,True,1.22,True,0.19932849584278162,1.4193284958427816,False,Low roster-origin coverage
+mens-college-basketball,218,Temple Owls,unverified_candidate,roster_archive_only,,,True,True,4.07,True,0.23161827160493836,4.301618271604939,False,
+mens-college-basketball,219,Pennsylvania Quakers,unverified_candidate,roster_archive_only,,,True,True,4.46,True,0.1442562019082795,4.60425620190828,False,Low roster-origin coverage
+mens-college-basketball,221,Pittsburgh Panthers,unverified_candidate,roster_archive_only,,,True,True,4.74,True,0.26273692129629633,5.002736921296297,False,
+mens-college-basketball,222,Villanova Wildcats,unverified_candidate,roster_archive_only,,,True,True,10.33,True,0.28278189720332586,10.612781897203327,False,
+mens-college-basketball,224,Westminster (UT) Griffins,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.08,False,,-4.08,False,
+mens-college-basketball,225,Brown Bears,unverified_candidate,roster_archive_only,,,True,True,0.23,True,0.179204938271605,0.409204938271605,False,
+mens-college-basketball,227,Rhode Island Rams,unverified_candidate,roster_archive_only,,,True,True,4.81,True,0.010527662037037082,4.820527662037037,False,
+mens-college-basketball,228,Clemson Tigers,unverified_candidate,roster_archive_only,,,True,True,11.26,True,0.1323625094482238,11.392362509448224,False,
+mens-college-basketball,231,Furman Paladins,unverified_candidate,roster_archive_only,,,True,True,6.09,True,0.03062638888888894,6.120626388888889,False,
+mens-college-basketball,232,Charleston Cougars,unverified_candidate,roster_archive_only,,,True,True,4.34,True,0.16910222222222232,4.509102222222222,False,
+mens-college-basketball,233,South Dakota Coyotes,unverified_candidate,roster_archive_only,,,True,True,0.01,True,-0.040405092592592576,-0.030405092592592574,False,Low roster-origin coverage
+mens-college-basketball,235,Memphis Tigers,unverified_candidate,roster_archive_only,,,True,True,3.42,True,0.1424716049382717,3.5624716049382714,False,
+mens-college-basketball,236,Chattanooga Mocs,unverified_candidate,roster_archive_only,,,True,True,1.18,True,-0.08364157375368443,1.0963584262463155,False,Low roster-origin coverage
+mens-college-basketball,238,Vanderbilt Commodores,unverified_candidate,roster_archive_only,,,True,True,16.11,True,0.13663012345679015,16.24663012345679,False,Low roster-origin coverage
+mens-college-basketball,239,Baylor Bears,unverified_candidate,roster_archive_only,,,True,True,9.37,True,0.16750222222222233,9.537502222222221,False,
+mens-college-basketball,241,McMurry War Hawks,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.63,False,,-3.63,False,
+mens-college-basketball,242,Rice Owls,unverified_candidate,roster_archive_only,,,True,True,0.66,True,-0.0052939814814814,0.6547060185185186,False,Low roster-origin coverage
+mens-college-basketball,245,Texas A&M Aggies,unverified_candidate,roster_archive_only,,,True,True,11.43,True,0.20350555555555558,11.633505555555555,False,
+mens-college-basketball,248,Houston Cougars,unverified_candidate,roster_archive_only,,,True,True,18.61,True,0.1836254724111867,18.793625472411186,False,
+mens-college-basketball,249,North Texas Mean Green,unverified_candidate,roster_archive_only,,,True,True,5.05,True,0.044251234567901254,5.094251234567901,False,Low roster-origin coverage
+mens-college-basketball,250,UT Arlington Mavericks,unverified_candidate,roster_archive_only,,,True,True,5.19,True,-0.1944185185185185,4.995581481481482,False,Low roster-origin coverage
+mens-college-basketball,251,Texas Longhorns,unverified_candidate,roster_archive_only,,,True,True,11.94,True,0.07728444444444449,12.017284444444444,False,Low roster-origin coverage
+mens-college-basketball,252,BYU Cougars,unverified_candidate,roster_archive_only,,,True,True,13.25,True,0.07530123456790123,13.3253012345679,False,
+mens-college-basketball,253,Southern Utah Thunderbirds,unverified_candidate,roster_archive_only,,,True,True,0.01,True,-0.13165530864197528,-0.12165530864197528,False,Low roster-origin coverage
+mens-college-basketball,254,Utah Utes,unverified_candidate,roster_archive_only,,,True,True,2.21,True,0.02962604166666672,2.239626041666667,False,Low roster-origin coverage
+mens-college-basketball,256,James Madison Dukes,unverified_candidate,roster_archive_only,,,True,True,2.65,True,0.09816296296296301,2.748162962962963,False,
+mens-college-basketball,257,Richmond Spiders,unverified_candidate,roster_archive_only,,,True,True,4.93,True,0.17572222222222225,5.105722222222222,False,
+mens-college-basketball,258,Virginia Cavaliers,unverified_candidate,roster_archive_only,,,True,True,15.17,True,0.18791591220850487,15.357915912208504,False,
+mens-college-basketball,259,Virginia Tech Hokies,unverified_candidate,roster_archive_only,,,True,True,8.81,True,0.47038172839506187,9.280381728395062,False,
+mens-college-basketball,261,Vermont Catamounts,unverified_candidate,roster_archive_only,,,True,True,3.6,True,-0.01072592592592591,3.589274074074074,False,Low roster-origin coverage
+mens-college-basketball,263,Loras Duhawks,baseline_only_needs_review,baseline_archive_only,,,False,True,-1.86,False,,-1.86,False,
+mens-college-basketball,264,Washington Huskies,unverified_candidate,roster_archive_only,,,True,True,8.55,True,0.22837925925925928,8.77837925925926,False,
+mens-college-basketball,265,Washington State Cougars,unverified_candidate,roster_archive_only,,,True,True,3.09,True,-0.09554398148148141,2.9944560185185183,False,Low roster-origin coverage
+mens-college-basketball,268,Lawrence Vikings,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.48,False,,-2.48,False,
+mens-college-basketball,269,Marquette Golden Eagles,unverified_candidate,roster_archive_only,,,True,True,4.9,True,0.3099883101851852,5.209988310185185,False,
+mens-college-basketball,270,Milwaukee Panthers,unverified_candidate,roster_archive_only,,,True,True,0.21,True,-0.16306666666666664,0.046933333333333355,False,Low roster-origin coverage
+mens-college-basketball,275,Wisconsin Badgers,unverified_candidate,roster_archive_only,,,True,True,12.52,True,0.14105925925925927,12.66105925925926,False,
+mens-college-basketball,276,Marshall Thundering Herd,unverified_candidate,roster_archive_only,,,True,True,4.13,True,-0.08974370370370363,4.040256296296296,False,
+mens-college-basketball,277,West Virginia Mountaineers,unverified_candidate,roster_archive_only,,,True,True,8.77,True,0.18725333333333338,8.957253333333332,False,Low roster-origin coverage
+mens-college-basketball,278,Fresno State Bulldogs,unverified_candidate,roster_archive_only,,,True,True,3.71,True,-0.182777626606198,3.527222373393802,False,Low roster-origin coverage
+mens-college-basketball,279,Pacific Tigers,unverified_candidate,roster_archive_only,,,True,True,5.83,True,-0.03057719907407403,5.799422800925926,False,
+mens-college-basketball,282,Indiana State Sycamores,unverified_candidate,roster_archive_only,,,True,True,2.65,True,-0.06905370370370369,2.5809462962962963,False,Low roster-origin coverage
+mens-college-basketball,284,Stonehill Skyhawks,unverified_candidate,roster_archive_only,,,True,True,-1.91,True,-0.16861689814814812,-2.078616898148148,False,Low roster-origin coverage
+mens-college-basketball,288,Lipscomb Bisons,conference_confirmed_d1_basketball,conference_schedule_2026_27,https://asunsports.org/news/2026/7/16/atlantic-sun-conference-announces-2026-27-mens-womens-basketball-schedules.aspx,,True,True,4.46,True,0.019713541666666667,4.4797135416666665,False,Low roster-origin coverage
+mens-college-basketball,289,Mount St Mary Knights,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.57,False,,-3.57,False,
+mens-college-basketball,290,Georgia Southern Eagles,unverified_candidate,roster_archive_only,,,True,True,2.03,True,-0.1447328042328042,1.8852671957671956,False,Low roster-origin coverage
+mens-college-basketball,292,UT Rio Grande Valley Vaqueros,unverified_candidate,roster_archive_only,,,True,True,6.31,True,-0.16687703703703705,6.143122962962963,False,Low roster-origin coverage
+mens-college-basketball,294,Jacksonville Dolphins,conference_confirmed_d1_basketball,conference_schedule_2026_27,https://asunsports.org/news/2026/7/16/atlantic-sun-conference-announces-2026-27-mens-womens-basketball-schedules.aspx,,True,True,-0.63,True,0.028744368858654577,-0.6012556311413454,False,Low roster-origin coverage
+mens-college-basketball,295,Old Dominion Monarchs,unverified_candidate,roster_archive_only,,,True,True,0.96,True,-0.02624972446494936,0.9337502755350506,False,Low roster-origin coverage
+mens-college-basketball,299,Long Beach State Beach,unverified_candidate,roster_archive_only,,,True,True,-0.35,True,-0.1494854320987654,-0.4994854320987654,False,Low roster-origin coverage
+mens-college-basketball,300,UC Irvine Anteaters,unverified_candidate,roster_archive_only,,,True,True,7.38,True,-0.08508009739843646,7.294919902601563,False,
+mens-college-basketball,301,San Diego Toreros,unverified_candidate,roster_archive_only,,,True,True,-0.4,True,0.15631407407407413,-0.2436859259259259,False,
+mens-college-basketball,302,UC Davis Aggies,unverified_candidate,roster_archive_only,,,True,True,3.81,True,0.04587407407407409,3.855874074074074,False,
+mens-college-basketball,304,Idaho State Bengals,unverified_candidate,roster_archive_only,,,True,True,1.54,True,-0.1421009259259259,1.3978990740740742,False,Low roster-origin coverage
+mens-college-basketball,305,DePaul Blue Demons,unverified_candidate,roster_archive_only,,,True,True,4.4,True,0.334087962962963,4.734087962962963,False,
+mens-college-basketball,309,Louisiana Ragin' Cajuns,unverified_candidate,roster_archive_only,,,True,True,-3.57,True,-0.02152395833333333,-3.591523958333333,False,Low roster-origin coverage
+mens-college-basketball,311,Maine Black Bears,unverified_candidate,roster_archive_only,,,True,True,-3.77,True,-0.08070197530864191,-3.8507019753086418,False,
+mens-college-basketball,314,Iona Gaels,unverified_candidate,roster_archive_only,,,True,True,1.19,True,0.04613776752531078,1.2361377675253107,False,Low roster-origin coverage
+mens-college-basketball,315,Niagara Purple Eagles,unverified_candidate,roster_archive_only,,,True,True,-4.34,True,-0.05723439153439153,-4.397234391534392,False,Low roster-origin coverage
+mens-college-basketball,322,Lafayette Leopards,unverified_candidate,roster_archive_only,,,True,True,-2.96,True,-0.20607870370370368,-3.1660787037037035,False,Low roster-origin coverage
+mens-college-basketball,324,Coastal Carolina Chanticleers,unverified_candidate,roster_archive_only,,,True,True,1.53,True,-0.0770822222222222,1.4529177777777778,False,Low roster-origin coverage
+mens-college-basketball,325,Cleveland State Vikings,unverified_candidate,roster_archive_only,,,True,True,-2.71,True,-0.11207328042328041,-2.82207328042328,False,Low roster-origin coverage
+mens-college-basketball,326,Texas State Bobcats,unverified_candidate,roster_archive_only,,,True,True,1.9,True,0.3474832098765433,2.247483209876543,False,
+mens-college-basketball,328,Utah State Aggies,unverified_candidate,roster_archive_only,,,True,True,14.19,True,0.2198765432098766,14.409876543209876,False,
+mens-college-basketball,330,Virginia State Trojans,baseline_only_needs_review,baseline_archive_only,,,False,True,-0.38,False,,-0.38,False,
+mens-college-basketball,331,Eastern Washington Eagles,unverified_candidate,roster_archive_only,,,True,True,2.94,True,-0.15608401360544213,2.783915986394558,False,Low roster-origin coverage
+mens-college-basketball,333,Alabama Crimson Tide,unverified_candidate,roster_archive_only,,,True,True,15.34,True,0.017009876543209918,15.35700987654321,False,
+mens-college-basketball,338,Kennesaw State Owls,unverified_candidate,roster_archive_only,,,True,True,6.87,True,0.08465432098765431,6.954654320987655,False,
+mens-college-basketball,339,Evansville Purple Aces,unverified_candidate,roster_archive_only,,,True,True,-3.2,True,-0.06748444444444442,-3.2674844444444444,False,Low roster-origin coverage
+mens-college-basketball,344,Mississippi State Bulldogs,unverified_candidate,roster_archive_only,,,True,True,2.96,True,0.15739506172839512,3.117395061728395,False,
+mens-college-basketball,347,Elmira Soaring Eagles,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.78,False,,-4.78,False,
+mens-college-basketball,349,Army Black Knights,unverified_candidate,roster_archive_only,,,True,True,-3.22,True,-0.02737037037037031,-3.2473703703703705,False,Low roster-origin coverage
+mens-college-basketball,350,UNC Wilmington Seahawks,unverified_candidate,roster_archive_only,,,True,True,8.2,True,-0.049950864197530885,8.150049135802469,False,
+mens-college-basketball,353,Johnson & Wales Griffins,baseline_only_needs_review,baseline_archive_only,,,False,True,-7.34,False,,-7.34,False,
+mens-college-basketball,354,Olivet Comets,baseline_only_needs_review,baseline_archive_only,,,False,True,-1.9,False,,-1.9,False,
+mens-college-basketball,355,SUNY Oneonta Red Dragons,baseline_only_needs_review,baseline_archive_only,,,False,True,-6.05,False,,-6.05,False,
+mens-college-basketball,356,Illinois Fighting Illini,unverified_candidate,roster_archive_only,,,True,True,18.46,True,0.07977006802721096,18.539770068027213,False,Low roster-origin coverage
+mens-college-basketball,357,Texas A&M-Corpus Christi Islanders,unverified_candidate,roster_archive_only,,,True,True,4.67,True,-0.012785185185185177,4.6572148148148145,False,Low roster-origin coverage
+mens-college-basketball,370,Rutgers-Camden RUTGERS-CAMDEN,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.36,False,,-3.36,False,
+mens-college-basketball,374,St. John Fisher Cardinals,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.78,False,,-3.78,False,
+mens-college-basketball,375,St. Scholastica Saints,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.11,False,,-3.11,False,
+mens-college-basketball,386,Trinity (TX) Tigers,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.15,False,,-2.15,False,
+mens-college-basketball,399,UAlbany Great Danes,unverified_candidate,roster_archive_only,,,True,True,-0.46,True,-0.12123827160493825,-0.5812382716049382,False,Low roster-origin coverage
+mens-college-basketball,402,Worcester State Lancers,baseline_only_needs_review,baseline_archive_only,,,False,True,-6.15,False,,-6.15,False,
+mens-college-basketball,407,Arcadia ARCADIA,baseline_only_needs_review,baseline_archive_only,,,False,True,-1.47,False,,-1.47,False,
+mens-college-basketball,415,George Fox Bruins,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.38,False,,-3.38,False,
+mens-college-basketball,417,Gallaudet Bison,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.47,False,,-4.47,False,
+mens-college-basketball,420,Holy Family Tigers,baseline_only_needs_review,baseline_archive_only,,,False,True,-1.82,False,,-1.82,False,
+mens-college-basketball,424,Capital Crusaders,baseline_only_needs_review,baseline_archive_only,,,False,True,-0.08,False,,-0.08,False,
+mens-college-basketball,425,Northern State Wolves,baseline_only_needs_review,baseline_archive_only,,,False,True,-1.57,False,,-1.57,False,
+mens-college-basketball,455,West Virginia Wesleyan Bobcats,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.56,False,,-3.56,False,
+mens-college-basketball,461,Gwynedd Mercy Griffins,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.78,False,,-2.78,False,
+mens-college-basketball,465,Rosemont Ravens,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.3,False,,-3.3,False,
+mens-college-basketball,484,Alice Lloyd Eagles,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.0,False,,-4.0,False,
+mens-college-basketball,486,Aquinas Saints,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.26,False,,-3.26,False,
+mens-college-basketball,494,Blue Mountain Christian Toppers,baseline_only_needs_review,baseline_archive_only,,,False,True,-5.13,False,,-5.13,False,
+mens-college-basketball,495,Bluefield Ramblin' Rams,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.64,False,,-2.64,False,
+mens-college-basketball,502,Calumet St. Joseph Crimson Wave,baseline_only_needs_review,baseline_archive_only,,,False,True,-7.34,False,,-7.34,False,
+mens-college-basketball,507,Concordia (NE) Clippers,baseline_only_needs_review,baseline_archive_only,,,False,True,-1.27,False,,-1.27,False,
+mens-college-basketball,509,Crown Polars,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.03,False,,-4.03,False,
+mens-college-basketball,510,Culver Stockton Wildcats,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.7,False,,-3.7,False,
+mens-college-basketball,511,Cumberlands Patriots,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.1,False,,-2.1,False,
+mens-college-basketball,512,Dakota State Trojans,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.02,False,,-3.02,False,
+mens-college-basketball,513,Dakota Wesleyan Tigers,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.77,False,,-2.77,False,
+mens-college-basketball,524,Fisher Eagles,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.12,False,,-4.12,False,
+mens-college-basketball,526,Florida Gulf Coast Eagles,conference_confirmed_d1_basketball,conference_schedule_2026_27,https://asunsports.org/news/2026/7/16/atlantic-sun-conference-announces-2026-27-mens-womens-basketball-schedules.aspx,,True,True,2.1,True,-0.2464674768518518,1.8535325231481483,False,
+mens-college-basketball,533,Hannibal LaGrange Trojans,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.98,False,,-3.98,False,
+mens-college-basketball,534,Harris Stowe State Hornets,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.7,False,,-3.7,False,
+mens-college-basketball,535,Haskell Jayhawks,baseline_only_needs_review,baseline_archive_only,,,False,True,-5.23,False,,-5.23,False,
+mens-college-basketball,538,Houghton Highlanders,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.7,False,,-2.7,False,
+mens-college-basketball,548,LaGrange Panthers,baseline_only_needs_review,baseline_archive_only,,,False,True,-6.02,False,,-6.02,False,
+mens-college-basketball,551,Vermont State Lyndon Hornets,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.27,False,,-4.27,False,
+mens-college-basketball,554,Maine Fort Kent Bengals,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.31,False,,-4.31,False,
+mens-college-basketball,561,Mayville State Comets,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.03,False,,-4.03,False,
+mens-college-basketball,562,McPherson McPHERSON,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.08,False,,-2.08,False,
+mens-college-basketball,571,Morris Hornets,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.0,False,,-3.0,False,
+mens-college-basketball,573,Mount Marty Lancers,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.43,False,,-3.43,False,
+mens-college-basketball,589,Oklahoma Christian OKLAHOMA CHRISTIAN,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.75,False,,-2.75,False,
+mens-college-basketball,594,Pacific Union PACIFIC UNION,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.69,False,,-3.69,False,
+mens-college-basketball,596,Peru State PERU STATE,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.66,False,,-3.66,False,
+mens-college-basketball,608,Science and Arts (OK) Drovers,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.55,False,,-3.55,False,
+mens-college-basketball,612,Simpson (CA) Red Hawks,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.46,False,,-3.46,False,
+mens-college-basketball,2000,Abilene Christian Wildcats,unverified_candidate,roster_archive_only,,,True,True,1.3,True,-0.09409209876543208,1.205907901234568,False,Low roster-origin coverage
+mens-college-basketball,2001,Adams State Grizzlies,baseline_only_needs_review,baseline_archive_only,,,False,True,-0.36,False,,-0.36,False,
+mens-college-basketball,2003,Adrian Bulldogs,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.12,False,,-4.12,False,
+mens-college-basketball,2005,Air Force Falcons,unverified_candidate,roster_archive_only,,,True,True,-9.97,True,0.26383518518518523,-9.706164814814816,False,
+mens-college-basketball,2006,Akron Zips,unverified_candidate,roster_archive_only,,,True,True,12.81,True,0.10843555555555558,12.918435555555556,False,
+mens-college-basketball,2010,Alabama A&M Bulldogs,unverified_candidate,roster_archive_only,,,True,True,-1.78,True,-0.06254246913580243,-1.8425424691358026,False,
+mens-college-basketball,2011,Alabama State Hornets,unverified_candidate,roster_archive_only,,,True,True,-3.99,True,-0.1533864197530864,-4.143386419753087,False,Low roster-origin coverage
+mens-college-basketball,2013,Albany State Golden Rams,baseline_only_needs_review,baseline_archive_only,,,False,True,-1.85,False,,-1.85,False,
+mens-college-basketball,2016,Alcorn State Braves,unverified_candidate,roster_archive_only,,,True,True,-8.42,True,-0.21209308641975305,-8.632093086419752,False,Low roster-origin coverage
+mens-college-basketball,2018,Allegheny Gators,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.67,False,,-4.67,False,
+mens-college-basketball,2025,Angelo State Rams,baseline_only_needs_review,baseline_archive_only,,,False,True,-1.92,False,,-1.92,False,
+mens-college-basketball,2026,App State Mountaineers,unverified_candidate,roster_archive_only,,,True,True,4.19,True,-0.14331913580246913,4.046680864197532,False,Low roster-origin coverage
+mens-college-basketball,2027,Arkansas Baptist Buffaloes,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.33,False,,-4.33,False,
+mens-college-basketball,2029,Arkansas-Pine Bluff Golden Lions,unverified_candidate,roster_archive_only,,,True,True,-3.52,True,0.08450740740740748,-3.4354925925925928,False,
+mens-college-basketball,2031,Little Rock Trojans,unverified_candidate,roster_archive_only,,,True,True,-0.89,True,0.0099981481481482,-0.8800018518518518,False,Low roster-origin coverage
+mens-college-basketball,2032,Arkansas State Red Wolves,unverified_candidate,roster_archive_only,,,True,True,6.66,True,-0.1325713580246913,6.527428641975309,False,Low roster-origin coverage
+mens-college-basketball,2033,Arkansas Tech Wonder Boys,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.37,False,,-3.37,False,
+mens-college-basketball,2040,Auburn Montgomery Senators,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.17,False,,-2.17,False,
+mens-college-basketball,2046,Austin Peay Governors,unverified_candidate,roster_archive_only,,,True,True,5.85,True,-0.06480617283950614,5.7851938271604935,False,Low roster-origin coverage
+mens-college-basketball,2047,Averett Cougars,baseline_only_needs_review,baseline_archive_only,,,False,True,-5.75,False,,-5.75,False,
+mens-college-basketball,2050,Ball State Cardinals,unverified_candidate,roster_archive_only,,,True,True,-0.23,True,0.24034833711262282,0.010348337112622813,False,
+mens-college-basketball,2057,Belmont Bruins,unverified_candidate,roster_archive_only,,,True,True,11.12,True,-0.08918291761148901,11.030817082388511,False,
+mens-college-basketball,2058,Belmont Abbey Crusaders,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.84,False,,-3.84,False,
+mens-college-basketball,2061,Berea Mountaineers,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.12,False,,-2.12,False,
+mens-college-basketball,2062,Bethany (WV) Bison,baseline_only_needs_review,baseline_archive_only,,,False,True,-5.42,False,,-5.42,False,
+mens-college-basketball,2064,Bethel (TN) Wildcats,baseline_only_needs_review,baseline_archive_only,,,False,True,-5.01,False,,-5.01,False,
+mens-college-basketball,2065,Bethune-Cookman Wildcats,unverified_candidate,roster_archive_only,,,True,True,0.06,True,0.2785743209876543,0.3385743209876543,False,
+mens-college-basketball,2066,Binghamton Bearcats,unverified_candidate,roster_archive_only,,,True,True,-6.01,True,-0.07669037037037033,-6.08669037037037,False,
+mens-college-basketball,2070,Blackburn Beavers,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.22,False,,-4.22,False,
+mens-college-basketball,2071,Bloomsburg Huskies,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.54,False,,-3.54,False,
+mens-college-basketball,2073,Bluefield State Big Blue,baseline_only_needs_review,baseline_archive_only,,,False,True,-1.85,False,,-1.85,False,
+mens-college-basketball,2075,Bowie State Bulldogs,baseline_only_needs_review,baseline_archive_only,,,False,True,-0.78,False,,-0.78,False,
+mens-college-basketball,2077,Brewton Parker Wildcats,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.81,False,,-3.81,False,
+mens-college-basketball,2081,Bryan Lions,baseline_only_needs_review,baseline_archive_only,,,False,True,-10.7,False,,-10.7,False,
+mens-college-basketball,2083,Bucknell Bison,unverified_candidate,roster_archive_only,,,True,True,-4.46,True,-0.08066025887479175,-4.540660258874792,False,Low roster-origin coverage
+mens-college-basketball,2084,Buffalo Bulls,unverified_candidate,roster_archive_only,,,True,True,3.77,True,0.13213333333333344,3.9021333333333335,False,
+mens-college-basketball,2086,Butler Bulldogs,unverified_candidate,roster_archive_only,,,True,True,6.06,True,-0.04002962962962964,6.01997037037037,False,
+mens-college-basketball,2096,Cameron Aggies,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.7,False,,-2.7,False,
+mens-college-basketball,2097,Campbell Fighting Camels,unverified_candidate,roster_archive_only,,,True,True,2.83,True,-0.10949398148148147,2.7205060185185186,False,Low roster-origin coverage
+mens-college-basketball,2098,Campbellsville Tigers,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.45,False,,-3.45,False,
+mens-college-basketball,2099,Canisius Golden Griffins,unverified_candidate,roster_archive_only,,,True,True,-5.03,True,-0.13254089191232046,-5.162540891912321,False,Low roster-origin coverage
+mens-college-basketball,2107,Catawba Indians,baseline_only_needs_review,baseline_archive_only,,,False,True,-1.48,False,,-1.48,False,
+mens-college-basketball,2110,Central Arkansas Bears,unverified_candidate,roster_archive_only,,,True,True,5.81,True,0.03293753086419755,5.842937530864197,False,
+mens-college-basketball,2113,Centenary (LA) Gentlemen,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.29,False,,-3.29,False,
+mens-college-basketball,2114,Centenary (NJ) Cyclones,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.92,False,,-3.92,False,
+mens-college-basketball,2115,Central Connecticut Blue Devils,unverified_candidate,roster_archive_only,,,True,True,0.34,True,-0.12624629629629625,0.21375370370370378,False,Low roster-origin coverage
+mens-college-basketball,2116,UCF Knights,unverified_candidate,roster_archive_only,,,True,True,8.28,True,0.13909703703703707,8.419097037037037,False,
+mens-college-basketball,2117,Central Michigan Chippewas,unverified_candidate,roster_archive_only,,,True,True,-0.12,True,-0.034949135802469125,-0.1549491358024691,False,Low roster-origin coverage
+mens-college-basketball,2119,Central State Marauders,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.24,False,,-4.24,False,
+mens-college-basketball,2124,Chaminade Silverswords,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.86,False,,-4.86,False,
+mens-college-basketball,2127,Charleston Southern Buccaneers,unverified_candidate,roster_archive_only,,,True,True,3.55,True,-0.181827744904668,3.368172255095332,False,Low roster-origin coverage
+mens-college-basketball,2129,Cheyney (PA) Wolves,baseline_only_needs_review,baseline_archive_only,,,False,True,-6.34,False,,-6.34,False,
+mens-college-basketball,2130,Chicago State Cougars,unverified_candidate,roster_archive_only,,,True,True,-5.82,True,0.24590740740740757,-5.574092592592593,False,
+mens-college-basketball,2131,Christian Brothers Buccaneers,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.04,False,,-2.04,False,
+mens-college-basketball,2132,Cincinnati Bearcats,unverified_candidate,roster_archive_only,,,True,True,10.23,True,0.36970024691358033,10.599700246913581,False,
+mens-college-basketball,2141,Coe Kohawks,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.31,False,,-4.31,False,
+mens-college-basketball,2142,Colgate Raiders,unverified_candidate,roster_archive_only,,,True,True,2.99,True,-0.060765079365079286,2.929234920634921,False,
+mens-college-basketball,2144,Colorado College Tigers,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.69,False,,-2.69,False,
+mens-college-basketball,2145,Colorado Colorado Springs Mountain Lions,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.37,False,,-3.37,False,
+mens-college-basketball,2148,Concord Mountain Lions,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.69,False,,-2.69,False,
+mens-college-basketball,2154,Coppin State Eagles,unverified_candidate,roster_archive_only,,,True,True,-10.27,True,-0.04372453703703699,-10.313724537037036,False,
+mens-college-basketball,2161,Cumberland Phoenix,baseline_only_needs_review,baseline_archive_only,,,False,True,-0.84,False,,-0.84,False,
+mens-college-basketball,2163,Dallas Crusaders,baseline_only_needs_review,baseline_archive_only,,,False,True,-6.49,False,,-6.49,False,
+mens-college-basketball,2166,Davidson Wildcats,unverified_candidate,roster_archive_only,,,True,True,5.94,True,0.020513580246913632,5.960513580246914,False,
+mens-college-basketball,2168,Dayton Flyers,unverified_candidate,roster_archive_only,,,True,True,8.99,True,-0.040262334999359196,8.94973766500064,False,
+mens-college-basketball,2169,Delaware State Hornets,unverified_candidate,roster_archive_only,,,True,True,-7.39,True,-0.10275532879818593,-7.492755328798186,False,Low roster-origin coverage
+mens-college-basketball,2172,Denver Pioneers,unverified_candidate,roster_archive_only,,,True,True,2.68,True,0.017413756613756628,2.6974137566137566,False,Low roster-origin coverage
+mens-college-basketball,2174,Detroit Mercy Titans,unverified_candidate,roster_archive_only,,,True,True,2.38,True,-0.08743703703703704,2.292562962962963,False,Low roster-origin coverage
+mens-college-basketball,2175,Dickinson Red Devils,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.88,False,,-3.88,False,
+mens-college-basketball,2177,District of Columbia Firebirds,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.56,False,,-2.56,False,
+mens-college-basketball,2178,Doane Tigers,baseline_only_needs_review,baseline_archive_only,,,False,True,-0.49,False,,-0.49,False,
+mens-college-basketball,2181,Drake Bulldogs,unverified_candidate,roster_archive_only,,,True,True,3.3,True,0.12950578231292517,3.429505782312925,False,Low roster-origin coverage
+mens-college-basketball,2182,Drexel Dragons,unverified_candidate,roster_archive_only,,,True,True,2.46,True,-0.15756222222222216,2.3024377777777776,False,Low roster-origin coverage
+mens-college-basketball,2184,Duquesne Dukes,unverified_candidate,roster_archive_only,,,True,True,5.44,True,-0.08083344907407407,5.359166550925926,False,
+mens-college-basketball,2189,Earlham Quakers,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.14,False,,-4.14,False,
+mens-college-basketball,2193,East Tennessee State Buccaneers,unverified_candidate,roster_archive_only,,,True,True,7.67,True,0.11168231292517013,7.78168231292517,False,Low roster-origin coverage
+mens-college-basketball,2196,Eastern Eagles,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.11,False,,-4.11,False,
+mens-college-basketball,2197,Eastern Illinois Panthers,unverified_candidate,roster_archive_only,,,True,True,-0.95,True,-0.13477135802469134,-1.0847713580246914,False,Low roster-origin coverage
+mens-college-basketball,2198,Eastern Kentucky Colonels,unverified_candidate,roster_archive_only,,,True,True,-0.14,True,-0.08813037037037033,-0.22813037037037034,False,Low roster-origin coverage
+mens-college-basketball,2199,Eastern Michigan Eagles,unverified_candidate,roster_archive_only,,,True,True,1.12,True,0.11673148148148155,1.2367314814814816,False,Low roster-origin coverage
+mens-college-basketball,2202,Eastern Oregon Mountaineers,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.17,False,,-3.17,False,
+mens-college-basketball,2207,Elizabeth City State Vikings,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.18,False,,-2.18,False,
+mens-college-basketball,2210,Elon Phoenix,unverified_candidate,roster_archive_only,,,True,True,2.44,True,-0.031096064814814736,2.4089039351851853,False,Low roster-origin coverage
+mens-college-basketball,2211,Emmanuel (MA) Lions,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.18,False,,-3.18,False,
+mens-college-basketball,2215,Erskine Flying Fleet,baseline_only_needs_review,baseline_archive_only,,,False,True,-5.97,False,,-5.97,False,
+mens-college-basketball,2217,Fairfield Stags,unverified_candidate,roster_archive_only,,,True,True,1.69,True,0.04020222991157253,1.7302022299115725,False,
+mens-college-basketball,2225,Fisk Bulldogs,baseline_only_needs_review,baseline_archive_only,,,False,True,-9.89,False,,-9.89,False,
+mens-college-basketball,2226,Florida Atlantic Owls,unverified_candidate,roster_archive_only,,,True,True,6.08,True,0.03892592592592603,6.118925925925926,False,
+mens-college-basketball,2227,Florida Memorial FLORIDA MEMORIAL,baseline_only_needs_review,baseline_archive_only,,,False,True,-0.62,False,,-0.62,False,
+mens-college-basketball,2229,Florida International Panthers,unverified_candidate,roster_archive_only,,,True,True,4.36,True,-0.04565135802469135,4.314348641975309,False,Low roster-origin coverage
+mens-college-basketball,2230,Fordham Rams,unverified_candidate,roster_archive_only,,,True,True,4.84,True,0.15435037037037044,4.994350370370371,False,
+mens-college-basketball,2232,Fort Valley State Wildcats,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.6,False,,-3.6,False,
+mens-college-basketball,2233,Franklin Grizzlies,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.3,False,,-3.3,False,
+mens-college-basketball,2235,Fresno Pacific Sunbirds,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.37,False,,-3.37,False,
+mens-college-basketball,2239,Cal State Fullerton Titans,unverified_candidate,roster_archive_only,,,True,True,3.24,True,0.21470740740740746,3.454707407407408,False,
+mens-college-basketball,2241,Gardner-Webb Runnin' Bulldogs,unverified_candidate,roster_archive_only,,,True,True,-9.95,True,-0.07145600907029476,-10.021456009070294,False,Low roster-origin coverage
+mens-college-basketball,2242,Geneva Golden Tornadoes,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.44,False,,-3.44,False,
+mens-college-basketball,2244,George Mason Patriots,unverified_candidate,roster_archive_only,,,True,True,7.72,True,0.2307283608868384,7.950728360886838,False,
+mens-college-basketball,2246,Georgia College Bobcats,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.69,False,,-2.69,False,
+mens-college-basketball,2247,Georgia State Panthers,unverified_candidate,roster_archive_only,,,True,True,-1.37,True,0.16189827160493828,-1.208101728395062,False,
+mens-college-basketball,2250,Gonzaga Bulldogs,unverified_candidate,roster_archive_only,,,True,True,17.78,True,0.11105555555555562,17.891055555555557,False,Low roster-origin coverage
+mens-college-basketball,2253,Grand Canyon Lopes,unverified_candidate,roster_archive_only,,,True,True,9.05,True,0.6212447135717033,9.671244713571705,False,
+mens-college-basketball,2256,Greensboro Pride,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.17,False,,-3.17,False,
+mens-college-basketball,2261,Hampton Pirates,unverified_candidate,roster_archive_only,,,True,True,0.63,True,0.04336998590285788,0.6733699859028579,False,Low roster-origin coverage
+mens-college-basketball,2262,Hanover Panthers,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.98,False,,-3.98,False,
+mens-college-basketball,2267,Hawaiʻi Hilo Vulcans,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.23,False,,-3.23,False,
+mens-college-basketball,2269,Hawaiʻi Pacific Sea Warriors,baseline_only_needs_review,baseline_archive_only,,,False,True,1.15,False,,1.15,False,
+mens-college-basketball,2272,High Point Panthers,unverified_candidate,roster_archive_only,,,True,True,13.15,True,0.4134846084839166,13.563484608483916,False,
+mens-college-basketball,2275,Hofstra Pride,unverified_candidate,roster_archive_only,,,True,True,9.45,True,-0.07224493827160489,9.377755061728394,False,Low roster-origin coverage
+mens-college-basketball,2277,Houston Christian Huskies,unverified_candidate,roster_archive_only,,,True,True,-2.22,True,0.013769876543209906,-2.2062301234567903,False,Low roster-origin coverage
+mens-college-basketball,2281,Huston Tillotson Rams,baseline_only_needs_review,baseline_archive_only,,,False,True,-6.16,False,,-6.16,False,
+mens-college-basketball,2287,Illinois State Redbirds,unverified_candidate,roster_archive_only,,,True,True,8.57,True,0.07201481481481482,8.642014814814814,False,
+mens-college-basketball,2294,Iowa Hawkeyes,unverified_candidate,roster_archive_only,,,True,True,12.92,True,0.15829070294784575,13.078290702947847,False,
+mens-college-basketball,2296,Jackson State Tigers,unverified_candidate,roster_archive_only,,,True,True,-8.12,True,0.008539202870690779,-8.111460797129308,False,Low roster-origin coverage
+mens-college-basketball,2299,Jarvis Christian Bulldogs,baseline_only_needs_review,baseline_archive_only,,,False,True,-6.33,False,,-6.33,False,
+mens-college-basketball,2301,John Brown Golden Eagles,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.58,False,,-3.58,False,
+mens-college-basketball,2304,Johnson C. Smith Golden Bulls,baseline_only_needs_review,baseline_archive_only,,,False,True,-1.55,False,,-1.55,False,
+mens-college-basketball,2305,Kansas Jayhawks,unverified_candidate,roster_archive_only,,,True,True,13.17,True,0.0959753086419753,13.265975308641975,False,
+mens-college-basketball,2306,Kansas State Wildcats,unverified_candidate,roster_archive_only,,,True,True,3.7,True,0.19754935752078615,3.8975493575207865,False,
+mens-college-basketball,2309,Kent State Golden Flashes,unverified_candidate,roster_archive_only,,,True,True,5.93,True,-0.07442962962962954,5.85557037037037,False,
+mens-college-basketball,2310,Kentucky State Thorobreds,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.08,False,,-4.08,False,
+mens-college-basketball,2318,La Verne Leopards,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.53,False,,-2.53,False,
+mens-college-basketball,2320,Lamar Cardinals,unverified_candidate,roster_archive_only,,,True,True,2.06,True,-0.04327369614512466,2.0167263038548753,False,Low roster-origin coverage
+mens-college-basketball,2325,La Salle Explorers,unverified_candidate,roster_archive_only,,,True,True,-0.26,True,0.015122976680384136,-0.24487702331961586,False,
+mens-college-basketball,2326,LeTourneau Yellow Jackets,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.76,False,,-2.76,False,
+mens-college-basketball,2329,Lehigh Mountain Hawks,unverified_candidate,roster_archive_only,,,True,True,-0.18,True,0.13340493827160493,-0.04659506172839506,False,
+mens-college-basketball,2330,Le Moyne Dolphins,unverified_candidate,roster_archive_only,,,True,True,-0.06,True,-0.1480824074074074,-0.2080824074074074,False,
+mens-college-basketball,2333,Lewis & Clark River Otters,baseline_only_needs_review,baseline_archive_only,,,False,True,-1.54,False,,-1.54,False,
+mens-college-basketball,2335,Liberty Flames,unverified_candidate,roster_archive_only,,,True,True,8.05,True,-0.10880592592592588,7.941194074074075,False,Low roster-origin coverage
+mens-college-basketball,2344,Longwood Lancers,unverified_candidate,roster_archive_only,,,True,True,3.39,True,-0.06540148148148149,3.3245985185185187,False,
+mens-college-basketball,2347,Louisiana Christian Wildcats,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.13,False,,-4.13,False,
+mens-college-basketball,2348,Louisiana Tech Bulldogs,unverified_candidate,roster_archive_only,,,True,True,4.46,True,-0.08429876543209876,4.375701234567901,False,Low roster-origin coverage
+mens-college-basketball,2349,UMass Lowell River Hawks,unverified_candidate,roster_archive_only,,,True,True,-0.08,True,-0.1281574074074074,-0.2081574074074074,False,Low roster-origin coverage
+mens-college-basketball,2350,Loyola Chicago Ramblers,unverified_candidate,roster_archive_only,,,True,True,-3.09,True,0.09191620370370371,-2.9980837962962963,False,
+mens-college-basketball,2351,Loyola Marymount Lions,unverified_candidate,roster_archive_only,,,True,True,3.11,True,0.09306820453671671,3.2030682045367165,False,
+mens-college-basketball,2352,Loyola Maryland Greyhounds,unverified_candidate,roster_archive_only,,,True,True,-1.47,True,-0.15051157407407403,-1.620511574074074,False,
+mens-college-basketball,2355,Lynchburg Hornets,baseline_only_needs_review,baseline_archive_only,,,False,True,-0.57,False,,-0.57,False,
+mens-college-basketball,2358,Lyon Scots,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.62,False,,-3.62,False,
+mens-college-basketball,2363,Manhattan Jaspers,unverified_candidate,roster_archive_only,,,True,True,-4.01,True,-0.1935864197530864,-4.203586419753086,False,Low roster-origin coverage
+mens-college-basketball,2365,Mansfield Mountaineers,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.03,False,,-3.03,False,
+mens-college-basketball,2368,Marist Red Foxes,unverified_candidate,roster_archive_only,,,True,True,4.56,True,-0.07261356764928191,4.487386432350718,False,Low roster-origin coverage
+mens-college-basketball,2370,UT Southern Firehawks,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.77,False,,-3.77,False,
+mens-college-basketball,2374,Marywood Pacers,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.86,False,,-3.86,False,
+mens-college-basketball,2377,McNeese Cowboys,unverified_candidate,roster_archive_only,,,True,True,11.04,True,-0.14501527777777773,10.89498472222222,False,
+mens-college-basketball,2378,UMBC Retrievers,unverified_candidate,roster_archive_only,,,True,True,6.04,True,-0.10361358024691354,5.936386419753086,False,Low roster-origin coverage
+mens-college-basketball,2379,Maryland Eastern Shore Hawks,unverified_candidate,roster_archive_only,,,True,True,-4.01,True,-0.06945925925925926,-4.079459259259259,False,Low roster-origin coverage
+mens-college-basketball,2381,Menlo Oaks,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.24,False,,-2.24,False,
+mens-college-basketball,2382,Mercer Bears,unverified_candidate,roster_archive_only,,,True,True,6.53,True,-0.11722666666666663,6.412773333333334,False,Low roster-origin coverage
+mens-college-basketball,2383,Merchant Marine Mariners,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.2,False,,-4.2,False,
+mens-college-basketball,2384,Mercy Mavericks,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.06,False,,-3.06,False,
+mens-college-basketball,2385,Mercyhurst Lakers,unverified_candidate,roster_archive_only,,,True,True,1.15,True,-0.08677098400175323,1.0632290159982467,False,Low roster-origin coverage
+mens-college-basketball,2390,Miami Hurricanes,unverified_candidate,roster_archive_only,,,True,True,12.85,True,0.5574637037037037,13.407463703703703,False,
+mens-college-basketball,2393,Middle Tennessee Blue Raiders,unverified_candidate,roster_archive_only,,,True,True,5.46,True,0.015518065003779327,5.475518065003779,False,Low roster-origin coverage
+mens-college-basketball,2395,Midwestern State Mustangs,baseline_only_needs_review,baseline_archive_only,,,False,True,-0.48,False,,-0.48,False,
+mens-college-basketball,2397,Milligan Buffaloes,baseline_only_needs_review,baseline_archive_only,,,False,True,-5.67,False,,-5.67,False,
+mens-college-basketball,2398,Millsaps Majors,baseline_only_needs_review,baseline_archive_only,,,False,True,-1.62,False,,-1.62,False,
+mens-college-basketball,2400,Mississippi Valley State Delta Devils,unverified_candidate,roster_archive_only,,,True,True,-13.83,True,-0.043592901234567896,-13.873592901234568,False,Low roster-origin coverage
+mens-college-basketball,2403,Missouri Southern State Lions,baseline_only_needs_review,baseline_archive_only,,,False,True,-1.23,False,,-1.23,False,
+mens-college-basketball,2404,Molloy Lions,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.39,False,,-2.39,False,
+mens-college-basketball,2405,Monmouth Hawks,unverified_candidate,roster_archive_only,,,True,True,3.91,True,0.029358874791746786,3.939358874791747,False,
+mens-college-basketball,2413,Morehead State Eagles,unverified_candidate,roster_archive_only,,,True,True,0.97,True,-0.14768253968253967,0.8223174603174603,False,Low roster-origin coverage
+mens-college-basketball,2415,Morgan State Bears,unverified_candidate,roster_archive_only,,,True,True,-4.78,True,-0.09476258503401357,-4.874762585034014,False,Low roster-origin coverage
+mens-college-basketball,2418,Mount Olive Trojans,baseline_only_needs_review,baseline_archive_only,,,False,True,-1.98,False,,-1.98,False,
+mens-college-basketball,2424,New Mexico Highlands Cowboys,baseline_only_needs_review,baseline_archive_only,,,False,True,-5.38,False,,-5.38,False,
+mens-college-basketball,2426,Navy Midshipmen,unverified_candidate,roster_archive_only,,,True,True,7.34,True,-0.09604444444444442,7.243955555555555,False,Low roster-origin coverage
+mens-college-basketball,2427,UNC Asheville Bulldogs,unverified_candidate,roster_archive_only,,,True,True,2.99,True,-0.07954222222222217,2.9104577777777783,False,
+mens-college-basketball,2428,North Carolina Central Eagles,unverified_candidate,roster_archive_only,,,True,True,-3.62,True,-0.10866790123456789,-3.728667901234568,False,Low roster-origin coverage
+mens-college-basketball,2429,Charlotte 49ers,unverified_candidate,roster_archive_only,,,True,True,2.23,True,0.06594444444444439,2.2959444444444443,False,
+mens-college-basketball,2430,UNC Greensboro Spartans,unverified_candidate,roster_archive_only,,,True,True,-0.87,True,-0.18344013605442178,-1.0534401360544217,False,Low roster-origin coverage
+mens-college-basketball,2433,UL Monroe Warhawks,unverified_candidate,roster_archive_only,,,True,True,-6.94,True,-0.17216740740740738,-7.112167407407408,False,Low roster-origin coverage
+mens-college-basketball,2437,Omaha Mavericks,unverified_candidate,roster_archive_only,,,True,True,1.56,True,-0.19229358024691348,1.3677064197530866,False,
+mens-college-basketball,2439,UNLV Rebels,unverified_candidate,roster_archive_only,,,True,True,4.95,True,0.1126485638699924,5.062648563869993,False,
+mens-college-basketball,2440,Nevada Wolf Pack,unverified_candidate,roster_archive_only,,,True,True,8.17,True,0.22457731755424068,8.39457731755424,False,
+mens-college-basketball,2441,New Haven Chargers,unverified_candidate,roster_archive_only,,,True,True,-1.4,True,-0.23711518518518518,-1.637115185185185,False,
+mens-college-basketball,2443,LSU New Orleans Privateers,unverified_candidate,roster_archive_only,,,True,True,0.96,True,-0.05344857106241186,0.9065514289375881,False,Low roster-origin coverage
+mens-college-basketball,2447,Nicholls Colonels,unverified_candidate,roster_archive_only,,,True,True,-0.18,True,-0.21132547241118665,-0.39132547241118665,False,Low roster-origin coverage
+mens-college-basketball,2448,North Carolina A&T Aggies,unverified_candidate,roster_archive_only,,,True,True,-0.57,True,-0.09736049382716049,-0.6673604938271605,False,Low roster-origin coverage
+mens-college-basketball,2449,North Dakota State Bison,unverified_candidate,roster_archive_only,,,True,True,9.01,True,-0.015735185185185185,8.994264814814814,False,Low roster-origin coverage
+mens-college-basketball,2450,Norfolk State Spartans,unverified_candidate,roster_archive_only,,,True,True,-0.13,True,-0.13992285776901156,-0.2699228577690116,False,Low roster-origin coverage
+mens-college-basketball,2453,North Alabama Lions,unverified_candidate,roster_archive_only,,,True,True,-4.97,True,-0.07995456790123452,-5.049954567901234,False,Low roster-origin coverage
+mens-college-basketball,2454,North Florida Ospreys,conference_confirmed_d1_basketball,conference_schedule_2026_27,https://asunsports.org/news/2026/7/16/atlantic-sun-conference-announces-2026-27-mens-womens-basketball-schedules.aspx,,True,True,-4.43,True,0.016245578231292572,-4.413754421768707,False,Low roster-origin coverage
+mens-college-basketball,2458,Northern Colorado Bears,unverified_candidate,roster_archive_only,,,True,True,6.77,True,-0.07021333333333328,6.699786666666666,False,Low roster-origin coverage
+mens-college-basketball,2459,Northern Illinois Huskies,unverified_candidate,roster_archive_only,,,True,True,-4.18,True,-0.0512722222222222,-4.231272222222222,False,Low roster-origin coverage
+mens-college-basketball,2460,Northern Iowa Panthers,unverified_candidate,roster_archive_only,,,True,True,9.7,True,0.035361715797430165,9.73536171579743,False,
+mens-college-basketball,2463,Cal State Northridge Matadors,unverified_candidate,roster_archive_only,,,True,True,3.38,True,0.045289351851851865,3.425289351851852,False,
+mens-college-basketball,2464,Northern Arizona Lumberjacks,unverified_candidate,roster_archive_only,,,True,True,-1.7,True,-0.08277283950617283,-1.7827728395061728,False,Low roster-origin coverage
+mens-college-basketball,2465,Northwest University Eagles,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.22,False,,-3.22,False,
+mens-college-basketball,2466,Northwestern State Demons,unverified_candidate,roster_archive_only,,,True,True,-1.55,True,-0.0729304610733182,-1.6229304610733182,False,Low roster-origin coverage
+mens-college-basketball,2473,Oakland Golden Grizzlies,unverified_candidate,roster_archive_only,,,True,True,4.42,True,-0.09285925925925922,4.327140740740741,False,
+mens-college-basketball,2474,Oakland City Mighty Oaks,baseline_only_needs_review,baseline_archive_only,,,False,True,-6.89,False,,-6.89,False,
+mens-college-basketball,2475,Occidental Tigers,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.93,False,,-2.93,False,
+mens-college-basketball,2476,Oglethorpe Stormy Petrels,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.39,False,,-3.39,False,
+mens-college-basketball,2483,Oregon Ducks,unverified_candidate,roster_archive_only,,,True,True,3.74,True,0.3830907029478458,4.123090702947846,False,
+mens-college-basketball,2486,Pacific Lutheran Lutes,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.02,False,,-2.02,False,
+mens-college-basketball,2488,Paine Lions,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.35,False,,-3.35,False,
+mens-college-basketball,2491,Paul Quinn Tigers,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.7,False,,-3.7,False,
+mens-college-basketball,2492,Pepperdine Waves,unverified_candidate,roster_archive_only,,,True,True,-2.75,True,0.004606666666666736,-2.7453933333333334,False,Low roster-origin coverage
+mens-college-basketball,2496,Piedmont Lions,baseline_only_needs_review,baseline_archive_only,,,False,True,-0.61,False,,-0.61,False,
+mens-college-basketball,2501,Portland Pilots,unverified_candidate,roster_archive_only,,,True,True,0.15,True,0.004343209876543241,0.15434320987654324,False,
+mens-college-basketball,2502,Portland State Vikings,unverified_candidate,roster_archive_only,,,True,True,6.57,True,-0.19520196759259256,6.374798032407408,False,Low roster-origin coverage
+mens-college-basketball,2504,Prairie View A&M Panthers,unverified_candidate,roster_archive_only,,,True,True,-0.32,True,-0.13939879062736202,-0.459398790627362,False,Low roster-origin coverage
+mens-college-basketball,2506,Presbyterian Blue Hose,unverified_candidate,roster_archive_only,,,True,True,2.2,True,0.07289876543209883,2.272898765432099,False,
+mens-college-basketball,2507,Providence Friars,unverified_candidate,roster_archive_only,,,True,True,6.42,True,0.3602820512820514,6.780282051282051,False,
+mens-college-basketball,2508,Puget Sound Loggers,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.41,False,,-3.41,False,
+mens-college-basketball,2509,Purdue Boilermakers,unverified_candidate,roster_archive_only,,,True,True,17.07,True,-0.11718287037037031,16.95281712962963,False,Low roster-origin coverage
+mens-college-basketball,2511,Queens University Royals,conference_confirmed_d1_basketball,conference_schedule_2026_27,https://asunsports.org/news/2026/7/16/atlantic-sun-conference-announces-2026-27-mens-womens-basketball-schedules.aspx,,False,True,2.9,False,,2.9,False,
+mens-college-basketball,2514,Quinnipiac Bobcats,unverified_candidate,roster_archive_only,,,True,True,3.13,True,-0.14832222222222216,2.9816777777777776,False,Low roster-origin coverage
+mens-college-basketball,2515,Radford Highlanders,unverified_candidate,roster_archive_only,,,True,True,2.96,True,-0.1591414814814814,2.8008585185185186,False,
+mens-college-basketball,2517,Regis College Pride,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.44,False,,-2.44,False,
+mens-college-basketball,2518,Regis University REGIS UNIVERSITY,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.36,False,,-3.36,False,
+mens-college-basketball,2519,Rhodes Lynx,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.96,False,,-4.96,False,
+mens-college-basketball,2520,Rider Broncs,unverified_candidate,roster_archive_only,,,True,True,-7.96,True,-0.13388594104308385,-8.093885941043084,False,Low roster-origin coverage
+mens-college-basketball,2523,Robert Morris Colonials,unverified_candidate,roster_archive_only,,,True,True,6.02,True,0.03673679012345682,6.056736790123456,False,Low roster-origin coverage
+mens-college-basketball,2524,Rockford Regents,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.16,False,,-3.16,False,
+mens-college-basketball,2529,Sacred Heart Pioneers,unverified_candidate,roster_archive_only,,,True,True,-0.81,True,-0.19263189720332574,-1.002631897203326,False,
+mens-college-basketball,2534,Sam Houston Bearkats,unverified_candidate,roster_archive_only,,,True,True,8.17,True,-0.13156197530864194,8.038438024691358,False,Low roster-origin coverage
+mens-college-basketball,2535,Samford Bulldogs,unverified_candidate,roster_archive_only,,,True,True,4.3,True,0.05392078189300422,4.353920781893004,False,
+mens-college-basketball,2539,San Francisco Dons,unverified_candidate,roster_archive_only,,,True,True,4.47,True,-0.14037442129629626,4.329625578703704,False,Low roster-origin coverage
+mens-college-basketball,2540,UC Santa Barbara Gauchos,unverified_candidate,roster_archive_only,,,True,True,5.33,True,0.20354863514033075,5.533548635140331,False,
+mens-college-basketball,2541,Santa Clara Broncos,unverified_candidate,roster_archive_only,,,True,True,12.84,True,0.024420332577475508,12.864420332577476,False,
+mens-college-basketball,2544,Schreiner Mountaineers,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.2,False,,-3.2,False,
+mens-college-basketball,2545,SE Louisiana Lions,unverified_candidate,roster_archive_only,,,True,True,-1.97,True,0.01558796296296297,-1.954412037037037,False,
+mens-college-basketball,2546,Southeast Missouri State Redhawks,unverified_candidate,roster_archive_only,,,True,True,4.43,True,-0.10592515888669733,4.324074841113302,False,Low roster-origin coverage
+mens-college-basketball,2547,Seattle U Redhawks,unverified_candidate,roster_archive_only,,,True,True,6.35,True,0.05624259259259269,6.4062425925925925,False,
+mens-college-basketball,2550,Seton Hall Pirates,unverified_candidate,roster_archive_only,,,True,True,8.78,True,0.3630950617283952,9.143095061728394,False,
+mens-college-basketball,2551,Shaw Bears,baseline_only_needs_review,baseline_archive_only,,,False,True,0.14,False,,0.14,False,
+mens-college-basketball,2561,Siena Saints,unverified_candidate,roster_archive_only,,,True,True,4.63,True,-0.09594930555555552,4.534050694444445,False,Low roster-origin coverage
+mens-college-basketball,2562,Siena Heights Saints,baseline_only_needs_review,baseline_archive_only,,,False,True,-5.49,False,,-5.49,False,
+mens-college-basketball,2564,Simpson (IA) Storm,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.52,False,,-3.52,False,
+mens-college-basketball,2565,SIU Edwardsville Cougars,unverified_candidate,roster_archive_only,,,True,True,3.91,True,-0.07357333333333331,3.8364266666666667,False,Low roster-origin coverage
+mens-college-basketball,2567,SMU Mustangs,unverified_candidate,roster_archive_only,,,True,True,10.99,True,0.30614656084656083,11.29614656084656,False,
+mens-college-basketball,2568,Southern Arkansas Muleriders,baseline_only_needs_review,baseline_archive_only,,,False,True,-0.36,False,,-0.36,False,
+mens-college-basketball,2569,South Carolina State Bulldogs,unverified_candidate,roster_archive_only,,,True,True,-7.8,True,-0.0787822222222222,-7.878782222222222,False,Low roster-origin coverage
+mens-college-basketball,2571,South Dakota State Jackrabbits,unverified_candidate,roster_archive_only,,,True,True,4.1,True,-0.009987654320987582,4.090012345679012,False,
+mens-college-basketball,2572,Southern Miss Golden Eagles,unverified_candidate,roster_archive_only,,,True,True,2.72,True,-0.08075196759259257,2.6392480324074077,False,Low roster-origin coverage
+mens-college-basketball,2573,Southern New Orleans Knights,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.28,False,,-4.28,False,
+mens-college-basketball,2576,Southern Wesleyan Warriors,baseline_only_needs_review,baseline_archive_only,,,False,True,-7.93,False,,-7.93,False,
+mens-college-basketball,2579,South Carolina Gamecocks,unverified_candidate,roster_archive_only,,,True,True,4.68,True,0.0981733333333334,4.778173333333333,False,Low roster-origin coverage
+mens-college-basketball,2582,Southern Jaguars,unverified_candidate,roster_archive_only,,,True,True,-0.13,True,-0.1108311111111111,-0.2408311111111111,False,Low roster-origin coverage
+mens-college-basketball,2590,Spring Hill Badgers,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.61,False,,-3.61,False,
+mens-college-basketball,2591,St. Ambrose Fighting Bees,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.31,False,,-2.31,False,
+mens-college-basketball,2595,St. Francis (IL) Fighting Saints,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.27,False,,-3.27,False,
+mens-college-basketball,2598,Saint Francis Red Wolves,baseline_only_needs_review,baseline_archive_only,,,False,True,-6.63,False,,-6.63,False,
+mens-college-basketball,2599,St. John's Red Storm,unverified_candidate,roster_archive_only,,,True,True,15.21,True,0.09261388888888894,15.30261388888889,False,
+mens-college-basketball,2600,Saint John's (MN) Johnnies,baseline_only_needs_review,baseline_archive_only,,,False,True,-1.26,False,,-1.26,False,
+mens-college-basketball,2603,Saint Joseph's Hawks,unverified_candidate,roster_archive_only,,,True,True,5.78,True,-0.04189382716049376,5.738106172839506,False,
+mens-college-basketball,2605,Saint Leo Monarchs,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.44,False,,-3.44,False,
+mens-college-basketball,2608,Saint Mary's Gaels,unverified_candidate,roster_archive_only,,,True,True,14.47,True,-0.05969876543209873,14.410301234567902,False,
+mens-college-basketball,2612,Saint Peter's Peacocks,unverified_candidate,roster_archive_only,,,True,True,1.74,True,-0.1319720332577475,1.6080279667422526,False,
+mens-college-basketball,2615,Saint Xavier Cougars,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.14,False,,-4.14,False,
+mens-college-basketball,2617,Stephen F. Austin Lumberjacks,unverified_candidate,roster_archive_only,,,True,True,9.41,True,-0.025555308641975253,9.384444691358025,False,
+mens-college-basketball,2619,Stony Brook Seawolves,unverified_candidate,roster_archive_only,,,True,True,1.98,True,0.016456296296296368,1.9964562962962964,False,
+mens-college-basketball,2623,Missouri State Bears,unverified_candidate,roster_archive_only,,,True,True,3.93,True,-0.12886419753086417,3.801135802469136,False,Low roster-origin coverage
+mens-college-basketball,2627,Tarleton State Texans,unverified_candidate,roster_archive_only,,,True,True,2.72,True,0.12483055555555558,2.8448305555555558,False,
+mens-college-basketball,2628,TCU Horned Frogs,unverified_candidate,roster_archive_only,,,True,True,9.79,True,0.08575604938271605,9.875756049382716,False,Low roster-origin coverage
+mens-college-basketball,2630,UT Martin Skyhawks,unverified_candidate,roster_archive_only,,,True,True,5.23,True,-0.10857481481481479,5.121425185185186,False,Low roster-origin coverage
+mens-college-basketball,2632,Tennessee Wesleyan Bulldogs,baseline_only_needs_review,baseline_archive_only,,,False,True,-5.07,False,,-5.07,False,
+mens-college-basketball,2633,Tennessee Volunteers,unverified_candidate,roster_archive_only,,,True,True,15.25,True,0.3594599128540305,15.60945991285403,False,
+mens-college-basketball,2634,Tennessee State Tigers,unverified_candidate,roster_archive_only,,,True,True,6.16,True,-0.09472592592592588,6.0652740740740745,False,
+mens-college-basketball,2635,Tennessee Tech Golden Eagles,unverified_candidate,roster_archive_only,,,True,True,-0.07,True,0.017876543209876593,-0.05212345679012341,False,Low roster-origin coverage
+mens-college-basketball,2636,UTSA Roadrunners,unverified_candidate,roster_archive_only,,,True,True,-6.92,True,0.14164197530864198,-6.778358024691358,False,
+mens-college-basketball,2638,UTEP Miners,unverified_candidate,roster_archive_only,,,True,True,0.87,True,-0.01120197530864194,0.858798024691358,False,Low roster-origin coverage
+mens-college-basketball,2639,Texas Lutheran Bulldogs,baseline_only_needs_review,baseline_archive_only,,,False,True,-7.07,False,,-7.07,False,
+mens-college-basketball,2640,Texas Southern Tigers,unverified_candidate,roster_archive_only,,,True,True,-3.01,True,-0.25027528344671196,-3.260275283446712,False,
+mens-college-basketball,2641,Texas Tech Red Raiders,unverified_candidate,roster_archive_only,,,True,True,14.04,True,0.3759984882842026,14.415998488284202,False,
+mens-college-basketball,2643,The Citadel Bulldogs,unverified_candidate,roster_archive_only,,,True,True,-4.25,True,-0.16990803537101112,-4.419908035371011,False,
+mens-college-basketball,2644,Thiel Tomcats,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.59,False,,-3.59,False,
+mens-college-basketball,2645,Thomas College Terriers,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.32,False,,-4.32,False,
+mens-college-basketball,2648,Toccoa Falls Eagles,baseline_only_needs_review,baseline_archive_only,,,False,True,-12.1,False,,-12.1,False,
+mens-college-basketball,2649,Toledo Rockets,unverified_candidate,roster_archive_only,,,True,True,7.14,True,-0.04625877712031556,7.093741222879684,False,
+mens-college-basketball,2650,Tougaloo Bulldogs,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.89,False,,-3.89,False,
+mens-college-basketball,2652,Trinity Christian Trolls,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.8,False,,-2.8,False,
+mens-college-basketball,2653,Troy Trojans,unverified_candidate,roster_archive_only,,,True,True,6.3,True,0.01877530864197537,6.318775308641976,False,
+mens-college-basketball,2655,Tulane Green Wave,unverified_candidate,roster_archive_only,,,True,True,0.34,True,0.028883950617283917,0.36888395061728396,False,
+mens-college-basketball,2660,UMass Boston Beacons,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.64,False,,-3.64,False,
+mens-college-basketball,2662,UC Santa Cruz Banana Slugs,baseline_only_needs_review,baseline_archive_only,,,False,True,-6.25,False,,-6.25,False,
+mens-college-basketball,2670,VCU Rams,unverified_candidate,roster_archive_only,,,True,True,12.1,True,0.3078748677248677,12.407874867724868,False,
+mens-college-basketball,2674,Valparaiso Beacons,unverified_candidate,roster_archive_only,,,True,True,3.82,True,-0.0035509259259259435,3.816449074074074,False,Low roster-origin coverage
+mens-college-basketball,2678,VMI Keydets,unverified_candidate,roster_archive_only,,,True,True,-6.34,True,-0.06994335511982566,-6.409943355119825,False,Low roster-origin coverage
+mens-college-basketball,2679,Voorhees Tigers,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.8,False,,-3.8,False,
+mens-college-basketball,2681,Wagner Seahawks,unverified_candidate,roster_archive_only,,,True,True,-0.43,True,-0.29026341647770215,-0.7202634164777022,False,
+mens-college-basketball,2684,Warren Wilson Owls,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.72,False,,-3.72,False,
+mens-college-basketball,2688,Washington and Lee Generals,baseline_only_needs_review,baseline_archive_only,,,False,True,-0.93,False,,-0.93,False,
+mens-college-basketball,2689,Washington Maryland Shoremen,baseline_only_needs_review,baseline_archive_only,,,False,True,-6.11,False,,-6.11,False,
+mens-college-basketball,2692,Weber State Wildcats,unverified_candidate,roster_archive_only,,,True,True,3.83,True,-0.31669652305366586,3.513303476946334,False,
+mens-college-basketball,2693,Webster Gorloks,baseline_only_needs_review,baseline_archive_only,,,False,True,-6.41,False,,-6.41,False,
+mens-college-basketball,2697,West Florida Argonauts,reclassifying_d1_basketball,conference_and_ncaa_directory,https://asunsports.org/news/2026/7/16/atlantic-sun-conference-announces-2026-27-mens-womens-basketball-schedules.aspx | https://web3.ncaa.org/directory/orgDetail?id=11740,,True,False,,False,,,True,West Florida prior D2 history absent; no roster adjustment
+mens-college-basketball,2698,West Georgia Wolves,unverified_candidate,roster_archive_only,,,True,True,-1.34,True,-0.16167581018518515,-1.5016758101851853,False,
+mens-college-basketball,2701,Montana Western Bulldogs,baseline_only_needs_review,baseline_archive_only,,,False,True,-1.27,False,,-1.27,False,
+mens-college-basketball,2703,Western New Mexico Mustangs,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.68,False,,-3.68,False,
+mens-college-basketball,2706,WVU Tech Golden Bears,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.65,False,,-3.65,False,
+mens-college-basketball,2710,Western Illinois Leathernecks,unverified_candidate,roster_archive_only,,,True,True,-7.79,True,-0.10114444444444443,-7.8911444444444445,False,Low roster-origin coverage
+mens-college-basketball,2711,Western Michigan Broncos,unverified_candidate,roster_archive_only,,,True,True,-0.48,True,0.25335476190476197,-0.226645238095238,False,Low roster-origin coverage
+mens-college-basketball,2717,Western Carolina Catamounts,unverified_candidate,roster_archive_only,,,True,True,2.76,True,-0.048864699074074,2.7111353009259256,False,
+mens-college-basketball,2720,Whitman Blues,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.4,False,,-3.4,False,
+mens-college-basketball,2724,Wichita State Shockers,unverified_candidate,roster_archive_only,,,True,True,9.66,True,0.2601476543209877,9.920147654320989,False,
+mens-college-basketball,2725,Widener Pride,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.17,False,,-3.17,False,
+mens-college-basketball,2729,William & Mary Tribe,unverified_candidate,roster_archive_only,,,True,True,6.6,True,-0.1760955555555555,6.423904444444444,False,Low roster-origin coverage
+mens-college-basketball,2730,William Carey Crusaders,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.22,False,,-4.22,False,
+mens-college-basketball,2732,Wilmington (DE) Wildcats,baseline_only_needs_review,baseline_archive_only,,,False,True,1.12,False,,1.12,False,
+mens-college-basketball,2737,Winthrop Eagles,unverified_candidate,roster_archive_only,,,True,True,7.82,True,-0.04169675925925924,7.778303240740741,False,Low roster-origin coverage
+mens-college-basketball,2739,Green Bay Phoenix,unverified_candidate,roster_archive_only,,,True,True,2.91,True,0.013113541666666707,2.923113541666667,False,Low roster-origin coverage
+mens-college-basketball,2747,Wofford Terriers,unverified_candidate,roster_archive_only,,,True,True,2.52,True,-0.09433061728395058,2.4256693827160496,False,Low roster-origin coverage
+mens-college-basketball,2750,Wright State Raiders,unverified_candidate,roster_archive_only,,,True,True,7.32,True,0.010159863945578242,7.330159863945578,False,Low roster-origin coverage
+mens-college-basketball,2751,Wyoming Cowboys,unverified_candidate,roster_archive_only,,,True,True,6.83,True,0.05261333333333342,6.8826133333333335,False,Low roster-origin coverage
+mens-college-basketball,2752,Xavier Musketeers,unverified_candidate,roster_archive_only,,,True,True,3.86,True,0.1867347222222223,4.046734722222222,False,
+mens-college-basketball,2754,Youngstown State Penguins,unverified_candidate,roster_archive_only,,,True,True,4.68,True,-0.09528835978835976,4.58471164021164,False,Low roster-origin coverage
+mens-college-basketball,2755,Grambling Tigers,unverified_candidate,roster_archive_only,,,True,True,-0.58,True,-0.12868677248677246,-0.7086867724867725,False,Low roster-origin coverage
+mens-college-basketball,2758,Howard Payne Yellow Jackets,baseline_only_needs_review,baseline_archive_only,,,False,True,-6.66,False,,-6.66,False,
+mens-college-basketball,2771,Merrimack Warriors,unverified_candidate,roster_archive_only,,,True,True,3.56,True,-0.0373827160493827,3.522617283950617,False,
+mens-college-basketball,2772,Crookston (MN) Golden Eagles,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.44,False,,-2.44,False,
+mens-college-basketball,2776,Salve Regina Seahawks,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.27,False,,-3.27,False,
+mens-college-basketball,2803,Bryant Bulldogs,unverified_candidate,roster_archive_only,,,True,True,-4.54,True,-0.09859953863898499,-4.638599538638985,False,Low roster-origin coverage
+mens-college-basketball,2815,Lindenwood Lions,baseline_only_needs_review,baseline_archive_only,,,False,True,3.68,False,,3.68,False,
+mens-college-basketball,2816,McKendree Bearcats,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.38,False,,-3.38,False,
+mens-college-basketball,2822,North Greenville Trailblazers,baseline_only_needs_review,baseline_archive_only,,,False,True,-1.02,False,,-1.02,False,
+mens-college-basketball,2823,Northwestern (OK) Rangers,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.67,False,,-3.67,False,
+mens-college-basketball,2827,Rowan Profs,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.62,False,,-3.62,False,
+mens-college-basketball,2828,Shenandoah Hornets,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.78,False,,-3.78,False,
+mens-college-basketball,2837,East Texas A&M Lions,unverified_candidate,roster_archive_only,,,True,True,-2.15,True,-0.14418222222222218,-2.294182222222222,False,Low roster-origin coverage
+mens-college-basketball,2838,Tiffin Dragons,baseline_only_needs_review,baseline_archive_only,,,False,True,-1.11,False,,-1.11,False,
+mens-college-basketball,2839,Tusculum Pioneers,baseline_only_needs_review,baseline_archive_only,,,False,True,-1.9,False,,-1.9,False,
+mens-college-basketball,2841,Union Commonwealth (KY) Bulldogs,baseline_only_needs_review,baseline_archive_only,,,False,True,-6.43,False,,-6.43,False,
+mens-college-basketball,2845,Waynesburg Yellow Jackets,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.41,False,,-4.41,False,
+mens-college-basketball,2850,Whittier Poets,baseline_only_needs_review,baseline_archive_only,,,False,True,-5.11,False,,-5.11,False,
+mens-college-basketball,2854,Bloomfield Deacons,baseline_only_needs_review,baseline_archive_only,,,False,True,0.06,False,,0.06,False,
+mens-college-basketball,2855,Brescia Bearcats,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.67,False,,-4.67,False,
+mens-college-basketball,2856,California Baptist Lancers,unverified_candidate,roster_archive_only,,,True,True,6.95,True,-0.11561604938271602,6.834383950617284,False,Low roster-origin coverage
+mens-college-basketball,2857,Caldwell Cougars,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.34,False,,-2.34,False,
+mens-college-basketball,2862,Colorado Christian Cougars,baseline_only_needs_review,baseline_archive_only,,,False,True,-5.65,False,,-5.65,False,
+mens-college-basketball,2865,Evangel Crusaders,baseline_only_needs_review,baseline_archive_only,,,False,True,-1.3,False,,-1.3,False,
+mens-college-basketball,2866,Evergreen State Geoducks,baseline_only_needs_review,baseline_archive_only,,,False,True,-5.01,False,,-5.01,False,
+mens-college-basketball,2870,Purdue Fort Wayne Mastodons,unverified_candidate,roster_archive_only,,,True,True,1.83,True,-0.065758024691358,1.764241975308642,False,Low roster-origin coverage
+mens-college-basketball,2871,Kean Cougars,baseline_only_needs_review,baseline_archive_only,,,False,True,-0.71,False,,-0.71,False,
+mens-college-basketball,2879,Manhattanville Valiants,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.91,False,,-2.91,False,
+mens-college-basketball,2880,Missouri Baptist Spartans,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.34,False,,-3.34,False,
+mens-college-basketball,2885,NJIT Highlanders,unverified_candidate,roster_archive_only,,,True,True,-3.05,True,0.04953808897655051,-3.000461911023449,False,
+mens-college-basketball,2886,Northwood Timberwolves,baseline_only_needs_review,baseline_archive_only,,,False,True,0.72,False,,0.72,False,
+mens-college-basketball,2890,Reinhardt Eagles,baseline_only_needs_review,baseline_archive_only,,,False,True,-6.12,False,,-6.12,False,
+mens-college-basketball,2891,Ripon Red Hawks,baseline_only_needs_review,baseline_archive_only,,,False,True,-1.57,False,,-1.57,False,
+mens-college-basketball,2892,Rust Bearcats,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.1,False,,-4.1,False,
+mens-college-basketball,2896,Southern Virginia Knights,baseline_only_needs_review,baseline_archive_only,,,False,True,-5.59,False,,-5.59,False,
+mens-college-basketball,2900,St. Thomas Tommies,unverified_candidate,roster_archive_only,,,True,True,9.68,True,-0.14267135802469127,9.537328641975309,False,
+mens-college-basketball,2903,Southwestern Adventist Knights,baseline_only_needs_review,baseline_archive_only,,,False,True,-8.97,False,,-8.97,False,
+mens-college-basketball,2908,South Carolina Upstate Spartans,unverified_candidate,roster_archive_only,,,True,True,1.12,True,-0.19218370370370366,0.9278162962962965,False,Low roster-origin coverage
+mens-college-basketball,2913,Brevard Tornados,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.33,False,,-2.33,False,
+mens-college-basketball,2916,Incarnate Word Cardinals,unverified_candidate,roster_archive_only,,,True,True,1.38,True,-0.18226962962962961,1.1977303703703703,False,Low roster-origin coverage
+mens-college-basketball,2920,Mobile Rams,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.84,False,,-2.84,False,
+mens-college-basketball,2930,Willamette Bearcats,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.76,False,,-3.76,False,
+mens-college-basketball,2932,Point Skyhawks,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.35,False,,-3.35,False,
+mens-college-basketball,2934,Cal State Bakersfield Roadrunners,unverified_candidate,roster_archive_only,,,True,True,-5.54,True,-0.14689138321995462,-5.686891383219955,False,Low roster-origin coverage
+mens-college-basketball,2936,Dominican (IL) Dominican,baseline_only_needs_review,baseline_archive_only,,,False,True,-7.2,False,,-7.2,False,
+mens-college-basketball,2937,Dallas Christian Crusaders,baseline_only_needs_review,baseline_archive_only,,,False,True,-9.46,False,,-9.46,False,
+mens-college-basketball,2938,Huntingdon Hawks,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.93,False,,-3.93,False,
+mens-college-basketball,2939,Jamestown Jimmies,baseline_only_needs_review,baseline_archive_only,,,False,True,-0.33,False,,-0.33,False,
+mens-college-basketball,2944,Penn State Behrend Lions,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.47,False,,-2.47,False,
+mens-college-basketball,2945,Pfeiffer Falcons,baseline_only_needs_review,baseline_archive_only,,,False,True,-5.75,False,,-5.75,False,
+mens-college-basketball,2951,SUNY Maritime Privateers,baseline_only_needs_review,baseline_archive_only,,,False,True,-5.03,False,,-5.03,False,
+mens-college-basketball,2952,Warner Pacific Knights,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.41,False,,-3.41,False,
+mens-college-basketball,2957,Dominican (CA) Penguins,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.24,False,,-3.24,False,
+mens-college-basketball,2980,Ohio Wesleyan Battling Bishops,baseline_only_needs_review,baseline_archive_only,,,False,True,-5.74,False,,-5.74,False,
+mens-college-basketball,2981,Williams Baptist Eagles,baseline_only_needs_review,baseline_archive_only,,,False,True,-1.32,False,,-1.32,False,
+mens-college-basketball,2990,St. Joseph's Brooklyn Bears,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.56,False,,-4.56,False,
+mens-college-basketball,3071,North Central College Cardinals,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.63,False,,-2.63,False,
+mens-college-basketball,3077,Kentucky Christian Knights,baseline_only_needs_review,baseline_archive_only,,,False,True,-8.4,False,,-8.4,False,
+mens-college-basketball,3078,Jessup Warriors,baseline_only_needs_review,baseline_archive_only,,,False,True,-0.8,False,,-0.8,False,
+mens-college-basketball,3081,UT Permian Basin Falcons,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.01,False,,-4.01,False,
+mens-college-basketball,3083,Oakwood Ambassadors,baseline_only_needs_review,baseline_archive_only,,,False,True,-8.84,False,,-8.84,False,
+mens-college-basketball,3084,Utah Valley Wolverines,unverified_candidate,roster_archive_only,,,True,True,10.0,True,-0.04779907407407404,9.952200925925926,False,
+mens-college-basketball,3101,Utah Tech Trailblazers,unverified_candidate,roster_archive_only,,,True,True,3.55,True,-0.0708102796674225,3.4791897203325775,False,Low roster-origin coverage
+mens-college-basketball,3107,East West Phantoms,baseline_only_needs_review,baseline_archive_only,,,False,True,-10.2,False,,-10.2,False,
+mens-college-basketball,3111,Apprentice School Builders,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.6,False,,-3.6,False,
+mens-college-basketball,3120,Ecclesia Royals,baseline_only_needs_review,baseline_archive_only,,,False,True,-12.84,False,,-12.84,False,
+mens-college-basketball,3121,Ohio Christian Trailblazers,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.88,False,,-2.88,False,
+mens-college-basketball,3126,Mid America Christian Evangels,baseline_only_needs_review,baseline_archive_only,,,False,True,-1.94,False,,-1.94,False,
+mens-college-basketball,3134,Champion Christian Tigers,baseline_only_needs_review,baseline_archive_only,,,False,True,-14.56,False,,-14.56,False,
+mens-college-basketball,3138,IU East IU EAST,baseline_only_needs_review,baseline_archive_only,,,False,True,-6.23,False,,-6.23,False,
+mens-college-basketball,3141,Northern New Mexico Eagles,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.31,False,,-3.31,False,
+mens-college-basketball,3149,Farmingdale State Rams,baseline_only_needs_review,baseline_archive_only,,,False,True,-0.22,False,,-0.22,False,
+mens-college-basketball,3153,Randolph Wildcats,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.0,False,,-4.0,False,
+mens-college-basketball,3154,Southwest Mustangs,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.58,False,,-3.58,False,
+mens-college-basketball,3155,Trinity (FL) Tigers,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.18,False,,-4.18,False,
+mens-college-basketball,3156,SUNY Cobleskill Fighting Tigers,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.12,False,,-4.12,False,
+mens-college-basketball,3158,Our Lady of the Lake Saints,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.88,False,,-3.88,False,
+mens-college-basketball,3164,Central Penn Knights,baseline_only_needs_review,baseline_archive_only,,,False,True,-9.8,False,,-9.8,False,
+mens-college-basketball,3166,Arlington Baptist Patriots,baseline_only_needs_review,baseline_archive_only,,,False,True,-8.96,False,,-8.96,False,
+mens-college-basketball,3167,La Sierra Golden Eagles,baseline_only_needs_review,baseline_archive_only,,,False,True,-8.94,False,,-8.94,False,
+mens-college-basketball,3169,Johnson & Wales-Charlotte JOHNSON & WALES-CHARLOTTE,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.82,False,,-4.82,False,
+mens-college-basketball,3170,St. Thomas (TX) Celts,baseline_only_needs_review,baseline_archive_only,,,False,True,0.32,False,,0.32,False,
+mens-college-basketball,3173,Pensacola Christian PENSACOLA CHRISTIAN,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.41,False,,-3.41,False,
+mens-college-basketball,3174,Trinity College of Jacksonville Eagles,baseline_only_needs_review,baseline_archive_only,,,False,True,-10.15,False,,-10.15,False,
+mens-college-basketball,3183,Penn State Abington Nittany Lions,baseline_only_needs_review,baseline_archive_only,,,False,True,-6.59,False,,-6.59,False,
+mens-college-basketball,3185,UC Merced Bobcats,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.5,False,,-2.5,False,
+mens-college-basketball,3189,Coastal Georgia Mariner,baseline_only_needs_review,baseline_archive_only,,,False,True,-8.35,False,,-8.35,False,
+mens-college-basketball,3196,St. Joseph's Long Island Golden Eagles,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.89,False,,-3.89,False,
+mens-college-basketball,3218,Northwest Indian RedHawks,baseline_only_needs_review,baseline_archive_only,,,False,True,-8.49,False,,-8.49,False,
+mens-college-basketball,3229,Virginia Lynchburg Dragons,baseline_only_needs_review,baseline_archive_only,,,False,True,-20.83,False,,-20.83,False,
+mens-college-basketball,3238,Southwestern Christian U Eagles,baseline_only_needs_review,baseline_archive_only,,,False,True,-9.81,False,,-9.81,False,
+mens-college-basketball,3242,Columbia International Rams,baseline_only_needs_review,baseline_archive_only,,,False,True,-5.57,False,,-5.57,False,
+mens-college-basketball,3243,Bob Jones Bruins,baseline_only_needs_review,baseline_archive_only,,,False,True,-8.72,False,,-8.72,False,
+mens-college-basketball,3245,Truett McConnell Bears,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.42,False,,-2.42,False,
+mens-college-basketball,3246,Bethesda Flames,baseline_only_needs_review,baseline_archive_only,,,False,True,-15.78,False,,-15.78,False,
+mens-college-basketball,5345,Benedictine (IL) Eagles,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.58,False,,-4.58,False,
+mens-college-basketball,5426,Brandeis Judges,baseline_only_needs_review,baseline_archive_only,,,False,True,-0.46,False,,-0.46,False,
+mens-college-basketball,6183,Cal Poly Humboldt Lumberjacks,baseline_only_needs_review,baseline_archive_only,,,False,True,-1.57,False,,-1.57,False,
+mens-college-basketball,6371,Lane College Dragons,baseline_only_needs_review,baseline_archive_only,,,False,True,-0.89,False,,-0.89,False,
+mens-college-basketball,7933,Western New England Golden Bears,baseline_only_needs_review,baseline_archive_only,,,False,True,-0.04,False,,-0.04,False,
+mens-college-basketball,16231,SUNY Old Westbury Panthers,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.06,False,,-3.06,False,
+mens-college-basketball,50024,Washington Adventist Shock,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.27,False,,-2.27,False,
+mens-college-basketball,66786,Saint Elizabeth Eagles,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.35,False,,-4.35,False,
+mens-college-basketball,103524,Holy Cross (IN) Saints,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.13,False,,-3.13,False,
+mens-college-basketball,107730,Florida National Conquistadors,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.63,False,,-3.63,False,
+mens-college-basketball,108799,Cincinnati Clermont Cougars,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.43,False,,-3.43,False,
+mens-college-basketball,108806,Mid Atlantic Christian Mustangs,baseline_only_needs_review,baseline_archive_only,,,False,True,-13.18,False,,-13.18,False,
+mens-college-basketball,108807,William Peace Pacers,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.87,False,,-2.87,False,
+mens-college-basketball,108820,Alfred State Pioneers,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.42,False,,-3.42,False,
+mens-college-basketball,108838,Mitchell Mariners,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.38,False,,-2.38,False,
+mens-college-basketball,108842,Emerson Lions,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.23,False,,-2.23,False,
+mens-college-basketball,108862,Sarah Lawrence Gryphons,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.5,False,,-3.5,False,
+mens-college-basketball,108942,Carolina University Bruins,baseline_only_needs_review,baseline_archive_only,,,False,True,-9.31,False,,-9.31,False,
+mens-college-basketball,109670,Life Pacific Warriors,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.59,False,,-2.59,False,
+mens-college-basketball,109671,Lourdes Gray Wolves,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.54,False,,-2.54,False,
+mens-college-basketball,109700,Boyce Bulldogs,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.91,False,,-3.91,False,
+mens-college-basketball,109998,York (NE) Panthers,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.94,False,,-3.94,False,
+mens-college-basketball,110031,Benedictine Mesa Redhawks,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.3,False,,-4.3,False,
+mens-college-basketball,110414,Valley Forge Patriots,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.02,False,,-4.02,False,
+mens-college-basketball,110418,West Coast Baptist Eagles,baseline_only_needs_review,baseline_archive_only,,,False,True,-8.83,False,,-8.83,False,
+mens-college-basketball,110450,Caltech CALTECH,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.75,False,,-3.75,False,
+mens-college-basketball,111166,Midway Eagles,baseline_only_needs_review,baseline_archive_only,,,False,True,-8.41,False,,-8.41,False,
+mens-college-basketball,111170,Franciscan Barons,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.18,False,,-3.18,False,
+mens-college-basketball,111179,Georgian Court Lions,baseline_only_needs_review,baseline_archive_only,,,False,True,-6.33,False,,-6.33,False,
+mens-college-basketball,111180,Christendom Crusaders,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.82,False,,-4.82,False,
+mens-college-basketball,111199,Penn State Brandywine Lions,baseline_only_needs_review,baseline_archive_only,,,False,True,-6.74,False,,-6.74,False,
+mens-college-basketball,111226,Embry Riddle (AZ) Eagles,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.08,False,,-3.08,False,
+mens-college-basketball,111254,Ottawa (AZ) Spirit,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.99,False,,-2.99,False,
+mens-college-basketball,111902,Misericordia Cougars,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.48,False,,-4.48,False,
+mens-college-basketball,111913,Rivier Raiders,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.12,False,,-4.12,False,
+mens-college-basketball,111914,Wilson WILSON,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.4,False,,-3.4,False,
+mens-college-basketball,111926,Regent Royals,baseline_only_needs_review,baseline_archive_only,,,False,True,-6.75,False,,-6.75,False,
+mens-college-basketball,111947,SUNY Canton Roos,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.89,False,,-3.89,False,
+mens-college-basketball,111948,Elms Blazers,baseline_only_needs_review,baseline_archive_only,,,False,True,-7.27,False,,-7.27,False,
+mens-college-basketball,111949,DeSales Bulldogs,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.78,False,,-2.78,False,
+mens-college-basketball,112358,Long Island University Sharks,unverified_candidate,roster_archive_only,,,True,True,2.61,True,-0.20728707482993197,2.402712925170068,False,Low roster-origin coverage
+mens-college-basketball,112686,Health Sciences & Pharmacy Eutectics,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.7,False,,-3.7,False,
+mens-college-basketball,112706,Penn State York Nittany Lions,baseline_only_needs_review,baseline_archive_only,,,False,True,-1.33,False,,-1.33,False,
+mens-college-basketball,121894,North Central Rams,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.04,False,,-3.04,False,
+mens-college-basketball,123306,Lancaster Bible Chargers,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.92,False,,-2.92,False,
+mens-college-basketball,123350,Park University Gilbert Buccaneers,baseline_only_needs_review,baseline_archive_only,,,False,True,-0.61,False,,-0.61,False,
+mens-college-basketball,123362,Fort Lauderdale Eagles,baseline_only_needs_review,baseline_archive_only,,,False,True,-7.3,False,,-7.3,False,
+mens-college-basketball,123410,Kansas Christian Falcons,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.47,False,,-3.47,False,
+mens-college-basketball,124809,Miami (OH) Hamilton Harriers,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.85,False,,-3.85,False,
+mens-college-basketball,124942,Mary Baldwin Fighting Squirrels,baseline_only_needs_review,baseline_archive_only,,,False,True,-5.45,False,,-5.45,False,
+mens-college-basketball,124946,Lincoln (CA) Oaklanders,baseline_only_needs_review,baseline_archive_only,,,False,True,-13.06,False,,-13.06,False,
+mens-college-basketball,124947,Converse Valkyries,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.26,False,,-3.26,False,
+mens-college-basketball,125330,Spurgeon Knights,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.63,False,,-3.63,False,
+mens-college-basketball,126751,Vermont State Johnson Badgers,baseline_only_needs_review,baseline_archive_only,,,False,True,-10.08,False,,-10.08,False,
+mens-college-basketball,126794,UNT Dallas Trailblazers,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.53,False,,-3.53,False,
+mens-college-basketball,126821,Pittsburgh-Greensburg GREENSBURG,baseline_only_needs_review,baseline_archive_only,,,False,True,-1.66,False,,-1.66,False,
+mens-college-basketball,126824,Saint Mary of the Woods Pomeroys,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.62,False,,-2.62,False,
+mens-college-basketball,126826,Mississippi U for Women Owls,baseline_only_needs_review,baseline_archive_only,,,False,True,-5.2,False,,-5.2,False,
+mens-college-basketball,126848,SUNY Delhi Broncos,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.16,False,,-4.16,False,
+mens-college-basketball,126890,Maine Augusta Moose,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.99,False,,-3.99,False,
+mens-college-basketball,126910,Penn State New Kensington Lions,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.98,False,,-3.98,False,
+mens-college-basketball,126954,Clinton Golden Bears,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.24,False,,-3.24,False,
+mens-college-basketball,126972,Miami (OH) Middletown ThunderHawks,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.34,False,,-4.34,False,
+mens-college-basketball,127162,Ozark Christian Ambassadors,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.11,False,,-4.11,False,
+mens-college-basketball,128256,College of Biblical Studies Ambassadors,baseline_only_needs_review,baseline_archive_only,,,False,True,-17.5,False,,-17.5,False,
+mens-college-basketball,128342,Notre Dame (MD) Gators,baseline_only_needs_review,baseline_archive_only,,,False,True,-7.6,False,,-7.6,False,
+mens-college-basketball,128438,Cleary University Cougars,baseline_only_needs_review,baseline_archive_only,,,False,True,-8.91,False,,-8.91,False,
+mens-college-basketball,128501,Stanton Elks,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.65,False,,-3.65,False,
+mens-college-basketball,128531,Roberts Wesleyan Redhawks,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.45,False,,-3.45,False,
+mens-college-basketball,128550,New College Mighty Banyans,baseline_only_needs_review,baseline_archive_only,,,False,True,-7.23,False,,-7.23,False,
+mens-college-basketball,130174,Texas A&M-San Antonio Jaguars,baseline_only_needs_review,baseline_archive_only,,,False,True,-7.0,False,,-7.0,False,
+mens-college-basketball,130183,Justice Lions,baseline_only_needs_review,baseline_archive_only,,,False,True,-8.87,False,,-8.87,False,
+mens-college-basketball,130190,Lehman Bridges,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.68,False,,-3.68,False,
+mens-college-basketball,130195,Penn State Shenango Nittany Lions,baseline_only_needs_review,baseline_archive_only,,,False,True,-10.93,False,,-10.93,False,
+mens-college-basketball,130196,Manor Blue Jays,baseline_only_needs_review,baseline_archive_only,,,False,True,-5.36,False,,-5.36,False,
+mens-college-basketball,130201,Nobel Knights,baseline_only_needs_review,baseline_archive_only,,,False,True,-14.64,False,,-14.64,False,
+mens-college-basketball,130262,IU Columbus Crimson Pride,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.34,False,,-4.34,False,
+mens-college-basketball,130401,Columbia (SC) Fighting Koalas,baseline_only_needs_review,baseline_archive_only,,,False,True,-6.52,False,,-6.52,False,
+mens-college-basketball,131584,Principia PRINCIPIA,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.35,False,,-2.35,False,
+mens-college-basketball,131603,Bryant & Stratton-Albany Bobcats,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.16,False,,-4.16,False,
+mens-college-basketball,131632,Manhattan Christian Thunder,baseline_only_needs_review,baseline_archive_only,,,False,True,-2.75,False,,-2.75,False,
+mens-college-basketball,131638,Paul Smith's Bobcats,baseline_only_needs_review,baseline_archive_only,,,False,True,-4.16,False,,-4.16,False,
+mens-college-basketball,131642,Penn State Hazleton Nittany Lions,baseline_only_needs_review,baseline_archive_only,,,False,True,-0.69,False,,-0.69,False,
+mens-college-basketball,131761,Bryant & Stratton (OH) Bobcats,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.37,False,,-3.37,False,
+mens-college-basketball,131858,Salish Kootenai Bison,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.66,False,,-3.66,False,
+mens-college-basketball,132013,Baptist (Fl) Eagles,baseline_only_needs_review,baseline_archive_only,,,False,True,-3.39,False,,-3.39,False,
