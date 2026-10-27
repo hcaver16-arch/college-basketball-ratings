@@ -1,0 +1,238 @@
+{
+  "version": 107,
+  "generated_at_utc": "2026-10-27T03:27:48.089846+00:00",
+  "status": "RESEARCH_ONLY_MEMBERSHIP_AUDIT",
+  "membership_source": "V105_ROSTER_CANDIDATE_NOT_INDEPENDENTLY_VERIFIED",
+  "canonical_csv": null,
+  "production_modified": false,
+  "cautions": [
+    "Archive inclusion is NOT verified D1 membership; unverified teams are candidates only",
+    "Baseline-only team IDs can be legitimate D1 and must not be automatically excluded",
+    "Missing roster signals are NOT evidence of zero talent",
+    "Rank changes are sensitivity only, never predictive-validation evidence"
+  ],
+  "divisions": {
+    "mens-college-basketball": {
+      "v105_archive_candidates": 362,
+      "v106_baseline_records": 727,
+      "both": 361,
+      "baseline_only_needs_review": 366,
+      "candidate_only_no_baseline": 1,
+      "canonical_verified": 0,
+      "canonical_excluded": 0,
+      "unverified_candidates": 362,
+      "research_universe": "v105_roster_candidates_UNVERIFIED",
+      "research_universe_teams": 362,
+      "comparison_teams_with_baseline": 361,
+      "max_absolute_rank_change": 13,
+      "mean_absolute_research_adjustment": 0.13176,
+      "largest_movements": [
+        {
+          "team": "UC San Diego Tritons",
+          "before": 117,
+          "after": 104,
+          "change": 13
+        },
+        {
+          "team": "USC Trojans",
+          "before": 127,
+          "after": 114,
+          "change": 13
+        },
+        {
+          "team": "Ball State Cardinals",
+          "before": 282,
+          "after": 270,
+          "change": 12
+        },
+        {
+          "team": "DePaul Blue Demons",
+          "before": 172,
+          "after": 160,
+          "change": 12
+        },
+        {
+          "team": "Oregon Ducks",
+          "before": 190,
+          "after": 178,
+          "change": 12
+        },
+        {
+          "team": "Creighton Bluejays",
+          "before": 139,
+          "after": 128,
+          "change": 11
+        },
+        {
+          "team": "Western Michigan Broncos",
+          "before": 289,
+          "after": 279,
+          "change": 10
+        },
+        {
+          "team": "Boston College Eagles",
+          "before": 228,
+          "after": 219,
+          "change": 9
+        },
+        {
+          "team": "Charleston Cougars",
+          "before": 174,
+          "after": 165,
+          "change": 9
+        },
+        {
+          "team": "Weber State Wildcats",
+          "before": 186,
+          "after": 195,
+          "change": -9
+        },
+        {
+          "team": "Missouri State Bears",
+          "before": 182,
+          "after": 190,
+          "change": -8
+        },
+        {
+          "team": "Norfolk State Spartans",
+          "before": 276,
+          "after": 284,
+          "change": -8
+        },
+        {
+          "team": "Ole Miss Rebels",
+          "before": 108,
+          "after": 100,
+          "change": 8
+        },
+        {
+          "team": "Sacramento State Hornets",
+          "before": 281,
+          "after": 273,
+          "change": 8
+        },
+        {
+          "team": "UMBC Retrievers",
+          "before": 125,
+          "after": 133,
+          "change": -8
+        }
+      ],
+      "source_files": {
+        "v105": "data/roster_experiment_v105/mens-college-basketball_experimental_roster_sensitivity.csv",
+        "v106": "data/baseline_comparison_v106/mens-college-basketball_baseline_comparison.csv"
+      }
+    },
+    "womens-college-basketball": {
+      "v105_archive_candidates": 362,
+      "v106_baseline_records": 663,
+      "both": 361,
+      "baseline_only_needs_review": 302,
+      "candidate_only_no_baseline": 1,
+      "canonical_verified": 0,
+      "canonical_excluded": 0,
+      "unverified_candidates": 362,
+      "research_universe": "v105_roster_candidates_UNVERIFIED",
+      "research_universe_teams": 362,
+      "comparison_teams_with_baseline": 361,
+      "max_absolute_rank_change": 11,
+      "mean_absolute_research_adjustment": 0.12436,
+      "largest_movements": [
+        {
+          "team": "Toledo Rockets",
+          "before": 171,
+          "after": 160,
+          "change": 11
+        },
+        {
+          "team": "DePaul Blue Demons",
+          "before": 270,
+          "after": 262,
+          "change": 8
+        },
+        {
+          "team": "App State Mountaineers",
+          "before": 185,
+          "after": 178,
+          "change": 7
+        },
+        {
+          "team": "George Washington Revolutionaries",
+          "before": 193,
+          "after": 186,
+          "change": 7
+        },
+        {
+          "team": "North Carolina A&T Aggies",
+          "before": 221,
+          "after": 214,
+          "change": 7
+        },
+        {
+          "team": "North Florida Ospreys",
+          "before": 296,
+          "after": 289,
+          "change": 7
+        },
+        {
+          "team": "St. John's Red Storm",
+          "before": 147,
+          "after": 140,
+          "change": 7
+        },
+        {
+          "team": "Tarleton State Texans",
+          "before": 214,
+          "after": 221,
+          "change": -7
+        },
+        {
+          "team": "Utah Valley Wolverines",
+          "before": 181,
+          "after": 188,
+          "change": -7
+        },
+        {
+          "team": "Arizona State Sun Devils",
+          "before": 63,
+          "after": 57,
+          "change": 6
+        },
+        {
+          "team": "Purdue Fort Wayne Mastodons",
+          "before": 119,
+          "after": 125,
+          "change": -6
+        },
+        {
+          "team": "UT Rio Grande Valley Vaqueros",
+          "before": 187,
+          "after": 181,
+          "change": 6
+        },
+        {
+          "team": "Belmont Bruins",
+          "before": 124,
+          "after": 119,
+          "change": 5
+        },
+        {
+          "team": "Coppin State Eagles",
+          "before": 297,
+          "after": 302,
+          "change": -5
+        },
+        {
+          "team": "Delaware Blue Hens",
+          "before": 244,
+          "after": 249,
+          "change": -5
+        }
+      ],
+      "source_files": {
+        "v105": "data/roster_experiment_v105/womens-college-basketball_experimental_roster_sensitivity.csv",
+        "v106": "data/baseline_comparison_v106/womens-college-basketball_baseline_comparison.csv"
+      }
+    }
+  }
+}

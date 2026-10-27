@@ -1,0 +1,362 @@
+division,team_id,team,membership_status,in_v105,in_v106,saved_rating,has_usable_roster_signal,roster_adjustment,roster_quality_warning,review_note,research_adjustment,experimental_rating,baseline_rank,experimental_rank,rank_change
+womens-college-basketball,41,UConn Huskies,roster_candidate_unverified,True,True,33.74,True,0.04997041420118348,,,0.04997041420118348,33.789970414201186,1,1,0
+womens-college-basketball,26,UCLA Bruins,roster_candidate_unverified,True,True,30.82,True,0.25014387464387466,,,0.25014387464387466,31.070143874643875,2,2,0
+womens-college-basketball,2579,South Carolina Gamecocks,roster_candidate_unverified,True,True,30.58,True,0.13252307692307688,,,0.13252307692307688,30.712523076923077,3,3,0
+womens-college-basketball,251,Texas Longhorns,roster_candidate_unverified,True,True,29.23,True,-0.0794768533054247,Low roster-origin coverage,,-0.0794768533054247,29.150523146694574,4,4,0
+womens-college-basketball,99,LSU Tigers,roster_candidate_unverified,True,True,28.06,True,0.2741119728756093,,,0.2741119728756093,28.334111972875608,5,5,0
+womens-college-basketball,130,Michigan Wolverines,roster_candidate_unverified,True,True,23.61,True,0.24425708180708192,,,0.24425708180708192,23.85425708180708,6,6,0
+womens-college-basketball,238,Vanderbilt Commodores,roster_candidate_unverified,True,True,22.14,True,0.0879628205128205,,,0.0879628205128205,22.227962820512822,7,7,0
+womens-college-basketball,2628,TCU Horned Frogs,roster_candidate_unverified,True,True,21.13,True,0.13458504273504274,,,0.13458504273504274,21.264585042735042,8,9,-1
+womens-college-basketball,97,Louisville Cardinals,roster_candidate_unverified,True,True,21.09,True,0.39226173570019734,,,0.39226173570019734,21.4822617357002,9,8,1
+womens-college-basketball,150,Duke Blue Devils,roster_candidate_unverified,True,True,20.9,True,0.030906767835339268,,,0.030906767835339268,20.93090676783534,10,10,0
+womens-college-basketball,277,West Virginia Mountaineers,roster_candidate_unverified,True,True,19.98,True,0.4571980769230769,,,0.4571980769230769,20.437198076923078,11,11,0
+womens-college-basketball,201,Oklahoma Sooners,roster_candidate_unverified,True,True,19.8,True,0.19576728588871448,,,0.19576728588871448,19.995767285888714,12,13,-1
+womens-college-basketball,153,North Carolina Tar Heels,roster_candidate_unverified,True,True,19.79,True,0.26490852956567246,,,0.26490852956567246,20.054908529565672,13,12,1
+womens-college-basketball,96,Kentucky Wildcats,roster_candidate_unverified,True,True,19.54,True,0.03768300094966766,,,0.03768300094966766,19.577683000949666,14,14,0
+womens-college-basketball,120,Maryland Terrapins,roster_candidate_unverified,True,True,18.93,True,0.03369230769230767,,,0.03369230769230767,18.96369230769231,15,16,-1
+womens-college-basketball,135,Minnesota Golden Gophers,roster_candidate_unverified,True,True,18.91,True,0.12361994301994304,,,0.12361994301994304,19.033619943019943,16,15,1
+womens-college-basketball,2294,Iowa Hawkeyes,roster_candidate_unverified,True,True,18.28,True,0.23383649078194535,,,0.23383649078194535,18.513836490781948,17,17,0
+womens-college-basketball,194,Ohio State Buckeyes,roster_candidate_unverified,True,True,18.23,True,0.07320839160839161,,,0.07320839160839161,18.303208391608393,18,18,0
+womens-college-basketball,145,Ole Miss Rebels,roster_candidate_unverified,True,True,17.74,True,0.341698076923077,,,0.341698076923077,18.081698076923075,19,19,0
+womens-college-basketball,127,Michigan State Spartans,roster_candidate_unverified,True,True,17.37,True,-0.07947255460588787,,,-0.07947255460588787,17.290527445394112,20,20,0
+womens-college-basketball,87,Notre Dame Fighting Irish,roster_candidate_unverified,True,True,17.25,True,-0.09275213675213674,Low roster-origin coverage,,-0.09275213675213674,17.157247863247864,21,21,0
+womens-college-basketball,197,Oklahoma State Cowgirls,roster_candidate_unverified,True,True,16.09,True,0.3708461538461539,,,0.3708461538461539,16.460846153846155,22,22,0
+womens-college-basketball,2641,Texas Tech Lady Raiders,roster_candidate_unverified,True,True,15.99,True,0.05935242165242166,Low roster-origin coverage,,0.05935242165242166,16.049352421652422,23,23,0
+womens-college-basketball,158,Nebraska Cornhuskers,roster_candidate_unverified,True,True,15.81,True,-0.002614957264957224,,,-0.002614957264957224,15.807385042735044,24,26,-2
+womens-college-basketball,333,Alabama Crimson Tide,roster_candidate_unverified,True,True,15.76,True,0.27829112426035507,,,0.27829112426035507,16.038291124260354,25,24,1
+womens-college-basketball,264,Washington Huskies,roster_candidate_unverified,True,True,15.64,True,0.25693091168091176,,,0.25693091168091176,15.896930911680911,26,25,1
+womens-college-basketball,152,NC State Wolfpack,roster_candidate_unverified,True,True,15.45,True,0.30074059829059835,,,0.30074059829059835,15.750740598290598,27,27,0
+womens-college-basketball,2483,Oregon Ducks,roster_candidate_unverified,True,True,15.44,True,0.05441139601139603,,,0.05441139601139603,15.494411396011396,28,29,-1
+womens-college-basketball,2571,South Dakota State Jackrabbits,roster_candidate_unverified,True,True,15.27,True,-0.024032051282051235,,,-0.024032051282051235,15.245967948717949,29,31,-2
+womens-college-basketball,61,Georgia Lady Bulldogs,roster_candidate_unverified,True,True,15.26,True,0.3721491124260356,,,0.3721491124260356,15.632149112426035,30,28,2
+womens-college-basketball,2449,North Dakota State Bison,roster_candidate_unverified,True,True,15.17,True,0.11587310979618677,,,0.11587310979618677,15.285873109796187,31,30,1
+womens-college-basketball,66,Iowa State Cyclones,roster_candidate_unverified,True,True,14.79,True,0.13299881656804735,,,0.13299881656804735,14.922998816568047,32,33,-1
+womens-college-basketball,257,Richmond Spiders,roster_candidate_unverified,True,True,14.72,True,-0.11964753451676528,Low roster-origin coverage,,-0.11964753451676528,14.600352465483235,33,37,-4
+womens-college-basketball,256,James Madison Dukes,roster_candidate_unverified,True,True,14.7,True,0.14223168967784358,Low roster-origin coverage,,0.14223168967784358,14.842231689677844,34,35,-1
+womens-college-basketball,239,Baylor Bears,roster_candidate_unverified,True,True,14.65,True,0.3762652421652424,,,0.3762652421652424,15.026265242165243,35,32,3
+womens-college-basketball,2217,Fairfield Stags,roster_candidate_unverified,True,True,14.61,True,0.2456981510552939,,,0.2456981510552939,14.855698151055293,36,34,2
+womens-college-basketball,171,Columbia Lions,roster_candidate_unverified,True,True,14.5,True,0.08850730856445134,,,0.08850730856445134,14.588507308564452,37,38,-1
+womens-college-basketball,2633,Tennessee Lady Volunteers,roster_candidate_unverified,True,True,14.47,True,0.2714892307692308,,,0.2714892307692308,14.741489230769231,38,36,2
+womens-college-basketball,222,Villanova Wildcats,roster_candidate_unverified,True,True,14.33,True,0.19240023741690412,,,0.19240023741690412,14.522400237416905,39,40,-1
+womens-college-basketball,30,USC Trojans,roster_candidate_unverified,True,True,14.3,True,0.05759337606837611,,,0.05759337606837611,14.357593376068376,40,41,-1
+womens-college-basketball,258,Virginia Cavaliers,roster_candidate_unverified,True,True,14.28,True,-0.029734911242603523,,,-0.029734911242603523,14.250265088757395,41,42,-1
+womens-college-basketball,356,Illinois Fighting Illini,roster_candidate_unverified,True,True,14.27,True,0.27993663817663833,,,0.27993663817663833,14.549936638176638,42,39,3
+womens-college-basketball,163,Princeton Tigers,roster_candidate_unverified,True,True,13.55,True,0.08097527472527473,Low roster-origin coverage,,0.08097527472527473,13.630975274725275,43,43,0
+womens-college-basketball,259,Virginia Tech Hokies,roster_candidate_unverified,True,True,13.52,True,-0.0866072320841552,Low roster-origin coverage,,-0.0866072320841552,13.433392767915844,44,44,0
+womens-college-basketball,227,Rhode Island Rams,roster_candidate_unverified,True,True,13.16,True,0.10729940828402373,Low roster-origin coverage,,0.10729940828402373,13.267299408284025,45,45,0
+womens-college-basketball,228,Clemson Tigers,roster_candidate_unverified,True,True,12.86,True,-0.02759763313609464,,,-0.02759763313609464,12.832402366863905,46,47,-1
+womens-college-basketball,147,Montana State Bobcats,roster_candidate_unverified,True,True,12.83,True,0.23472250130821562,,,0.23472250130821562,13.064722501308216,47,46,1
+womens-college-basketball,183,Syracuse Orange,roster_candidate_unverified,True,True,12.48,True,-0.012865088757396396,,,-0.012865088757396396,12.467134911242605,48,49,-1
+womens-college-basketball,38,Colorado Buffaloes,roster_candidate_unverified,True,True,12.46,True,0.2808350601779173,,,0.2808350601779173,12.740835060177918,49,48,1
+womens-college-basketball,2377,McNeese Cowgirls,roster_candidate_unverified,True,True,12.02,True,-0.023725443786982253,,,-0.023725443786982253,11.996274556213017,50,51,-1
+womens-college-basketball,57,Florida Gators,roster_candidate_unverified,True,True,11.94,True,0.09115844838921763,,,0.09115844838921763,12.031158448389217,51,50,1
+womens-college-basketball,2653,Troy Trojans,roster_candidate_unverified,True,True,11.89,True,-0.12236791584483893,Low roster-origin coverage,,-0.12236791584483893,11.767632084155162,52,55,-3
+womens-college-basketball,24,Stanford Cardinal,roster_candidate_unverified,True,True,11.73,True,0.07985584045584049,,,0.07985584045584049,11.80985584045584,53,53,0
+womens-college-basketball,344,Mississippi State Bulldogs,roster_candidate_unverified,True,True,11.63,True,0.1506362261669954,Low roster-origin coverage,,0.1506362261669954,11.780636226166996,54,54,0
+womens-college-basketball,2348,Louisiana Tech Lady Techsters,roster_candidate_unverified,True,True,11.59,True,0.05712003798670473,,,0.05712003798670473,11.647120037986705,55,56,-1
+womens-college-basketball,2250,Gonzaga Bulldogs,roster_candidate_unverified,True,True,11.47,True,0.4653648915187376,,,0.4653648915187376,11.935364891518738,56,52,4
+womens-college-basketball,261,Vermont Catamounts,roster_candidate_unverified,True,True,11.46,True,-0.07014711320425604,,,-0.07014711320425604,11.389852886795746,57,60,-3
+womens-college-basketball,232,Charleston Cougars,roster_candidate_unverified,True,True,11.43,True,-0.11782952602952601,Low roster-origin coverage,,-0.11782952602952601,11.312170473970474,58,61,-3
+womens-college-basketball,2305,Kansas Jayhawks,roster_candidate_unverified,True,True,11.25,True,0.14709289940828407,,,0.14709289940828407,11.397092899408284,59,59,0
+womens-college-basketball,108,Harvard Crimson,roster_candidate_unverified,True,True,11.22,True,0.019033333333333444,,,0.019033333333333444,11.239033333333333,60,62,-2
+womens-college-basketball,2050,Ball State Cardinals,roster_candidate_unverified,True,True,11.18,True,0.23215589743589754,,,0.23215589743589754,11.412155897435897,61,58,3
+womens-college-basketball,2710,Western Illinois Leathernecks,roster_candidate_unverified,True,True,11.1,True,-0.12580384615384613,,,-0.12580384615384613,10.974196153846153,62,64,-2
+womens-college-basketball,9,Arizona State Sun Devils,roster_candidate_unverified,True,True,11.1,True,0.3194944115713346,,,0.3194944115713346,11.419494411571334,63,57,6
+womens-college-basketball,2032,Arkansas State Red Wolves,roster_candidate_unverified,True,True,11.01,True,0.19813675213675216,,,0.19813675213675216,11.208136752136753,64,63,1
+womens-college-basketball,2514,Quinnipiac Bobcats,roster_candidate_unverified,True,True,10.94,True,-0.1310246467817896,Low roster-origin coverage,,-0.1310246467817896,10.80897535321821,65,70,-5
+womens-college-basketball,36,Colorado State Rams,roster_candidate_unverified,True,True,10.92,True,-0.05099076923076922,,,-0.05099076923076922,10.869009230769231,66,68,-2
+womens-college-basketball,193,Miami (OH) RedHawks,roster_candidate_unverified,True,True,10.86,True,-0.04097778649921502,Low roster-origin coverage,,-0.04097778649921502,10.819022213500784,67,69,-2
+womens-college-basketball,242,Rice Owls,roster_candidate_unverified,True,True,10.79,True,0.15260668934240362,,,0.15260668934240362,10.942606689342403,68,66,2
+womens-college-basketball,300,UC Irvine Anteaters,roster_candidate_unverified,True,True,10.76,True,0.1413529344729345,,,0.1413529344729345,10.901352934472934,69,67,2
+womens-college-basketball,2541,Santa Clara Broncos,roster_candidate_unverified,True,True,10.66,True,0.3071411826268968,,,0.3071411826268968,10.967141182626897,70,65,5
+womens-college-basketball,70,Idaho Vandals,roster_candidate_unverified,True,True,10.59,True,0.13093964765393343,,,0.13093964765393343,10.720939647653934,71,71,0
+womens-college-basketball,2815,Lindenwood Lions,roster_candidate_unverified,True,True,10.58,True,-0.135568463282749,Low roster-origin coverage,,-0.135568463282749,10.444431536717252,72,74,-2
+womens-college-basketball,252,BYU Cougars,roster_candidate_unverified,True,True,10.57,True,0.040954605887939234,,,0.040954605887939234,10.61095460588794,73,73,0
+womens-college-basketball,25,California Golden Bears,roster_candidate_unverified,True,True,10.49,True,0.18686821908250487,,,0.18686821908250487,10.676868219082506,74,72,2
+womens-college-basketball,2244,George Mason Patriots,roster_candidate_unverified,True,True,9.97,True,-0.06862984878369492,,,-0.06862984878369492,9.901370151216305,75,78,-3
+womens-college-basketball,276,Marshall Thundering Herd,roster_candidate_unverified,True,True,9.96,True,0.077875222396651,,,0.077875222396651,10.037875222396652,76,76,0
+womens-college-basketball,161,Fairleigh Dickinson Knights,roster_candidate_unverified,True,True,9.95,True,-0.11202692307692307,Low roster-origin coverage,,-0.11202692307692307,9.837973076923076,77,79,-2
+womens-college-basketball,21,San Diego State Aztecs,roster_candidate_unverified,True,True,9.88,True,0.316634658991802,,,0.316634658991802,10.196634658991803,78,75,3
+womens-college-basketball,93,Murray State Racers,roster_candidate_unverified,True,True,9.73,True,0.17530295857988165,,,0.17530295857988165,9.905302958579883,79,77,2
+womens-college-basketball,2272,High Point Panthers,roster_candidate_unverified,True,True,9.68,True,0.016596449704141997,,,0.016596449704141997,9.696596449704142,80,80,0
+womens-college-basketball,290,Georgia Southern Eagles,roster_candidate_unverified,True,True,9.67,True,-0.017591139019710447,Low roster-origin coverage,,-0.017591139019710447,9.65240886098029,81,82,-1
+womens-college-basketball,2390,Miami Hurricanes,roster_candidate_unverified,True,True,9.56,True,0.13121620399802214,Low roster-origin coverage,,0.13121620399802214,9.691216203998023,82,81,1
+womens-college-basketball,2739,Green Bay Phoenix,roster_candidate_unverified,True,True,9.48,True,0.009716987179487158,,,0.009716987179487158,9.489716987179488,83,84,-1
+womens-college-basketball,2166,Davidson Wildcats,roster_candidate_unverified,True,True,9.47,True,0.04358645627876391,,,0.04358645627876391,9.513586456278764,84,83,1
+womens-college-basketball,2306,Kansas State Wildcats,roster_candidate_unverified,True,True,9.31,True,-0.031096818613485244,Low roster-origin coverage,,-0.031096818613485244,9.278903181386514,85,86,-1
+womens-college-basketball,2198,Eastern Kentucky Colonels,roster_candidate_unverified,True,True,9.3,True,-0.028657540439358573,,,-0.028657540439358573,9.271342459560643,86,87,-1
+womens-college-basketball,2110,Central Arkansas Sugar Bears,roster_candidate_unverified,True,True,9.27,True,0.0855280830280831,,,0.0855280830280831,9.355528083028082,87,85,2
+womens-college-basketball,58,South Florida Bulls,roster_candidate_unverified,True,True,9.0,True,0.26079690992767907,,,0.26079690992767907,9.260796909927679,88,88,0
+womens-college-basketball,254,Utah Utes,roster_candidate_unverified,True,True,8.98,True,0.14003431952662718,,,0.14003431952662718,9.120034319526628,89,89,0
+womens-college-basketball,233,South Dakota Coyotes,roster_candidate_unverified,True,True,8.94,True,0.17256436420722135,,,0.17256436420722135,9.112564364207222,90,90,0
+womens-college-basketball,2000,Abilene Christian Wildcats,roster_candidate_unverified,True,True,8.77,True,0.26400940170940174,,,0.26400940170940174,9.034009401709401,91,91,0
+womens-college-basketball,88,Southern Indiana Screaming Eagles,roster_candidate_unverified,True,True,8.51,True,0.24553165881737307,,,0.24553165881737307,8.755531658817373,92,92,0
+womens-college-basketball,249,North Texas Mean Green,roster_candidate_unverified,True,True,8.29,True,-0.08259197896120973,Low roster-origin coverage,,-0.08259197896120973,8.20740802103879,93,95,-2
+womens-college-basketball,84,Indiana Hoosiers,roster_candidate_unverified,True,True,8.25,True,0.06635690737833598,Low roster-origin coverage,,0.06635690737833598,8.316356907378337,94,94,0
+womens-college-basketball,204,Oregon State Beavers,roster_candidate_unverified,True,True,8.17,True,-0.017377514792899347,Low roster-origin coverage,,-0.017377514792899347,8.1526224852071,95,96,-1
+womens-college-basketball,2603,Saint Joseph's Hawks,roster_candidate_unverified,True,True,8.14,True,0.2319544159544159,,,0.2319544159544159,8.371954415954416,96,93,3
+womens-college-basketball,269,Marquette Golden Eagles,roster_candidate_unverified,True,True,7.92,True,-0.05927502374169043,,,-0.05927502374169043,7.860724976258309,97,98,-1
+womens-college-basketball,113,Massachusetts Minutewomen,roster_candidate_unverified,True,True,7.88,True,0.1395522886989554,,,0.1395522886989554,8.019552288698955,98,97,1
+womens-college-basketball,2439,UNLV Lady Rebels,roster_candidate_unverified,True,True,7.63,True,-0.002469230769230779,Low roster-origin coverage,,-0.002469230769230779,7.627530769230769,99,100,-1
+womens-college-basketball,28,UC San Diego Tritons,roster_candidate_unverified,True,True,7.54,True,0.24684733727810657,,,0.24684733727810657,7.786847337278107,100,99,1
+womens-college-basketball,2351,Loyola Marymount Lions,roster_candidate_unverified,True,True,7.31,True,0.21745045351473932,,,0.21745045351473932,7.527450453514739,101,101,0
+womens-college-basketball,2550,Seton Hall Pirates,roster_candidate_unverified,True,True,7.31,True,-0.05170974358974354,Low roster-origin coverage,,-0.05170974358974354,7.258290256410256,102,103,-1
+womens-college-basketball,219,Pennsylvania Quakers,roster_candidate_unverified,True,True,7.21,True,0.09469198717948721,,,0.09469198717948721,7.3046919871794875,103,102,1
+womens-college-basketball,349,Army Black Knights,roster_candidate_unverified,True,True,7.11,True,0.06730202429149798,Low roster-origin coverage,,0.06730202429149798,7.177302024291499,104,104,0
+womens-college-basketball,325,Cleveland State Vikings,roster_candidate_unverified,True,True,6.94,True,0.034751084812623366,,,0.034751084812623366,6.974751084812624,105,105,0
+womens-college-basketball,62,Hawai'i Rainbow Wahine,roster_candidate_unverified,True,True,6.87,True,-0.07720662393162395,,,-0.07720662393162395,6.792793376068376,106,109,-3
+womens-college-basketball,2856,California Baptist Lancers,roster_candidate_unverified,True,True,6.85,True,-0.18130124917817222,Low roster-origin coverage,,-0.18130124917817222,6.668698750821828,107,111,-4
+womens-college-basketball,2617,Stephen F. Austin Ladyjacks,roster_candidate_unverified,True,True,6.83,True,-0.0034172255095331534,Low roster-origin coverage,,-0.0034172255095331534,6.826582774490467,108,108,0
+womens-college-basketball,2426,Navy Midshipmen,roster_candidate_unverified,True,True,6.81,True,0.0764101098901099,Navy: ESPN game 401823071 player box score missing; provisional,,0.0764101098901099,6.886410109890109,109,107,2
+womens-college-basketball,59,Georgia Tech Yellow Jackets,roster_candidate_unverified,True,True,6.69,True,0.2404146520146521,,,0.2404146520146521,6.930414652014653,110,106,4
+womens-college-basketball,2458,Northern Colorado Bears,roster_candidate_unverified,True,True,6.55,True,0.16762670940170946,,,0.16762670940170946,6.717626709401709,111,110,1
+womens-college-basketball,245,Texas A&M Aggies,roster_candidate_unverified,True,True,6.39,True,-0.057856049382716046,,,-0.057856049382716046,6.332143950617284,112,113,-1
+womens-college-basketball,2754,Youngstown State Penguins,roster_candidate_unverified,True,True,6.33,True,0.12757682811016147,,,0.12757682811016147,6.457576828110161,113,112,1
+womens-college-basketball,2046,Austin Peay Governors,roster_candidate_unverified,True,True,6.26,True,-0.07399019943019942,Low roster-origin coverage,,-0.07399019943019942,6.1860098005698,114,116,-2
+womens-college-basketball,151,East Carolina Pirates,roster_candidate_unverified,True,True,6.21,True,0.02698139717425433,Low roster-origin coverage,,0.02698139717425433,6.2369813971742545,115,114,1
+womens-college-basketball,167,New Mexico Lobos,roster_candidate_unverified,True,True,6.18,True,-0.0127583285849952,,,-0.0127583285849952,6.167241671415004,116,117,-1
+womens-college-basketball,2344,Longwood Lancers,roster_candidate_unverified,True,True,6.16,True,-0.2253577967711301,Low roster-origin coverage,,-0.2253577967711301,5.93464220322887,117,121,-4
+womens-college-basketball,294,Jacksonville Dolphins,roster_candidate_unverified,True,True,6.16,True,-0.16208974358974357,Low roster-origin coverage,,-0.16208974358974357,5.997910256410257,118,120,-2
+womens-college-basketball,2870,Purdue Fort Wayne Mastodons,roster_candidate_unverified,True,True,6.12,True,-0.28809309664694277,Low roster-origin coverage,,-0.28809309664694277,5.831906903353057,119,125,-6
+womens-college-basketball,2623,Missouri State Lady Bears,roster_candidate_unverified,True,True,6.11,True,0.10407928994082848,,,0.10407928994082848,6.214079289940829,120,115,5
+womens-college-basketball,225,Brown Bears,roster_candidate_unverified,True,True,6.02,True,-0.14155897435897435,,,-0.14155897435897435,5.878441025641025,121,123,-2
+womens-college-basketball,2540,UC Santa Barbara Gauchos,roster_candidate_unverified,True,True,5.97,True,0.13795680473372787,,,0.13795680473372787,6.107956804733727,122,118,4
+womens-college-basketball,324,Coastal Carolina Chanticleers,roster_candidate_unverified,True,True,5.92,True,-0.07275071225071222,Low roster-origin coverage,,-0.07275071225071222,5.847249287749288,123,124,-1
+womens-college-basketball,2057,Belmont Bruins,roster_candidate_unverified,True,True,5.86,True,0.1517610934520025,,,0.1517610934520025,6.0117610934520025,124,119,5
+womens-college-basketball,2803,Bryant Bulldogs,roster_candidate_unverified,True,True,5.85,True,0.05907573964497044,,,0.05907573964497044,5.90907573964497,125,122,3
+womens-college-basketball,304,Idaho State Bengals,roster_candidate_unverified,True,True,5.74,True,-0.19263990795529257,Low roster-origin coverage,,-0.19263990795529257,5.547360092044707,126,130,-4
+womens-college-basketball,47,Howard Bison,roster_candidate_unverified,True,True,5.58,True,0.1222083950617284,,,0.1222083950617284,5.702208395061729,127,128,-1
+womens-college-basketball,2509,Purdue Boilermakers,roster_candidate_unverified,True,True,5.57,True,0.08466686390532549,,,0.08466686390532549,5.654666863905326,128,129,-1
+womens-college-basketball,2501,Portland Pilots,roster_candidate_unverified,True,True,5.56,True,0.14940923076923074,,,0.14940923076923074,5.70940923076923,129,127,2
+womens-college-basketball,2335,Liberty Flames,roster_candidate_unverified,True,True,5.55,True,0.22756096284667715,,,0.22756096284667715,5.777560962846677,130,126,4
+womens-college-basketball,68,Boise State Broncos,roster_candidate_unverified,True,True,5.38,True,-0.13090376068376067,,,-0.13090376068376067,5.2490962393162395,131,134,-3
+womens-college-basketball,2066,Binghamton Bearcats,roster_candidate_unverified,True,True,5.3,True,-0.020094191522762973,,,-0.020094191522762973,5.279905808477237,132,132,0
+womens-college-basketball,156,Creighton Bluejays,roster_candidate_unverified,True,True,5.26,True,-0.005614014268559716,,,-0.005614014268559716,5.25438598573144,133,133,0
+womens-college-basketball,2182,Drexel Dragons,roster_candidate_unverified,True,True,5.26,True,-0.03787100591715971,,,-0.03787100591715971,5.22212899408284,134,135,-1
+womens-college-basketball,46,Georgetown Hoyas,roster_candidate_unverified,True,True,5.23,True,0.23143782051282052,,,0.23143782051282052,5.461437820512821,135,131,4
+womens-college-basketball,2492,Pepperdine Waves,roster_candidate_unverified,True,True,5.15,True,0.03749337606837616,,,0.03749337606837616,5.187493376068376,136,136,0
+womens-college-basketball,2534,Sam Houston Bearkats,roster_candidate_unverified,True,True,5.12,True,-0.04266248037676611,Low roster-origin coverage,,-0.04266248037676611,5.077337519623234,137,139,-2
+womens-college-basketball,142,Missouri Tigers,roster_candidate_unverified,True,True,5.08,True,0.005966074950690356,Low roster-origin coverage,,0.005966074950690356,5.08596607495069,138,138,0
+womens-college-basketball,302,UC Davis Aggies,roster_candidate_unverified,True,True,5.08,True,-0.10549136577708002,Low roster-origin coverage,,-0.10549136577708002,4.97450863422292,139,141,-2
+womens-college-basketball,2117,Central Michigan Chippewas,roster_candidate_unverified,True,True,5.06,True,-0.14598921761998687,Low roster-origin coverage,,-0.14598921761998687,4.9140107823800125,140,143,-3
+womens-college-basketball,2460,Northern Iowa Panthers,roster_candidate_unverified,True,True,4.88,True,-0.03474023668639049,,,-0.03474023668639049,4.845259763313609,141,145,-4
+womens-college-basketball,2405,Monmouth Hawks,roster_candidate_unverified,True,True,4.82,True,0.28919007232084165,,,0.28919007232084165,5.109190072320842,142,137,5
+womens-college-basketball,2636,UTSA Roadrunners,roster_candidate_unverified,True,True,4.81,True,0.12210567901234577,,,0.12210567901234577,4.932105679012345,143,142,1
+womens-college-basketball,2,Auburn Tigers,roster_candidate_unverified,True,True,4.73,True,0.16879152276295134,,,0.16879152276295134,4.898791522762952,144,144,0
+womens-college-basketball,2450,Norfolk State Spartans,roster_candidate_unverified,True,True,4.7,True,0.008568498168498171,Low roster-origin coverage,,0.008568498168498171,4.708568498168498,145,146,-1
+womens-college-basketball,2515,Radford Highlanders,roster_candidate_unverified,True,True,4.64,True,0.06188165680473381,,,0.06188165680473381,4.7018816568047335,146,147,-1
+womens-college-basketball,2599,St. John's Red Storm,roster_candidate_unverified,True,True,4.6,True,0.4491183431952664,,,0.4491183431952664,5.049118343195266,147,140,7
+womens-college-basketball,56,Stetson Hatters,roster_candidate_unverified,True,True,4.52,True,-0.2264941485864563,Low roster-origin coverage,,-0.2264941485864563,4.293505851413543,148,152,-4
+womens-college-basketball,275,Wisconsin Badgers,roster_candidate_unverified,True,True,4.51,True,0.13380472701901275,,,0.13380472701901275,4.643804727019012,149,148,1
+womens-college-basketball,311,Maine Black Bears,roster_candidate_unverified,True,True,4.48,True,-0.13952747252747252,,,-0.13952747252747252,4.340472527472528,150,151,-1
+womens-college-basketball,526,Florida Gulf Coast Eagles,roster_candidate_unverified,True,True,4.4,True,0.2353070348454964,,,0.2353070348454964,4.635307034845496,151,149,2
+womens-college-basketball,2378,UMBC Retrievers,roster_candidate_unverified,True,True,4.35,True,0.09360784929356356,,,0.09360784929356356,4.443607849293564,152,150,2
+womens-college-basketball,2320,Lamar Cardinals,roster_candidate_unverified,True,True,4.25,True,0.020588034188034197,Low roster-origin coverage,,0.020588034188034197,4.270588034188034,153,154,-1
+womens-college-basketball,2287,Illinois State Redbirds,roster_candidate_unverified,True,True,4.18,True,-0.05825863247863243,Low roster-origin coverage,,-0.05825863247863243,4.121741367521367,154,156,-2
+womens-college-basketball,107,Holy Cross Crusaders,roster_candidate_unverified,True,True,4.15,True,-0.1356469998255712,,,-0.1356469998255712,4.014353000174429,155,159,-4
+womens-college-basketball,2433,UL Monroe Warhawks,roster_candidate_unverified,True,True,4.11,True,-0.017978846153846095,,,-0.017978846153846095,4.092021153846154,156,158,-2
+womens-college-basketball,236,Chattanooga Mocs,roster_candidate_unverified,True,True,4.1,True,0.1751032215647601,,,0.1751032215647601,4.27510322156476,157,153,4
+womens-college-basketball,2132,Cincinnati Bearcats,roster_candidate_unverified,True,True,4.07,True,0.09063589743589749,,,0.09063589743589749,4.160635897435898,158,155,3
+womens-college-basketball,71,Bradley Braves,roster_candidate_unverified,True,True,4.01,True,-0.12133648915187374,Low roster-origin coverage,,-0.12133648915187374,3.8886635108481262,159,163,-4
+womens-college-basketball,2885,NJIT Highlanders,roster_candidate_unverified,True,True,3.93,True,-0.01917032967032963,,,-0.01917032967032963,3.9108296703296705,160,161,-1
+womens-college-basketball,2229,Florida International Panthers,roster_candidate_unverified,True,True,3.85,True,0.2450657462195924,,,0.2450657462195924,4.095065746219593,161,157,4
+womens-college-basketball,2747,Wofford Terriers,roster_candidate_unverified,True,True,3.8,True,0.024152662721893543,,,0.024152662721893543,3.8241526627218936,162,165,-3
+womens-college-basketball,2253,Grand Canyon Lopes,roster_candidate_unverified,True,True,3.78,True,0.13045723824786326,,,0.13045723824786326,3.9104572382478633,163,162,1
+womens-college-basketball,399,UAlbany Great Danes,roster_candidate_unverified,True,True,3.76,True,-0.10783913308913308,Low roster-origin coverage,,-0.10783913308913308,3.6521608669108665,164,168,-4
+womens-college-basketball,295,Old Dominion Monarchs,roster_candidate_unverified,True,True,3.73,True,-0.0706280721747388,Low roster-origin coverage,,-0.0706280721747388,3.659371927825261,165,167,-2
+womens-college-basketball,195,Ohio Bobcats,roster_candidate_unverified,True,True,3.72,True,0.11522115384615389,,,0.11522115384615389,3.8352211538461543,166,164,2
+womens-college-basketball,253,Southern Utah Thunderbirds,roster_candidate_unverified,True,True,3.66,True,0.05981656804733735,,,0.05981656804733735,3.7198165680473374,167,166,1
+womens-college-basketball,198,Oral Roberts Golden Eagles,roster_candidate_unverified,True,True,3.65,True,-0.08011923076923078,Low roster-origin coverage,,-0.08011923076923078,3.5698807692307692,168,169,-1
+womens-college-basketball,2239,Cal State Fullerton Titans,roster_candidate_unverified,True,True,3.62,True,-0.10565934065934066,Low roster-origin coverage,,-0.10565934065934066,3.5143406593406596,169,172,-3
+womens-college-basketball,2393,Middle Tennessee Blue Raiders,roster_candidate_unverified,True,True,3.61,True,-0.0819689952904238,,,-0.0819689952904238,3.528031004709576,170,171,-1
+womens-college-basketball,2649,Toledo Rockets,roster_candidate_unverified,True,True,3.6,True,0.31960657596371883,,,0.31960657596371883,3.919606575963719,171,160,11
+womens-college-basketball,2097,Campbell Fighting Camels,roster_candidate_unverified,True,True,3.52,True,-0.1684378698224852,Low roster-origin coverage,,-0.1684378698224852,3.351562130177515,172,175,-3
+womens-college-basketball,12,Arizona Wildcats,roster_candidate_unverified,True,True,3.5,True,-0.039209971509971464,Low roster-origin coverage,,-0.039209971509971464,3.4607900284900284,173,173,0
+womens-college-basketball,231,Furman Paladins,roster_candidate_unverified,True,True,3.39,True,0.1711943833943834,,,0.1711943833943834,3.5611943833943833,174,170,4
+womens-college-basketball,218,Temple Owls,roster_candidate_unverified,True,True,3.37,True,0.00707514303877939,,,0.00707514303877939,3.3770751430387795,175,174,1
+womens-college-basketball,2466,Northwestern State Lady Demons,roster_candidate_unverified,True,True,3.16,True,-0.25014752136752133,Low roster-origin coverage,,-0.25014752136752133,2.909852478632479,176,180,-4
+womens-college-basketball,2325,La Salle Explorers,roster_candidate_unverified,True,True,3.07,True,-0.07999663461538459,Low roster-origin coverage,,-0.07999663461538459,2.990003365384615,177,177,0
+womens-college-basketball,2539,San Francisco Dons,roster_candidate_unverified,True,True,3.0,True,0.23010275403608738,,,0.23010275403608738,3.2301027540360874,178,176,2
+womens-college-basketball,189,Bowling Green Falcons,roster_candidate_unverified,True,True,2.96,True,-0.11776568047337278,Low roster-origin coverage,,-0.11776568047337278,2.8422343195266273,179,182,-3
+womens-college-basketball,2309,Kent State Golden Flashes,roster_candidate_unverified,True,True,2.92,True,-0.08264911242603548,,,-0.08264911242603548,2.8373508875739644,180,183,-3
+womens-college-basketball,3084,Utah Valley Wolverines,roster_candidate_unverified,True,True,2.87,True,-0.12885522682445757,Low roster-origin coverage,,-0.12885522682445757,2.7411447731755425,181,188,-7
+womens-college-basketball,278,Fresno State Bulldogs,roster_candidate_unverified,True,True,2.85,True,0.06321386514719851,,,0.06321386514719851,2.9132138651471986,182,179,3
+womens-college-basketball,8,Arkansas Razorbacks,roster_candidate_unverified,True,True,2.84,True,-0.011904971219256932,Low roster-origin coverage,,-0.011904971219256932,2.828095028780743,183,184,-1
+womens-college-basketball,2582,Southern Jaguars,roster_candidate_unverified,True,True,2.79,True,-0.05773339031339034,,,-0.05773339031339034,2.7322666096866097,184,189,-5
+womens-college-basketball,2026,App State Mountaineers,roster_candidate_unverified,True,True,2.78,True,0.20149375410913875,,,0.20149375410913875,2.9814937541091386,185,178,7
+womens-college-basketball,2010,Alabama A&M Bulldogs,roster_candidate_unverified,True,True,2.75,True,-0.033328754578754505,Low roster-origin coverage,,-0.033328754578754505,2.7166712454212454,186,190,-4
+womens-college-basketball,292,UT Rio Grande Valley Vaqueros,roster_candidate_unverified,True,True,2.73,True,0.14244746877054582,,,0.14244746877054582,2.8724474687705457,187,181,6
+womens-college-basketball,202,Tulsa Golden Hurricane,roster_candidate_unverified,True,True,2.67,True,0.11750200593057743,,,0.11750200593057743,2.7875020059305773,188,185,3
+womens-college-basketball,6,South Alabama Jaguars,roster_candidate_unverified,True,True,2.63,True,-0.09899539776462854,Low roster-origin coverage,,-0.09899539776462854,2.531004602235371,189,193,-4
+womens-college-basketball,16,Sacramento State Hornets,roster_candidate_unverified,True,True,2.62,True,0.12116262108262103,,,0.12116262108262103,2.741162621082621,190,187,3
+womens-college-basketball,331,Eastern Washington Eagles,roster_candidate_unverified,True,True,2.58,True,0.13639874411302982,Low roster-origin coverage,,0.13639874411302982,2.7163987441130297,191,191,0
+womens-college-basketball,2210,Elon Phoenix,roster_candidate_unverified,True,True,2.56,True,-0.039110439560439546,Low roster-origin coverage,,-0.039110439560439546,2.5208895604395605,192,195,-3
+womens-college-basketball,45,George Washington Revolutionaries,roster_candidate_unverified,True,True,2.51,True,0.2665200525969757,,,0.2665200525969757,2.7765200525969753,193,186,7
+womens-college-basketball,2900,St. Thomas Tommies,roster_candidate_unverified,True,True,2.5,True,0.030429807692307694,,,0.030429807692307694,2.5304298076923075,194,194,0
+womens-college-basketball,55,Jacksonville State Gamecocks,roster_candidate_unverified,True,True,2.48,True,-0.1778145956607495,Low roster-origin coverage,,-0.1778145956607495,2.3021854043392507,195,199,-4
+womens-college-basketball,2608,Saint Mary's Gaels,roster_candidate_unverified,True,True,2.46,True,-0.06450248812915475,Low roster-origin coverage,,-0.06450248812915475,2.395497511870845,196,197,-1
+womens-college-basketball,2523,Robert Morris Colonials,roster_candidate_unverified,True,True,2.45,True,0.1317085470085471,,,0.1317085470085471,2.5817085470085472,197,192,5
+womens-college-basketball,2635,Tennessee Tech Golden Eagles,roster_candidate_unverified,True,True,2.43,True,0.05645621301775154,,,0.05645621301775154,2.486456213017752,198,196,2
+womens-college-basketball,2698,West Georgia Wolves,roster_candidate_unverified,True,True,2.32,True,-0.10947844882390338,Low roster-origin coverage,,-0.10947844882390338,2.2105215511760963,199,202,-3
+womens-college-basketball,154,Wake Forest Demon Deacons,roster_candidate_unverified,True,True,2.25,True,0.0,,,0,2.25,200,200,0
+womens-college-basketball,2572,Southern Miss Lady Eagles,roster_candidate_unverified,True,True,2.25,True,0.07007905982905979,,,0.07007905982905979,2.3200790598290597,201,198,3
+womens-college-basketball,2329,Lehigh Mountain Hawks,roster_candidate_unverified,True,True,2.09,True,0.04871715976331365,Historical boxscore coverage partial/unverified,,0.04871715976331365,2.1387171597633134,202,204,-2
+womens-college-basketball,213,Penn State Lady Lions,roster_candidate_unverified,True,True,2.06,True,0.1651738645193191,,,0.1651738645193191,2.225173864519319,203,201,2
+womens-college-basketball,2771,Merrimack Warriors,roster_candidate_unverified,True,True,2.05,True,-0.24333903133903131,Low roster-origin coverage,,-0.24333903133903131,1.8066609686609685,204,207,-3
+womens-college-basketball,112358,Long Island University Sharks,roster_candidate_unverified,True,True,2.0,True,-0.1332953846153846,Low roster-origin coverage,,-0.1332953846153846,1.8667046153846154,205,206,-1
+womens-college-basketball,2086,Butler Bulldogs,roster_candidate_unverified,True,True,1.94,True,0.23806916502301131,Low roster-origin coverage,,0.23806916502301131,2.178069165023011,206,203,3
+womens-college-basketball,2430,UNC Greensboro Spartans,roster_candidate_unverified,True,True,1.93,True,-0.14581035137701803,Low roster-origin coverage,,-0.14581035137701803,1.784189648622982,207,209,-2
+womens-college-basketball,52,Florida State Seminoles,roster_candidate_unverified,True,True,1.76,True,0.1524916132478632,,,0.1524916132478632,1.9124916132478633,208,205,3
+womens-college-basketball,94,Northern Kentucky Norse,roster_candidate_unverified,True,True,1.76,True,-0.18702991452991452,Low roster-origin coverage,,-0.18702991452991452,1.5729700854700854,209,213,-4
+womens-college-basketball,2413,Morehead State Eagles,roster_candidate_unverified,True,True,1.72,True,-0.25702070275403605,,,-0.25702070275403605,1.4629792972459639,210,215,-5
+womens-college-basketball,2429,Charlotte 49ers,roster_candidate_unverified,True,True,1.66,True,0.13371082330368045,,,0.13371082330368045,1.7937108233036803,211,208,3
+womens-college-basketball,2729,William & Mary Tribe,roster_candidate_unverified,True,True,1.65,True,0.023575147928994015,,,0.023575147928994015,1.673575147928994,212,211,1
+womens-college-basketball,2168,Dayton Flyers,roster_candidate_unverified,True,True,1.56,True,0.08376837606837606,,,0.08376837606837606,1.6437683760683761,213,212,1
+womens-college-basketball,2627,Tarleton State Texans,roster_candidate_unverified,True,True,1.52,True,-0.23405811965811965,Low roster-origin coverage,,-0.23405811965811965,1.2859418803418803,214,221,-7
+womens-college-basketball,2116,UCF Knights,roster_candidate_unverified,True,True,1.51,True,0.23500197238658782,,,0.23500197238658782,1.745001972386588,215,210,5
+womens-college-basketball,2199,Eastern Michigan Eagles,roster_candidate_unverified,True,True,1.47,True,-0.05509257805686377,,,-0.05509257805686377,1.4149074219431361,216,218,-2
+womens-college-basketball,2565,SIU Edwardsville Cougars,roster_candidate_unverified,True,True,1.45,True,-0.08903694207027543,Low roster-origin coverage,,-0.08903694207027543,1.3609630579297245,217,219,-2
+womens-college-basketball,119,Towson Tigers,roster_candidate_unverified,True,True,1.44,True,-0.018747521367521402,Low roster-origin coverage,,-0.018747521367521402,1.4212524786324785,218,216,2
+womens-college-basketball,2453,North Alabama Lions,roster_candidate_unverified,True,True,1.4,True,-0.14639601139601138,,,-0.14639601139601138,1.2536039886039885,219,223,-4
+womens-college-basketball,2193,East Tennessee State Buccaneers,roster_candidate_unverified,True,True,1.38,True,0.03599868507560812,,,0.03599868507560812,1.415998685075608,220,217,3
+womens-college-basketball,2448,North Carolina A&T Aggies,roster_candidate_unverified,True,True,1.26,True,0.2538680911680912,,,0.2538680911680912,1.5138680911680913,221,214,7
+womens-college-basketball,338,Kennesaw State Owls,roster_candidate_unverified,True,True,1.08,True,-0.06332676609105174,Low roster-origin coverage,,-0.06332676609105174,1.0166732339089484,222,225,-3
+womens-college-basketball,2507,Providence Friars,roster_candidate_unverified,True,True,1.07,True,0.26274000000000003,,,0.26274000000000003,1.33274,223,220,3
+womens-college-basketball,2619,Stony Brook Seawolves,roster_candidate_unverified,True,True,1.07,True,0.20083190883190882,,,0.20083190883190882,1.2708319088319089,224,222,2
+womens-college-basketball,2655,Tulane Green Wave,roster_candidate_unverified,True,True,1.03,True,0.12699829059829063,,,0.12699829059829063,1.1569982905982907,225,224,1
+womens-college-basketball,179,St. Bonaventure Bonnies,roster_candidate_unverified,True,True,0.94,True,0.032046172839506185,,,0.032046172839506185,0.9720461728395061,226,226,0
+womens-college-basketball,2382,Mercer Bears,roster_candidate_unverified,True,True,0.88,True,-0.1131171597633136,Low roster-origin coverage,,-0.1131171597633136,0.7668828402366864,227,227,0
+womens-college-basketball,2630,UT Martin Skyhawks,roster_candidate_unverified,True,True,0.85,True,-0.14904774986917843,Low roster-origin coverage,,-0.14904774986917843,0.7009522501308215,228,228,0
+womens-college-basketball,2447,Nicholls Colonels,roster_candidate_unverified,True,True,0.46,True,-0.11176568047337278,Low roster-origin coverage,,-0.11176568047337278,0.34823431952662726,229,229,0
+womens-college-basketball,82,UIC Flames,roster_candidate_unverified,True,True,0.31,True,0.00898774038461539,Low roster-origin coverage,,0.00898774038461539,0.3189877403846154,230,230,0
+womens-college-basketball,2031,Little Rock Trojans,roster_candidate_unverified,True,True,0.29,True,-0.05383132740275592,,,-0.05383132740275592,0.23616867259724406,231,231,0
+womens-college-basketball,5,UAB Blazers,roster_candidate_unverified,True,True,0.29,True,-0.16050197075651618,Low roster-origin coverage,,-0.16050197075651618,0.1294980292434838,232,232,0
+womens-college-basketball,2546,Southeast Missouri State Redhawks,roster_candidate_unverified,True,True,0.26,True,-0.19735765943458253,Low roster-origin coverage,,-0.19735765943458253,0.06264234056541748,233,234,-1
+womens-college-basketball,27,UC Riverside Highlanders,roster_candidate_unverified,True,True,0.19,True,-0.134639010989011,Low roster-origin coverage,,-0.134639010989011,0.055360989010989015,234,235,-1
+womens-college-basketball,2379,Maryland Eastern Shore Hawks,roster_candidate_unverified,True,True,0.14,True,-0.0445644970414201,,,-0.0445644970414201,0.09543550295857992,235,233,2
+womens-college-basketball,2350,Loyola Chicago Ramblers,roster_candidate_unverified,True,True,0.07,True,-0.08641785375118709,,,-0.08641785375118709,-0.01641785375118708,236,237,-1
+womens-college-basketball,2184,Duquesne Dukes,roster_candidate_unverified,True,True,0.06,True,-0.046323290598290545,,,-0.046323290598290545,0.013676709401709453,237,236,1
+womens-college-basketball,2692,Weber State Wildcats,roster_candidate_unverified,True,True,-0.08,True,-0.005438409209837783,,,-0.005438409209837783,-0.08543840920983778,238,238,0
+womens-college-basketball,2005,Air Force Falcons,roster_candidate_unverified,True,True,-0.37,True,-0.03787788461538463,Low roster-origin coverage,,-0.03787788461538463,-0.40787788461538466,239,239,0
+womens-college-basketball,279,Pacific Tigers,roster_candidate_unverified,True,True,-0.42,True,-0.040645133437990574,Low roster-origin coverage,,-0.040645133437990574,-0.4606451334379906,240,241,-1
+womens-college-basketball,2247,Georgia State Panthers,roster_candidate_unverified,True,True,-0.44,True,-0.2874819197896121,Low roster-origin coverage,,-0.2874819197896121,-0.7274819197896121,241,245,-4
+womens-college-basketball,77,Northwestern Wildcats,roster_candidate_unverified,True,True,-0.47,True,-0.025242621082621056,,,-0.025242621082621056,-0.495242621082621,242,242,0
+womens-college-basketball,288,Lipscomb Bisons,roster_candidate_unverified,True,True,-0.48,True,0.031116091051805336,Low roster-origin coverage,,0.031116091051805336,-0.44888390894819463,243,240,3
+womens-college-basketball,48,Delaware Blue Hens,roster_candidate_unverified,True,True,-0.59,True,-0.25697871969300534,,,-0.25697871969300534,-0.8469787196930053,244,249,-5
+womens-college-basketball,2737,Winthrop Eagles,roster_candidate_unverified,True,True,-0.65,True,-0.08422787371358798,Low roster-origin coverage,,-0.08422787371358798,-0.734227873713588,245,246,-1
+womens-college-basketball,85,IU Indianapolis Jaguars,roster_candidate_unverified,True,True,-0.76,True,0.106406575963719,,,0.106406575963719,-0.6535934240362811,246,244,2
+womens-college-basketball,139,Saint Louis Billikens,roster_candidate_unverified,True,True,-0.79,True,0.053189173789173795,,,0.053189173789173795,-0.7368108262108263,247,247,0
+womens-college-basketball,235,Memphis Tigers,roster_candidate_unverified,True,True,-0.83,True,0.22862127255460596,,,0.22862127255460596,-0.601378727445394,248,243,5
+womens-college-basketball,160,New Hampshire Wildcats,roster_candidate_unverified,True,True,-1.05,True,-0.08464974358974357,Low roster-origin coverage,,-0.08464974358974357,-1.1346497435897436,249,251,-2
+womens-college-basketball,2181,Drake Bulldogs,roster_candidate_unverified,True,True,-1.12,True,0.06686773940345372,,,0.06686773940345372,-1.0531322605965463,250,250,0
+womens-college-basketball,2535,Samford Bulldogs,roster_candidate_unverified,True,True,-1.18,True,-0.07428811188811184,Low roster-origin coverage,,-0.07428811188811184,-1.2542881118881117,251,252,-1
+womens-college-basketball,326,Texas State Bobcats,roster_candidate_unverified,True,True,-1.19,True,0.37717751479289946,,,0.37717751479289946,-0.8128224852071004,252,248,4
+womens-college-basketball,2464,Northern Arizona Lumberjacks,roster_candidate_unverified,True,True,-1.3,True,-0.04824207221350079,Low roster-origin coverage,,-0.04824207221350079,-1.348242072213501,253,254,-1
+womens-college-basketball,2440,Nevada Wolf Pack,roster_candidate_unverified,True,True,-1.35,True,0.01745367521367527,,,0.01745367521367527,-1.3325463247863247,254,253,1
+womens-college-basketball,250,UT Arlington Mavericks,roster_candidate_unverified,True,True,-1.37,True,-0.11313449192782525,Low roster-origin coverage,,-0.11313449192782525,-1.4831344919278253,255,256,-1
+womens-college-basketball,2752,Xavier Musketeers,roster_candidate_unverified,True,True,-1.52,True,-0.02721823361823361,,,-0.02721823361823361,-1.5472182336182336,256,257,-1
+womens-college-basketball,314,Iona Gaels,roster_candidate_unverified,True,True,-1.55,True,-0.16721923076923076,Low roster-origin coverage,,-0.16721923076923076,-1.7172192307692309,257,260,-3
+womens-college-basketball,140,Kansas City Roos,roster_candidate_unverified,True,True,-1.56,True,0.09173025641025645,Low roster-origin coverage,,0.09173025641025645,-1.4682697435897436,258,255,3
+womens-college-basketball,2837,East Texas A&M Lions,roster_candidate_unverified,True,True,-1.63,True,-0.0017168967784351858,,,-0.0017168967784351858,-1.631716896778435,259,259,0
+womens-college-basketball,248,Houston Cougars,roster_candidate_unverified,True,True,-1.69,True,-0.045880867850098615,Low roster-origin coverage,,-0.045880867850098615,-1.7358808678500985,260,261,-1
+womens-college-basketball,2638,UTEP Miners,roster_candidate_unverified,True,True,-1.79,True,-0.11182380013149244,Low roster-origin coverage,,-0.11182380013149244,-1.9018238001314924,261,264,-3
+womens-college-basketball,2561,Siena Saints,roster_candidate_unverified,True,True,-1.83,True,-0.06341282051282052,Low roster-origin coverage,,-0.06341282051282052,-1.8934128205128207,262,263,-1
+womens-college-basketball,164,Rutgers Scarlet Knights,roster_candidate_unverified,True,True,-1.85,True,0.25054118262689684,,,0.25054118262689684,-1.5994588173731032,263,258,5
+womens-college-basketball,2275,Hofstra Pride,roster_candidate_unverified,True,True,-1.97,True,-0.057673964497041375,,,-0.057673964497041375,-2.0276739644970414,264,266,-2
+womens-college-basketball,2755,Grambling Lady Tigers,roster_candidate_unverified,True,True,-2.01,True,-0.18258655154369438,Low roster-origin coverage,,-0.18258655154369438,-2.192586551543694,265,269,-4
+womens-college-basketball,2230,Fordham Rams,roster_candidate_unverified,True,True,-2.09,True,-0.025420907297830392,Low roster-origin coverage,,-0.025420907297830392,-2.11542090729783,266,268,-2
+womens-college-basketball,265,Washington State Cougars,roster_candidate_unverified,True,True,-2.1,True,0.09420726495726497,,,0.09420726495726497,-2.005792735042735,267,265,2
+womens-college-basketball,2172,Denver Pioneers,roster_candidate_unverified,True,True,-2.12,True,0.041402415766052095,,,0.041402415766052095,-2.078597584233948,268,267,1
+womens-college-basketball,2751,Wyoming Cowgirls,roster_candidate_unverified,True,True,-2.15,True,-0.12046851561137273,,,-0.12046851561137273,-2.2704685156113724,269,271,-2
+womens-college-basketball,305,DePaul Blue Demons,roster_candidate_unverified,True,True,-2.2,True,0.33412390336935804,,,0.33412390336935804,-1.8658760966306422,270,262,8
+womens-college-basketball,3101,Utah Tech Trailblazers,roster_candidate_unverified,True,True,-2.25,True,-0.13791484388627243,Low roster-origin coverage,,-0.13791484388627243,-2.3879148438862723,271,272,-1
+womens-college-basketball,2427,UNC Asheville Bulldogs,roster_candidate_unverified,True,True,-2.3,True,-0.2051866038723181,Low roster-origin coverage,,-0.2051866038723181,-2.505186603872318,272,274,-2
+womens-college-basketball,2916,Incarnate Word Cardinals,roster_candidate_unverified,True,True,-2.3,True,0.029764786324786387,,,0.029764786324786387,-2.2702352136752135,273,270,3
+womens-college-basketball,2463,Cal State Northridge Matadors,roster_candidate_unverified,True,True,-2.55,True,-0.1684178537511871,,,-0.1684178537511871,-2.7184178537511867,274,278,-4
+womens-college-basketball,2473,Oakland Golden Grizzlies,roster_candidate_unverified,True,True,-2.55,True,0.11519772370486664,Low roster-origin coverage,,0.11519772370486664,-2.4348022762951333,275,273,2
+womens-college-basketball,104,Boston University Terriers,roster_candidate_unverified,True,True,-2.56,True,-0.008312155745489129,,,-0.008312155745489129,-2.568312155745489,276,275,1
+womens-college-basketball,2226,Florida Atlantic Owls,roster_candidate_unverified,True,True,-2.6,True,0.03069568288854004,Low roster-origin coverage,,0.03069568288854004,-2.56930431711146,277,276,1
+womens-college-basketball,2261,Hampton Lady Pirates,roster_candidate_unverified,True,True,-2.77,True,0.08015379382522235,,,0.08015379382522235,-2.689846206174778,278,277,1
+womens-college-basketball,2352,Loyola Maryland Greyhounds,roster_candidate_unverified,True,True,-2.82,True,-0.061878525641025625,,,-0.061878525641025625,-2.8818785256410253,279,279,0
+womens-college-basketball,2016,Alcorn State Lady Braves,roster_candidate_unverified,True,True,-3.04,True,-0.2032931623931624,,,-0.2032931623931624,-3.2432931623931625,280,281,-1
+womens-college-basketball,116,Mount St. Mary's Mountaineers,roster_candidate_unverified,True,True,-3.07,True,-0.141517094017094,Low roster-origin coverage,,-0.141517094017094,-3.211517094017094,281,280,1
+womens-college-basketball,2011,Alabama State Lady Hornets,roster_candidate_unverified,True,True,-3.27,True,0.012048433048433022,,,0.012048433048433022,-3.257951566951567,282,282,0
+womens-college-basketball,2724,Wichita State Shockers,roster_candidate_unverified,True,True,-3.44,True,-0.10180071225071224,Low roster-origin coverage,,-0.10180071225071224,-3.541800712250712,283,286,-3
+womens-college-basketball,322,Lafayette Leopards,roster_candidate_unverified,True,True,-3.45,True,0.15719120879120874,,,0.15719120879120874,-3.2928087912087913,284,283,1
+womens-college-basketball,2428,North Carolina Central Eagles,roster_candidate_unverified,True,True,-3.53,True,-0.1446379487179487,Low roster-origin coverage,,-0.1446379487179487,-3.6746379487179484,285,288,-3
+womens-college-basketball,2529,Sacred Heart Pioneers,roster_candidate_unverified,True,True,-3.55,True,0.08498953427524857,,,0.08498953427524857,-3.465010465724751,286,284,2
+womens-college-basketball,301,San Diego Toreros,roster_candidate_unverified,True,True,-3.63,True,-0.03890499671268898,,,-0.03890499671268898,-3.6689049967126888,287,287,0
+womens-college-basketball,149,Montana Lady Griz,roster_candidate_unverified,True,True,-3.64,True,0.12711821462488135,,,0.12711821462488135,-3.512881785375119,288,285,3
+womens-college-basketball,2363,Manhattan Jaspers,roster_candidate_unverified,True,True,-3.73,True,-0.10824769230769232,Low roster-origin coverage,,-0.10824769230769232,-3.8382476923076925,289,290,-1
+womens-college-basketball,339,Evansville Purple Aces,roster_candidate_unverified,True,True,-3.78,True,-0.1510449192782526,Low roster-origin coverage,,-0.1510449192782526,-3.9310449192782526,290,294,-4
+womens-college-basketball,2750,Wright State Raiders,roster_candidate_unverified,True,True,-3.79,True,-0.08107957439386011,Low roster-origin coverage,,-0.08107957439386011,-3.87107957439386,291,292,-1
+womens-college-basketball,2567,SMU Mustangs,roster_candidate_unverified,True,True,-3.88,True,0.014054963839579288,Low roster-origin coverage,,0.014054963839579288,-3.8659450361604204,292,291,1
+womens-college-basketball,98,Western Kentucky Lady Toppers,roster_candidate_unverified,True,True,-3.89,True,-0.07907810650887574,,,-0.07907810650887574,-3.969078106508876,293,296,-3
+womens-college-basketball,2083,Bucknell Bison,roster_candidate_unverified,True,True,-3.96,True,0.033412820512820435,,,0.033412820512820435,-3.9265871794871794,294,293,1
+womens-college-basketball,103,Boston College Eagles,roster_candidate_unverified,True,True,-3.98,True,-0.029089743589743564,Low roster-origin coverage,,-0.029089743589743564,-4.009089743589744,295,297,-2
+womens-college-basketball,2454,North Florida Ospreys,roster_candidate_unverified,True,True,-3.99,True,0.2886968441814595,,,0.2886968441814595,-3.7013031558185405,296,289,7
+womens-college-basketball,2154,Coppin State Eagles,roster_candidate_unverified,True,True,-4.13,True,-0.2494602089268756,,,-0.2494602089268756,-4.379460208926876,297,302,-5
+womens-college-basketball,2670,VCU Rams,roster_candidate_unverified,True,True,-4.13,True,0.17869474969474974,,,0.17869474969474974,-3.95130525030525,298,295,3
+womens-college-basketball,2277,Houston Christian Huskies,roster_candidate_unverified,True,True,-4.16,True,0.042778649921507074,,,0.042778649921507074,-4.117221350078493,299,298,1
+womens-college-basketball,172,Cornell Big Red,roster_candidate_unverified,True,True,-4.26,True,0.12269230769230768,,,0.12269230769230768,-4.137307692307692,300,299,1
+womens-college-basketball,111,Northeastern Huskies,roster_candidate_unverified,True,True,-4.33,True,0.07807435897435899,,,0.07807435897435899,-4.251925641025641,301,300,1
+womens-college-basketball,79,Southern Illinois Salukis,roster_candidate_unverified,True,True,-4.35,True,-0.06262878074306645,Low roster-origin coverage,,-0.06262878074306645,-4.412628780743066,302,303,-1
+womens-college-basketball,2368,Marist Red Foxes,roster_candidate_unverified,True,True,-4.41,True,-0.052393637226970526,,,-0.052393637226970526,-4.46239363722697,303,304,-1
+womens-college-basketball,43,Yale Bulldogs,roster_candidate_unverified,True,True,-4.5,True,0.15566467315386984,,,0.15566467315386984,-4.34433532684613,304,301,3
+womens-college-basketball,2640,Texas Southern Tigers,roster_candidate_unverified,True,True,-4.76,True,-0.20143084772370487,Low roster-origin coverage,,-0.20143084772370487,-4.961430847723705,305,308,-3
+womens-college-basketball,159,Dartmouth Big Green,roster_candidate_unverified,True,True,-4.79,True,0.1190332799145299,,,0.1190332799145299,-4.67096672008547,306,305,1
+womens-college-basketball,2681,Wagner Seahawks,roster_candidate_unverified,True,True,-4.81,True,-0.21511384615384616,Low roster-origin coverage,,-0.21511384615384616,-5.025113846153846,307,309,-2
+womens-college-basketball,2006,Akron Zips,roster_candidate_unverified,True,True,-4.94,True,0.04098685660018995,,,0.04098685660018995,-4.89901314339981,308,307,1
+womens-college-basketball,2711,Western Michigan Broncos,roster_candidate_unverified,True,True,-4.95,True,-0.09508218277449046,Low roster-origin coverage,,-0.09508218277449046,-5.0450821827744905,309,310,-1
+womens-college-basketball,2908,South Carolina Upstate Spartans,roster_candidate_unverified,True,True,-5.03,True,0.22352899408284022,,,0.22352899408284022,-4.80647100591716,310,306,4
+womens-college-basketball,2511,Queens University Royals,roster_candidate_unverified,True,True,-5.08,True,-0.13713561834990406,Low roster-origin coverage,,-0.13713561834990406,-5.2171356183499045,311,311,0
+womens-college-basketball,166,New Mexico State Aggies,roster_candidate_unverified,True,True,-5.16,True,-0.167391571699905,Low roster-origin coverage,,-0.167391571699905,-5.327391571699905,312,312,0
+womens-college-basketball,2296,Jackson State Lady Tigers,roster_candidate_unverified,True,True,-5.51,True,-0.04819868945868942,Low roster-origin coverage,,-0.04819868945868942,-5.558198689458689,313,313,0
+womens-college-basketball,350,UNC Wilmington Seahawks,roster_candidate_unverified,True,True,-5.54,True,-0.18892446581196579,Low roster-origin coverage,,-0.18892446581196579,-5.728924465811966,314,315,-1
+womens-college-basketball,2241,Gardner-Webb Runnin' Bulldogs,roster_candidate_unverified,True,True,-5.65,True,-0.04202240537240537,Low roster-origin coverage,,-0.04202240537240537,-5.692022405372406,315,314,1
+womens-college-basketball,2934,Cal State Bakersfield Roadrunners,roster_candidate_unverified,True,True,-5.7,True,-0.1498591452991453,Low roster-origin coverage,,-0.1498591452991453,-5.8498591452991455,316,318,-2
+womens-college-basketball,328,Utah State Aggies,roster_candidate_unverified,True,True,-5.9,True,-0.15322968660968656,,,-0.15322968660968656,-6.053229686609687,317,320,-3
+womens-college-basketball,270,Milwaukee Panthers,roster_candidate_unverified,True,True,-6.02,True,0.17399654320987654,,,0.17399654320987654,-5.846003456790123,318,317,1
+womens-college-basketball,284,Stonehill Skyhawks,roster_candidate_unverified,True,True,-6.03,True,0.2446937500000001,,,0.2446937500000001,-5.7853062500000005,319,316,3
+womens-college-basketball,2441,New Haven Chargers,roster_candidate_unverified,True,True,-6.17,True,-0.1769285216840772,,,-0.1769285216840772,-6.346928521684077,320,323,-3
+womens-college-basketball,221,Pittsburgh Panthers,roster_candidate_unverified,True,True,-6.2,True,0.2449905982905984,,,0.2449905982905984,-5.955009401709402,321,319,2
+womens-college-basketball,2502,Portland State Vikings,roster_candidate_unverified,True,True,-6.23,True,-0.1128510351377018,Low roster-origin coverage,,-0.1128510351377018,-6.342851035137702,322,322,0
+womens-college-basketball,2029,Arkansas-Pine Bluff Golden Lions,roster_candidate_unverified,True,True,-6.33,True,0.07669474969474971,,,0.07669474969474971,-6.25330525030525,323,321,2
+womens-college-basketball,282,Indiana State Sycamores,roster_candidate_unverified,True,True,-6.54,True,-0.07229306742640074,Low roster-origin coverage,,-0.07229306742640074,-6.612293067426401,324,325,-1
+womens-college-basketball,2174,Detroit Mercy Titans,roster_candidate_unverified,True,True,-6.56,True,-0.05127008547008545,,,-0.05127008547008545,-6.611270085470085,325,324,1
+womens-college-basketball,2717,Western Carolina Catamounts,roster_candidate_unverified,True,True,-6.73,True,-0.1527866334283001,Low roster-origin coverage,,-0.1527866334283001,-6.8827866334283,326,327,-1
+womens-college-basketball,2127,Charleston Southern Buccaneers,roster_candidate_unverified,True,True,-6.74,True,-0.148129809872667,Low roster-origin coverage,,-0.148129809872667,-6.888129809872667,327,328,-1
+womens-college-basketball,2169,Delaware State Hornets,roster_candidate_unverified,True,True,-6.77,True,-0.18235457875457872,Low roster-origin coverage,,-0.18235457875457872,-6.952354578754578,328,329,-1
+womens-college-basketball,2545,SE Louisiana Lady Lions,roster_candidate_unverified,True,True,-6.84,True,-0.03644542124542127,Low roster-origin coverage,,-0.03644542124542127,-6.876445421245421,329,326,3
+womens-college-basketball,2459,Northern Illinois Huskies,roster_candidate_unverified,True,True,-6.99,True,-0.012765541601255823,Low roster-origin coverage,,-0.012765541601255823,-7.002765541601256,330,330,0
+womens-college-basketball,2142,Colgate Raiders,roster_candidate_unverified,True,True,-7.17,True,-0.1190630769230769,Low roster-origin coverage,,-0.1190630769230769,-7.289063076923076,331,331,0
+womens-college-basketball,155,North Dakota Fighting Hawks,roster_candidate_unverified,True,True,-7.85,True,-0.17111004748338082,Low roster-origin coverage,,-0.17111004748338082,-8.021110047483381,332,335,-3
+womens-college-basketball,44,American University Eagles,roster_candidate_unverified,True,True,-7.85,True,-0.003406650641025577,,,-0.003406650641025577,-7.853406650641025,333,332,1
+womens-college-basketball,2084,Buffalo Bulls,roster_candidate_unverified,True,True,-7.87,True,-0.02904115859449187,Low roster-origin coverage,,-0.02904115859449187,-7.899041158594492,334,333,1
+womens-college-basketball,357,Texas A&M-Corpus Christi Islanders,roster_candidate_unverified,True,True,-7.89,True,-0.11688219373219372,Low roster-origin coverage,,-0.11688219373219372,-8.006882193732194,335,334,1
+womens-college-basketball,2349,UMass Lowell River Hawks,roster_candidate_unverified,True,True,-7.91,True,-0.13441923076923076,Low roster-origin coverage,,-0.13441923076923076,-8.04441923076923,336,336,0
+womens-college-basketball,309,Louisiana Ragin' Cajuns,roster_candidate_unverified,True,True,-8.03,True,-0.0360553846153846,Low roster-origin coverage,,-0.0360553846153846,-8.066055384615384,337,337,0
+womens-college-basketball,2197,Eastern Illinois Panthers,roster_candidate_unverified,True,True,-8.13,True,0.024788854003139744,,,0.024788854003139744,-8.105211145996861,338,338,0
+womens-college-basketball,2520,Rider Broncs,roster_candidate_unverified,True,True,-8.13,True,-0.003748860398860354,Low roster-origin coverage,,-0.003748860398860354,-8.13374886039886,339,339,0
+womens-college-basketball,50,Florida A&M Rattlers,roster_candidate_unverified,True,True,-8.26,True,0.11449944919278256,,,0.11449944919278256,-8.145500550807217,340,340,0
+womens-college-basketball,2634,Tennessee State Lady Tigers,roster_candidate_unverified,True,True,-8.31,True,-0.11064556213017751,Low roster-origin coverage,,-0.11064556213017751,-8.420645562130177,341,341,0
+womens-college-basketball,13,Cal Poly Mustangs,roster_candidate_unverified,True,True,-8.37,True,-0.07135384615384613,,,-0.07135384615384613,-8.441353846153845,342,342,0
+womens-college-basketball,2612,Saint Peter's Peacocks,roster_candidate_unverified,True,True,-9.04,True,-0.1114132953466287,,,-0.1114132953466287,-9.151413295346629,343,343,0
+womens-college-basketball,2065,Bethune-Cookman Wildcats,roster_candidate_unverified,True,True,-9.06,True,-0.2104547008547008,,,-0.2104547008547008,-9.270454700854701,344,344,0
+womens-college-basketball,2130,Chicago State Cougars,roster_candidate_unverified,True,True,-9.42,True,0.010974358974358944,,,0.010974358974358944,-9.409025641025641,345,345,0
+womens-college-basketball,299,Long Beach State Beach,roster_candidate_unverified,True,True,-9.48,True,-0.18740795529257068,Low roster-origin coverage,,-0.18740795529257068,-9.667407955292571,346,347,-1
+womens-college-basketball,2330,Le Moyne Dolphins,roster_candidate_unverified,True,True,-9.57,True,0.08991360946745566,,,0.08991360946745566,-9.480086390532545,347,346,1
+womens-college-basketball,23,San José State Spartans,roster_candidate_unverified,True,True,-9.68,True,-0.12327367870225014,Low roster-origin coverage,,-0.12327367870225014,-9.80327367870225,348,348,0
+womens-college-basketball,2415,Morgan State Lady Bears,roster_candidate_unverified,True,True,-9.68,True,-0.18596041785375117,Low roster-origin coverage,,-0.18596041785375117,-9.865960417853751,349,350,-1
+womens-college-basketball,2099,Canisius Golden Griffins,roster_candidate_unverified,True,True,-9.87,True,0.006066609686609718,,,0.006066609686609718,-9.86393339031339,350,349,1
+womens-college-basketball,2547,Seattle U Redhawks,roster_candidate_unverified,True,True,-10.76,True,-0.09672855398569682,Low roster-origin coverage,,-0.09672855398569682,-10.856728553985697,351,351,0
+womens-college-basketball,2437,Omaha Mavericks,roster_candidate_unverified,True,True,-11.7,True,0.12162621082621086,,,0.12162621082621086,-11.578373789173789,352,352,0
+womens-college-basketball,2400,Mississippi Valley State Devilettes,roster_candidate_unverified,True,True,-11.82,True,-0.17618974358974354,Low roster-origin coverage,,-0.17618974358974354,-11.996189743589744,353,353,0
+womens-college-basketball,2443,LSU New Orleans Privateers,roster_candidate_unverified,True,True,-12.09,True,-0.0885039072039072,Low roster-origin coverage,,-0.0885039072039072,-12.178503907203908,354,354,0
+womens-college-basketball,2569,South Carolina State Lady Bulldogs,roster_candidate_unverified,True,True,-13.39,True,-0.13326901058313798,Low roster-origin coverage,,-0.13326901058313798,-13.523269010583139,355,355,0
+womens-college-basketball,2506,Presbyterian Blue Hose,roster_candidate_unverified,True,True,-14.69,True,-0.0970262984878369,,,-0.0970262984878369,-14.787026298487836,356,356,0
+womens-college-basketball,2115,Central Connecticut Blue Devils,roster_candidate_unverified,True,True,-15.17,True,-0.13423313609467458,Low roster-origin coverage,,-0.13423313609467458,-15.304233136094675,357,357,0
+womens-college-basketball,2504,Prairie View A&M Lady Panthers,roster_candidate_unverified,True,True,-15.42,True,-0.15612027540360873,Low roster-origin coverage,,-0.15612027540360873,-15.576120275403609,358,358,0
+womens-college-basketball,315,Niagara Purple Eagles,roster_candidate_unverified,True,True,-17.04,True,-0.14066138147566715,Low roster-origin coverage,,-0.14066138147566715,-17.180661381475666,359,359,0
+womens-college-basketball,91,Bellarmine Knights,roster_candidate_unverified,True,True,-18.07,True,-0.13377362637362633,Low roster-origin coverage,,-0.13377362637362633,-18.203773626373625,360,360,0
+womens-college-basketball,2674,Valparaiso Beacons,roster_candidate_unverified,True,True,-18.84,True,-0.14672588522588523,,,-0.14672588522588523,-18.986725885225884,361,361,0
