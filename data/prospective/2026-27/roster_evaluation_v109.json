@@ -1,0 +1,30 @@
+{
+  "version": 109,
+  "season": "2026-27",
+  "generated_at_utc": "2026-10-27T03:47:36.651344Z",
+  "status": "PROSPECTIVE_PAIRED_RESEARCH_ONLY",
+  "production_modified": false,
+  "baseline_source": "V97 official_saved_v97 pregame forecast archive",
+  "experimental_source": "V105 static illustrative adjustments locked at first V109 pairing",
+  "limitations": [
+    "Only fresh official V97 forecasts are eligible; no historical backfill",
+    "Only games with documented V105 signals for both teams are paired",
+    "V105 is uncalibrated and not opponent-strength normalized",
+    "Frozen pregame source timestamps do not establish absence of training leakage upstream",
+    "No Brier score or win probabilities"
+  ],
+  "roster_errors": {},
+  "skipped_new_pairs": {},
+  "new_pairs": 0,
+  "total_pairs": 0,
+  "paired_results": {
+    "mens": {
+      "paired_completed_games": 0,
+      "status": "INSUFFICIENT_PROSPECTIVE_DATA"
+    },
+    "womens": {
+      "paired_completed_games": 0,
+      "status": "INSUFFICIENT_PROSPECTIVE_DATA"
+    }
+  }
+}
