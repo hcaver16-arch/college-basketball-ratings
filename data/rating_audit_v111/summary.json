@@ -1,0 +1,129 @@
+{
+  "version": 111,
+  "created_utc": "2026-10-27T04:35:37.606180+00:00",
+  "status": "READ_ONLY_STRUCTURAL_AUDIT",
+  "production_modified": false,
+  "source": {
+    "file": "rating_engine.py",
+    "sha256": "3e058fea5aaacc0f0a8870ead49fe9a54bfe37054b561e42f2d9ef2bad236adb",
+    "lines": 78,
+    "functions": [
+      "blending_weight",
+      "calculate_power",
+      "make_combined"
+    ],
+    "checks": {
+      "expected_three_functions_present": true,
+      "fixed_home_advantage_three": true,
+      "blowout_capped_40": true,
+      "ridge_eight": true,
+      "minimum_twenty_finals": true,
+      "prior_zero_for_new_teams": true,
+      "blend_saturates_by_25_games": true,
+      "team_id_type_sensitive_indexing": true,
+      "uses_numeric_linear_solve": true,
+      "drops_duplicate_game_ids": true
+    },
+    "review_alerts": [
+      "Venue: non-neutral games always subtract 3 points; does not distinguish true home from away/unknown venue labels.",
+      "Margin clipping limits blowout influence but makes extreme results indistinguishable beyond 40 points.",
+      "Ridge=8 is a modeling choice; quantify shrinkage and opponent-pool coverage before tuning.",
+      "Absent prior-season teams receive a neutral-zero preseason prior; investigate transitional teams and cold starts.",
+      "Potential Team ID dtype mismatch: indexing str(g[ID]) while tids uses original values; verify upstream type normalization.",
+      "Venue text may contain missing/unknown values; code treats anything other than exactly Neutral as home advantage.",
+      "Only Final-score rows enter on-court fit; ensure incomplete or duplicated results are consistently filtered."
+    ],
+    "source_url": "https://raw.githubusercontent.com/hcaver16-arch/college-basketball-ratings/main/rating_engine.py"
+  },
+  "snapshots": {
+    "mens-college-basketball": {
+      "snapshot_found": true,
+      "snapshot_path": "data/ratings/mens-college-basketball/latest.csv.gz",
+      "rows": 727,
+      "duplicate_team_ids": 0,
+      "non_numeric_power": 0,
+      "candidate_non_d1_names": [],
+      "fields": [
+        "Rank",
+        "Team ID",
+        "Team",
+        "Prior team rating",
+        "On-court rating",
+        "Games played",
+        "Preseason roster adjustment",
+        "Preseason rating",
+        "On-court weight",
+        "Preseason weight",
+        "Current power",
+        "Rating change",
+        "Division",
+        "As of UTC",
+        "Rating source"
+      ],
+      "blank_team_ids": 0
+    },
+    "womens-college-basketball": {
+      "snapshot_found": true,
+      "snapshot_path": "data/ratings/womens-college-basketball/latest.csv.gz",
+      "rows": 663,
+      "duplicate_team_ids": 0,
+      "non_numeric_power": 0,
+      "candidate_non_d1_names": [],
+      "fields": [
+        "Rank",
+        "Team ID",
+        "Team",
+        "Prior team rating",
+        "On-court rating",
+        "Games played",
+        "Preseason roster adjustment",
+        "Preseason rating",
+        "On-court weight",
+        "Preseason weight",
+        "Current power",
+        "Rating change",
+        "Division",
+        "As of UTC",
+        "Rating source"
+      ],
+      "blank_team_ids": 0
+    }
+  },
+  "call_sites": [
+    {
+      "file": "app.py",
+      "calculate_power_calls": 2,
+      "make_combined_calls": 1,
+      "blending_weight_calls": 0
+    },
+    {
+      "file": "daily_ratings.py",
+      "calculate_power_calls": 2,
+      "make_combined_calls": 1,
+      "blending_weight_calls": 0
+    },
+    {
+      "file": "rating_engine.py",
+      "calculate_power_calls": 1,
+      "make_combined_calls": 1,
+      "blending_weight_calls": 1
+    },
+    {
+      "file": "reconstruct_courtside_v89.py",
+      "calculate_power_calls": 1,
+      "make_combined_calls": 0,
+      "blending_weight_calls": 0
+    },
+    {
+      "file": "reconstruct_courtside_v90.py",
+      "calculate_power_calls": 1,
+      "make_combined_calls": 0,
+      "blending_weight_calls": 0
+    }
+  ],
+  "limitations": [
+    "Static checks do not establish predictive accuracy or eliminate data leakage",
+    "Source assumptions may differ from downstream line-construction code",
+    "No training or modification of official model"
+  ]
+}
