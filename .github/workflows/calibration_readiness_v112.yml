@@ -1,0 +1,33 @@
+name: Audit historical calibration readiness V112
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: courtside-v112-calibration-readiness
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Check archived data and model calibration safeguards
+        run: python calibration_readiness_v112.py
+      - name: Show calibration readiness report
+        run: |
+          cat data/calibration_readiness_v112/report.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Commit audit outputs only
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- data/calibration_readiness_v112/summary.json data/calibration_readiness_v112/report.md
+          if ! git diff --cached --quiet; then
+            git commit -m 'Add V112 research-only calibration readiness audit'
+            git push
+          fi
