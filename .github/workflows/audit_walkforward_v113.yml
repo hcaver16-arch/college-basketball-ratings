@@ -1,0 +1,32 @@
+name: Audit historical walk-forward archives V113
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: courtside-v113-walkforward-audit
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Inventory archives without modifying input files
+        run: python audit_walkforward_v113.py
+      - name: Publish readable audit summary
+        run: cat data/walkforward_audit_v113/report.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Commit audit outputs only
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- data/walkforward_audit_v113/summary.json data/walkforward_audit_v113/inventory.json data/walkforward_audit_v113/report.md
+          if ! git diff --cached --quiet; then
+            git commit -m 'Save V113 read-only historical walk-forward archive audit'
+            git push
+          fi
