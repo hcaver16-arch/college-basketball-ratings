@@ -2,16 +2,16 @@
 
 **Research only. No production ratings/site/predictions altered.**
 
-Games targeted: **800**; checkpoint records for target: **600**; remaining **200**.
+Games targeted: **800**; checkpoint records for target: **800**; remaining **0**.
 New ESPN requests this run: **200**.
 
 ## Provider outcomes
 
-- ok: 600
+- ok: 800
 
 ## Venue comparisons
 
-- labels_agree_NOT_independent_verification: 200
+- labels_agree_NOT_independent_verification: 400
 - not_comparable: 400
 
 Eastern date disagreements: **0**. Team ID mismatches: **0**; score mismatches: **0**.
