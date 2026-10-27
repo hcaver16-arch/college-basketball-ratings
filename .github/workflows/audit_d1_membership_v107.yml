@@ -1,0 +1,34 @@
+name: Audit D1 membership and ranking universe V107
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Audit and recalculate research-only comparisons
+        run: python audit_d1_membership_v107.py
+      - name: Upload research results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: d1-audit-v107
+          path: data/d1_audit_v107/
+          if-no-files-found: warn
+      - name: Commit research-only reports
+        if: success()
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/d1_audit_v107/
+          if ! git diff --cached --quiet; then
+            git commit -m 'Save V107 research-only D1 membership audit'
+            git push
+          fi
