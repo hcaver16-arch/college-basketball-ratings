@@ -1,0 +1,30 @@
+name: Research recover ESPN historical evidence V116
+on:
+  workflow_dispatch:
+    inputs:
+      per_stratum:
+        description: 'Historical games sampled per season and division (1-40)'
+        required: false
+        default: '12'
+permissions:
+  contents: read
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Recover provider evidence for sampled events
+        run: |
+          python recover_game_evidence_v116.py --root . --output data/game_evidence_v116 --per-stratum '${{ inputs.per_stratum }}' --pause 1.2
+      - name: Upload research-only evidence report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: courtside-v116-game-evidence
+          path: data/game_evidence_v116/
+          if-no-files-found: warn
+          retention-days: 30
