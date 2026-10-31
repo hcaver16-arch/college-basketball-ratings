@@ -1,0 +1,23 @@
+name: Validate V126 page loading optimization
+on:
+  pull_request:
+    paths:
+      - app.py
+      - test_loading_v126.py
+      - .github/workflows/validate_loading_v126.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Python syntax
+        run: python -m py_compile app.py
+      - name: Page-scope safeguard
+        run: python test_loading_v126.py

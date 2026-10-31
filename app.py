@@ -684,10 +684,11 @@ team_ratings = st.session_state.get(f"teams_{SPORTS[league]}")
 conference_ratings = st.session_state.get(f"conferences_{SPORTS[league]}")
 sos_ratings = st.session_state.get(f"sos_{SPORTS[league]}")
 sor_ratings = st.session_state.get(f"sor_{SPORTS[league]}")
-# Preliminary roster experiment refreshes from saved team ratings and archive on each page load.
-# This does not alter st.session_state official ratings or locked prediction archives.
+# Build experimental roster ratings only on pages that display them.
+# This leaves the official ratings and immutable prediction archives unchanged.
 preliminary_ratings = pd.DataFrame()
-if isinstance(team_ratings, pd.DataFrame) and not team_ratings.empty:
+roster_rating_pages = {"Rankings", "Model Lab", "Games", "Teams"}
+if selected_section in roster_rating_pages and isinstance(team_ratings, pd.DataFrame) and not team_ratings.empty:
     try:
         _prior_rosters, _current_rosters, _player_totals, _archive_status = load_saved_data(SPORTS[league])
         preliminary_ratings = build_preliminary_ratings(team_ratings, _prior_rosters, _current_rosters, _player_totals)
