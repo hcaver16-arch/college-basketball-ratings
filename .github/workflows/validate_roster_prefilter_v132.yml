@@ -1,0 +1,21 @@
+name: Validate V132 roster evidence optimization
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - prospective_roster.py
+      - test_roster_prefilter_v132.py
+      - .github/workflows/validate_roster_prefilter_v132.yml
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m py_compile prospective_roster.py
+      - run: python test_roster_prefilter_v132.py
