@@ -1,0 +1,23 @@
+name: Validate Model Lab V123
+on:
+  pull_request:
+    paths:
+      - 'app.py'
+      - 'live_performance_v123.py'
+      - 'test_live_performance_v123.py'
+      - '.github/workflows/validate_model_lab_v123.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pandas streamlit
+      - run: python -m py_compile app.py live_performance_v123.py
+      - run: python test_live_performance_v123.py
