@@ -1,0 +1,35 @@
+name: Research cross-season model stability V121
+on:
+  workflow_dispatch:
+    inputs:
+      max_targets:
+        description: 'Latest venue-labeled targets per season/division (1-600)'
+        required: true
+        default: '240'
+permissions:
+  contents: read
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install research dependencies
+        run: python -m pip install --disable-pip-version-check 'numpy>=1.24,<3' 'scipy>=1.10,<2'
+      - name: Run read-only cross-season replication
+        env:
+          MAX_TARGETS: ${{ inputs.max_targets }}
+        run: python season_stability_v121.py --root . --output data/research_v121 --max-targets "$MAX_TARGETS"
+      - name: Upload V121 research results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: courtside-v121-season-stability
+          path: |
+            data/research_v121/summary.json
+            data/research_v121/report.md
+            data/research_v121/predictions.csv
+          if-no-files-found: warn
