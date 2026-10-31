@@ -107,7 +107,7 @@ st.sidebar.toggle(
 )
 st.title("🏀 Courtside")
 st.caption("College Basketball Analytics · 2026–27")
-sections=["Home","Games","Rankings","Teams","Conferences","Schedule strength","Record strength","Model Lab"]
+sections=["Home","Games","Rankings","Teams","Conferences","Tournament","Schedule strength","Record strength","Model Lab"]
 if st.session_state.get('courtside_requested_page') in sections:
     st.session_state['courtside_page'] = st.session_state.pop('courtside_requested_page')
 if st.session_state.get('courtside_page') not in sections:
@@ -121,7 +121,7 @@ st.session_state['courtside_mobile_page'] = st.session_state['courtside_page']
 with st.container(key='courtside_mobile_nav'):
     st.selectbox('Navigate Courtside', sections, key='courtside_mobile_page', on_change=_mobile_go)
 with st.container(key='courtside_desktop_nav'):
-    nav_cols = st.columns([1.0, 1.0, 1.15, 1.0, 1.45, 1.9, 1.8, 1.2], gap="small")
+    nav_cols = st.columns([1.0, 1.0, 1.15, 1.0, 1.45, 1.4, 1.9, 1.8, 1.2], gap="small")
     for nav_col, nav_label in zip(nav_cols, sections):
         with nav_col:
             is_active = st.session_state['courtside_page'] == nav_label
@@ -1749,6 +1749,8 @@ if selected_section == "Teams":
 
 if selected_section == "Conferences":
     render_conferences(team_ratings, verified_d1_ids, league, games, period)
+
+if selected_section == "Tournament":
     from bracketology_v138 import render_bracketology
     render_bracketology(team_ratings, verified_d1_ids, league)
 
