@@ -693,6 +693,16 @@ team_ratings = st.session_state.get(f"teams_{SPORTS[league]}")
 conference_ratings = st.session_state.get(f"conferences_{SPORTS[league]}")
 sos_ratings = st.session_state.get(f"sos_{SPORTS[league]}")
 sor_ratings = st.session_state.get(f"sor_{SPORTS[league]}")
+@st.cache_data(ttl=60 * 60, max_entries=8, show_spinner=False)
+def _cached_preliminary_ratings(ratings, previous, current, totals):
+    """Cache the costly roster experiment by the content of all four DataFrames.
+
+    Ratings/roster data changes invalidate the cache automatically. This remains
+    a read-only experimental calculation; official power ratings are untouched.
+    """
+    return build_preliminary_ratings(ratings, previous, current, totals)
+
+
 # Build experimental roster ratings only on pages that display them.
 # This leaves the official ratings and immutable prediction archives unchanged.
 preliminary_ratings = pd.DataFrame()
@@ -700,7 +710,7 @@ roster_rating_pages = {"Rankings", "Model Lab", "Games", "Teams"}
 if selected_section in roster_rating_pages and isinstance(team_ratings, pd.DataFrame) and not team_ratings.empty:
     try:
         _prior_rosters, _current_rosters, _player_totals, _archive_status = load_saved_data(SPORTS[league])
-        preliminary_ratings = _v130_measure('Roster adjustments', build_preliminary_ratings, team_ratings, _prior_rosters, _current_rosters, _player_totals)
+        preliminary_ratings = _v130_measure('Roster adjustments', _cached_preliminary_ratings, team_ratings, _prior_rosters, _current_rosters, _player_totals)
     except Exception as exc:
         st.sidebar.caption(f'Experimental roster ratings unavailable: {str(exc)[:90]}')
 
