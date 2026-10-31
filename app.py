@@ -8,6 +8,7 @@ from __future__ import annotations
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import date, datetime, timedelta, timezone
 import io
+from time import perf_counter
 from pathlib import Path
 from math import erf, sqrt, log10
 import pandas as pd
@@ -41,6 +42,17 @@ from team_profile_ui import render_team_profile
 from rankings_ui import render_rankings
 from strength_pages_ui import render_sos, render_sor
 from conferences_ui import render_conferences
+
+# V130: per-rerun server timings; diagnostics do not persist or change model data.
+_v130_started = perf_counter()
+_v130_timings = {}
+
+def _v130_measure(label, function, *args, **kwargs):
+    started = perf_counter()
+    try:
+        return function(*args, **kwargs)
+    finally:
+        _v130_timings[label] = _v130_timings.get(label, 0.0) + (perf_counter() - started)
 
 st.set_page_config(page_title="Courtside | College Basketball Analytics", page_icon="🏀", layout="wide", initial_sidebar_state="collapsed")
 courtside_style()
@@ -607,7 +619,7 @@ if st.sidebar.button("🔄 Refresh schedule now", use_container_width=True):
 
 
 with st.spinner(f"Loading {league.lower()} games for {period.lower()} (daily requests)…"):
-    games, failures, truncated, windows_checked = get_schedule(SPORTS[league], first, last)
+    games, failures, truncated, windows_checked = _v130_measure('Schedule', get_schedule, SPORTS[league], first, last)
 
 if failures:
     st.warning(f"{len(failures)} of {windows_checked} daily data requests failed. The table may be incomplete. Try a shorter period or refresh later.")
@@ -622,13 +634,13 @@ if games.empty:
 
 # Team directory and conference list are sourced independently from game schedules.
 try:
-    directory = fetch_directory(SPORTS[league])
+    directory = _v130_measure('Team directory', fetch_directory, SPORTS[league])
     directory_error = ""
 except Exception as exc:
     directory = pd.DataFrame(columns=["Team ID", "Team", "Abbreviation", "Conference ID", "Logo"])
     directory_error = str(exc)
 try:
-    conference_names, memberships, conf_count, conf_failures = fetch_membership(SPORTS[league])
+    conference_names, memberships, conf_count, conf_failures = _v130_measure('Conference membership', fetch_membership, SPORTS[league])
     conference_error = ""
 except Exception as exc:
     conference_names, memberships, conf_count, conf_failures = {}, {}, 0, 0
@@ -664,7 +676,7 @@ unique_teams = sorted(set(games["Away"]).union(games["Home"]))
 verified_d1_ids = set(map(str, memberships.keys()))
 # Start each session with the most recently archived rating snapshot.
 # Manual calculations remain available, but saved ratings survive Streamlit restarts.
-archived_teams, archived_meta = load_ratings(SPORTS[league])
+archived_teams, archived_meta = _v130_measure('Saved ratings', load_ratings, SPORTS[league])
 if archived_teams is not None:
     # Saved data are authoritative until this session explicitly recalculates.
     current_snapshot = st.session_state.get(f"saved_snapshot_{SPORTS[league]}")
@@ -688,7 +700,7 @@ roster_rating_pages = {"Rankings", "Model Lab", "Games", "Teams"}
 if selected_section in roster_rating_pages and isinstance(team_ratings, pd.DataFrame) and not team_ratings.empty:
     try:
         _prior_rosters, _current_rosters, _player_totals, _archive_status = load_saved_data(SPORTS[league])
-        preliminary_ratings = build_preliminary_ratings(team_ratings, _prior_rosters, _current_rosters, _player_totals)
+        preliminary_ratings = _v130_measure('Roster adjustments', build_preliminary_ratings, team_ratings, _prior_rosters, _current_rosters, _player_totals)
     except Exception as exc:
         st.sidebar.caption(f'Experimental roster ratings unavailable: {str(exc)[:90]}')
 
@@ -1358,7 +1370,7 @@ if selected_section == "Games":
     # calendar window separate. This avoids an extra full-season scan on Games.
     record_cutoff = min(END, max(START, date.today()))
     with st.spinner("Loading season results for team records…"):
-        record_schedule, record_failures, record_truncated, _ = get_schedule(SPORTS[league], START, record_cutoff)
+        record_schedule, record_failures, record_truncated, _ = _v130_measure('Record history', get_schedule, SPORTS[league], START, record_cutoff)
     record_coverage_ok = not record_failures and not record_truncated
     if not record_coverage_ok:
         st.warning("Some season dates could not be loaded. Team records below may be incomplete; they are marked as partial.")
@@ -1726,3 +1738,11 @@ if selected_section == "Record strength":
 
 st.divider()
 st.caption("Data: ESPN unofficial public scoreboard feed. Historical ratings are experimental; lines are independent model estimates and not betting odds. Some game and roster data may be incomplete.")
+
+# Optional server-side diagnostics. Values measure this Streamlit rerun only,
+# including cache waits, not browser painting or client network latency.
+with st.sidebar.expander("Page performance · V130", expanded=False):
+    st.caption("Server-side timings for this page run. First loads can be slower than cached visits.")
+    for _label, _seconds in sorted(_v130_timings.items(), key=lambda item: -item[1]):
+        st.write(f"{_label}: {_seconds:.2f} s")
+    st.write(f"Total Python page run: {perf_counter() - _v130_started:.2f} s")
