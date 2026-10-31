@@ -72,9 +72,9 @@ def featured_choice(upcoming, ratings, d1_ids):
     shortlist['_interesting']=shortlist.apply(value,axis=1)
     return shortlist.sort_values('_interesting',ascending=False).iloc[0]
 
-def render_home(games, ratings, team_ratings, d1_ids, league, window):
+def render_home(games, ratings, team_ratings, d1_ids, league, window, time_zone="Eastern"):
     st.markdown('### Today’s matchups & highlights')
-    st.caption(f"{league} Division I · Loaded schedule: {window}. Times shown in Eastern Time.")
+    st.caption(f"{league} Division I · Loaded schedule: {window}. Tipoff times shown in {time_zone} time.")
     today=pd.Timestamp.now(tz='America/New_York').date()
     visible=games[games['Date'].eq(str(today))].copy()
     # Before the season, offer next available games instead of a fake 'today' list.
@@ -107,7 +107,7 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
         with st.container(border=True):
             st.markdown(f'''<div style="display:flex;justify-content:space-between;align-items:center;gap:14px;padding:6px 0 16px">
             <div style="border-left:5px solid {home_color};padding-left:12px;font-weight:700;font-size:21px">{html.escape(h)}</div>
-            <div style="color:#738196;font-size:13px">VS<br>{html.escape(str(featured['Time (ET)']))} ET</div>
+            <div style="color:#738196;font-size:13px">VS<br>{html.escape(str(featured.get('Display time',featured['Time (ET)'])))} </div>
             <div style="border-right:5px solid {away_color};padding-right:12px;font-weight:700;font-size:21px;text-align:right">{html.escape(a)}</div>
             </div>''',unsafe_allow_html=True)
             f1,f2=st.columns(2)
@@ -135,7 +135,7 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
             color=color_for(home)
             x,y=st.columns([4,1.5],vertical_alignment='center')
             with x:
-                st.markdown(f'<div style="border-left:4px solid {color};padding-left:11px"><b>{html.escape(away)} @ {html.escape(home)}</b><br><span style="color:#64748B;font-size:12px">{html.escape(str(row["Time (ET)"]))} ET · {html.escape(str(row["Status"]))} · {"D1 vs D1" if d1 else "Other matchup"}</span><br><span style="font-size:13px">{"Model: "+html.escape(proj) if proj else "No D1 model line"}</span></div>',unsafe_allow_html=True)
+                st.markdown(f'<div style="border-left:4px solid {color};padding-left:11px"><b>{html.escape(away)} @ {html.escape(home)}</b><br><span style="color:#64748B;font-size:12px">{html.escape(str(row.get("Display time",row["Time (ET)"])))}  · {html.escape(str(row["Status"]))} · {"D1 vs D1" if d1 else "Other matchup"}</span><br><span style="font-size:13px">{"Model: "+html.escape(proj) if proj else "No D1 model line"}</span></div>',unsafe_allow_html=True)
             with y:
                 if st.button('Details →',key=f'court_game_{row["Game ID"]}_{ix}',use_container_width=True):
                     st.session_state['courtside_selected_game']=str(row['Game ID'])
