@@ -80,6 +80,8 @@ def render_opening_game_monitor_v133():
     except Exception as exc:
         st.warning(f"Opening-game monitoring data unavailable: {exc}")
         return
+    from forecast_coverage_v134 import render_coverage_v134
+    render_coverage_v134(sport, f, e, status)
     a,b,c,d = st.columns(4)
     a.metric("First forecasts saved", summary["saved"])
     b.metric("Verifiable pre-tip", summary["pre_tip"])
