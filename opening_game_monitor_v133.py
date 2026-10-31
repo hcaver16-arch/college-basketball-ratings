@@ -82,6 +82,10 @@ def render_opening_game_monitor_v133():
         return
     from forecast_coverage_v134 import render_coverage_v134
     render_coverage_v134(sport, f, e, status)
+    from forecast_coverage_v134 import read_season_and_classes
+    from opening_week_evaluation_v135 import render_opening_week_evaluation_v135
+    season, classes = read_season_and_classes(sport)
+    render_opening_week_evaluation_v135(e, season, classes)
     a,b,c,d = st.columns(4)
     a.metric("First forecasts saved", summary["saved"])
     b.metric("Verifiable pre-tip", summary["pre_tip"])
