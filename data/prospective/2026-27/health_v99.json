@@ -1,12 +1,12 @@
 {
   "version": 99,
   "season": "2026-27",
-  "checked_at_utc": "2026-10-31T01:40:11+00:00",
+  "checked_at_utc": "2026-10-31T07:35:10+00:00",
   "status": "ok",
   "divisions": {
     "mens": {
       "status": "ok",
-      "games_seen": 2,
+      "games_seen": 184,
       "upcoming_12h": 0,
       "upcoming_3h": 0,
       "official_forecasts_total": 0,
@@ -15,7 +15,7 @@
     },
     "womens": {
       "status": "ok",
-      "games_seen": 1,
+      "games_seen": 165,
       "upcoming_12h": 0,
       "upcoming_3h": 0,
       "official_forecasts_total": 0,
