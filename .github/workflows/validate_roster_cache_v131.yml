@@ -1,0 +1,25 @@
+name: Validate V131 roster caching
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - app.py
+      - test_roster_cache_v131.py
+      - test_loading_v126.py
+      - .github/workflows/validate_roster_cache_v131.yml
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m py_compile app.py
+      - run: python test_roster_cache_v131.py
+      - run: python test_loading_v126.py
+      - run: python test_schedule_loading_v127.py
+      - run: python test_performance_v130.py
