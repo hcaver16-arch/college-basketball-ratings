@@ -764,6 +764,8 @@ if selected_section == "Rankings":
     render_rankings(team_ratings, preliminary_ratings, league, verified_d1_ids)
 
 if selected_section == "Model Lab":
+    from opening_game_monitor_v133 import render_opening_game_monitor_v133
+    render_opening_game_monitor_v133()
     # COURTSIDE_V98_PROSPECTIVE_MODEL_LAB
     from prospective_model_lab_v98 import render_prospective_model_lab
     render_prospective_model_lab()
