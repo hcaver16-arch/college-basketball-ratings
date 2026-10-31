@@ -1,0 +1,25 @@
+name: Evaluate early-season forecasts V125
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 17 * * *'
+  pull_request:
+    paths:
+      - 'early_season_evaluation_v125.py'
+      - '.github/workflows/evaluate_early_season_v125.yml'
+permissions:
+  contents: read
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pandas
+      - name: Syntax check
+        run: python -m py_compile early_season_evaluation_v125.py
+      - name: Evaluate pre-tip forecasts
+        run: python early_season_evaluation_v125.py
