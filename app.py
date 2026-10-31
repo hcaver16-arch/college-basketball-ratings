@@ -768,6 +768,8 @@ if selected_section == "Home":
 
 if selected_section == "Rankings":
     render_rankings(team_ratings, preliminary_ratings, league, verified_d1_ids)
+    from published_polls_v137 import render_polls
+    render_polls(league, team_ratings)
 
 if selected_section == "Model Lab":
     from opening_game_monitor_v133 import render_opening_game_monitor_v133
