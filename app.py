@@ -1354,11 +1354,12 @@ if selected_section == "Model Lab":
 
 
 if selected_section == "Games":
-    # Records must use the season, not the narrow calendar view on this page.
-    # ESPN day requests are cached by retrieve_day; a full-season retrieval may
-    # initially take longer. Never treat request failures as complete records.
+    # Win-loss records depend on completed games, not future schedules.
+    # Only fetch season dates through today, while keeping the selected
+    # calendar window separate. This avoids an extra full-season scan on Games.
+    record_cutoff = min(END, max(START, date.today()))
     with st.spinner("Loading season results for team records…"):
-        record_schedule, record_failures, record_truncated, _ = get_schedule(SPORTS[league], START, END)
+        record_schedule, record_failures, record_truncated, _ = get_schedule(SPORTS[league], START, record_cutoff)
     record_coverage_ok = not record_failures and not record_truncated
     if not record_coverage_ok:
         st.warning("Some season dates could not be loaded. Team records below may be incomplete; they are marked as partial.")
