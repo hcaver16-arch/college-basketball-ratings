@@ -11,7 +11,12 @@ DEFAULT_SLOPE = 0.5  # assumed points / 10 percentage points returning minutes
 def evidence_adjustments(previous, current, player_totals, team_ids, slope=DEFAULT_SLOPE, reference=50):
     from saved_roster_data import team_saved_analysis
     result = {}
-    for tid in sorted({str(x) for x in team_ids}):
+    # Pre-index team IDs once. Previously team_saved_analysis rebuilt the full
+    # previous/current ID sets for every team (hundreds of repeated scans).
+    previous_ids = set(previous['Team ID'].dropna().astype(str)) if not previous.empty and 'Team ID' in previous else set()
+    current_ids = set(current['Team ID'].dropna().astype(str)) if not current.empty and 'Team ID' in current else set()
+    eligible = previous_ids & current_ids
+    for tid in sorted({str(x) for x in team_ids} & eligible):
         saved = team_saved_analysis(tid, previous, current, player_totals)
         if not saved or saved['returning'].empty: continue
         row = saved['returning'].iloc[0]
