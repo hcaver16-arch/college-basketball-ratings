@@ -1,0 +1,21 @@
+name: Validate V128 import optimization
+on:
+  pull_request:
+    paths:
+      - app.py
+      - test_lazy_imports_v128.py
+      - .github/workflows/validate_lazy_imports_v128.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m py_compile app.py
+      - run: python test_lazy_imports_v128.py
