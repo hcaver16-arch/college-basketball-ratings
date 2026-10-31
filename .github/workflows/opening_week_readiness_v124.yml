@@ -1,0 +1,22 @@
+name: Opening-week pipeline readiness V124
+on:
+  workflow_dispatch:
+  schedule:
+    # After daily ratings and first scheduled V97 run; UTC schedule is approximate.
+    - cron: '10 16 * * *'
+permissions:
+  contents: read
+jobs:
+  readiness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pandas
+      - name: Confirm daily ratings, forecasts, and prospective archive
+        run: python opening_week_readiness_v124.py
+      - name: Validate pre-tip integrity
+        run: python audit_forecasts_v122.py
