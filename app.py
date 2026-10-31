@@ -42,6 +42,7 @@ from team_profile_ui import render_team_profile
 from rankings_ui import render_rankings
 from strength_pages_ui import render_sos, render_sor
 from conferences_ui import render_conferences
+from game_timezones_v136 import annotate_display_times
 
 # V130: per-rerun server timings; diagnostics do not persist or change model data.
 _v130_started = perf_counter()
@@ -348,7 +349,7 @@ def conf_label(raw: str, lookup: dict):
     return lookup.get(str(raw), f"Conference ID {raw}")
 
 def show_schedule(df):
-    columns = ["Date", "Time (ET)", "Away", "Home", "Venue", "Status", "Model line", "Away score", "Home score"]
+    columns = ["Display date", "Display time", "Away", "Home", "Venue", "Status", "Model line", "Away score", "Home score"]
     courtside_dataframe(df[[col for col in columns if col in df.columns]], hide_index=True, use_container_width=True, height=560)
 
 
@@ -568,6 +569,9 @@ with st.container(key='courtside_desktop_division'):
                 st.session_state["courtside_division"] = div_label
                 st.rerun()
 league = st.session_state["courtside_division"]
+st.sidebar.subheader("Game time zone")
+selected_timezone = st.sidebar.selectbox("Show tipoff times in", ["Eastern", "Central", "Mountain", "Pacific", "Arizona"], key="courtside_timezone", index=1)
+st.sidebar.caption("All dates used for schedule filtering remain Eastern; displayed game times use your choice.")
 st.sidebar.subheader("Season coverage")
 # Season-wide analysis pages must not silently inherit a short game window.
 season_wide_pages = {"Schedule strength", "Record strength", "Conferences", "Teams"}
@@ -611,7 +615,7 @@ else:
                "January–February": (date(2027, 1, 1), date(2027, 2, 28)),
                "March–April": (date(2027, 3, 1), END)}
     first, last = windows[period]
-st.sidebar.caption("Times shown in Eastern Time; game times and schedules may change.")
+st.sidebar.caption(f"Tipoff times displayed in {selected_timezone} time; game times and schedules may change.")
 if st.sidebar.button("🔄 Refresh schedule now", use_container_width=True):
     retrieve_day.clear()
     st.rerun()
@@ -620,6 +624,8 @@ if st.sidebar.button("🔄 Refresh schedule now", use_container_width=True):
 
 with st.spinner(f"Loading {league.lower()} games for {period.lower()} (daily requests)…"):
     games, failures, truncated, windows_checked = _v130_measure('Schedule', get_schedule, SPORTS[league], first, last)
+
+games = annotate_display_times(games, selected_timezone)
 
 if failures:
     st.warning(f"{len(failures)} of {windows_checked} daily data requests failed. The table may be incomplete. Try a shorter period or refresh later.")
@@ -758,7 +764,7 @@ if isinstance(team_ratings, pd.DataFrame) and not team_ratings.empty:
             st.session_state[f"sor_{SPORTS[league]}"]=live_sor
 
 if selected_section == "Home":
-    render_home(games, ratings_for_schedule, team_ratings, verified_d1_ids, league, period)
+    render_home(games, ratings_for_schedule, team_ratings, verified_d1_ids, league, period, selected_timezone)
 
 if selected_section == "Rankings":
     render_rankings(team_ratings, preliminary_ratings, league, verified_d1_ids)
@@ -1451,7 +1457,7 @@ if selected_section == "Games":
                 col_title, col_close = st.columns([6, 1])
                 with col_title:
                     st.subheader(f"{game['Away']} at {game['Home']}")
-                    st.caption(f"{game['Date']} · {game['Time (ET)']} ET · {game['Venue']} court · {game['Status']}")
+                    st.caption(f"{game.get('Display date',game['Date'])} · {game.get('Display time',game['Time (ET)'])} · {game['Venue']} court · {game['Status']}")
                 with col_close:
                     if st.button("Close details", key="close_game_details", use_container_width=True):
                         st.session_state.pop("courtside_selected_game", None)
@@ -1492,7 +1498,7 @@ if selected_section == "Games":
                 with c_game:
                     away_record, home_record = game_records(record_schedule, game)
                     st.markdown(f"**{game['Away']} ({away_record}) at {game['Home']} ({home_record})**")
-                    st.caption(f"{game['Date']} · {game['Time (ET)']} ET · {game['Status']}" + (" · Records partial" if not record_coverage_ok else ""))
+                    st.caption(f"{game.get('Display date',game['Date'])} · {game.get('Display time',game['Time (ET)'])} · {game['Status']}" + (" · Records partial" if not record_coverage_ok else ""))
                     st.caption("📺 Watch: " + str(game.get("Watch") or "Not announced"))
                     if net_ranks:
                         st.caption(f"NET: Away {game.get('Away quadrant','—')} · Home {game.get('Home quadrant','—')}")
