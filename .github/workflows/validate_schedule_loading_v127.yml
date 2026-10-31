@@ -1,0 +1,21 @@
+name: Validate V127 schedule loading
+on:
+  pull_request:
+    paths:
+      - app.py
+      - test_schedule_loading_v127.py
+      - .github/workflows/validate_schedule_loading_v127.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m py_compile app.py
+      - run: python test_schedule_loading_v127.py
