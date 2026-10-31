@@ -72,7 +72,8 @@ def featured_choice(upcoming, ratings, d1_ids):
     shortlist['_interesting']=shortlist.apply(value,axis=1)
     return shortlist.sort_values('_interesting',ascending=False).iloc[0]
 
-def render_home(games, ratings, team_ratings, d1_ids, league, window, time_zone="Eastern"):
+def render_home(games, ratings, team_ratings, d1_ids, league, window):
+    time_zone = st.session_state.get("courtside_timezone", "Central")
     st.markdown('### Today’s matchups & highlights')
     st.caption(f"{league} Division I · Loaded schedule: {window}. Tipoff times shown in {time_zone} time.")
     today=pd.Timestamp.now(tz='America/New_York').date()
