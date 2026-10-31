@@ -747,6 +747,8 @@ if selected_section == "Model Lab":
     # COURTSIDE_V98_PROSPECTIVE_MODEL_LAB
     from prospective_model_lab_v98 import render_prospective_model_lab
     render_prospective_model_lab()
+    from live_performance_v123 import render_live_performance_v123
+    render_live_performance_v123()
     st.subheader("Model Lab")
     if archived_meta:
         st.success(f"Automatic ratings available: {archived_meta.get('snapshot_date')} · {archived_meta.get('team_count')} teams · {archived_meta.get('current_final_games')} current-season final games. Ratings are saved daily; manual model recalculation is optional.")
