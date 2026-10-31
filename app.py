@@ -1749,6 +1749,8 @@ if selected_section == "Teams":
 
 if selected_section == "Conferences":
     render_conferences(team_ratings, verified_d1_ids, league, games, period)
+    from bracketology_v138 import render_bracketology
+    render_bracketology(team_ratings, verified_d1_ids, league)
 
 if selected_section == "Schedule strength":
     render_sos(sos_ratings, league, verified_d1_ids)
