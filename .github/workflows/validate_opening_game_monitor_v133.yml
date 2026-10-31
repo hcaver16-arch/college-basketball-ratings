@@ -1,0 +1,23 @@
+name: Validate V133 opening-game monitoring
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - app.py
+      - opening_game_monitor_v133.py
+      - test_opening_game_monitor_v133.py
+      - .github/workflows/validate_opening_game_monitor_v133.yml
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pandas
+      - run: python -m py_compile app.py opening_game_monitor_v133.py
+      - run: python test_opening_game_monitor_v133.py
