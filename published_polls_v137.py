@@ -46,7 +46,7 @@ def parse_polls(payload):
             rows.append({"Rank": rank, "Team": name, "Team ID": team_id,
                          "Points": entry.get("points"), "Record": entry.get("record") or ""})
         if rows:
-            frame = pd.DataFrame(rows).sort_values(["Rank", "Team"]).drop_duplicates("Rank", keep="first")
+            frame = pd.DataFrame(rows).sort_values(["Rank", "Team"]).drop_duplicates("Team ID", keep="first")
             output[kind] = {"rows": frame, "date": item.get("date") or item.get("lastUpdated") or ""}
     return output
 
