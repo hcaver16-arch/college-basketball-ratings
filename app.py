@@ -14,18 +14,15 @@ import pandas as pd
 import numpy as np
 import requests
 import streamlit as st
-from model_testing import walk_forward_backtest
-from early_season_testing import compare_early_season, historical_adjustments
-from roster_tracking import audit_teams, classify_team
+from roster_tracking import audit_teams
 from returning_production import calculate_returning_production, STATS_COLUMNS
 from player_stats_import import fetch_prior_stats
 from transfer_tracking import identify_incoming
 from league_transfer_lookup import scan_previous_rosters, match_candidates
 from transfer_stats import retrieve_previous_school_stats, transfer_coverage
-from roster_model import experimental_roster_signal
 from roster_rating_experiment import roster_sensitivity, roster_quality
 from saved_roster_data import load_saved_data, build_team_roster_view, roster_archive_summary, team_saved_analysis, archive_counts
-from rating_engine import calculate_power, blending_weight, make_combined
+from rating_engine import calculate_power, make_combined
 from saved_ratings import load_ratings, load_history
 from roster_validation import model_feature_table, backtest_readiness
 from coverage_audit import audit_coverage
@@ -37,7 +34,7 @@ from forecast_comparison import combined_forecasts
 from preliminary_model import build_preliminary_ratings, add_experimental_lines
 from courtside_home import style as courtside_style, render_home
 from courtside_tables import apply_table_theme, dataframe as courtside_dataframe
-from net_quadrants import load_net, annotate_games, quadrant_records
+from net_quadrants import load_net, annotate_games
 from matchup_analysis import render_matchup
 from season_records import game_records
 from team_profile_ui import render_team_profile
@@ -1238,6 +1235,7 @@ if selected_section == "Model Lab":
                     st.warning(f"Historical source incomplete: {len(he)} failed day requests, {len(ht)} potentially truncated dates. Results may be biased.")
                 if st.button("Run historical out-of-sample test", key=f"run_backtest_button_{SPORTS[league]}"):
                     with st.spinner("Running forward-only historical test; calculations may take a minute..."):
+                        from model_testing import walk_forward_backtest
                         backtest_df, backtest_stats = walk_forward_backtest(history, set(map(str,memberships.keys())))
                     st.session_state[f"backtest_results_{SPORTS[league]}"] = (backtest_df,backtest_stats)
                 saved_backtest = st.session_state.get(f"backtest_results_{SPORTS[league]}")
@@ -1339,6 +1337,7 @@ if selected_section == "Model Lab":
                 if st.button("Run November 2025 preseason comparison",key=f"run_early_{SPORTS[league]}"):
                     with st.spinner("Fetching 2024–25 results and evaluating November 2025 games. Initial load may take several minutes..."):
                         early_prior, early_failed, early_trunc, _=get_schedule(SPORTS[league],date(2024,11,1),date(2025,4,8))
+                        from early_season_testing import compare_early_season
                         predictions, comparison, warning=compare_early_season(early_prior,history,set(map(str,memberships.keys())),historical_effects)
                     st.session_state[f"early_results_{SPORTS[league]}"]=(predictions,comparison,warning,len(early_failed),len(early_trunc))
                 saved_early=st.session_state.get(f"early_results_{SPORTS[league]}")
