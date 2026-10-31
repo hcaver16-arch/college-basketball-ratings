@@ -1,7 +1,7 @@
 {
   "version": 99,
   "season": "2026-27",
-  "checked_at_utc": "2026-10-31T07:35:10+00:00",
+  "checked_at_utc": "2026-10-31T13:28:49+00:00",
   "status": "ok",
   "divisions": {
     "mens": {
@@ -9,7 +9,7 @@
       "games_seen": 184,
       "upcoming_12h": 0,
       "upcoming_3h": 0,
-      "official_forecasts_total": 0,
+      "official_forecasts_total": 2,
       "final_results_total": 0,
       "issues": []
     },
@@ -18,7 +18,7 @@
       "games_seen": 165,
       "upcoming_12h": 0,
       "upcoming_3h": 0,
-      "official_forecasts_total": 0,
+      "official_forecasts_total": 1,
       "final_results_total": 0,
       "issues": []
     }
