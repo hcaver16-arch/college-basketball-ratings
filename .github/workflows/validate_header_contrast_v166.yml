@@ -1,0 +1,21 @@
+name: Validate V166 header contrast
+on:
+  pull_request:
+    paths:
+      - app.py
+      - courtside_home.py
+      - test_header_contrast_v166.py
+      - .github/workflows/validate_header_contrast_v166.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m py_compile app.py courtside_home.py
+      - run: python test_header_contrast_v166.py
