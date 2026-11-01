@@ -112,6 +112,9 @@ def style():
     .cs174-winner {color:#153b79;font-weight:850;}
     .cs174-final-winner {font-size:.75rem;font-weight:700;color:#0a8077;margin-top:2px;}
     @media(max-width:700px){.cs174-scoreline{gap:7px;}.cs174-scoreline strong{font-size:1.25rem;}}
+    .cs175-live-card {border-left:4px solid #0e9f91;padding:6px 12px;background:#eefaf8;border-radius:6px;}
+    .cs175-live-card>strong {font-size:.73rem;color:#087d73;letter-spacing:.06em;}
+    .cs175-live-score {font-size:1.15rem;font-weight:800;color:#17345f;margin-top:4px;}
     </style>''',unsafe_allow_html=True)
 
 def featured_choice(upcoming, ratings, d1_ids):
@@ -217,6 +220,14 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
                             f'<strong>{away_score} – {home_score}</strong>'
                             f'<span class="cs174-team {"cs174-winner" if home_score > away_score else ""}">{html.escape(home)}</span></div>'
                             f'<div class="cs174-final-winner">{html.escape(winner)} {"wins" if winner != "Tie" else ""}</div>'
+                            '</div>', unsafe_allow_html=True)
+                    elif row["Status"] == "Live":
+                        live_score = ""
+                        if pd.notna(row.get("Away score")) and pd.notna(row.get("Home score")):
+                            live_score = f'{away} {int(row["Away score"])} – {home} {int(row["Home score"])}'
+                        st.markdown(
+                            '<div class="cs175-live-card"><strong>● LIVE</strong>'
+                            f'<div class="cs175-live-score">{html.escape(live_score or f"{away} at {home}")}</div>'
                             '</div>', unsafe_allow_html=True)
                     else:
                         st.markdown(f'<div style="border-left:4px solid {color};padding-left:11px"><b>{html.escape(away)} @ {html.escape(home)}</b><br><span style="color:#64748B;font-size:12px">{html.escape(str(row.get("Display time",row["Time (ET)"])))} · {html.escape(str(row["Status"]))} · {"D1 vs D1" if d1 else "Other matchup"}</span><br><span style="font-size:13px">{"Model: "+html.escape(proj) if proj else "No D1 model line"}</span></div>',unsafe_allow_html=True)
