@@ -14,6 +14,24 @@ def render_native_bracket(field):
         return
     st.subheader("National Tournament Bracket · Courtside Projection")
     st.caption("Hypothetical 2027 region assignments, not NCAA official placements. First-round percentages estimate neutral-court single-game win chances, not advancement probabilities.")
+    @st.dialog("Courtside team résumé")
+    def _team_details(name):
+        team=data["teams"][name]
+        st.subheader(team["name"])
+        st.caption(f"{team['conference']} · {team['bid']}")
+        a,b=st.columns(2)
+        a.metric("Projected overall order",f"#{team['overall']}")
+        b.metric("Power rating",f"{team['power']:.1f}")
+        c,d=st.columns(2)
+        c.metric("Strength of record",f"{team['sor']:.2f}" if team["sor"] is not None else "Pending")
+        d.metric("Selection score",f"{team['selection']:.3f}")
+        st.caption(team["basis"])
+        st.info("Provisional résumé and bracket position; not an official NCAA seed.")
+
+    def _select_team(name):
+        st.session_state["v142_bracket_team"]=name
+        _team_details(name)
+
     selected=st.session_state.get("v142_bracket_team")
     if selected and selected in data["teams"]:
         team=data["teams"][selected]
@@ -50,8 +68,7 @@ def render_native_bracket(field):
                             if side in data["teams"]:
                                 label=f"{side}  ·  {p:.0%}" if p is not None else side
                                 if st.button(label,key=f"v142_{region_name}_{i}_{side}",use_container_width=True):
-                                    st.session_state["v142_bracket_team"]=side
-                                    st.rerun()
+                                    _select_team(side)
                             else:
                                 st.caption(side)
             else:
@@ -69,12 +86,10 @@ def render_native_bracket(field):
             a,b=g["a"],g["b"]
             with c1:
                 if st.button(a,key=f"v142_open_{g['game']}_a",use_container_width=True):
-                    st.session_state["v142_bracket_team"]=a
-                    st.rerun()
+                    _select_team(a)
             with c2:
                 st.caption(f"{g['p']:.0%} / {1-g['p']:.0%}")
             with c3:
                 if st.button(b,key=f"v142_open_{g['game']}_b",use_container_width=True):
-                    st.session_state["v142_bracket_team"]=b
-                    st.rerun()
+                    _select_team(b)
     st.caption("Final Four and championship will be populated once an actual tournament simulation model is introduced.")
