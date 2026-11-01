@@ -8,7 +8,7 @@ home=Path("courtside_home.py").read_text()
 theme=Path("courtside_theme_v153.py").read_text()
 cfg=Path(".streamlit/config.toml").read_text()
 assert "courtside_style()\napply_v153_theme()\napply_table_theme()" in app
-assert 'class="cs153-banner"' in home
+assert 'class="cs153-banner cs157-home-banner"' in home
 assert "render_home(games" in app
 assert "#2054c5" in theme.lower() and "#08ad9e" in theme.lower()
 assert 'base = "light"' in cfg
