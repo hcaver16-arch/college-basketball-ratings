@@ -12,5 +12,5 @@ assert seeded_label("School B",0,1,{"School B":{}})=="(16) School B"
 assert seeded_label("Winner OR1",0,1,{})=="Winner OR1"
 assert "Madison Square Garden" in region_site("East","Men's")[0]
 assert "not yet assigned" in region_site("East","Women's")[0]
-assert "render_full_overview(data, league)" in Path("tournament_native_v142.py").read_text()
+assert "render_full_overview(data, league, assignments)" in Path("tournament_native_v142.py").read_text()
 print("V147 checks passed")
