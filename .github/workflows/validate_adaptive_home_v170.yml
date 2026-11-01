@@ -1,0 +1,24 @@
+name: Validate V170 adaptive homepage
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - courtside_home.py
+      - test_adaptive_home_v170.py
+      - .github/workflows/validate_adaptive_home_v170.yml
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m py_compile courtside_home.py
+      - run: python test_adaptive_home_v170.py
+      - run: python test_compact_home_v157.py
+      - run: python test_above_fold_v158.py
+      - run: python test_compact_feature_v160.py
+      - run: python test_games_first_home_v169.py
