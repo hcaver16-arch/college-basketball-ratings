@@ -1,0 +1,23 @@
+name: Validate V171 matchup cards
+on:
+  pull_request:
+    paths:
+      - courtside_home.py
+      - test_adaptive_home_v170.py
+      - test_matchup_cards_v171.py
+      - .github/workflows/validate_matchup_cards_v171.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m py_compile courtside_home.py
+      - run: python test_matchup_cards_v171.py
+      - run: python test_adaptive_home_v170.py
+      - run: python test_compact_home_v157.py

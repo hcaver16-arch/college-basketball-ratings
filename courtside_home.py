@@ -1,7 +1,6 @@
 """Light-themed Courtside home components. No new data source or model calculation."""
 from __future__ import annotations
 import html
-from contextlib import nullcontext
 import pandas as pd
 import streamlit as st
 
@@ -98,6 +97,12 @@ def style():
     .cs160-stat {padding:6px 9px !important;}
     .cs160-predictions {gap:7px;margin-bottom:4px !important;}
     @media(max-width:700px){.cs169-summary{padding:10px 12px;gap:3px;}.cs169-summary strong{font-size:1rem;}.cs169-summary span{font-size:.71rem;}}
+    /* V171: quiet-day game list and clickable upcoming matchup cards. */
+    .cs171-upcoming {display:flex;flex-direction:column;gap:5px;}
+    .cs171-upcoming-date {font-size:.68rem;color:#647894;font-weight:750;letter-spacing:.035em;}
+    .cs171-upcoming strong {font-size:.91rem;color:#203b63;overflow-wrap:anywhere;}
+    .cs171-upcoming strong span {color:#71859e;font-weight:450;}
+    .cs171-upcoming-note {font-size:.76rem;color:#637894;}
     </style>''',unsafe_allow_html=True)
 
 def featured_choice(upcoming, ratings, d1_ids):
@@ -180,7 +185,7 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
         st.markdown('<div class="cs169-games-title">Today’s matchups</div>', unsafe_allow_html=True)
         if home_display.empty:
             st.caption("No games match this filter. Choose All to see the complete schedule.")
-        with (st.container(height=320,border=True) if len(visible) > 5 else nullcontext()):
+        with (st.container(height=320,border=True) if len(visible) > 5 else st.container(border=True)):
             for ix, row in home_display.reset_index(drop=True).iterrows():
                 home,away=str(row['Home']),str(row['Away'])
                 h_id,a_id=str(row['Home ID']),str(row['Away ID'])
@@ -271,14 +276,24 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
             if hid not in ratings or aid not in ratings:
                 continue
             margin = ratings[hid] - ratings[aid] + (0 if game["Venue"] == "Neutral" else 3)
-            highlight_scores.append((abs(margin), str(game["Date"]), str(game["Away"]), str(game["Home"])))
+            highlight_scores.append((abs(margin), game))
         if highlight_scores:
             st.markdown('<div class="court-section-head"><h3>Coming up</h3><span>Closest games · Next 7 days</span></div>', unsafe_allow_html=True)
-            parts = []
-            for closeness, game_date, away, home in sorted(highlight_scores)[:3]:
-                parts.append('<div class="court-highlight-card">'
-                             f'<div class="court-highlight-label">{html.escape(game_date)}</div>'
-                             f'<div class="court-highlight-team">{html.escape(away)} <span>at</span> {html.escape(home)}</div>'
-                             f'<div class="court-highlight-margin">Projected margin <strong>{closeness:.1f} pts</strong></div>'
-                             '</div>')
-            st.markdown('<div class="court-highlights">' + ''.join(parts) + '</div>', unsafe_allow_html=True)
+            for index, (closeness, game) in enumerate(sorted(highlight_scores, key=lambda entry: (entry[0], str(entry[1]["Date"])))[:3]):
+                away, home = str(game["Away"]), str(game["Home"])
+                when = str(game.get("Display time", game["Time (ET)"]))
+                game_date = str(game["Date"])
+                margin_note = "Essentially a toss-up" if closeness < 1 else f"Projected margin: {closeness:.1f} pts"
+                with st.container(border=True):
+                    st.markdown(
+                        '<div class="cs171-upcoming">'
+                        f'<span class="cs171-upcoming-date">{html.escape(game_date)} · {html.escape(when)}</span>'
+                        f'<strong>{html.escape(away)} <span>at</span> {html.escape(home)}</strong>'
+                        f'<span class="cs171-upcoming-note">{html.escape(margin_note)} · {html.escape(str(game["Venue"]))} venue</span>'
+                        '</div>', unsafe_allow_html=True)
+                    if st.button('View matchup →', key=f'cs171_highlight_{index}_{game["Game ID"]}', use_container_width=False):
+                        # Pass the exact selected row: Games may load a different date range.
+                        st.session_state["courtside_selected_game"] = str(game["Game ID"])
+                        st.session_state["courtside_selected_game_payload"] = game.to_dict()
+                        st.session_state["courtside_requested_page"] = "Games"
+                        st.rerun()
