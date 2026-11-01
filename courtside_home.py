@@ -87,6 +87,16 @@ def style():
     .court-section-head {margin:0 0 10px !important;min-height:28px;align-items:center;}
     .court-section-head h3 {font-size:1.12rem !important;}
     @media(max-width:700px){.cs161-home-header{padding:10px 12px;}.cs161-header-title{font-size:1.16rem;}}
+    /* V169: information-first schedule strip and tighter sports panels. */
+    .cs169-summary {background:linear-gradient(105deg,#12306a,#1b469d 75%,#2577b7);border-radius:12px;color:#fff;padding:12px 17px;margin:0 0 10px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
+    .cs169-summary strong {font-size:1.15rem;color:#fff;}
+    .cs169-summary span {font-size:.79rem;color:#e5efff;}
+    .cs169-games-title {font-size:1.16rem;font-weight:800;color:#17345f;margin:0 0 6px;}
+    .cs160-feature-title {margin:5px 0 5px !important;}
+    .cs160-matchup {margin-bottom:6px !important;}
+    .cs160-stat {padding:6px 9px !important;}
+    .cs160-predictions {gap:7px;margin-bottom:4px !important;}
+    @media(max-width:700px){.cs169-summary{padding:10px 12px;gap:3px;}.cs169-summary strong{font-size:1rem;}.cs169-summary span{font-size:.71rem;}}
     </style>''',unsafe_allow_html=True)
 
 def featured_choice(upcoming, ratings, d1_ids):
@@ -105,12 +115,6 @@ def featured_choice(upcoming, ratings, d1_ids):
 
 def render_home(games, ratings, team_ratings, d1_ids, league, window):
     time_zone = st.session_state.get("courtside_timezone", "Central")
-    st.markdown("""<div class="cs161-home-header">
-      <div><span class="cs161-eyebrow">COURTSIDE · COLLEGE BASKETBALL ANALYTICS</span>
-      <div class="cs161-header-title">Every game. A clearer edge.</div>
-      <div class="cs161-header-sub">Matchups · Power ratings · Tournament outlook</div></div>
-    </div>""", unsafe_allow_html=True)
-    st.markdown('### Today’s games')
     today=pd.Timestamp.now(tz='America/New_York').date()
     visible=games[games['Date'].eq(str(today))].copy()
     # Before the season, offer next available games instead of a fake 'today' list.
@@ -124,41 +128,20 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
         else:st.info('No games are listed for today in the selected schedule window.')
     rated_count=len(team_ratings) if isinstance(team_ratings,pd.DataFrame) else 0
     d1_visible=visible[visible['Home ID'].astype(str).isin(d1_ids)&visible['Away ID'].astype(str).isin(d1_ids)]
-    if visible.empty:return
+    if visible.empty:
+        st.markdown('<div class="cs169-summary"><strong>No games available</strong><span>Try another schedule window in Settings</span></div>', unsafe_allow_html=True)
+        return
+    game_date = pd.to_datetime(visible.iloc[0]['Date'], errors='coerce')
+    date_label = game_date.strftime('%b %-d') if pd.notna(game_date) else 'Upcoming'
+    st.markdown(
+        f'<div class="cs169-summary"><strong>{html.escape(date_label)} · {len(visible)} game{"s" if len(visible) != 1 else ""}</strong>'
+        f'<span>{html.escape(league)} Division I · {len(d1_visible)} D1 matchup{"s" if len(d1_visible) != 1 else ""} · {html.escape(time_zone)} time</span></div>',
+        unsafe_allow_html=True)
+
     home_main, home_side = st.columns([1.65, 1], gap='large')
     with home_main:
-        scheduled=visible[visible['Status']=='Scheduled']
-        featured=featured_choice(scheduled,ratings,d1_ids)
-        if featured is not None:
-            h,a=str(featured['Home']),str(featured['Away'])
-            hid,aid=str(featured['Home ID']),str(featured['Away ID'])
-            home_color,away_color=color_for(h),color_for(a)
-            margin=ratings[hid]-ratings[aid]+(0 if featured['Venue']=='Neutral' else 3)
-            from math import erf,sqrt
-            chance=.5*(1+erf(margin/(11*sqrt(2))))
-            favorite=h if margin>=0 else a
-            st.markdown('<div class="cs160-feature-title">Featured matchup</div>', unsafe_allow_html=True)
-            with st.container(border=True):
-                st.markdown(f'''<div class="cs160-matchup">
-                  <div class="cs160-team" style="border-left:4px solid {home_color}">{html.escape(h)}</div>
-                  <div class="cs160-tip">VS · {html.escape(str(featured.get('Display time',featured['Time (ET)'])))}</div>
-                  <div class="cs160-team cs160-away" style="border-right:4px solid {away_color}">{html.escape(a)}</div>
-                </div>''',unsafe_allow_html=True)
-                st.markdown('<div class="cs160-predictions">'
-                    f'<div class="cs160-stat"><span>PROJECTED SPREAD</span><strong>{html.escape(favorite)} -{abs(margin):.1f}</strong></div>'
-                    f'<div class="cs160-stat"><span>{html.escape(h)} WIN PROBABILITY</span><strong>{chance:.0%}</strong></div>'
-                    '</div>', unsafe_allow_html=True)
-                st.progress(float(max(0,min(1,chance))))
-                st.caption('Experimental model prediction · Not a sportsbook line')
-                if st.button('View featured game details →',key='courtside_feature_details'):
-                    st.session_state['courtside_selected_game']=str(featured['Game ID'])
-                    st.session_state['courtside_requested_page']='Games'
-                    st.rerun()
-        else:
-            st.caption('A featured matchup will appear when both D1 opponents have published ratings.')
-        st.markdown('#### All games')
-        st.caption('Scrollable matchup list · Choose a game to open its details')
-        with st.container(height=310,border=True):
+        st.markdown('<div class="cs169-games-title">Today’s matchups</div>', unsafe_allow_html=True)
+        with st.container(height=260,border=True):
             for ix, row in visible.reset_index(drop=True).iterrows():
                 home,away=str(row['Home']),str(row['Away'])
                 h_id,a_id=str(row['Home ID']),str(row['Away ID'])
@@ -177,6 +160,35 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
                         st.session_state['courtside_requested_page']='Games'
                         st.rerun()
                 st.divider()
+        scheduled=visible[visible['Status']=='Scheduled']
+        featured=featured_choice(scheduled,ratings,d1_ids)
+        if featured is not None:
+            h,a=str(featured['Home']),str(featured['Away'])
+            hid,aid=str(featured['Home ID']),str(featured['Away ID'])
+            home_color,away_color=color_for(h),color_for(a)
+            margin=ratings[hid]-ratings[aid]+(0 if featured['Venue']=='Neutral' else 3)
+            from math import erf,sqrt
+            chance=.5*(1+erf(margin/(11*sqrt(2))))
+            favorite=h if margin>=0 else a
+            st.markdown('<div class="cs160-feature-title">Featured game · Model preview</div>', unsafe_allow_html=True)
+            with st.container(border=True):
+                st.markdown(f'''<div class="cs160-matchup">
+                  <div class="cs160-team" style="border-left:4px solid {home_color}">{html.escape(h)}</div>
+                  <div class="cs160-tip">VS · {html.escape(str(featured.get('Display time',featured['Time (ET)'])))}</div>
+                  <div class="cs160-team cs160-away" style="border-right:4px solid {away_color}">{html.escape(a)}</div>
+                </div>''',unsafe_allow_html=True)
+                st.markdown('<div class="cs160-predictions">'
+                    f'<div class="cs160-stat"><span>PROJECTED SPREAD</span><strong>{html.escape(favorite)} -{abs(margin):.1f}</strong></div>'
+                    f'<div class="cs160-stat"><span>{html.escape(h)} WIN PROBABILITY</span><strong>{chance:.0%}</strong></div>'
+                    '</div>', unsafe_allow_html=True)
+                st.progress(float(max(0,min(1,chance))))
+                st.caption('Experimental prediction · Not a sportsbook line')
+                if st.button('Game details →',key='courtside_feature_details'):
+                    st.session_state['courtside_selected_game']=str(featured['Game ID'])
+                    st.session_state['courtside_requested_page']='Games'
+                    st.rerun()
+        else:
+            st.caption('A featured matchup will appear when both D1 opponents have published ratings.')
     with home_side:
         # Integrated light-theme rankings card: native st.dataframe rendered dark on some deployments.
         if isinstance(team_ratings,pd.DataFrame) and {'Team','Current power'}.issubset(team_ratings.columns) and not team_ratings.empty:
