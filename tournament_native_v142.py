@@ -4,6 +4,7 @@ import streamlit as st
 from tournament_ui_v140 import bracket_payload
 from tournament_full_v144 import render_full_overview
 from tournament_region_labels_v147 import seeded_label, region_site, game_site_label
+from tournament_first_weekend_v151 import assign_pod_sites, first_weekend_label
 
 REGION_NAMES=("East","West","South","Midwest")
 
@@ -29,7 +30,10 @@ def render_native_bracket(field, league="Men's"):
             st.caption(f"{team['conference']} · {team['bid']} · {team['basis']}")
     else:
         st.info("Select a real team from the region bracket below to view its résumé here.")
-    render_full_overview(data, league)
+    assignments=assign_pod_sites(data) if league=="Men's" else None
+    render_full_overview(data, league, assignments)
+    if assignments is not None:
+        st.caption("First-weekend sites are scenario estimates: each four-team pod shares a venue, with two pods per official host. Unmapped anchor campuses remain TBD. Committee rules, venue restrictions and Opening Round scheduling are not fully modeled.")
     st.markdown("### Expand a region · Clickable team details")
     names=[r["name"] for r in data["regions"]]
     region_name=st.radio("Region",names,horizontal=True,key="v142_region")
@@ -52,7 +56,7 @@ def render_native_bracket(field, league="Men's"):
                 for i,g in enumerate(region["games"]):
                     with st.container(border=True):
                         st.caption(f"Matchup {i+1}")
-                        st.caption(game_site_label(0, region_name, league))
+                        st.caption(first_weekend_label(assignments,region_name,0,i) if assignments is not None else game_site_label(0, region_name, league))
                         for side_index, (side, p) in enumerate(((g["a"],g["p"]),(g["b"],None if g["p"] is None else 1-g["p"]))):
                             if side in data["teams"]:
                                 seeded = seeded_label(side, i, side_index, data["teams"])
@@ -67,7 +71,7 @@ def render_native_bracket(field, league="Men's"):
                 for i in range(count):
                     with st.container(border=True):
                         st.caption(f"{labels[idx]} · Game {i+1}")
-                        st.caption(game_site_label(idx, region_name, league))
+                        st.caption(first_weekend_label(assignments,region_name,idx,i) if assignments is not None and idx==1 else game_site_label(idx, region_name, league))
                         st.markdown("**Winner TBD**")
                         st.caption("Awaiting simulated results")
     st.divider()
