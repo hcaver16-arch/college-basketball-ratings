@@ -283,7 +283,13 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
                 away, home = str(game["Away"]), str(game["Home"])
                 when = str(game.get("Display time", game["Time (ET)"]))
                 game_date = str(game["Date"])
-                margin_note = "Essentially a toss-up" if closeness < 1 else f"Projected margin: {closeness:.1f} pts"
+                hid, aid = str(game["Home ID"]), str(game["Away ID"])
+                margin = ratings[hid] - ratings[aid] + (0 if game["Venue"] == "Neutral" else 3)
+                from math import erf, sqrt
+                home_probability = .5 * (1 + erf(margin / (11 * sqrt(2))))
+                favorite = home if margin >= 0 else away
+                favorite_probability = home_probability if margin >= 0 else 1 - home_probability
+                margin_note = f"{favorite} win probability: {favorite_probability:.0%}"
                 with st.container(border=True):
                     st.markdown(
                         '<div class="cs171-upcoming">'
