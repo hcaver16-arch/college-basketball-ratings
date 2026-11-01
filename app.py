@@ -78,6 +78,18 @@ st.markdown("""<style>
 .st-key-courtside_desktop_nav {margin-top:0 !important;margin-bottom:0 !important;}
 [data-testid="stMainBlockContainer"] > [data-testid="stVerticalBlock"] {gap:.7rem !important;}
 @media(max-width:700px){.cs159-brand{font-size:1.25rem !important;}}
+/* V163: match navigation, division and Settings control heights and baselines. */
+.st-key-courtside_desktop_nav,
+.st-key-courtside_top_division,
+.st-key-courtside_sticky_settings {align-self:center !important;margin-top:0 !important;margin-bottom:0 !important;}
+.st-key-courtside_desktop_nav button,
+.st-key-courtside_sticky_settings button {height:38px !important;min-height:38px !important;}
+.st-key-courtside_top_division [data-baseweb="button-group"] {height:38px !important;align-items:stretch !important;}
+.st-key-courtside_top_division [data-baseweb="button-group"] button {min-height:38px !important;height:38px !important;}
+.st-key-courtside_top_division [data-testid="stWidgetLabel"] {display:none !important;}
+@media(max-width:700px){
+  .st-key-courtside_sticky_settings button {height:36px !important;min-height:36px !important;}
+}
 /* V162: align controls on one compact row below the brand. */
 .st-key-courtside_desktop_nav {max-width:none !important;margin:0 !important;}
 .st-key-courtside_top_division {margin:0 !important;}
