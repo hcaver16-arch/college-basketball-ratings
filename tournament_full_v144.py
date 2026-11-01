@@ -34,7 +34,7 @@ def render_full_overview(data, league="Men's"):
     right=data["regions"][2:]
     markup="""<style>
 .cs144-view{overflow-x:auto;border:1px solid #e0e6ef;border-radius:14px;background:#fff;padding:12px}
-.cs144-grid{min-width:1180px;display:grid;grid-template-columns:minmax(0,1fr) 180px minmax(0,1fr);gap:12px;align-items:center}
+.cs144-grid{min-width:1660px;display:grid;grid-template-columns:minmax(0,1fr) 180px minmax(0,1fr);gap:12px;align-items:center}
 .cs144-side{display:flex;flex-direction:column;gap:28px}
 .cs144-view .rgn{border:1px solid #e8edf3;border-radius:10px;padding:8px;background:#fbfcfd}
 .cs144-view h4{color:#23354b;margin:0 0 6px;font-size:13px}
@@ -42,10 +42,10 @@ def render_full_overview(data, league="Men's"):
 .cs144-view .tree.mirror{flex-direction:row-reverse}
 .cs144-view .round{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:space-around;gap:4px}
 .cs144-view .rlabel{font-size:10px;color:#72829a;text-align:center;font-weight:700}
-.cs144-view .node{min-height:48px;background:#fff;border:1px solid #cbd8e6;border-radius:5px;position:relative;overflow:visible}
+.cs144-view .node{min-height:70px;background:#fff;border:1px solid #cbd8e6;border-radius:5px;position:relative;overflow:visible}
 .cs144-view .node>div{padding:4px 5px;color:#22364c;font-size:10px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
 .cs144-view .node>div+div{border-top:1px solid #e7edf3}
-.cs144-view .node .venue{display:block;color:#667b92;font-size:8px;line-height:1.2;padding:3px 4px;border-top:1px solid #edf1f5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cs144-view .node .venue{display:block;color:#667b92;font-size:10px;line-height:1.3;font-weight:600;padding:5px 4px;border-top:1px solid #edf1f5;white-space:normal;overflow-wrap:anywhere}
 .cs144-view .node:after{content:"";position:absolute;width:9px;border-top:1px solid #91a4bc;left:100%;top:50%}
 .cs144-view .mirror .node:after{left:auto;right:100%}
 .cs144-view .round:last-child .node:after{display:none}
