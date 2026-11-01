@@ -2,7 +2,7 @@
 from __future__ import annotations
 import html
 import streamlit as st
-from tournament_region_labels_v147 import seeded_label, region_site
+from tournament_region_labels_v147 import seeded_label, region_site, game_site_label
 
 def _region_markup(region, teams, league, mirrored=False):
     games=region["games"]
@@ -20,7 +20,8 @@ def _region_markup(region, teams, league, mirrored=False):
                 lines=[a+(" · "+str(round(p*100))+"%" if p is not None else ""),b+(" · "+str(round((1-p)*100))+"%" if p is not None else "")]
             else:
                 lines=["Winner TBD",""]
-            cells.append('<div class="node level'+str(round_index)+'"><div>'+lines[0]+'</div><div>'+lines[1]+'</div></div>')
+            location=html.escape(game_site_label(round_index,region['name'],league))
+            cells.append('<div class="node level'+str(round_index)+'"><div>'+lines[0]+'</div><div>'+lines[1]+'</div><small class="venue">'+location+'</small></div>')
         cells.append('</div>')
         out.extend(cells)
     out.append('</div></section>')
@@ -44,6 +45,7 @@ def render_full_overview(data, league="Men's"):
 .cs144-view .node{min-height:48px;background:#fff;border:1px solid #cbd8e6;border-radius:5px;position:relative;overflow:visible}
 .cs144-view .node>div{padding:4px 5px;color:#22364c;font-size:10px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
 .cs144-view .node>div+div{border-top:1px solid #e7edf3}
+.cs144-view .node .venue{display:block;color:#667b92;font-size:8px;line-height:1.2;padding:3px 4px;border-top:1px solid #edf1f5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cs144-view .node:after{content:"";position:absolute;width:9px;border-top:1px solid #91a4bc;left:100%;top:50%}
 .cs144-view .mirror .node:after{left:auto;right:100%}
 .cs144-view .round:last-child .node:after{display:none}
