@@ -8,5 +8,5 @@ assert "_v130_measure('Record history', get_schedule" in source
 assert "_v130_measure('Saved ratings', load_ratings" in source
 assert 'settings_panel.expander("Page performance · V130"' in source
 assert "from time import perf_counter" in source
-assert "render_home(games," in source
+assert "_v175_live_home(games," in source
 print("V130 instrumentation syntax and safeguards passed")
