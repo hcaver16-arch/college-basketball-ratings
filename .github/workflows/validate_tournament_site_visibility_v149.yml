@@ -1,0 +1,19 @@
+name: Validate V149 visible game sites
+on:
+  pull_request:
+    paths:
+      - tournament_full_v144.py
+      - test_tournament_site_visibility_v149.py
+      - .github/workflows/validate_tournament_site_visibility_v149.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python test_tournament_site_visibility_v149.py
