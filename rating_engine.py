@@ -12,10 +12,22 @@ def calculate_power(history: pd.DataFrame):
     if history.empty:
         return empty, {"games": 0, "teams": 0}
     games = history[(history["Status"] == "Final") & history["Home score"].notna() & history["Away score"].notna()].copy()
-    games = games[(games["Home ID"].astype(str) != "") & (games["Away ID"].astype(str) != "") & (games["Home ID"] != games["Away ID"])]
+    # Normalize before set/index construction; mixed numeric/string IDs otherwise raise KeyError.
+    for column in ("Home ID", "Away ID"):
+        games[column] = games[column].astype("string").str.strip()
+    games = games[games["Home ID"].notna() & games["Away ID"].notna()]
+    games = games[(games["Home ID"] != "") & (games["Away ID"] != "") &
+                  (~games["Home ID"].str.lower().isin(["nan", "none", "<na>"])) &
+                  (~games["Away ID"].str.lower().isin(["nan", "none", "<na>"])) &
+                  (games["Home ID"] != games["Away ID"])].copy()
+    # Venue values remain unchanged for recognized Home/Neutral games.
+    # Unknown values are counted and excluded rather than silently receiving HCA.
+    games["Venue"] = games["Venue"].astype("string").str.strip()
+    unknown_venues = int((~games["Venue"].isin(["Home", "Neutral"])).sum())
+    games = games[games["Venue"].isin(["Home", "Neutral"])].copy()
     games = games.drop_duplicates(subset="Game ID")
     if len(games) < 20:
-        return empty, {"games": int(len(games)), "teams": 0}
+        return empty, {"games": int(len(games)), "teams": 0, "unknown_venue_games": unknown_venues}
     tids = sorted(set(games["Home ID"]).union(games["Away ID"]))
     n = len(tids)
     index = {tid: i for i, tid in enumerate(tids)}
@@ -43,7 +55,7 @@ def calculate_power(history: pd.DataFrame):
     fit = np.linalg.solve(mat + ridge * np.eye(n), vec)
     fit -= np.mean(fit)
     result = pd.DataFrame({"Team ID": tids, "Team": [labels.get(tid, tid) for tid in tids], "Power": np.round(fit, 2), "Games": played, "Win %": np.round(100 * wins / np.maximum(played, 1), 1)})
-    return result, {"games": len(games), "teams": n}
+    return result, {"games": len(games), "teams": n, "unknown_venue_games": unknown_venues}
 
 def blending_weight(games: int):
     # Phaseout is deliberately bounded, even for a schedule with weak competition.
