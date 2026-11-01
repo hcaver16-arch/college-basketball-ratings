@@ -79,6 +79,31 @@ st.markdown("""<style>
 [data-testid="stMainBlockContainer"] > [data-testid="stVerticalBlock"] {gap:.7rem !important;}
 @media(max-width:700px){.cs159-brand{font-size:1.25rem !important;}}
 .st-key-courtside_unified_nav [data-testid="stColumn"] {min-width:0 !important;}
+/* V166: high-contrast active division and unified navy-blue header palette. */
+.st-key-courtside_header_top {background:linear-gradient(110deg,#12306a,#1b469d) !important;}
+.st-key-courtside_header_top .cs165-brand span {color:#c7daf8 !important;}
+.st-key-courtside_header_top .st-key-courtside_top_division [data-baseweb="button-group"] {
+  background:rgba(255,255,255,.10) !important;
+  border:1px solid rgba(255,255,255,.28) !important;
+  border-radius:10px !important;padding:2px !important;
+}
+.st-key-courtside_header_top .st-key-courtside_top_division button {
+  min-height:36px !important;height:36px !important;
+  background:transparent !important;color:#e7efff !important;
+  border:0 !important;border-radius:8px !important;font-weight:700 !important;
+}
+.st-key-courtside_header_top .st-key-courtside_top_division button p {color:inherit !important;}
+.st-key-courtside_header_top .st-key-courtside_top_division button[aria-pressed="true"],
+.st-key-courtside_header_top .st-key-courtside_top_division button[aria-checked="true"],
+.st-key-courtside_header_top .st-key-courtside_top_division button[data-active="true"] {
+  background:#ffffff !important;color:#153560 !important;
+  box-shadow:0 2px 5px rgba(0,0,0,.16) !important;
+}
+.st-key-courtside_header_top .st-key-courtside_top_division button[aria-pressed="false"]:hover {background:rgba(255,255,255,.18) !important;}
+.st-key-courtside_header_top .st-key-courtside_sticky_settings button {
+  background:#f8fbff !important;color:#153560 !important;
+  border:1px solid #d6e2f5 !important;border-radius:10px !important;
+}
 /* V165 two-row layout, scoped without fixed-position or hidden Settings widgets. */
 .st-key-courtside_header_top {background:linear-gradient(110deg,#152F68,#193C94);padding:10px 15px;border-radius:12px 12px 0 0;}
 .cs165-brand {color:white;font-size:1.32rem;line-height:1.3;white-space:nowrap;}
