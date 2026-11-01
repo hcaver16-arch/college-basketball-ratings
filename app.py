@@ -1752,7 +1752,7 @@ if selected_section == "Conferences":
 
 if selected_section == "Tournament":
     from bracketology_v138 import render_bracketology
-    render_bracketology(team_ratings, verified_d1_ids, league)
+    render_bracketology(team_ratings, verified_d1_ids, league, sor_ratings)
 
 if selected_section == "Schedule strength":
     render_sos(sos_ratings, league, verified_d1_ids)
