@@ -78,6 +78,14 @@ st.markdown("""<style>
 .st-key-courtside_desktop_nav {margin-top:0 !important;margin-bottom:0 !important;}
 [data-testid="stMainBlockContainer"] > [data-testid="stVerticalBlock"] {gap:.7rem !important;}
 @media(max-width:700px){.cs159-brand{font-size:1.25rem !important;}}
+/* V164 unified navigation row: align each control at the same vertical origin. */
+.st-key-courtside_unified_nav {margin:0 !important;}
+.st-key-courtside_unified_nav [data-testid="stHorizontalBlock"] {align-items:center !important;}
+.st-key-courtside_unified_nav button {min-height:38px !important;}
+@media(max-width:700px){
+ .st-key-courtside_unified_nav {display:none !important;}
+ .st-key-courtside_sticky_settings {display:block !important;}
+}
 /* V163: match navigation, division and Settings control heights and baselines. */
 .st-key-courtside_desktop_nav,
 .st-key-courtside_top_division,
@@ -123,7 +131,7 @@ st.markdown("""<style>
   [data-testid="stMainBlockContainer"] > [data-testid="stVerticalBlock"] {gap:0.75rem !important;}
   h1 {margin-bottom:0 !important;}
   [data-testid="stCaptionContainer"] {margin-top:0 !important;}
-  .st-key-courtside_desktop_nav, .st-key-courtside_desktop_division, .st-key-courtside_desktop_division_caption {display:none !important;}
+  .st-key-courtside_unified_nav, .st-key-courtside_desktop_division, .st-key-courtside_desktop_division_caption {display:none !important;}
   .st-key-courtside_mobile_nav, .st-key-courtside_mobile_division_control {display:block !important;}
   .st-key-courtside_mobile_nav [data-testid='stSelectbox'],
   .st-key-courtside_mobile_division_control [data-testid='stSelectbox'] {margin-bottom:.35rem;}
@@ -164,35 +172,34 @@ def _mobile_go():
 st.session_state['courtside_mobile_page'] = st.session_state['courtside_page']
 with st.container(key='courtside_mobile_nav'):
     st.selectbox('Navigate Courtside', sections, key='courtside_mobile_page', on_change=_mobile_go)
-nav_area, division_area, settings_area = st.columns([6, 1.65, 1.45], gap="small", vertical_alignment="center")
-with nav_area:
-    with st.container(key='courtside_desktop_nav'):
-        primary_pages = ["Home", "Games", "Rankings", "Tournament"]
-        more_pages = ["Teams", "Conferences", "Schedule strength", "Record strength", "Model Lab"]
-        nav_cols = st.columns([1, 1, 1.1, 1.35, 1], gap="small")
-        for nav_col, nav_label in zip(nav_cols[:4], primary_pages):
-            with nav_col:
+# V164: all controls share one Streamlit row; no nested navigation columns.
+with st.container(key="courtside_unified_nav"):
+    nav_cols = st.columns([1, 1, 1.1, 1.35, 1.05, 1.65, 1.45], gap="small", vertical_alignment="center")
+    primary_pages = ["Home", "Games", "Rankings", "Tournament"]
+    more_pages = ["Teams", "Conferences", "Schedule strength", "Record strength", "Model Lab"]
+    for nav_col, nav_label in zip(nav_cols[:4], primary_pages):
+        with nav_col:
+            if st.button(nav_label,
+                key=f"courtside_nav_{nav_label.lower().replace(' ', '_')}",
+                type="primary" if st.session_state['courtside_page'] == nav_label else "secondary",
+                use_container_width=True):
+                st.session_state['courtside_page'] = nav_label
+                st.rerun()
+    with nav_cols[4]:
+        with st.popover("More ▾", use_container_width=True):
+            for nav_label in more_pages:
                 if st.button(nav_label,
                     key=f"courtside_nav_{nav_label.lower().replace(' ', '_')}",
                     type="primary" if st.session_state['courtside_page'] == nav_label else "secondary",
                     use_container_width=True):
                     st.session_state['courtside_page'] = nav_label
                     st.rerun()
-        with nav_cols[4]:
-            with st.popover("More ▾", use_container_width=True):
-                for nav_label in more_pages:
-                    if st.button(nav_label,
-                        key=f"courtside_nav_{nav_label.lower().replace(' ', '_')}",
-                        type="primary" if st.session_state['courtside_page'] == nav_label else "secondary",
-                        use_container_width=True):
-                        st.session_state['courtside_page'] = nav_label
-                        st.rerun()
-with division_area:
-    with st.container(key="courtside_top_division"):
-        st.segmented_control("Division", ["Men's", "Women's"], key="courtside_division", label_visibility="collapsed")
-with settings_area:
-    with st.container(key="courtside_sticky_settings"):
-        settings_panel = st.popover("⚙ Settings", use_container_width=True)
+    with nav_cols[5]:
+        with st.container(key="courtside_top_division"):
+            st.segmented_control("Division", ["Men's", "Women's"], key="courtside_division", label_visibility="collapsed")
+    with nav_cols[6]:
+        with st.container(key="courtside_sticky_settings"):
+            settings_panel = st.popover("⚙ Settings", use_container_width=True)
 def _persist_logo_preference():
     st.query_params["logos"] = "1" if st.session_state["courtside_logos_enabled"] else "0"
 
