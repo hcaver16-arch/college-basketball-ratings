@@ -85,14 +85,8 @@ def featured_choice(upcoming, ratings, d1_ids):
 
 def render_home(games, ratings, team_ratings, d1_ids, league, window):
     time_zone = st.session_state.get("courtside_timezone", "Central")
-    st.markdown("""<div class="cs153-banner cs157-home-banner">
-      <div class="cs153-kicker">Courtside · College basketball analytics</div>
-      <h2>Every game. A clearer edge.</h2>
-      <p>Division I matchups, rankings, team ratings, bracket projections and model probabilities — all in one place.</p>
-      <div class="cs153-chips"><span class="cs153-chip">Game projections</span><span class="cs153-chip">Power ratings</span><span class="cs153-chip">Tournament outlook</span></div>
-    </div>""", unsafe_allow_html=True)
-    st.markdown('### Today’s matchups & highlights')
-    st.caption(f"{league} Division I · Loaded schedule: {window}. Tipoff times shown in {time_zone} time.")
+    st.markdown('### Today’s games')
+    st.caption(f"{league} Division I · {window} · Tipoff times in {time_zone}")
     today=pd.Timestamp.now(tz='America/New_York').date()
     visible=games[games['Date'].eq(str(today))].copy()
     # Before the season, offer next available games instead of a fake 'today' list.
@@ -106,10 +100,7 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
         else:st.info('No games are listed for today in the selected schedule window.')
     rated_count=len(team_ratings) if isinstance(team_ratings,pd.DataFrame) else 0
     d1_visible=visible[visible['Home ID'].astype(str).isin(d1_ids)&visible['Away ID'].astype(str).isin(d1_ids)]
-    c1,c2,c3=st.columns(3)
-    c1.metric('Games shown',f'{len(visible):,}')
-    c2.metric('D1 vs D1 games',f'{len(d1_visible):,}')
-    c3.metric('Teams rated',f'{rated_count:,}')
+    st.caption(f"{len(visible):,} games · {len(d1_visible):,} D1 matchups · {rated_count:,} teams rated")
     if visible.empty:return
     home_main, home_side = st.columns([1.65, 1], gap='large')
     with home_main:

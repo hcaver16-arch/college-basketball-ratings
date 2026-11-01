@@ -8,7 +8,7 @@ assert "with home_main:" in src and "with home_side:" in src
 assert src.index("with home_main:") < src.index("st.markdown('#### All games')")
 assert src.index("with home_side:") < src.index("Power rankings")
 assert "st.container(height=310,border=True)" in src
-assert "cs157-home-banner" in src
+assert "st.caption(f\"{len(visible):,} games" in src
 assert "courtside_feature_details" in src
 assert "courtside_rankings" in src
 assert "courtside_requested_page" in src

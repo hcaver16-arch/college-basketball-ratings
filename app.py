@@ -63,6 +63,15 @@ apply_table_theme()
 
 # Responsive overrides: keep desktop presentation and shrink only phone widths.
 st.markdown("""<style>
+/* V158: reclaim Streamlit's oversized default top padding and header spacing. */
+[data-testid="stMainBlockContainer"], .main .block-container {
+  padding-top:0.65rem !important;
+}
+.st-key-courtside_desktop_nav {margin-top:-.3rem !important;}
+.st-key-courtside_desktop_division_caption {margin-top:-.35rem !important;}
+@media (max-width:700px) {
+  [data-testid="stMainBlockContainer"], .main .block-container {padding-top:.4rem !important;}
+}
 /* Keep the settings popover in normal document flow for reliable rendering. */
 .st-key-courtside_sticky_settings {position:relative !important;z-index:10;}
 .st-key-courtside_sticky_settings button {min-height:38px !important;}
