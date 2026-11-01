@@ -55,6 +55,8 @@ def render_locations(field,league):
         assignments=projected_region_table(field,league)
         if not assignments.empty:
             st.dataframe(assignments,hide_index=True,use_container_width=True)
+        from tournament_geography_v146 import render_geographic_sites
+        render_geographic_sites(field)
         st.markdown("**Official first- and second-round hosts**")
         st.dataframe(pd.DataFrame(MEN_EARLY,columns=["City","Venue"]),hide_index=True,use_container_width=True)
         st.caption("First-weekend team assignments: not projected yet. Accurate placement requires verified team-campus coordinates and NCAA bracketing constraints.")
