@@ -52,7 +52,7 @@ def _region_markup(region, teams, league, mirrored=False):
             else:
                 lines=["Winner TBD",""]
             location=html.escape(game_site_label(level,region["name"],league))
-            out.append(f'<div class="node level{level}" style="left:{xpos(level)}px;top:{y-card_h/2}px;width:{card_w}px;min-height:{card_h}px"><div>'+lines[0]+'</div><div>'+lines[1]+'</div><small class="venue">'+location+'</small></div>')
+            out.append(f'<div class="node level{level}" style="left:{xpos(level)}px;top:{y-card_h/2}px;width:{card_w}px;height:{card_h}px"><div>'+lines[0]+'</div><div>'+lines[1]+'</div><small class="venue">'+location+'</small></div>')
     out.append('</div></section>')
     return ''.join(out)
 
