@@ -886,8 +886,36 @@ if isinstance(team_ratings, pd.DataFrame) and not team_ratings.empty:
             sor_ratings=live_sor
             st.session_state[f"sor_{SPORTS[league]}"]=live_sor
 
+@st.cache_data(ttl=90, show_spinner=False)
+def _v175_today_scoreboard(sport: str, game_day: date):
+    """Short-lived scoreboard feed; independently refreshes live/final games."""
+    url = f"https://site.api.espn.com/apis/site/v2/sports/basketball/{sport}/scoreboard"
+    response = requests.get(url, params={"dates": game_day.strftime("%Y%m%d"), "groups": "50", "limit": 500},
+                            headers={"User-Agent": "Mozilla/5.0", "Accept": "application/json"}, timeout=20)
+    response.raise_for_status()
+    rows = [parse_game(event) for event in response.json().get("events", [])]
+    return [row for row in rows if row is not None]
+
+
+@st.fragment(run_every="120s")
+def _v175_live_home(snapshot, ratings, team_ratings, d1_ids, league, period, timezone_name):
+    live_games = snapshot.copy()
+    try:
+        today_et = pd.Timestamp.now(tz="America/New_York").date()
+        fresh_rows = _v175_today_scoreboard(SPORTS[league], today_et)
+        if fresh_rows:
+            live = pd.DataFrame(fresh_rows, columns=COLUMNS)
+            if not live_games.empty:
+                live_games = live_games[~live_games["Game ID"].astype(str).isin(live["Game ID"].astype(str))]
+            live_games = pd.concat([live_games, live], ignore_index=True)
+        live_games = annotate_display_times(live_games, timezone_name)
+    except (requests.RequestException, ValueError, KeyError) as exc:
+        st.caption("Live scoreboard refresh temporarily unavailable; showing the last loaded scores.")
+    render_home(live_games, ratings, team_ratings, d1_ids, league, period)
+
+
 if selected_section == "Home":
-    render_home(games, ratings_for_schedule, team_ratings, verified_d1_ids, league, period)
+    _v175_live_home(games, ratings_for_schedule, team_ratings, verified_d1_ids, league, period, selected_timezone)
 
 if selected_section == "Rankings":
     render_rankings(team_ratings, preliminary_ratings, league, verified_d1_ids)
