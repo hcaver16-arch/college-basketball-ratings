@@ -1,7 +1,7 @@
 {
   "version": 97,
   "season": "2026-27",
-  "as_of_utc": "2026-11-01T18:51:57Z",
+  "as_of_utc": "2026-11-01T19:04:45Z",
   "counts": {
     "immutable_forecasts": 311,
     "final_results": 1
@@ -10,7 +10,7 @@
     "mens": {
       "games_seen": 213,
       "forecasts_created": 0,
-      "results_added": 1,
+      "results_added": 0,
       "official_ratings": "available",
       "experimental_ratings": "not provided"
     },

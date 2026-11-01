@@ -1,7 +1,7 @@
 {
   "version": 109,
   "season": "2026-27",
-  "generated_at_utc": "2026-11-01T13:13:38.369992Z",
+  "generated_at_utc": "2026-11-01T19:04:47.052850Z",
   "status": "PROSPECTIVE_PAIRED_RESEARCH_ONLY",
   "production_modified": false,
   "baseline_source": "V97 official_saved_v97 pregame forecast archive",
@@ -15,14 +15,21 @@
   ],
   "roster_errors": {},
   "skipped_new_pairs": {
-    "missing_roster_signal": 98
+    "not_contemporaneous_or_roster_postdates_forecast": 98
   },
-  "new_pairs": 208,
+  "new_pairs": 0,
   "total_pairs": 213,
   "paired_results": {
     "mens": {
-      "paired_completed_games": 0,
-      "status": "INSUFFICIENT_PROSPECTIVE_DATA"
+      "paired_completed_games": 1,
+      "baseline_margin_mae": 7.2,
+      "experimental_margin_mae": 7.3522,
+      "mae_improvement_positive_is_better": -0.1522,
+      "baseline_winner_accuracy": 0.0,
+      "experimental_winner_accuracy": 0.0,
+      "baseline_winner_n": 1,
+      "experimental_winner_n": 1,
+      "status": "DESCRIPTIVE_ONLY_NOT_CAUSAL_OR_VALIDATED"
     },
     "womens": {
       "paired_completed_games": 0,
