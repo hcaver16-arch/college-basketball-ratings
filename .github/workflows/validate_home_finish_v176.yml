@@ -1,0 +1,22 @@
+name: Validate V176 homepage polish
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - app.py
+      - courtside_home.py
+      - test_home_finish_v176.py
+      - .github/workflows/validate_home_finish_v176.yml
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m py_compile app.py courtside_home.py
+      - run: python test_home_finish_v176.py
+      - run: python test_live_home_v175.py
