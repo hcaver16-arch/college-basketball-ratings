@@ -39,7 +39,7 @@ def bracket_payload(field):
     # Snake seed list over four regions to distribute strong and weak entrants.
     region_teams={name:[] for name in REGIONS}
     for i,team in enumerate(entrants):
-        region=REGIONS[(i//4)%4] if (i//4)%2==0 else REGIONS[3-(i%4)]
+        region=REGIONS[i%4] if (i//4)%2==0 else REGIONS[3-(i%4)]
         region_teams[region].append(team)
     # Ensure each region has exactly 16 (round-robin snake by groups of 4).
     if any(len(x)!=16 for x in region_teams.values()):
