@@ -3,7 +3,7 @@ from pathlib import Path
 import ast
 s=Path("app.py").read_text()
 ast.parse(s)
-assert 'cs159-brand' in s
+assert 'cs165-brand' in s
 assert 'st.segmented_control("Division"' in s
 assert 'primary_pages = ["Home", "Games", "Rankings", "Tournament"]' in s
 assert 'more_pages = ["Teams", "Conferences", "Schedule strength", "Record strength", "Model Lab"]' in s
