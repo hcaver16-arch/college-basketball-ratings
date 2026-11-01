@@ -1,0 +1,22 @@
+name: Validate V146 regional geography scenario
+on:
+  pull_request:
+    paths:
+      - tournament_geography_v146.py
+      - tournament_locations_v145.py
+      - test_tournament_geography_v146.py
+      - .github/workflows/validate_tournament_geography_v146.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install pandas
+      - run: python -m py_compile tournament_geography_v146.py tournament_locations_v145.py
+      - run: python test_tournament_geography_v146.py
