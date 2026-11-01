@@ -3,11 +3,12 @@ from __future__ import annotations
 import streamlit as st
 from tournament_ui_v140 import bracket_payload
 from tournament_full_v144 import render_full_overview
+from tournament_region_labels_v147 import seeded_label, region_site
 
 REGION_NAMES=("East","West","South","Midwest")
 
 
-def render_native_bracket(field):
+def render_native_bracket(field, league="Men's"):
     try:
         data=bracket_payload(field)
     except (KeyError, ValueError, TypeError) as exc:
@@ -28,12 +29,15 @@ def render_native_bracket(field):
             st.caption(f"{team['conference']} · {team['bid']} · {team['basis']}")
     else:
         st.info("Select a real team from the region bracket below to view its résumé here.")
-    render_full_overview(data)
+    render_full_overview(data, league)
     st.markdown("### Expand a region · Clickable team details")
     names=[r["name"] for r in data["regions"]]
     region_name=st.radio("Region",names,horizontal=True,key="v142_region")
     region=next(r for r in data["regions"] if r["name"]==region_name)
     st.markdown(f"### {region_name} Region")
+    site, caveat = region_site(region_name, league)
+    st.caption(f"**Regional site:** {site}")
+    st.caption(caveat)
     st.caption("Select a team name to view its résumé. Matchups after the first round remain undecided.")
     st.markdown("""<style>
     .v142-game{border:1px solid #dbe3eb;background:#fff;border-radius:9px;padding:7px 10px;margin:8px 0}
@@ -49,9 +53,10 @@ def render_native_bracket(field):
                 for i,g in enumerate(region["games"]):
                     with st.container(border=True):
                         st.caption(f"Matchup {i+1}")
-                        for side, p in ((g["a"],g["p"]),(g["b"],None if g["p"] is None else 1-g["p"])):
+                        for side_index, (side, p) in enumerate(((g["a"],g["p"]),(g["b"],None if g["p"] is None else 1-g["p"]))):
                             if side in data["teams"]:
-                                label=f"{side}  ·  {p:.0%}" if p is not None else side
+                                seeded = seeded_label(side, i, side_index, data["teams"])
+                                label=f"{seeded}  ·  {p:.0%}" if p is not None else seeded
                                 if st.button(label,key=f"v142_{region_name}_{i}_{side}",use_container_width=True):
                                     st.session_state["v142_bracket_team"]=side
                                     st.rerun()
