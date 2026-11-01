@@ -115,6 +115,15 @@ def style():
     .cs175-live-card {border-left:4px solid #0e9f91;padding:6px 12px;background:#eefaf8;border-radius:6px;}
     .cs175-live-card>strong {font-size:.73rem;color:#087d73;letter-spacing:.06em;}
     .cs175-live-score {font-size:1.15rem;font-weight:800;color:#17345f;margin-top:4px;}
+    /* V176: legible logos and narrow-screen controls. */
+    .cs176-logo {width:24px;height:24px;object-fit:contain;flex:none;}
+    .court-rank-team {display:flex;align-items:center;gap:8px;min-width:0;overflow-wrap:anywhere;}
+    @media(max-width:700px) {
+      .court-rank-row {grid-template-columns:24px minmax(0,1fr) 62px;gap:6px;padding:8px;}
+      .cs176-logo {width:21px;height:21px;}
+      .cs174-scoreline {flex-wrap:wrap;}
+      .cs171-upcoming strong {line-height:1.4;}
+    }
     </style>''',unsafe_allow_html=True)
 
 def featured_choice(upcoming, ratings, d1_ids):
@@ -282,15 +291,28 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
                 name=str(team['Team'])
                 rating=float(team['Current power'])
                 school_color=color_for(name)
+                team_id = str(team.get('Team ID', ''))
+                logo = (f'<img class="cs176-logo" src="https://a.espncdn.com/i/teamlogos/ncaa/500/{team_id}.png" alt="" loading="lazy"/>'
+                        if st.session_state.get("courtside_logos_enabled", True) and team_id.isdigit() else
+                        f'<span class="court-team-dot" style="background:{school_color}"></span>')
                 rows.append(
                     f'<div class="court-rank-row">'
                     f'<span class="court-rank-num">{rank}</span>'
-                    f'<span class="court-rank-team"><span class="court-team-dot" style="background:{school_color}"></span>{html.escape(name)}</span>'
+                    f'<span class="court-rank-team">{logo}{html.escape(name)}</span>'
                     f'<strong class="court-rank-score">{rating:+.2f}</strong>'
                     f'</div>'
                 )
             st.markdown('<div class="court-section-head"><h3>Power rankings</h3><span>Top 5 teams</span></div>'
                         +'<div class="court-rank-card">'+''.join(rows)+'</div>',unsafe_allow_html=True)
+            # Native buttons keep team navigation accessible with keyboard and touch.
+            with st.expander("Open a Top 5 team", expanded=False):
+                for rank, (_, team) in enumerate(top.iterrows(), start=1):
+                    name = str(team["Team"])
+                    if st.button(f"#{rank}  {name} →", key=f"cs176_team_{rank}_{team.get('Team ID', rank)}",
+                                 use_container_width=True):
+                        st.session_state["courtside_requested_team"] = name
+                        st.session_state["courtside_requested_page"] = "Teams"
+                        st.rerun()
             if st.button('View full rankings →',key='courtside_rankings'):
                 st.session_state['courtside_requested_page']='Rankings';st.rerun()
         else:
