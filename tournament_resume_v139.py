@@ -35,7 +35,7 @@ def opening_round_slots(field):
     play = field[field["Opening Round (proxy)"]]
     pairings = []
     direct = field[~field["Opening Round (proxy)"]][["Team","Selection score"]].copy()
-    for bid in ("Projected automatic (power proxy)", "Projected at-large (power proxy)"):
+    for bid in ("Projected automatic (scenario)", "Projected at-large (scenario)"):
         group = play[play["Bid type"].eq(bid)].sort_values("Overall seed list")
         names = group["Team"].astype(str).tolist()
         for index in range(0, len(names), 2):
