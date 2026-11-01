@@ -3,9 +3,9 @@ from pathlib import Path
 import ast
 s=Path("app.py").read_text()
 ast.parse(s)
-assert 'nav_area, division_area, settings_area = st.columns' in s
+assert 'nav_cols = st.columns' in s
 assert s.index('cs159-brand') < s.index('nav_area, division_area, settings_area =')
-assert 'with nav_area:' in s and 'with division_area:' in s and 'with settings_area:' in s
+assert 'with nav_cols[5]:' in s and 'with nav_cols[6]:' in s
 assert 'st.segmented_control("Division"' in s
 assert 'settings_panel = st.popover("⚙ Settings"' in s
 assert 'settings_panel.toggle(' in s
