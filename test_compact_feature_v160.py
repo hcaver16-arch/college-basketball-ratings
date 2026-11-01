@@ -9,6 +9,6 @@ assert "f1.metric('Model projected spread'" not in s
 assert 'overflow-wrap:anywhere' in s
 assert 'courtside_feature_details' in s
 assert "st.session_state['courtside_selected_game']" in s
-assert "st.container(height=260,border=True)" in s
+assert "st.container(height=320,border=True)" in s
 assert "with home_side:" in s
 print("V160 compact matchup verified")
