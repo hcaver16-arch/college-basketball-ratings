@@ -7,7 +7,7 @@ sections=next(n.value for n in ast.walk(tree) if isinstance(n,ast.Assign) and an
 assert isinstance(sections,ast.List)
 values=[e.value for e in sections.elts]
 assert "Tournament" in values and len(values)==9
-assert source.count('render_bracketology(team_ratings, verified_d1_ids, league)')==1
+assert source.count('render_bracketology(team_ratings, verified_d1_ids, league, tournament_sor)')==1
 assert 'if selected_section == "Tournament":' in source
 conference_block=source.split('if selected_section == "Conferences":',1)[1].split('if selected_section == "Tournament":',1)[0]
 assert "render_bracketology" not in conference_block
