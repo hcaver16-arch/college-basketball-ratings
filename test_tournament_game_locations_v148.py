@@ -6,6 +6,6 @@ native=Path("tournament_native_v142.py").read_text()
 full=Path("tournament_full_v144.py").read_text()
 assert "game_site_label(0, region_name, league)" in native
 assert "game_site_label(idx, region_name, league)" in native
-assert "game_site_label(level,region["name"],league)" in full
+assert 'game_site_label(level,region["name"],league)' in full
 assert "First-weekend site: TBD" in Path("tournament_region_labels_v147.py").read_text()
 print("V148 game location tests passed")
