@@ -4,7 +4,7 @@ import ast
 s=Path("app.py").read_text()
 ast.parse(s)
 assert 'nav_cols = st.columns' in s
-assert s.index('cs159-brand') < s.index('nav_area, division_area, settings_area =')
+assert s.index('cs159-brand') < s.index('with st.container(key="courtside_unified_nav")')
 assert 'with nav_cols[5]:' in s and 'with nav_cols[6]:' in s
 assert 'st.segmented_control("Division"' in s
 assert 'settings_panel = st.popover("⚙ Settings"' in s
