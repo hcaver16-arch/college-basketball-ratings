@@ -67,6 +67,17 @@ def style():
     .court-highlight-card {padding:10px !important;}
     .court-highlights {grid-template-columns:1fr;gap:7px;}
     @media (max-width:700px) {.cs157-home-banner {padding:13px 14px !important;}.cs157-home-banner h2 {font-size:1.35rem !important;}}
+    /* V160: more readable compact featured matchup. */
+    .cs160-feature-title {font-size:1.14rem;font-weight:750;color:#17345f;margin:7px 0 5px;}
+    .cs160-matchup {display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:8px;margin-bottom:8px;}
+    .cs160-team {min-width:0;padding:4px 8px;font-size:clamp(.8rem,1.1vw,1rem);font-weight:750;color:#193253;line-height:1.3;overflow-wrap:anywhere;}
+    .cs160-away {text-align:right;}
+    .cs160-tip {font-size:.7rem;color:#637994;text-align:center;max-width:110px;}
+    .cs160-predictions {display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px;}
+    .cs160-stat {min-width:0;background:#f6fbff;border:1px solid #d5e5f6;border-radius:10px;padding:8px 10px;}
+    .cs160-stat span {display:block;color:#5c718c;font-size:.63rem;font-weight:650;letter-spacing:.02em;margin-bottom:3px;overflow-wrap:anywhere;}
+    .cs160-stat strong {display:block;color:#153560;font-size:1.03rem;line-height:1.25;overflow-wrap:anywhere;}
+    @media(max-width:700px){.cs160-tip{max-width:65px;}.cs160-stat strong{font-size:.9rem;}}
     </style>''',unsafe_allow_html=True)
 
 def featured_choice(upcoming, ratings, d1_ids):
@@ -114,18 +125,19 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
             from math import erf,sqrt
             chance=.5*(1+erf(margin/(11*sqrt(2))))
             favorite=h if margin>=0 else a
-            st.markdown('#### Featured matchup')
+            st.markdown('<div class="cs160-feature-title">Featured matchup</div>', unsafe_allow_html=True)
             with st.container(border=True):
-                st.markdown(f'''<div style="display:flex;justify-content:space-between;align-items:center;gap:14px;padding:6px 0 16px">
-                <div style="border-left:5px solid {home_color};padding-left:12px;font-weight:700;font-size:21px">{html.escape(h)}</div>
-                <div style="color:#738196;font-size:13px">VS<br>{html.escape(str(featured.get('Display time',featured['Time (ET)'])))} </div>
-                <div style="border-right:5px solid {away_color};padding-right:12px;font-weight:700;font-size:21px;text-align:right">{html.escape(a)}</div>
+                st.markdown(f'''<div class="cs160-matchup">
+                  <div class="cs160-team" style="border-left:4px solid {home_color}">{html.escape(h)}</div>
+                  <div class="cs160-tip">VS · {html.escape(str(featured.get('Display time',featured['Time (ET)'])))}</div>
+                  <div class="cs160-team cs160-away" style="border-right:4px solid {away_color}">{html.escape(a)}</div>
                 </div>''',unsafe_allow_html=True)
-                f1,f2=st.columns(2)
-                f1.metric('Model projected spread',f'{favorite} -{abs(margin):.1f}')
-                f2.metric(f'{h} win probability',f'{chance:.0%}')
-                st.progress(float(max(0,min(1,chance))),text='Estimated home-team win probability')
-                st.caption('Experimental model estimate, not a sportsbook betting line.')
+                st.markdown('<div class="cs160-predictions">'
+                    f'<div class="cs160-stat"><span>PROJECTED SPREAD</span><strong>{html.escape(favorite)} -{abs(margin):.1f}</strong></div>'
+                    f'<div class="cs160-stat"><span>{html.escape(h)} WIN PROBABILITY</span><strong>{chance:.0%}</strong></div>'
+                    '</div>', unsafe_allow_html=True)
+                st.progress(float(max(0,min(1,chance))))
+                st.caption('Experimental model prediction · Not a sportsbook line')
                 if st.button('View featured game details →',key='courtside_feature_details'):
                     st.session_state['courtside_selected_game']=str(featured['Game ID'])
                     st.session_state['courtside_requested_page']='Games'
