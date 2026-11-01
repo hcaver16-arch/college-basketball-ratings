@@ -88,7 +88,7 @@ def render_advancement(payload):
         st.warning(f"Advancement scenario unavailable: {exc}")
         return
     rows=[{"Team":name,"Conference":payload["teams"][name]["conference"],
-           "Overall order":payload["teams"][name]["overall"],**chances[name]}
+           "Overall order":payload["teams"][name]["overall"],**{k:100*v for k,v in chances[name].items()}}
           for name in chances]
     frame=pd.DataFrame(rows).sort_values("Win championship",ascending=False)
     region=st.selectbox("Advancement view",["All projected teams"]+[r["name"] for r in payload["regions"]],key="v152_region")
