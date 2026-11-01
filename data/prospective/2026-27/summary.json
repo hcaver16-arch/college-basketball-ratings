@@ -1,16 +1,16 @@
 {
   "version": 97,
   "season": "2026-27",
-  "as_of_utc": "2026-11-01T13:13:36Z",
+  "as_of_utc": "2026-11-01T18:51:57Z",
   "counts": {
     "immutable_forecasts": 311,
-    "final_results": 0
+    "final_results": 1
   },
   "today": {
     "mens": {
       "games_seen": 213,
       "forecasts_created": 0,
-      "results_added": 0,
+      "results_added": 1,
       "official_ratings": "available",
       "experimental_ratings": "not provided"
     },
@@ -22,7 +22,17 @@
       "experimental_ratings": "not provided"
     }
   },
-  "evaluation": {},
+  "evaluation": {
+    "mens/official_saved_v97": {
+      "graded_games": 1,
+      "margin_mae": 7.2,
+      "winner_accuracy_non_ties": 0.0,
+      "winner_sample": 1,
+      "bias_actual_minus_prediction": -7.2,
+      "brier_score": null,
+      "brier_reason": "No saved pregame win probabilities"
+    }
+  },
   "notes": [
     "Official forecasts read saved current power snapshots; does not rebuild official rating generation.",
     "Only the first qualifying pre-tip forecast per game/model is retained.",
