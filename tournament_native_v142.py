@@ -3,7 +3,7 @@ from __future__ import annotations
 import streamlit as st
 from tournament_ui_v140 import bracket_payload
 from tournament_full_v144 import render_full_overview
-from tournament_region_labels_v147 import seeded_label, region_site
+from tournament_region_labels_v147 import seeded_label, region_site, game_site_label
 
 REGION_NAMES=("East","West","South","Midwest")
 
@@ -53,6 +53,7 @@ def render_native_bracket(field, league="Men's"):
                 for i,g in enumerate(region["games"]):
                     with st.container(border=True):
                         st.caption(f"Matchup {i+1}")
+                        st.caption(game_site_label(0, region_name, league))
                         for side_index, (side, p) in enumerate(((g["a"],g["p"]),(g["b"],None if g["p"] is None else 1-g["p"]))):
                             if side in data["teams"]:
                                 seeded = seeded_label(side, i, side_index, data["teams"])
@@ -67,6 +68,7 @@ def render_native_bracket(field, league="Men's"):
                 for i in range(count):
                     with st.container(border=True):
                         st.caption(f"{labels[idx]} · Game {i+1}")
+                        st.caption(game_site_label(idx, region_name, league))
                         st.markdown("**Winner TBD**")
                         st.caption("Awaiting simulated results")
                     st.markdown('<div class="v142-connector"></div>',unsafe_allow_html=True)
