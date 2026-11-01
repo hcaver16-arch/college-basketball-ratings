@@ -1678,6 +1678,11 @@ if selected_section == "Teams":
         available=d1_teams if not d1_teams.empty else directory
         team_options=sorted(available["Team"].dropna().unique())
         requested_team = st.session_state.pop("courtside_requested_team", None)
+        requested_id = st.session_state.pop("courtside_requested_team_id", None)
+        if requested_id and requested_id != "nan":
+            matching = available[available["Team ID"].astype(str) == str(requested_id)]
+            if not matching.empty:
+                requested_team = str(matching.iloc[0]["Team"])
         if requested_team in team_options:
             st.session_state["v12_team_pick"] = requested_team
         chosen=st.selectbox("Find a Division I team",team_options,key="v12_team_pick")
