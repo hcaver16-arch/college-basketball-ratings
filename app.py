@@ -79,6 +79,19 @@ st.markdown("""<style>
 [data-testid="stMainBlockContainer"] > [data-testid="stVerticalBlock"] {gap:.7rem !important;}
 @media(max-width:700px){.cs159-brand{font-size:1.25rem !important;}}
 .st-key-courtside_unified_nav [data-testid="stColumn"] {min-width:0 !important;}
+/* V167: compact Settings trigger without changing popover contents. */
+.st-key-courtside_header_top .st-key-courtside_sticky_settings {
+  max-width:116px !important;
+  margin-left:auto !important;
+}
+.st-key-courtside_header_top .st-key-courtside_sticky_settings button {
+  min-height:32px !important;height:32px !important;
+  padding:3px 8px !important;
+  font-size:.78rem !important;
+}
+@media(max-width:700px){
+  .st-key-courtside_header_top .st-key-courtside_sticky_settings {max-width:105px !important;}
+}
 /* V166: high-contrast active division and unified navy-blue header palette. */
 .st-key-courtside_header_top {background:linear-gradient(110deg,#12306a,#1b469d) !important;}
 .st-key-courtside_header_top .cs165-brand span {color:#c7daf8 !important;}
