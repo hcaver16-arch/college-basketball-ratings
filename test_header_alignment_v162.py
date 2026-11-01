@@ -1,0 +1,15 @@
+"""V162 compact header alignment regression."""
+from pathlib import Path
+import ast
+s=Path("app.py").read_text()
+ast.parse(s)
+assert 'nav_area, division_area, settings_area = st.columns' in s
+assert s.index('cs159-brand') < s.index('nav_area, division_area, settings_area =')
+assert 'with nav_area:' in s and 'with division_area:' in s and 'with settings_area:' in s
+assert 'st.segmented_control("Division"' in s
+assert 'settings_panel = st.popover("⚙ Settings"' in s
+assert 'settings_panel.toggle(' in s
+assert 'on_change=_persist_logo_preference' in s
+assert "courtside_mobile_nav" in s and "courtside_mobile_division_control" in s
+assert "selected_section = st.session_state['courtside_page']" in s
+print("V162 navigation alignment regression passed")
