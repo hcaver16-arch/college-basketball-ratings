@@ -3,11 +3,11 @@ import ast
 app=Path("app.py").read_text()
 home=Path("courtside_home.py").read_text()
 ast.parse(app);ast.parse(home)
-assert "cs161-home-header" in home
-assert "Every game. A clearer edge." in home
+assert "cs169-summary" in home
+assert "Today’s matchups" in home
 assert "cs161-feature-title" not in home
 assert "cs160-feature-title" in home
-assert "st.markdown('### Today’s games')" in home
+assert "cs169-games-title" in home
 assert 'with home_main:' in home and 'with home_side:' in home
 assert "settings_panel = st.popover" in app
 assert "with st.popover(\"More ▾\"" in app
