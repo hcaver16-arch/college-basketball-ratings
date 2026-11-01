@@ -124,6 +124,11 @@ def style():
       .cs174-scoreline {flex-wrap:wrap;}
       .cs171-upcoming strong {line-height:1.4;}
     }
+    .cs178-feature-team {display:flex;align-items:center;gap:8px;}
+    .cs178-feature-team.cs160-away {justify-content:flex-end;}
+    .cs178-feature-team span {min-width:0;}
+    .cs178-feature-logo {width:38px;height:38px;object-fit:contain;flex:none;}
+    @media(max-width:700px) {.cs178-feature-team{gap:5px;flex-wrap:wrap;}.cs178-feature-logo{width:27px;height:27px;}}
     </style>''',unsafe_allow_html=True)
 
 def featured_choice(upcoming, ratings, d1_ids):
@@ -263,12 +268,17 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
             from math import erf,sqrt
             chance=.5*(1+erf(margin/(11*sqrt(2))))
             favorite=h if margin>=0 else a
+            show_feature_logos = st.session_state.get("courtside_logos_enabled", True)
+            home_logo = (f'<img class="cs178-feature-logo" src="https://a.espncdn.com/i/teamlogos/ncaa/500/{hid}.png" alt="" loading="lazy"/>'
+                         if show_feature_logos and hid.isdigit() else "")
+            away_logo = (f'<img class="cs178-feature-logo" src="https://a.espncdn.com/i/teamlogos/ncaa/500/{aid}.png" alt="" loading="lazy"/>'
+                         if show_feature_logos and aid.isdigit() else "")
             st.markdown('<div class="cs160-feature-title">Featured game · Model preview</div>', unsafe_allow_html=True)
             with st.container(border=True):
                 st.markdown(f'''<div class="cs160-matchup">
-                  <div class="cs160-team" style="border-left:4px solid {home_color}">{html.escape(h)}</div>
+                  <div class="cs160-team cs178-feature-team" style="border-left:4px solid {home_color}">{home_logo}<span>{html.escape(h)}</span></div>
                   <div class="cs160-tip">VS · {html.escape(str(featured.get('Display time',featured['Time (ET)'])))}</div>
-                  <div class="cs160-team cs160-away" style="border-right:4px solid {away_color}">{html.escape(a)}</div>
+                  <div class="cs160-team cs160-away cs178-feature-team" style="border-right:4px solid {away_color}">{away_logo}<span>{html.escape(a)}</span></div>
                 </div>''',unsafe_allow_html=True)
                 st.markdown('<div class="cs160-predictions">'
                     f'<div class="cs160-stat"><span>PROJECTED SPREAD</span><strong>{html.escape(favorite)} -{abs(margin):.1f}</strong></div>'
