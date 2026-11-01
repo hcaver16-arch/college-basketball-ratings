@@ -1,0 +1,25 @@
+name: Validate V139 resume tournament bracket
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - app.py
+      - bracketology_v138.py
+      - tournament_resume_v139.py
+      - test_tournament_resume_v139.py
+      - .github/workflows/validate_tournament_resume_v139.yml
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install pandas
+      - run: python -m py_compile app.py bracketology_v138.py tournament_resume_v139.py
+      - run: python test_tournament_resume_v139.py
+      - run: python test_bracketology_v138.py
