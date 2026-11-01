@@ -78,6 +78,15 @@ def style():
     .cs160-stat span {display:block;color:#5c718c;font-size:.63rem;font-weight:650;letter-spacing:.02em;margin-bottom:3px;overflow-wrap:anywhere;}
     .cs160-stat strong {display:block;color:#153560;font-size:1.03rem;line-height:1.25;overflow-wrap:anywhere;}
     @media(max-width:700px){.cs160-tip{max-width:65px;}.cs160-stat strong{font-size:.9rem;}}
+    /* V161: restore a restrained branded header without hiding the games. */
+    .cs161-home-header {background:linear-gradient(110deg,#16366e,#1758ac 65%,#0aa99f);border-radius:13px;padding:12px 18px;color:#fff;margin:0 0 7px;box-shadow:0 3px 13px rgba(24,68,138,.09);}
+    .cs161-eyebrow {color:#b8f5ef;font-size:.61rem;font-weight:800;letter-spacing:.12em;}
+    .cs161-header-title {font-size:1.35rem;font-weight:800;letter-spacing:-.025em;line-height:1.28;margin:2px 0;}
+    .cs161-header-sub {font-size:.75rem;color:#e6f2ff;}
+    .cs160-feature-title {margin:0 0 5px !important;}
+    .court-section-head {margin:0 0 10px !important;min-height:28px;align-items:center;}
+    .court-section-head h3 {font-size:1.12rem !important;}
+    @media(max-width:700px){.cs161-home-header{padding:10px 12px;}.cs161-header-title{font-size:1.16rem;}}
     </style>''',unsafe_allow_html=True)
 
 def featured_choice(upcoming, ratings, d1_ids):
@@ -96,6 +105,11 @@ def featured_choice(upcoming, ratings, d1_ids):
 
 def render_home(games, ratings, team_ratings, d1_ids, league, window):
     time_zone = st.session_state.get("courtside_timezone", "Central")
+    st.markdown("""<div class="cs161-home-header">
+      <div><span class="cs161-eyebrow">COURTSIDE · COLLEGE BASKETBALL ANALYTICS</span>
+      <div class="cs161-header-title">Every game. A clearer edge.</div>
+      <div class="cs161-header-sub">Matchups · Power ratings · Tournament outlook</div></div>
+    </div>""", unsafe_allow_html=True)
     st.markdown('### Today’s games')
     st.caption(f"{league} Division I · {window} · Tipoff times in {time_zone}")
     today=pd.Timestamp.now(tz='America/New_York').date()

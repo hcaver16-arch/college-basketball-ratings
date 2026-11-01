@@ -72,6 +72,12 @@ st.markdown("""<style>
 @media (max-width:700px) {
   [data-testid="stMainBlockContainer"], .main .block-container {padding-top:.4rem !important;}
 }
+/* V161: balanced header/navigation and reduced gaps above homepage content. */
+.cs159-brand {font-size:1.75rem !important;line-height:1.3 !important;}
+.cs159-brand strong {font-weight:850;}
+.st-key-courtside_desktop_nav {margin-top:0 !important;margin-bottom:0 !important;}
+[data-testid="stMainBlockContainer"] > [data-testid="stVerticalBlock"] {gap:.7rem !important;}
+@media(max-width:700px){.cs159-brand{font-size:1.25rem !important;}}
 /* V159 compact navigation: preserve normal-flow Settings menu (V156). */
 .cs159-brand {font-size:1.5rem;line-height:1.4;color:#152b57;white-space:nowrap;}
 .cs159-brand strong {letter-spacing:-.035em;}
