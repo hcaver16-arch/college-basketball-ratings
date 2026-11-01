@@ -1,0 +1,22 @@
+name: Validate V173 final scores and records
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - season_records.py
+      - courtside_home.py
+      - matchup_analysis.py
+      - test_final_records_v173.py
+      - .github/workflows/validate_final_records_v173.yml
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m py_compile season_records.py courtside_home.py matchup_analysis.py
+      - run: python test_final_records_v173.py

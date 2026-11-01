@@ -194,10 +194,15 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
                 if d1 and h_id in ratings and a_id in ratings and row['Status']=='Scheduled':
                     m=ratings[h_id]-ratings[a_id]+(0 if row['Venue']=='Neutral' else 3)
                     proj=f"{home if m>=0 else away} -{abs(m):.1f}"
+                final_score = None
+                if row["Status"] == "Final" and pd.notna(row.get("Away score")) and pd.notna(row.get("Home score")):
+                    away_score, home_score = int(row["Away score"]), int(row["Home score"])
+                    winner = away if away_score > home_score else home if home_score > away_score else "Tied"
+                    final_score = f"FINAL · {away} {away_score} – {home} {home_score} · Winner: {winner}"
                 color=color_for(home)
                 x,y=st.columns([4,1.5],vertical_alignment='center')
                 with x:
-                    st.markdown(f'<div style="border-left:4px solid {color};padding-left:11px"><b>{html.escape(away)} @ {html.escape(home)}</b><br><span style="color:#64748B;font-size:12px">{html.escape(str(row.get("Display time",row["Time (ET)"])))}  · {html.escape(str(row["Status"]))} · {"D1 vs D1" if d1 else "Other matchup"}</span><br><span style="font-size:13px">{"Model: "+html.escape(proj) if proj else "No D1 model line"}</span></div>',unsafe_allow_html=True)
+                    st.markdown(f'<div style="border-left:4px solid {color};padding-left:11px"><b>{html.escape(away)} @ {html.escape(home)}</b><br><span style="color:#64748B;font-size:12px">{html.escape(str(row.get("Display time",row["Time (ET)"])))}  · {html.escape(str(row["Status"]))} · {"D1 vs D1" if d1 else "Other matchup"}</span><br><span style="font-size:13px">{html.escape(final_score) if final_score else ("Model: "+html.escape(proj) if proj else "No D1 model line")}</span></div>',unsafe_allow_html=True)
                 with y:
                     if st.button('Details →',key=f'court_game_{row["Game ID"]}_{ix}',use_container_width=True):
                         st.session_state['courtside_selected_game']=str(row['Game ID'])

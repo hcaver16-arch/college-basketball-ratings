@@ -46,4 +46,15 @@ def game_records(schedule: pd.DataFrame, game) -> tuple[str, str]:
     counts = records_before_game(schedule, game.get('Date'), game.get('Game ID'))
     away = counts.get(str(game.get('Away ID')), (0, 0))
     home = counts.get(str(game.get('Home ID')), (0, 0))
+    # Completed games display records including the final result.
+    # records_before_game excludes this fixture, so it is counted exactly once.
+    if str(game.get('Status')) == 'Final':
+        try:
+            away_score = float(game.get('Away score'))
+            home_score = float(game.get('Home score'))
+            if pd.notna(away_score) and pd.notna(home_score) and away_score != home_score:
+                away = (away[0] + int(away_score > home_score), away[1] + int(away_score < home_score))
+                home = (home[0] + int(home_score > away_score), home[1] + int(home_score < away_score))
+        except (TypeError, ValueError):
+            pass
     return f'{away[0]}–{away[1]}', f'{home[0]}–{home[1]}'
