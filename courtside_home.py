@@ -111,7 +111,6 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
       <div class="cs161-header-sub">Matchups · Power ratings · Tournament outlook</div></div>
     </div>""", unsafe_allow_html=True)
     st.markdown('### Today’s games')
-    st.caption(f"{league} Division I · {window} · Tipoff times in {time_zone}")
     today=pd.Timestamp.now(tz='America/New_York').date()
     visible=games[games['Date'].eq(str(today))].copy()
     # Before the season, offer next available games instead of a fake 'today' list.
@@ -125,7 +124,6 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
         else:st.info('No games are listed for today in the selected schedule window.')
     rated_count=len(team_ratings) if isinstance(team_ratings,pd.DataFrame) else 0
     d1_visible=visible[visible['Home ID'].astype(str).isin(d1_ids)&visible['Away ID'].astype(str).isin(d1_ids)]
-    st.caption(f"{len(visible):,} games · {len(d1_visible):,} D1 matchups · {rated_count:,} teams rated")
     if visible.empty:return
     home_main, home_side = st.columns([1.65, 1], gap='large')
     with home_main:
