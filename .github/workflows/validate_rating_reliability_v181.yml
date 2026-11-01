@@ -1,0 +1,21 @@
+name: Validate V181 rating reliability
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - rating_engine.py
+      - test_rating_reliability_v181.py
+      - .github/workflows/validate_rating_reliability_v181.yml
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install pandas numpy
+      - run: python test_rating_reliability_v181.py
+      - run: python validate_model_v180.py
