@@ -79,6 +79,22 @@ st.markdown("""<style>
 [data-testid="stMainBlockContainer"] > [data-testid="stVerticalBlock"] {gap:.7rem !important;}
 @media(max-width:700px){.cs159-brand{font-size:1.25rem !important;}}
 .st-key-courtside_unified_nav [data-testid="stColumn"] {min-width:0 !important;}
+/* V165 two-row layout, scoped without fixed-position or hidden Settings widgets. */
+.st-key-courtside_header_top {background:linear-gradient(110deg,#152F68,#193C94);padding:10px 15px;border-radius:12px 12px 0 0;}
+.cs165-brand {color:white;font-size:1.32rem;line-height:1.3;white-space:nowrap;}
+.cs165-brand strong {color:#fff;letter-spacing:-.025em;}
+.cs165-brand span {color:#c2d8f7;font-size:.67rem;font-weight:650;letter-spacing:.035em;margin-left:14px;}
+.st-key-courtside_header_top .st-key-courtside_sticky_settings button {background:#f8fbff !important;}
+.st-key-courtside_header_top .st-key-courtside_top_division button {min-height:36px;}
+.st-key-courtside_desktop_nav {background:#e5eefb;border:1px solid #d5e3f7;border-top:0;border-radius:0 0 12px 12px;padding:7px 11px;margin:0 0 8px !important;max-width:none !important;}
+.st-key-courtside_desktop_nav button {min-height:36px !important;height:36px !important;}
+@media(max-width:700px){
+ .st-key-courtside_header_top {padding:9px 10px;border-radius:12px;}
+ .cs165-brand {font-size:1.08rem;}
+ .cs165-brand span {display:none;}
+ .st-key-courtside_header_top .st-key-courtside_top_division {display:none !important;}
+ .st-key-courtside_desktop_nav {display:none !important;}
+}
 /* V164 unified navigation row: align each control at the same vertical origin. */
 .st-key-courtside_unified_nav {margin:0 !important;}
 .st-key-courtside_unified_nav [data-testid="stHorizontalBlock"] {align-items:center !important;}
@@ -134,7 +150,7 @@ st.markdown("""<style>
   [data-testid="stMainBlockContainer"] > [data-testid="stVerticalBlock"] {gap:0.75rem !important;}
   h1 {margin-bottom:0 !important;}
   [data-testid="stCaptionContainer"] {margin-top:0 !important;}
-  .st-key-courtside_unified_nav, .st-key-courtside_desktop_division, .st-key-courtside_desktop_division_caption {display:none !important;}
+  .st-key-courtside_desktop_nav, .st-key-courtside_desktop_division, .st-key-courtside_desktop_division_caption {display:none !important;}
   .st-key-courtside_mobile_nav, .st-key-courtside_mobile_division_control {display:block !important;}
   .st-key-courtside_mobile_nav [data-testid='stSelectbox'],
   .st-key-courtside_mobile_division_control [data-testid='stSelectbox'] {margin-bottom:.35rem;}
@@ -158,10 +174,19 @@ st.markdown("""<style>
 </style>""", unsafe_allow_html=True)
 # One site-wide logo preference. The URL setting survives browser refreshes,
 # and session state makes it consistent across every page and matchup.
-# V162: brand on first row; navigation, division, and Settings on second.
+# V165: reliable two-row header: brand and controls first, page navigation second.
 if st.session_state.get("courtside_division") not in ("Men's", "Women's"):
     st.session_state["courtside_division"] = "Men's"
-st.markdown('<div class="cs159-brand">🏀 <strong>Courtside</strong> <span>2026–27</span></div>', unsafe_allow_html=True)
+with st.container(key="courtside_header_top"):
+    brand_area, division_area, settings_area = st.columns([6, 2.0, 1.55], gap="small", vertical_alignment="center")
+    with brand_area:
+        st.markdown('<div class="cs165-brand">🏀 <strong>Courtside</strong><span>COLLEGE BASKETBALL ANALYTICS · 2026–27</span></div>', unsafe_allow_html=True)
+    with division_area:
+        with st.container(key="courtside_top_division"):
+            st.segmented_control("Division", ["Men's", "Women's"], key="courtside_division", label_visibility="collapsed")
+    with settings_area:
+        with st.container(key="courtside_sticky_settings"):
+            settings_panel = st.popover("⚙ Settings", use_container_width=True)
 sections=["Home","Games","Rankings","Teams","Conferences","Tournament","Schedule strength","Record strength","Model Lab"]
 if st.session_state.get('courtside_requested_page') in sections:
     st.session_state['courtside_page'] = st.session_state.pop('courtside_requested_page')
@@ -175,9 +200,8 @@ def _mobile_go():
 st.session_state['courtside_mobile_page'] = st.session_state['courtside_page']
 with st.container(key='courtside_mobile_nav'):
     st.selectbox('Navigate Courtside', sections, key='courtside_mobile_page', on_change=_mobile_go)
-# V164: all controls share one Streamlit row; no nested navigation columns.
-with st.container(key="courtside_unified_nav"):
-    nav_cols = st.columns([1, 1, 1.1, 1.35, 1.05, 1.65, 1.45], gap="small", vertical_alignment="center")
+with st.container(key="courtside_desktop_nav"):
+    nav_cols = st.columns([1, 1, 1.1, 1.35, 1.05, 4.0], gap="small", vertical_alignment="center")
     primary_pages = ["Home", "Games", "Rankings", "Tournament"]
     more_pages = ["Teams", "Conferences", "Schedule strength", "Record strength", "Model Lab"]
     for nav_col, nav_label in zip(nav_cols[:4], primary_pages):
@@ -197,12 +221,7 @@ with st.container(key="courtside_unified_nav"):
                     use_container_width=True):
                     st.session_state['courtside_page'] = nav_label
                     st.rerun()
-    with nav_cols[5]:
-        with st.container(key="courtside_top_division"):
-            st.segmented_control("Division", ["Men's", "Women's"], key="courtside_division", label_visibility="collapsed")
-    with nav_cols[6]:
-        with st.container(key="courtside_sticky_settings"):
-            settings_panel = st.popover("⚙ Settings", use_container_width=True)
+
 def _persist_logo_preference():
     st.query_params["logos"] = "1" if st.session_state["courtside_logos_enabled"] else "0"
 

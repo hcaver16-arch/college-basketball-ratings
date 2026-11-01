@@ -3,7 +3,7 @@ import ast
 s=Path("app.py").read_text()
 ast.parse(s)
 assert 'nav_cols = st.columns' in s
-assert '.st-key-courtside_unified_nav button {' in s
+assert '.st-key-courtside_desktop_nav button {' in s
 assert 'height:38px !important' in s
 assert '.st-key-courtside_top_division [data-baseweb="button-group"]' in s
 assert 'settings_panel = st.popover("⚙ Settings"' in s
