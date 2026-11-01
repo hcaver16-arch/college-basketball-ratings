@@ -1752,7 +1752,16 @@ if selected_section == "Conferences":
 
 if selected_section == "Tournament":
     from bracketology_v138 import render_bracketology
-    render_bracketology(team_ratings, verified_d1_ids, league, sor_ratings)
+    # Prefer the saved season results: SOR shouldn't require opening Model Lab.
+    tournament_sor = sor_ratings
+    season_results_path = Path("data") / "ratings" / SPORTS[league] / "season_2026-27.csv.gz"
+    if season_results_path.exists() and ratings_for_schedule:
+        try:
+            tournament_results = pd.read_csv(season_results_path, dtype={"Game ID": str, "Home ID": str, "Away ID": str})
+            tournament_sor = strength_of_record(tournament_results, ratings_for_schedule, verified_d1_ids)
+        except Exception as exc:
+            st.caption(f"Updated tournament résumé unavailable; using saved SOR when available: {str(exc)[:90]}")
+    render_bracketology(team_ratings, verified_d1_ids, league, tournament_sor)
 
 if selected_section == "Schedule strength":
     render_sos(sos_ratings, league, verified_d1_ids)
