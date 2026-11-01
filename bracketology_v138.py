@@ -42,7 +42,7 @@ def project_field(ratings, verified_d1_ids, sor=None):
     # Do not invent official region placements or bracket slots.
     field["Opening Round (proxy)"]=False
     # NCAA: 12 lowest-seeded AQs and 12 lowest-seeded at-larges.
-    for bid, n in [("Projected automatic (power proxy)",12),("Projected at-large (power proxy)",12)]:
+    for bid, n in [("Projected automatic (scenario)",12),("Projected at-large (scenario)",12)]:
         ids=field.loc[field["Bid type"].eq(bid)].tail(n).index
         field.loc[ids,"Opening Round (proxy)"]=True
     return field,None
