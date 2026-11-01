@@ -38,11 +38,10 @@ def render_native_bracket(field, league="Men's"):
     site, caveat = region_site(region_name, league)
     st.caption(f"**Regional site:** {site}")
     st.caption(caveat)
-    st.caption("Select a team name to view its résumé. Matchups after the first round remain undecided.")
+    st.caption("Select a team for its résumé. The connected tournament tree is in the full bracket above; these native cards provide clickable matchup details.")
     st.markdown("""<style>
     .v142-game{border:1px solid #dbe3eb;background:#fff;border-radius:9px;padding:7px 10px;margin:8px 0}
     .v142-label{color:#718096;font-size:11px;font-weight:650}
-    .v142-connector{height:28px;border-right:2px solid #afbecf;margin-right:50%;border-bottom:2px solid #afbecf}
     </style>""",unsafe_allow_html=True)
     rounds=st.columns([2.2,1.2,1.2,1.2],gap="small")
     labels=["Round of 64","Round of 32","Sweet 16","Elite Eight"]
@@ -71,7 +70,6 @@ def render_native_bracket(field, league="Men's"):
                         st.caption(game_site_label(idx, region_name, league))
                         st.markdown("**Winner TBD**")
                         st.caption("Awaiting simulated results")
-                    st.markdown('<div class="v142-connector"></div>',unsafe_allow_html=True)
     st.divider()
     with st.expander("Opening Round · All 12 projected matchups",expanded=False):
         for g in data["opening"]:
