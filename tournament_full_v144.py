@@ -3,8 +3,9 @@ from __future__ import annotations
 import html
 import streamlit as st
 from tournament_region_labels_v147 import seeded_label, region_site, game_site_label
+from tournament_first_weekend_v151 import first_weekend_label
 
-def _region_markup(region, teams, league, mirrored=False):
+def _region_markup(region, teams, league, mirrored=False, assignments=None):
     """Fixed-coordinate regional tree: SVG connects actual card center points."""
     games=region["games"]
     site, _ = region_site(region["name"], league)
@@ -51,12 +52,12 @@ def _region_markup(region, teams, league, mirrored=False):
                        b+(" · "+str(round((1-p)*100))+"%" if p is not None else "")]
             else:
                 lines=["Winner TBD",""]
-            location=html.escape(game_site_label(level,region["name"],league))
+            location=html.escape(first_weekend_label(assignments,region["name"],level,i) if league=="Men's" and level<2 and assignments is not None else game_site_label(level,region["name"],league))
             out.append(f'<div class="node level{level}" style="left:{xpos(level)}px;top:{y-card_h/2}px;width:{card_w}px;height:{card_h}px"><div>'+lines[0]+'</div><div>'+lines[1]+'</div><small class="venue">'+location+'</small></div>')
     out.append('</div></section>')
     return ''.join(out)
 
-def render_full_overview(data, league="Men's"):
+def render_full_overview(data, league="Men's", assignments=None):
     st.markdown("### Full national bracket · Overview")
     st.caption("Scroll horizontally on smaller screens. Region placements are hypothetical; round winners are undecided. Select a region below to inspect teams and open résumé details.")
     left=data["regions"][:2]
@@ -76,8 +77,8 @@ def render_full_overview(data, league="Men's"):
 .cs144-view .center{text-align:center;border:1px solid #ccdbea;border-radius:12px;background:#f1f6fc;padding:20px 10px;color:#1e3550}
 .cs144-view .center strong{display:block;font-size:15px}.cs144-view .center small{display:block;margin-top:12px;color:#667b92}
 </style><div class="cs144-view"><div class="cs144-grid"><div class="cs144-side">"""
-    markup+=''.join(_region_markup(r, data['teams'], league) for r in left)
+    markup+=''.join(_region_markup(r, data['teams'], league, assignments=assignments) for r in left)
     markup+='</div><div class="center"><strong>FINAL FOUR</strong><small>Semifinalists TBD</small><strong style="margin-top:20px">NATIONAL CHAMPIONSHIP</strong><small>Champion TBD</small></div><div class="cs144-side">'
-    markup+=''.join(_region_markup(r, data['teams'], league, True) for r in right)
+    markup+=''.join(_region_markup(r, data['teams'], league, True, assignments) for r in right)
     markup+='</div></div></div>'
     st.markdown(markup,unsafe_allow_html=True)
