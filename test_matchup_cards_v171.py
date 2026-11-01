@@ -7,7 +7,8 @@ app = Path("app.py").read_text()
 ast.parse(home)
 ast.parse(app)
 assert "else st.container(border=True)" in home
-assert 'Essentially a toss-up' in home
+assert 'favorite_probability:.0%' in home
+assert 'win probability:' in home
 assert 'cs171-upcoming' in home
 assert 'cs171_highlight_' in home
 assert 'courtside_selected_game_payload' in home
