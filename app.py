@@ -72,6 +72,19 @@ st.markdown("""<style>
 @media (max-width:700px) {
   [data-testid="stMainBlockContainer"], .main .block-container {padding-top:.4rem !important;}
 }
+/* V159 compact navigation: preserve normal-flow Settings menu (V156). */
+.cs159-brand {font-size:1.5rem;line-height:1.4;color:#152b57;white-space:nowrap;}
+.cs159-brand strong {letter-spacing:-.035em;}
+.cs159-brand span {font-size:.72rem;color:#7286a4;font-weight:500;margin-left:.5rem;}
+.st-key-courtside_desktop_nav {max-width:650px;margin-top:-.15rem !important;margin-bottom:.25rem !important;}
+.st-key-courtside_desktop_nav button, .st-key-courtside_sticky_settings button {min-height:34px !important;}
+.st-key-courtside_top_division [data-testid="stWidgetLabel"] {display:none;}
+.st-key-courtside_top_division {display:block;}
+@media(max-width:700px){
+  .cs159-brand {font-size:1.2rem;}
+  .cs159-brand span {display:none;}
+  .st-key-courtside_top_division {display:none !important;}
+}
 /* Keep the settings popover in normal document flow for reliable rendering. */
 .st-key-courtside_sticky_settings {position:relative !important;z-index:10;}
 .st-key-courtside_sticky_settings button {min-height:38px !important;}
@@ -111,10 +124,15 @@ st.markdown("""<style>
 </style>""", unsafe_allow_html=True)
 # One site-wide logo preference. The URL setting survives browser refreshes,
 # and session state makes it consistent across every page and matchup.
-brand_col, settings_col = st.columns([8, 1.8], gap="small", vertical_alignment="center")
+# V159: compact brand, desktop division selector and settings share one row.
+if st.session_state.get("courtside_division") not in ("Men's", "Women's"):
+    st.session_state["courtside_division"] = "Men's"
+brand_col, division_col, settings_col = st.columns([5.5, 2.3, 1.4], gap="small", vertical_alignment="center")
 with brand_col:
-    st.title("🏀 Courtside")
-    st.caption("College Basketball Analytics · 2026–27")
+    st.markdown('<div class="cs159-brand">🏀 <strong>Courtside</strong> <span>2026–27</span></div>', unsafe_allow_html=True)
+with division_col:
+    with st.container(key="courtside_top_division"):
+        st.segmented_control("Division", ["Men's", "Women's"], key="courtside_division", label_visibility="collapsed")
 with settings_col:
     with st.container(key="courtside_sticky_settings"):
         settings_panel = st.popover("⚙ Settings", use_container_width=True)
@@ -143,18 +161,26 @@ st.session_state['courtside_mobile_page'] = st.session_state['courtside_page']
 with st.container(key='courtside_mobile_nav'):
     st.selectbox('Navigate Courtside', sections, key='courtside_mobile_page', on_change=_mobile_go)
 with st.container(key='courtside_desktop_nav'):
-    nav_cols = st.columns([1.0, 1.0, 1.15, 1.0, 1.45, 1.4, 1.9, 1.8, 1.2], gap="small")
-    for nav_col, nav_label in zip(nav_cols, sections):
+    primary_pages = ["Home", "Games", "Rankings", "Tournament"]
+    more_pages = ["Teams", "Conferences", "Schedule strength", "Record strength", "Model Lab"]
+    nav_cols = st.columns([1, 1, 1.1, 1.35, 1], gap="small")
+    for nav_col, nav_label in zip(nav_cols[:4], primary_pages):
         with nav_col:
-            is_active = st.session_state['courtside_page'] == nav_label
-            if st.button(
-                nav_label,
+            if st.button(nav_label,
                 key=f"courtside_nav_{nav_label.lower().replace(' ', '_')}",
-                type="primary" if is_active else "secondary",
-                use_container_width=True,
-            ):
+                type="primary" if st.session_state['courtside_page'] == nav_label else "secondary",
+                use_container_width=True):
                 st.session_state['courtside_page'] = nav_label
                 st.rerun()
+    with nav_cols[4]:
+        with st.popover("More ▾", use_container_width=True):
+            for nav_label in more_pages:
+                if st.button(nav_label,
+                    key=f"courtside_nav_{nav_label.lower().replace(' ', '_')}",
+                    type="primary" if st.session_state['courtside_page'] == nav_label else "secondary",
+                    use_container_width=True):
+                    st.session_state['courtside_page'] = nav_label
+                    st.rerun()
 selected_section = st.session_state['courtside_page']
 
 SPORTS = {"Men's": "mens-college-basketball", "Women's": "womens-college-basketball"}
@@ -567,29 +593,14 @@ def attach_model_lines(frame: pd.DataFrame, rating_lookup: dict, verified_d1: se
     out["Model line"] = out.apply(get_line, axis=1) if not out.empty else pd.Series(dtype=str)
     return out
 
-# Horizontal division buttons avoid the unreadable native radio selectors.
-with st.container(key="courtside_desktop_division_caption"):
-    st.caption("Basketball division")
-if st.session_state.get("courtside_division") not in ("Men's", "Women's"):
-    st.session_state["courtside_division"] = "Men's"
+# Mobile keeps an accessible division selector directly below the mobile page menu.
 def _mobile_division_change():
     st.session_state['courtside_division'] = st.session_state['courtside_mobile_division']
 
 st.session_state['courtside_mobile_division'] = st.session_state['courtside_division']
 with st.container(key='courtside_mobile_division_control'):
-    st.selectbox('Basketball division', ["Men's", "Women's"], key='courtside_mobile_division', on_change=_mobile_division_change)
-with st.container(key='courtside_desktop_division'):
-    division_cols = st.columns([1, 1, 6], gap="small")
-    for div_col, div_label in zip(division_cols[:2], ("Men's", "Women's")):
-        with div_col:
-            if st.button(
-                div_label,
-                key=f"courtside_division_{div_label.lower().replace(chr(39), '')}",
-                type="primary" if st.session_state["courtside_division"] == div_label else "secondary",
-                use_container_width=True,
-            ):
-                st.session_state["courtside_division"] = div_label
-                st.rerun()
+    st.selectbox('Basketball division', ["Men's", "Women's"],
+        key='courtside_mobile_division', on_change=_mobile_division_change)
 league = st.session_state["courtside_division"]
 settings_panel.subheader("Game time zone")
 selected_timezone = settings_panel.selectbox("Show tipoff times in", ["Eastern", "Central", "Mountain", "Pacific", "Arizona"], key="courtside_timezone", index=1)
