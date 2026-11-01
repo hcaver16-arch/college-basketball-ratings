@@ -78,6 +78,11 @@ st.markdown("""<style>
 .st-key-courtside_desktop_nav {margin-top:0 !important;margin-bottom:0 !important;}
 [data-testid="stMainBlockContainer"] > [data-testid="stVerticalBlock"] {gap:.7rem !important;}
 @media(max-width:700px){.cs159-brand{font-size:1.25rem !important;}}
+/* V162: align controls on one compact row below the brand. */
+.st-key-courtside_desktop_nav {max-width:none !important;margin:0 !important;}
+.st-key-courtside_top_division {margin:0 !important;}
+.st-key-courtside_sticky_settings {margin:0 !important;}
+@media(max-width:700px){.st-key-courtside_top_division{display:none !important;}}
 /* V159 compact navigation: preserve normal-flow Settings menu (V156). */
 .cs159-brand {font-size:1.5rem;line-height:1.4;color:#152b57;white-space:nowrap;}
 .cs159-brand strong {letter-spacing:-.035em;}
@@ -130,29 +135,10 @@ st.markdown("""<style>
 </style>""", unsafe_allow_html=True)
 # One site-wide logo preference. The URL setting survives browser refreshes,
 # and session state makes it consistent across every page and matchup.
-# V159: compact brand, desktop division selector and settings share one row.
+# V162: brand on first row; navigation, division, and Settings on second.
 if st.session_state.get("courtside_division") not in ("Men's", "Women's"):
     st.session_state["courtside_division"] = "Men's"
-brand_col, division_col, settings_col = st.columns([5.5, 2.3, 1.4], gap="small", vertical_alignment="center")
-with brand_col:
-    st.markdown('<div class="cs159-brand">🏀 <strong>Courtside</strong> <span>2026–27</span></div>', unsafe_allow_html=True)
-with division_col:
-    with st.container(key="courtside_top_division"):
-        st.segmented_control("Division", ["Men's", "Women's"], key="courtside_division", label_visibility="collapsed")
-with settings_col:
-    with st.container(key="courtside_sticky_settings"):
-        settings_panel = st.popover("⚙ Settings", use_container_width=True)
-def _persist_logo_preference():
-    st.query_params["logos"] = "1" if st.session_state["courtside_logos_enabled"] else "0"
-
-if "courtside_logos_enabled" not in st.session_state:
-    st.session_state["courtside_logos_enabled"] = str(st.query_params.get("logos", "1")).lower() not in ("0", "false", "off")
-settings_panel.toggle(
-    "Show team logos", key="courtside_logos_enabled",
-    on_change=_persist_logo_preference,
-    help="Uses externally hosted ESPN team logos when available; otherwise shows team initials. School marks belong to their respective rights holders."
-)
-
+st.markdown('<div class="cs159-brand">🏀 <strong>Courtside</strong> <span>2026–27</span></div>', unsafe_allow_html=True)
 sections=["Home","Games","Rankings","Teams","Conferences","Tournament","Schedule strength","Record strength","Model Lab"]
 if st.session_state.get('courtside_requested_page') in sections:
     st.session_state['courtside_page'] = st.session_state.pop('courtside_requested_page')
@@ -166,27 +152,46 @@ def _mobile_go():
 st.session_state['courtside_mobile_page'] = st.session_state['courtside_page']
 with st.container(key='courtside_mobile_nav'):
     st.selectbox('Navigate Courtside', sections, key='courtside_mobile_page', on_change=_mobile_go)
-with st.container(key='courtside_desktop_nav'):
-    primary_pages = ["Home", "Games", "Rankings", "Tournament"]
-    more_pages = ["Teams", "Conferences", "Schedule strength", "Record strength", "Model Lab"]
-    nav_cols = st.columns([1, 1, 1.1, 1.35, 1], gap="small")
-    for nav_col, nav_label in zip(nav_cols[:4], primary_pages):
-        with nav_col:
-            if st.button(nav_label,
-                key=f"courtside_nav_{nav_label.lower().replace(' ', '_')}",
-                type="primary" if st.session_state['courtside_page'] == nav_label else "secondary",
-                use_container_width=True):
-                st.session_state['courtside_page'] = nav_label
-                st.rerun()
-    with nav_cols[4]:
-        with st.popover("More ▾", use_container_width=True):
-            for nav_label in more_pages:
+nav_area, division_area, settings_area = st.columns([6, 1.65, 1.45], gap="small", vertical_alignment="center")
+with nav_area:
+    with st.container(key='courtside_desktop_nav'):
+        primary_pages = ["Home", "Games", "Rankings", "Tournament"]
+        more_pages = ["Teams", "Conferences", "Schedule strength", "Record strength", "Model Lab"]
+        nav_cols = st.columns([1, 1, 1.1, 1.35, 1], gap="small")
+        for nav_col, nav_label in zip(nav_cols[:4], primary_pages):
+            with nav_col:
                 if st.button(nav_label,
                     key=f"courtside_nav_{nav_label.lower().replace(' ', '_')}",
                     type="primary" if st.session_state['courtside_page'] == nav_label else "secondary",
                     use_container_width=True):
                     st.session_state['courtside_page'] = nav_label
                     st.rerun()
+        with nav_cols[4]:
+            with st.popover("More ▾", use_container_width=True):
+                for nav_label in more_pages:
+                    if st.button(nav_label,
+                        key=f"courtside_nav_{nav_label.lower().replace(' ', '_')}",
+                        type="primary" if st.session_state['courtside_page'] == nav_label else "secondary",
+                        use_container_width=True):
+                        st.session_state['courtside_page'] = nav_label
+                        st.rerun()
+with division_area:
+    with st.container(key="courtside_top_division"):
+        st.segmented_control("Division", ["Men's", "Women's"], key="courtside_division", label_visibility="collapsed")
+with settings_area:
+    with st.container(key="courtside_sticky_settings"):
+        settings_panel = st.popover("⚙ Settings", use_container_width=True)
+def _persist_logo_preference():
+    st.query_params["logos"] = "1" if st.session_state["courtside_logos_enabled"] else "0"
+
+if "courtside_logos_enabled" not in st.session_state:
+    st.session_state["courtside_logos_enabled"] = str(st.query_params.get("logos", "1")).lower() not in ("0", "false", "off")
+settings_panel.toggle(
+    "Show team logos", key="courtside_logos_enabled",
+    on_change=_persist_logo_preference,
+    help="Uses externally hosted ESPN team logos when available; otherwise shows team initials. School marks belong to their respective rights holders."
+)
+
 selected_section = st.session_state['courtside_page']
 
 SPORTS = {"Men's": "mens-college-basketball", "Women's": "womens-college-basketball"}
