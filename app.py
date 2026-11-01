@@ -63,23 +63,9 @@ apply_table_theme()
 
 # Responsive overrides: keep desktop presentation and shrink only phone widths.
 st.markdown("""<style>
-/* Keep the compact settings control on screen during long-page scrolling. */
-.st-key-courtside_sticky_settings {
-  position:fixed !important;
-  z-index:999 !important;
-  top:0.65rem;
-  right:1.2rem;
-  width:132px;
-  background:rgba(240,244,251,.96);
-  border:1px solid #d9e4f4;
-  border-radius:12px;
-  padding:4px;
-  box-shadow:0 4px 16px rgba(20,50,95,.10);
-}
+/* Keep the settings popover in normal document flow for reliable rendering. */
+.st-key-courtside_sticky_settings {position:relative !important;z-index:10;}
 .st-key-courtside_sticky_settings button {min-height:38px !important;}
-@media(max-width:700px){
- .st-key-courtside_sticky_settings {top:0.5rem;right:.65rem;width:110px;padding:3px;}
-}
 /* Move all sidebar settings into the header popover. */
 [data-testid="stSidebar"], [data-testid="stSidebarCollapsedControl"] {display:none !important;}
 /* Native select is easier to use on narrow phones than eight stacked buttons. */
