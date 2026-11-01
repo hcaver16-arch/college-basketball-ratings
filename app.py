@@ -574,7 +574,7 @@ selected_timezone = st.sidebar.selectbox("Show tipoff times in", ["Eastern", "Ce
 st.sidebar.caption("All dates used for schedule filtering remain Eastern; displayed game times use your choice.")
 st.sidebar.subheader("Season coverage")
 # Season-wide analysis pages must not silently inherit a short game window.
-season_wide_pages = {"Schedule strength", "Record strength", "Conferences", "Teams"}
+season_wide_pages = {"Schedule strength", "Record strength", "Conferences", "Teams", "Tournament"}
 today = date.today()
 if selected_section in season_wide_pages:
     period = "Full season (Nov–Apr)"

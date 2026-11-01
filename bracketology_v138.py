@@ -68,5 +68,8 @@ def render_bracketology(ratings,verified_d1_ids,league,sor=None):
     st.dataframe(shown[["Overall seed list","Team","Conference","Current power","SOR score","SOR games","Selection score","Selection basis","Bid type","Opening Round (proxy)"]],hide_index=True,use_container_width=True)
     st.caption(f"{int(frame['SOR eligible'].sum())} projected teams currently have eligible provisional SOR; the composite is an experimental scenario score, not a selection probability.")
     render_native_bracket(frame)
+    from tournament_locations_v145 import render_locations
+    with st.expander("Projected locations and official NCAA host venues", expanded=True):
+        render_locations(frame, league)
     with st.expander("Model assumptions and limitations"):
         st.write("The field combines Courtside power with eligible provisional SOR and verified conference labels. It does not yet incorporate official NET, quadrant wins, eligibility changes, committee selection criteria or actual conference tournament winners. No automatic bid is officially secured. Overall seed list is only a power-based ordering, not regional seeding.")

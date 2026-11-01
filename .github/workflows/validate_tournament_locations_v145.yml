@@ -1,0 +1,22 @@
+name: Validate V145 tournament location projections
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - app.py
+      - bracketology_v138.py
+      - tournament_locations_v145.py
+      - test_tournament_locations_v145.py
+      - .github/workflows/validate_tournament_locations_v145.yml
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m py_compile app.py bracketology_v138.py tournament_locations_v145.py
+      - run: python test_tournament_locations_v145.py
