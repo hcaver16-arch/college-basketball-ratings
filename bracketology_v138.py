@@ -1,7 +1,7 @@
 """V138 preseason bracketology sandbox: 76 teams, 32 projected AQs, 44 at-large.
 
 Not NCAA committee selections, calibrated probabilities, or earned conference bids.
-Power rating is only a provisional proxy while resume metrics are being validated.
+Power ratings are the fallback where provisional SOR is not eligible; this is an uncalibrated selection scenario.
 """
 from __future__ import annotations
 import pandas as pd
@@ -29,10 +29,10 @@ def project_field(ratings, verified_d1_ids, sor=None):
         return pd.DataFrame(), f"Found {conferences} verified conference labels, but the 2027 field requires {AUTO}. Projection withheld to avoid invented automatic bids."
     # Highest-rated team per conference is a placeholder, not a real tournament champion.
     automatic=data.drop_duplicates("Conference").copy()
-    automatic["Bid type"]="Projected automatic (power proxy)"
+    automatic["Bid type"]="Projected automatic (scenario)"
     remaining=data[~data["Team ID"].isin(automatic["Team ID"])]
     atlarge=remaining.head(AT_LARGE).copy()
-    atlarge["Bid type"]="Projected at-large (power proxy)"
+    atlarge["Bid type"]="Projected at-large (scenario)"
     field=pd.concat([automatic,atlarge],ignore_index=True)
     if len(automatic)!=AUTO or len(atlarge)!=AT_LARGE or len(field)!=FIELD:
         return pd.DataFrame(), "Insufficient eligible verified teams for a complete projection"
@@ -68,4 +68,4 @@ def render_bracketology(ratings,verified_d1_ids,league,sor=None):
     st.caption(f"{int(frame['SOR eligible'].sum())} projected teams currently have eligible provisional SOR; the composite is an experimental scenario score, not a selection probability.")
     render_national_bracket(frame)
     with st.expander("Model assumptions and limitations"):
-        st.write("The field is an illustrative scenario based only on Courtside power ratings and verified D1 conference labels. It ignores NET, strength of record, quadrant wins, committee selection criteria, eligibility changes, and conference tournament results. No automatic bid is officially secured. Overall seed list is only a power-based ordering, not regional seeding.")
+        st.write("The field combines Courtside power with eligible provisional SOR and verified conference labels. It does not yet incorporate official NET, quadrant wins, eligibility changes, committee selection criteria or actual conference tournament winners. No automatic bid is officially secured. Overall seed list is only a power-based ordering, not regional seeding.")
