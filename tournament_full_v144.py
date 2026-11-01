@@ -2,17 +2,20 @@
 from __future__ import annotations
 import html
 import streamlit as st
+from tournament_region_labels_v147 import seeded_label, region_site
 
-def _region_markup(region, mirrored=False):
+def _region_markup(region, teams, league, mirrored=False):
     games=region["games"]
-    out=['<section class="rgn"><h4>'+html.escape(region["name"])+'</h4><div class="tree'+(' mirror' if mirrored else '')+'">']
+    site, _ = region_site(region['name'], league)
+    out=['<section class="rgn"><h4>'+html.escape(region["name"]+' · '+site)+'</h4><div class="tree'+(' mirror' if mirrored else '')+'">']
     for round_index in range(4):
         count=8//(2**round_index)
         cells=['<div class="round"><div class="rlabel">'+["R64","R32","Sweet 16","Elite Eight"][round_index]+'</div>']
         for i in range(count):
             if round_index==0:
                 g=games[i]
-                a,b=html.escape(g["a"]),html.escape(g["b"])
+                a=html.escape(seeded_label(g["a"], i, 0, teams))
+                b=html.escape(seeded_label(g["b"], i, 1, teams))
                 p=g["p"]
                 lines=[a+(" · "+str(round(p*100))+"%" if p is not None else ""),b+(" · "+str(round((1-p)*100))+"%" if p is not None else "")]
             else:
@@ -23,7 +26,7 @@ def _region_markup(region, mirrored=False):
     out.append('</div></section>')
     return ''.join(out)
 
-def render_full_overview(data):
+def render_full_overview(data, league="Men's"):
     st.markdown("### Full national bracket · Overview")
     st.caption("Scroll horizontally on smaller screens. Region placements are hypothetical; round winners are undecided. Select a region below to inspect teams and open résumé details.")
     left=data["regions"][:2]
@@ -47,8 +50,8 @@ def render_full_overview(data):
 .cs144-view .center{text-align:center;border:1px solid #ccdbea;border-radius:12px;background:#f1f6fc;padding:20px 10px;color:#1e3550}
 .cs144-view .center strong{display:block;font-size:15px}.cs144-view .center small{display:block;margin-top:12px;color:#667b92}
 </style><div class="cs144-view"><div class="cs144-grid"><div class="cs144-side">"""
-    markup+=''.join(_region_markup(r) for r in left)
+    markup+=''.join(_region_markup(r, data['teams'], league) for r in left)
     markup+='</div><div class="center"><strong>FINAL FOUR</strong><small>Semifinalists TBD</small><strong style="margin-top:20px">NATIONAL CHAMPIONSHIP</strong><small>Champion TBD</small></div><div class="cs144-side">'
-    markup+=''.join(_region_markup(r,True) for r in right)
+    markup+=''.join(_region_markup(r, data['teams'], league, True) for r in right)
     markup+='</div></div></div>'
     st.markdown(markup,unsafe_allow_html=True)
