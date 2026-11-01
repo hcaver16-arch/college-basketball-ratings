@@ -7,8 +7,9 @@ ast.parse(home);ast.parse(app)
 assert "cs176-logo" in home
 assert 'team_id.isdigit()' in home
 assert "courtside_logos_enabled" in home
-assert 'st.expander("Open a Top 5 team"' in home
+assert 'st.button(f"{name} →"' in home
 assert 'st.session_state["courtside_requested_team"] = name' in home
+assert 'st.session_state["courtside_requested_team_id"] = team_id' in home
 assert 'st.session_state["courtside_requested_page"] = "Teams"' in home
 assert 'st.session_state.pop("courtside_requested_team", None)' in app
 assert 'st.session_state["v12_team_pick"] = requested_team' in app
