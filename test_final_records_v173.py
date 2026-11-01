@@ -9,9 +9,9 @@ matchup=Path("matchup_analysis.py").read_text()
 assert "if str(game.get('Status')) == 'Final':" in records
 assert "away_score > home_score" in records
 assert "home_score > away_score" in records
-assert "final_score = f\"FINAL" in home
-assert "Winner: {winner}" in home
-assert "html.escape(final_score)" in home
+assert "cs174-final-status" in home
+assert "cs174-final-winner" in home
+assert "cs174-scoreline" in home
 assert 'record_label = "Postgame record"' in matchup
 assert '· {record_label}' in matchup
 print("V173 final-score and record display checks passed")
