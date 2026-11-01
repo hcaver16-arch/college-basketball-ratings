@@ -8,6 +8,6 @@ assert "render_full_overview(data, league)" in native
 assert 'st.radio("Region"' in native
 assert "v142_bracket_team" in native
 assert "FINAL FOUR" in src and "NATIONAL CHAMPIONSHIP" in src
-assert "_region_markup(r,True)" in src
-assert "_region_markup(r) for r in left" in src
+assert "_region_markup(r, data['teams'], league, True)" in src
+assert "_region_markup(r, data['teams'], league) for r in left" in src
 print("V144 layout checks passed")
