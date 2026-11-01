@@ -286,33 +286,31 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
         # Integrated light-theme rankings card: native st.dataframe rendered dark on some deployments.
         if isinstance(team_ratings,pd.DataFrame) and {'Team','Current power'}.issubset(team_ratings.columns) and not team_ratings.empty:
             top=team_ratings.sort_values('Current power',ascending=False).head(5).copy()
-            rows=[]
-            for rank,(_,team) in enumerate(top.iterrows(), start=1):
-                name=str(team['Team'])
-                rating=float(team['Current power'])
-                school_color=color_for(name)
-                team_id = str(team.get('Team ID', ''))
-                logo = (f'<img class="cs176-logo" src="https://a.espncdn.com/i/teamlogos/ncaa/500/{team_id}.png" alt="" loading="lazy"/>'
-                        if st.session_state.get("courtside_logos_enabled", True) and team_id.isdigit() else
-                        f'<span class="court-team-dot" style="background:{school_color}"></span>')
-                rows.append(
-                    f'<div class="court-rank-row">'
-                    f'<span class="court-rank-num">{rank}</span>'
-                    f'<span class="court-rank-team">{logo}{html.escape(name)}</span>'
-                    f'<strong class="court-rank-score">{rating:+.2f}</strong>'
-                    f'</div>'
-                )
-            st.markdown('<div class="court-section-head"><h3>Power rankings</h3><span>Top 5 teams</span></div>'
-                        +'<div class="court-rank-card">'+''.join(rows)+'</div>',unsafe_allow_html=True)
-            # Native buttons keep team navigation accessible with keyboard and touch.
-            with st.expander("Open a Top 5 team", expanded=False):
+            st.markdown('<div class="court-section-head"><h3>Power rankings</h3><span>Tap a team to view its profile</span></div>',unsafe_allow_html=True)
+            with st.container(border=True):
                 for rank, (_, team) in enumerate(top.iterrows(), start=1):
                     name = str(team["Team"])
-                    if st.button(f"#{rank}  {name} →", key=f"cs176_team_{rank}_{team.get('Team ID', rank)}",
-                                 use_container_width=True):
-                        st.session_state["courtside_requested_team"] = name
-                        st.session_state["courtside_requested_page"] = "Teams"
-                        st.rerun()
+                    rating = float(team["Current power"])
+                    team_id = str(team.get("Team ID", ""))
+                    rank_col, logo_col, team_col, rating_col = st.columns([0.45, 0.55, 3.3, 1.0], vertical_alignment="center", gap="small")
+                    with rank_col:
+                        st.markdown(f'**{rank}**')
+                    with logo_col:
+                        if st.session_state.get("courtside_logos_enabled", True) and team_id.isdigit():
+                            st.image(f"https://a.espncdn.com/i/teamlogos/ncaa/500/{team_id}.png", width=25)
+                        else:
+                            st.markdown('<span class="court-team-dot" style="background:' + color_for(name) + '"></span>', unsafe_allow_html=True)
+                    with team_col:
+                        if st.button(f"{name} →", key=f"cs177_team_{rank}_{team_id}",
+                                     use_container_width=True, type="tertiary"):
+                            st.session_state["courtside_requested_team"] = name
+                            st.session_state["courtside_requested_team_id"] = team_id
+                            st.session_state["courtside_requested_page"] = "Teams"
+                            st.rerun()
+                    with rating_col:
+                        st.markdown(f'<div style="text-align:right;font-weight:750;color:#17345f">{rating:+.2f}</div>',unsafe_allow_html=True)
+                    if rank < len(top):
+                        st.divider()
             if st.button('View full rankings →',key='courtside_rankings'):
                 st.session_state['courtside_requested_page']='Rankings';st.rerun()
         else:
