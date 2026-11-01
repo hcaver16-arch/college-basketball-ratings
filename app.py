@@ -34,6 +34,7 @@ from prospective_roster import evidence_adjustments, make_forecasts, evaluate_fo
 from forecast_comparison import combined_forecasts
 from preliminary_model import build_preliminary_ratings, add_experimental_lines
 from courtside_home import style as courtside_style, render_home
+from courtside_theme_v153 import apply_v153_theme
 from courtside_tables import apply_table_theme, dataframe as courtside_dataframe
 from net_quadrants import load_net, annotate_games
 from matchup_analysis import render_matchup
@@ -57,6 +58,7 @@ def _v130_measure(label, function, *args, **kwargs):
 
 st.set_page_config(page_title="Courtside | College Basketball Analytics", page_icon="🏀", layout="wide", initial_sidebar_state="collapsed")
 courtside_style()
+apply_v153_theme()
 apply_table_theme()
 
 # Responsive overrides: keep desktop presentation and shrink only phone widths.

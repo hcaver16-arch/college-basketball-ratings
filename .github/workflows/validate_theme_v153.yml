@@ -1,0 +1,23 @@
+name: Validate V153 visual redesign
+on:
+  pull_request:
+    paths:
+      - .streamlit/config.toml
+      - app.py
+      - courtside_home.py
+      - courtside_theme_v153.py
+      - test_theme_v153.py
+      - .github/workflows/validate_theme_v153.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m py_compile app.py courtside_home.py courtside_theme_v153.py
+      - run: python test_theme_v153.py
