@@ -78,13 +78,16 @@ st.markdown("""<style>
 .st-key-courtside_desktop_nav {margin-top:0 !important;margin-bottom:0 !important;}
 [data-testid="stMainBlockContainer"] > [data-testid="stVerticalBlock"] {gap:.7rem !important;}
 @media(max-width:700px){.cs159-brand{font-size:1.25rem !important;}}
+.st-key-courtside_unified_nav [data-testid="stColumn"] {min-width:0 !important;}
 /* V164 unified navigation row: align each control at the same vertical origin. */
 .st-key-courtside_unified_nav {margin:0 !important;}
 .st-key-courtside_unified_nav [data-testid="stHorizontalBlock"] {align-items:center !important;}
 .st-key-courtside_unified_nav button {min-height:38px !important;}
 @media(max-width:700px){
- .st-key-courtside_unified_nav {display:none !important;}
- .st-key-courtside_sticky_settings {display:block !important;}
+ /* Mobile retains its dedicated page/division selects; show only Settings
+    from the shared desktop row, keeping the sole popover and widget keys. */
+ .st-key-courtside_unified_nav [data-testid="stHorizontalBlock"] > [data-testid="stColumn"]:not(:last-child) {display:none !important;}
+ .st-key-courtside_unified_nav [data-testid="stHorizontalBlock"] > [data-testid="stColumn"]:last-child {width:100% !important;min-width:0 !important;flex:1 1 100% !important;}
 }
 /* V163: match navigation, division and Settings control heights and baselines. */
 .st-key-courtside_desktop_nav,
