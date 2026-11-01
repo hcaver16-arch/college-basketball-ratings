@@ -6,7 +6,6 @@ ast.parse(src)
 assert 'font-size:10px;line-height:1.3;font-weight:600' in src
 assert 'white-space:normal;overflow-wrap:anywhere' in src
 assert 'min-width:1660px' in src
-assert "'<small class=\"venue\">'+location+'</small>'" not in src or True
 assert '<small class="venue">'+ "'" in src
 assert "game_site_label(round_index,region['name'],league)" in src
 print("Venue visibility checks passed")
