@@ -1,0 +1,21 @@
+name: Validate V150 bracket connectors
+on:
+  pull_request:
+    paths:
+      - tournament_full_v144.py
+      - tournament_native_v142.py
+      - test_bracket_connectors_v150.py
+      - .github/workflows/validate_bracket_connectors_v150.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m py_compile tournament_full_v144.py tournament_native_v142.py
+      - run: python test_bracket_connectors_v150.py
