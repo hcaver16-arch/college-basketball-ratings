@@ -169,17 +169,18 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
         h=pd.to_numeric(game.get("Home score"),errors="coerce")
         if pd.notna(a) and pd.notna(h): st.markdown(f"### {away} {int(a)} — {home} {int(h)}")
     # Shared, site-wide logo setting is owned by app.py.
+    record_label = "Postgame record" if str(game.get("Status")) == "Final" else "Pregame record"
     external_logos = st.session_state.get("courtside_logos_enabled", True)
     with st.container(border=True):
         a_col, vs_col, h_col = st.columns([4, 1, 4], vertical_alignment="center")
         team_identity(a_col, away, aid, league, external_logos=external_logos)
         with a_col:
-            st.markdown(f"**{away_record}** · Pregame record" if away_record is not None else "Record unavailable")
+            st.markdown(f"**{away_record}** · {record_label}" if away_record is not None else "Record unavailable")
         with vs_col:
             st.markdown("### at" if str(game.get("Venue")) != "Neutral" else "### vs")
         team_identity(h_col, home, hid, league, external_logos=external_logos)
         with h_col:
-            st.markdown(f"**{home_record}** · Pregame record" if home_record is not None else "Record unavailable")
+            st.markdown(f"**{home_record}** · {record_label}" if home_record is not None else "Record unavailable")
         if external_logos:
             st.caption("Logos are externally hosted and belong to their respective rights holders; Courtside is not affiliated with or endorsed by these schools.")
     if not record_coverage_ok:
