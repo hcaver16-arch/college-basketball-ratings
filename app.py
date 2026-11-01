@@ -63,6 +63,8 @@ apply_table_theme()
 
 # Responsive overrides: keep desktop presentation and shrink only phone widths.
 st.markdown("""<style>
+/* Move all sidebar settings into the header popover. */
+[data-testid="stSidebar"], [data-testid="stSidebarCollapsedControl"] {display:none !important;}
 /* Native select is easier to use on narrow phones than eight stacked buttons. */
 .st-key-courtside_mobile_nav, .st-key-courtside_mobile_division_control {display:none;}
 .st-key-courtside_desktop_division_caption {display:block;}
@@ -97,18 +99,23 @@ st.markdown("""<style>
 </style>""", unsafe_allow_html=True)
 # One site-wide logo preference. The URL setting survives browser refreshes,
 # and session state makes it consistent across every page and matchup.
+brand_col, settings_col = st.columns([8, 1.8], gap="small", vertical_alignment="center")
+with brand_col:
+    st.title("🏀 Courtside")
+    st.caption("College Basketball Analytics · 2026–27")
+with settings_col:
+    settings_panel = st.popover("⚙ Settings", use_container_width=True)
 def _persist_logo_preference():
     st.query_params["logos"] = "1" if st.session_state["courtside_logos_enabled"] else "0"
 
 if "courtside_logos_enabled" not in st.session_state:
     st.session_state["courtside_logos_enabled"] = str(st.query_params.get("logos", "1")).lower() not in ("0", "false", "off")
-st.sidebar.toggle(
+settings_panel.toggle(
     "Show team logos", key="courtside_logos_enabled",
     on_change=_persist_logo_preference,
     help="Uses externally hosted ESPN team logos when available; otherwise shows team initials. School marks belong to their respective rights holders."
 )
-st.title("🏀 Courtside")
-st.caption("College Basketball Analytics · 2026–27")
+
 sections=["Home","Games","Rankings","Teams","Conferences","Tournament","Schedule strength","Record strength","Model Lab"]
 if st.session_state.get('courtside_requested_page') in sections:
     st.session_state['courtside_page'] = st.session_state.pop('courtside_requested_page')
@@ -571,24 +578,24 @@ with st.container(key='courtside_desktop_division'):
                 st.session_state["courtside_division"] = div_label
                 st.rerun()
 league = st.session_state["courtside_division"]
-st.sidebar.subheader("Game time zone")
-selected_timezone = st.sidebar.selectbox("Show tipoff times in", ["Eastern", "Central", "Mountain", "Pacific", "Arizona"], key="courtside_timezone", index=1)
-st.sidebar.caption("All dates used for schedule filtering remain Eastern; displayed game times use your choice.")
-st.sidebar.subheader("Season coverage")
+settings_panel.subheader("Game time zone")
+selected_timezone = settings_panel.selectbox("Show tipoff times in", ["Eastern", "Central", "Mountain", "Pacific", "Arizona"], key="courtside_timezone", index=1)
+settings_panel.caption("All dates used for schedule filtering remain Eastern; displayed game times use your choice.")
+settings_panel.subheader("Season coverage")
 # Season-wide analysis pages must not silently inherit a short game window.
 season_wide_pages = {"Schedule strength", "Record strength", "Conferences", "Teams", "Tournament"}
 today = date.today()
 if selected_section in season_wide_pages:
     period = "Full season (Nov–Apr)"
     first, last = START, END
-    st.sidebar.info("Full-season schedule coverage is used automatically for this page.")
+    settings_panel.info("Full-season schedule coverage is used automatically for this page.")
 elif selected_section == "Games":
-    st.sidebar.markdown("#### Game calendar")
+    settings_panel.markdown("#### Game calendar")
     if "cs_calendar_anchor" not in st.session_state:
         st.session_state["cs_calendar_anchor"] = min(END, max(START, today))
-    anchor = st.sidebar.date_input("Browse date (Eastern)", min_value=START, max_value=END, key="cs_calendar_anchor")
-    period = st.sidebar.selectbox("Show games for", ["Selected day", "Selected week", "Selected month", "Next 14 days", "Full season (Nov–Apr)"], key="cs_calendar_span")
-    a, b, c = st.sidebar.columns(3)
+    anchor = settings_panel.date_input("Browse date (Eastern)", min_value=START, max_value=END, key="cs_calendar_anchor")
+    period = settings_panel.selectbox("Show games for", ["Selected day", "Selected week", "Selected month", "Next 14 days", "Full season (Nov–Apr)"], key="cs_calendar_span")
+    a, b, c = settings_panel.columns(3)
     step = 1 if period == "Selected day" else (7 if period == "Selected week" else 30)
     def move_calendar(days):
         current = st.session_state["cs_calendar_anchor"]
@@ -607,9 +614,9 @@ elif selected_section == "Games":
         last = min(END, (first.replace(year=first.year + 1, month=1) if first.month == 12 else first.replace(month=first.month + 1)) - timedelta(days=1))
     elif period == "Next 14 days": first, last = anchor, min(END, anchor + timedelta(days=13))
     else: first, last = START, END
-    st.sidebar.caption(f"Showing {first:%b %d, %Y} – {last:%b %d, %Y} (ET)")
+    settings_panel.caption(f"Showing {first:%b %d, %Y} – {last:%b %d, %Y} (ET)")
 else:
-    period = st.sidebar.selectbox("Load schedules for", ["Next 14 days", "November 2026", "November–December", "January–February", "March–April", "Full season (Nov–Apr)"], index=0)
+    period = settings_panel.selectbox("Load schedules for", ["Next 14 days", "November 2026", "November–December", "January–February", "March–April", "Full season (Nov–Apr)"], index=0)
     windows = {"Next 14 days": (max(START, today), min(END, max(START, today) + timedelta(days=13))),
                "November 2026": (START, date(2026, 11, 30)),
                "Full season (Nov–Apr)": (START, END),
@@ -617,8 +624,8 @@ else:
                "January–February": (date(2027, 1, 1), date(2027, 2, 28)),
                "March–April": (date(2027, 3, 1), END)}
     first, last = windows[period]
-st.sidebar.caption(f"Tipoff times displayed in {selected_timezone} time; game times and schedules may change.")
-if st.sidebar.button("🔄 Refresh schedule now", use_container_width=True):
+settings_panel.caption(f"Tipoff times displayed in {selected_timezone} time; game times and schedules may change.")
+if settings_panel.button("🔄 Refresh schedule now", use_container_width=True):
     retrieve_day.clear()
     st.rerun()
 
@@ -675,10 +682,10 @@ for side in ("Away", "Home"):
 if conference_error:
     st.warning("Conference membership could not be loaded: " + conference_error[:200])
 else:
-    st.sidebar.caption(f"Conference membership lookup: {len(memberships)} mapped teams across {len(conference_names)} conferences; {conf_failures} group lookups failed.")
+    settings_panel.caption(f"Conference membership lookup: {len(memberships)} mapped teams across {len(conference_names)} conferences; {conf_failures} group lookups failed.")
 if not directory.empty:
     mapped = int(directory["Team ID"].astype(str).isin(memberships).sum())
-    st.sidebar.caption(f"Directory coverage: {mapped} of {len(directory)} listed teams have verified conference membership from ESPN's season group list.")
+    settings_panel.caption(f"Directory coverage: {mapped} of {len(directory)} listed teams have verified conference membership from ESPN's season group list.")
 
 unique_teams = sorted(set(games["Away"]).union(games["Home"]))
 verified_d1_ids = set(map(str, memberships.keys()))
@@ -693,9 +700,9 @@ if archived_teams is not None:
         st.session_state[f"teams_{SPORTS[league]}"] = archived_teams.copy()
         st.session_state[f"ratings_{SPORTS[league]}"] = archived_teams.set_index('Team ID')['Current power'].to_dict()
         st.session_state[f"saved_snapshot_{SPORTS[league]}"] = archive_identity
-    st.sidebar.caption(f"Saved power ratings: {archived_meta.get('snapshot_date', 'unknown')} (experimental)")
+    settings_panel.caption(f"Saved power ratings: {archived_meta.get('snapshot_date', 'unknown')} (experimental)")
 else:
-    st.sidebar.caption('Saved daily power ratings not collected yet; calculate in Model Lab if needed.')
+    settings_panel.caption('Saved daily power ratings not collected yet; calculate in Model Lab if needed.')
 ratings_for_schedule = st.session_state.get(f"ratings_{SPORTS[league]}", {})
 team_ratings = st.session_state.get(f"teams_{SPORTS[league]}")
 conference_ratings = st.session_state.get(f"conferences_{SPORTS[league]}")
@@ -720,7 +727,7 @@ if selected_section in roster_rating_pages and isinstance(team_ratings, pd.DataF
         _prior_rosters, _current_rosters, _player_totals, _archive_status = load_saved_data(SPORTS[league])
         preliminary_ratings = _v130_measure('Roster adjustments', _cached_preliminary_ratings, team_ratings, _prior_rosters, _current_rosters, _player_totals)
     except Exception as exc:
-        st.sidebar.caption(f'Experimental roster ratings unavailable: {str(exc)[:90]}')
+        settings_panel.caption(f'Experimental roster ratings unavailable: {str(exc)[:90]}')
 
 # Summaries derived from the saved/current team rating table.
 if isinstance(team_ratings, pd.DataFrame) and not team_ratings.empty:
@@ -1776,7 +1783,7 @@ st.caption("Data: ESPN unofficial public scoreboard feed. Historical ratings are
 
 # Optional server-side diagnostics. Values measure this Streamlit rerun only,
 # including cache waits, not browser painting or client network latency.
-with st.sidebar.expander("Page performance · V130", expanded=False):
+with settings_panel.expander("Page performance · V130", expanded=False):
     st.caption("Server-side timings for this page run. First loads can be slower than cached visits.")
     for _label, _seconds in sorted(_v130_timings.items(), key=lambda item: -item[1]):
         st.write(f"{_label}: {_seconds:.2f} s")
