@@ -3,7 +3,6 @@ from __future__ import annotations
 import json
 from math import erf, sqrt
 import streamlit as st
-import streamlit.components.v1 as components
 from tournament_resume_v139 import opening_round_slots
 from tournament_brackets import _seeding_order
 
@@ -101,4 +100,5 @@ function region(r){const wrap=document.createElement('section');wrap.className='
 data.regions.forEach(r=>document.getElementById('regions').appendChild(region(r)));
 data.opening.forEach(g=>{let el=document.createElement('div');el.className='open-game';el.appendChild(match(g.a,g.b,g.p));document.getElementById('opening').appendChild(el)});
 </script></body></html>"""
+    import streamlit.components.v1 as components
     components.html(markup.replace("__DATA__", data),height=2100,scrolling=True)
