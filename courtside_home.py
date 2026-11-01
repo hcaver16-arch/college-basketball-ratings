@@ -1,6 +1,7 @@
 """Light-themed Courtside home components. No new data source or model calculation."""
 from __future__ import annotations
 import html
+from contextlib import nullcontext
 import pandas as pd
 import streamlit as st
 
@@ -113,6 +114,29 @@ def featured_choice(upcoming, ratings, d1_ids):
     shortlist['_interesting']=shortlist.apply(value,axis=1)
     return shortlist.sort_values('_interesting',ascending=False).iloc[0]
 
+def select_home_games(visible, ratings, top25_names, mode="Featured"):
+    """Prioritize competitive rated games on busy days; retain final scores in All."""
+    if visible.empty:
+        return visible.copy()
+    candidates = visible.copy()
+    candidates["_game_order"] = range(len(candidates))
+    def interest(row):
+        hid, aid = str(row["Home ID"]), str(row["Away ID"])
+        if hid in ratings and aid in ratings and row["Status"] == "Scheduled":
+            margin = ratings[hid] - ratings[aid] + (0 if row["Venue"] == "Neutral" else 3)
+            return abs(margin)
+        return float("inf")
+    candidates["_margin_abs"] = candidates.apply(interest, axis=1)
+    candidates["_top25"] = candidates["Home"].astype(str).isin(top25_names) | candidates["Away"].astype(str).isin(top25_names)
+    if mode == "Top 25":
+        candidates = candidates[candidates["_top25"]]
+    elif mode == "Closest":
+        candidates = candidates[candidates["_margin_abs"] != float("inf")]
+    if mode in ("Featured", "Top 25", "Closest"):
+        candidates = candidates.sort_values(["_top25", "_margin_abs", "_game_order"], ascending=[False, True, True]) if mode == "Featured" else candidates.sort_values(["_margin_abs", "_game_order"])
+    return candidates.drop(columns=["_game_order", "_margin_abs", "_top25"])
+
+
 def render_home(games, ratings, team_ratings, d1_ids, league, window):
     time_zone = st.session_state.get("courtside_timezone", "Central")
     today=pd.Timestamp.now(tz='America/New_York').date()
@@ -140,9 +164,24 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
 
     home_main, home_side = st.columns([1.65, 1], gap='large')
     with home_main:
+        top25_names = set()
+        if isinstance(team_ratings, pd.DataFrame) and {"Team", "Current power"}.issubset(team_ratings.columns):
+            top25_names = set(team_ratings.sort_values("Current power", ascending=False).head(25)["Team"].astype(str))
+        busy = len(visible) > 30
+        mode = "Featured"
+        if busy:
+            mode = st.radio("Homepage games", ["Featured", "Top 25", "Closest", "All"], horizontal=True,
+                            key="cs170_game_filter", label_visibility="collapsed")
+        home_display = select_home_games(visible, ratings, top25_names, mode) if busy else visible.copy()
+        if busy and mode == "Featured":
+            home_display = home_display.head(12)
+        elif busy and mode != "All":
+            home_display = home_display.head(25)
         st.markdown('<div class="cs169-games-title">Today’s matchups</div>', unsafe_allow_html=True)
-        with st.container(height=260,border=True):
-            for ix, row in visible.reset_index(drop=True).iterrows():
+        if home_display.empty:
+            st.caption("No games match this filter. Choose All to see the complete schedule.")
+        with (st.container(height=320,border=True) if len(visible) > 5 else nullcontext()):
+            for ix, row in home_display.reset_index(drop=True).iterrows():
                 home,away=str(row['Home']),str(row['Away'])
                 h_id,a_id=str(row['Home ID']),str(row['Away ID'])
                 d1=h_id in d1_ids and a_id in d1_ids
@@ -159,7 +198,14 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
                         st.session_state['courtside_selected_game']=str(row['Game ID'])
                         st.session_state['courtside_requested_page']='Games'
                         st.rerun()
-                st.divider()
+                if ix < len(home_display) - 1:
+                    st.divider()
+        if len(visible) > 5:
+            if busy:
+                st.caption(f"Showing {len(home_display)} of {len(visible)} games · Choose All for the full day.")
+            if st.button("View complete schedule →", key="cs170_all_games"):
+                st.session_state["courtside_requested_page"] = "Games"
+                st.rerun()
         scheduled=visible[visible['Status']=='Scheduled']
         featured=featured_choice(scheduled,ratings,d1_ids)
         if featured is not None:
@@ -212,21 +258,27 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
         else:
             st.markdown('#### Power rankings')
             st.info('Power rankings will appear when saved ratings are available.')
-        st.markdown('<div class="court-section-head"><h3>Matchup highlights</h3><span>Closest projected games</span></div>',unsafe_allow_html=True)
-        if not d1_visible.empty:
-            rated=d1_visible[d1_visible['Home ID'].astype(str).isin(ratings)&d1_visible['Away ID'].astype(str).isin(ratings)]
-            scores=[]
-            for _,g in rated[rated['Status']=='Scheduled'].iterrows():
-                m=ratings[str(g['Home ID'])]-ratings[str(g['Away ID'])]+(0 if g['Venue']=='Neutral' else 3)
-                scores.append((abs(m),str(g['Away']),str(g['Home'])))
-            if scores:
-                parts=[]
-                for closeness,away,home in sorted(scores)[:3]:
-                    parts.append('<div class="court-highlight-card">'
-                                 '<div class="court-highlight-label">CLOSE MATCHUP</div>'
-                                 f'<div class="court-highlight-team">{html.escape(away)} <span>at</span> {html.escape(home)}</div>'
-                                 f'<div class="court-highlight-margin">Projected margin <strong>{closeness:.1f} pts</strong></div>'
-                                 '</div>')
-                st.markdown('<div class="court-highlights">'+''.join(parts)+'</div>',unsafe_allow_html=True)
-            else:st.caption('Highlights will appear as D1 games are scheduled and rated.')
-        else:st.caption('No verified D1 matchups are available on the displayed date.')
+        # Avoid repeating the featured game or today's games in Highlights.
+        # Only use later dates already loaded from the selected schedule window.
+        later = games[(games["Date"] > str(today)) &
+                      (games["Date"] <= str(today + pd.Timedelta(days=7))) &
+                      (games["Status"] == "Scheduled")]
+        upcoming = later[later["Home ID"].astype(str).isin(d1_ids) &
+                         later["Away ID"].astype(str).isin(d1_ids)]
+        highlight_scores = []
+        for _, game in upcoming.iterrows():
+            hid, aid = str(game["Home ID"]), str(game["Away ID"])
+            if hid not in ratings or aid not in ratings:
+                continue
+            margin = ratings[hid] - ratings[aid] + (0 if game["Venue"] == "Neutral" else 3)
+            highlight_scores.append((abs(margin), str(game["Date"]), str(game["Away"]), str(game["Home"])))
+        if highlight_scores:
+            st.markdown('<div class="court-section-head"><h3>Coming up</h3><span>Closest games · Next 7 days</span></div>', unsafe_allow_html=True)
+            parts = []
+            for closeness, game_date, away, home in sorted(highlight_scores)[:3]:
+                parts.append('<div class="court-highlight-card">'
+                             f'<div class="court-highlight-label">{html.escape(game_date)}</div>'
+                             f'<div class="court-highlight-team">{html.escape(away)} <span>at</span> {html.escape(home)}</div>'
+                             f'<div class="court-highlight-margin">Projected margin <strong>{closeness:.1f} pts</strong></div>'
+                             '</div>')
+            st.markdown('<div class="court-highlights">' + ''.join(parts) + '</div>', unsafe_allow_html=True)
