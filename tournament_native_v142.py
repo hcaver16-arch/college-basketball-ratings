@@ -30,6 +30,9 @@ def render_native_bracket(field, league="Men's"):
             st.caption(f"{team['conference']} · {team['bid']} · {team['basis']}")
     else:
         st.info("Select a real team from the region bracket below to view its résumé here.")
+    from tournament_advancement_v152 import render_advancement
+    with st.expander("Tournament advancement probabilities",expanded=True):
+        render_advancement(data)
     assignments=assign_pod_sites(data) if league=="Men's" else None
     render_full_overview(data, league, assignments)
     if assignments is not None:
