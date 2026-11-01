@@ -2,6 +2,7 @@
 from __future__ import annotations
 import streamlit as st
 from tournament_ui_v140 import bracket_payload
+from tournament_full_v144 import render_full_overview
 
 REGION_NAMES=("East","West","South","Midwest")
 
@@ -27,6 +28,8 @@ def render_native_bracket(field):
             st.caption(f"{team['conference']} · {team['bid']} · {team['basis']}")
     else:
         st.info("Select a real team from the region bracket below to view its résumé here.")
+    render_full_overview(data)
+    st.markdown("### Expand a region · Clickable team details")
     names=[r["name"] for r in data["regions"]]
     region_name=st.radio("Region",names,horizontal=True,key="v142_region")
     region=next(r for r in data["regions"] if r["name"]==region_name)
