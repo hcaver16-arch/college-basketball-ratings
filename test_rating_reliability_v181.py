@@ -23,6 +23,7 @@ assert set(normalized["Team ID"])==set(reference["Team ID"])
 pd.testing.assert_frame_equal(reference, normalized)
 
 mixed=base.copy()
+mixed[['Home ID','Away ID']] = mixed[['Home ID','Away ID']].astype(object)
 mixed.loc[0,"Home ID"]=int(mixed.loc[0,"Home ID"])
 mixed.loc[1,"Away ID"]=int(mixed.loc[1,"Away ID"])
 mixed_result,_=calculate_power(mixed)
