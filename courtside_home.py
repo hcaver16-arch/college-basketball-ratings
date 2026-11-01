@@ -79,10 +79,10 @@ def style():
     .cs160-stat strong {display:block;color:#153560;font-size:1.03rem;line-height:1.25;overflow-wrap:anywhere;}
     @media(max-width:700px){.cs160-tip{max-width:65px;}.cs160-stat strong{font-size:.9rem;}}
     /* V161: restore a restrained branded header without hiding the games. */
-    .cs161-home-header {background:linear-gradient(110deg,#16366e,#1758ac 65%,#0aa99f);border-radius:13px;padding:12px 18px;color:#fff;margin:0 0 7px;box-shadow:0 3px 13px rgba(24,68,138,.09);}
-    .cs161-eyebrow {color:#b8f5ef;font-size:.61rem;font-weight:800;letter-spacing:.12em;}
+    .cs161-home-header {background:linear-gradient(110deg,#12306a,#1b469d 72%,#1e78b5);border-radius:12px;padding:12px 18px;color:#fff;margin:0 0 7px;box-shadow:0 3px 10px rgba(20,50,95,.08);border:1px solid rgba(255,255,255,.08);}
+    .cs161-eyebrow {color:#c7daf8;font-size:.61rem;font-weight:800;letter-spacing:.12em;}
     .cs161-header-title {font-size:1.35rem;font-weight:800;letter-spacing:-.025em;line-height:1.28;margin:2px 0;}
-    .cs161-header-sub {font-size:.75rem;color:#e6f2ff;}
+    .cs161-header-sub {font-size:.75rem;color:#e6f0ff;}
     .cs160-feature-title {margin:0 0 5px !important;}
     .court-section-head {margin:0 0 10px !important;min-height:28px;align-items:center;}
     .court-section-head h3 {font-size:1.12rem !important;}
