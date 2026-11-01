@@ -103,6 +103,15 @@ def style():
     .cs171-upcoming strong {font-size:.91rem;color:#203b63;overflow-wrap:anywhere;}
     .cs171-upcoming strong span {color:#71859e;font-weight:450;}
     .cs171-upcoming-note {font-size:.76rem;color:#637894;}
+    /* V174: make completed results the primary game-card content. */
+    .cs174-final-card {border-left:4px solid #2054c5;padding:3px 0 5px 11px;}
+    .cs174-final-status {display:inline-block;background:#173c83;color:white;font-weight:800;font-size:.64rem;letter-spacing:.09em;padding:3px 9px;border-radius:5px;}
+    .cs174-scoreline {display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:7px;}
+    .cs174-scoreline strong {font-size:1.5rem;color:#142d57;white-space:nowrap;}
+    .cs174-team {font-size:.88rem;color:#62758f;font-weight:650;}
+    .cs174-winner {color:#153b79;font-weight:850;}
+    .cs174-final-winner {font-size:.75rem;font-weight:700;color:#0a8077;margin-top:2px;}
+    @media(max-width:700px){.cs174-scoreline{gap:7px;}.cs174-scoreline strong{font-size:1.25rem;}}
     </style>''',unsafe_allow_html=True)
 
 def featured_choice(upcoming, ratings, d1_ids):
@@ -194,15 +203,23 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
                 if d1 and h_id in ratings and a_id in ratings and row['Status']=='Scheduled':
                     m=ratings[h_id]-ratings[a_id]+(0 if row['Venue']=='Neutral' else 3)
                     proj=f"{home if m>=0 else away} -{abs(m):.1f}"
-                final_score = None
-                if row["Status"] == "Final" and pd.notna(row.get("Away score")) and pd.notna(row.get("Home score")):
-                    away_score, home_score = int(row["Away score"]), int(row["Home score"])
-                    winner = away if away_score > home_score else home if home_score > away_score else "Tied"
-                    final_score = f"FINAL · {away} {away_score} – {home} {home_score} · Winner: {winner}"
+                is_final = row["Status"] == "Final" and pd.notna(row.get("Away score")) and pd.notna(row.get("Home score"))
                 color=color_for(home)
                 x,y=st.columns([4,1.5],vertical_alignment='center')
                 with x:
-                    st.markdown(f'<div style="border-left:4px solid {color};padding-left:11px"><b>{html.escape(away)} @ {html.escape(home)}</b><br><span style="color:#64748B;font-size:12px">{html.escape(str(row.get("Display time",row["Time (ET)"])))}  · {html.escape(str(row["Status"]))} · {"D1 vs D1" if d1 else "Other matchup"}</span><br><span style="font-size:13px">{html.escape(final_score) if final_score else ("Model: "+html.escape(proj) if proj else "No D1 model line")}</span></div>',unsafe_allow_html=True)
+                    if is_final:
+                        away_score, home_score = int(row["Away score"]), int(row["Home score"])
+                        winner = away if away_score > home_score else home if home_score > away_score else "Tie"
+                        st.markdown(
+                            '<div class="cs174-final-card">'
+                            '<span class="cs174-final-status">FINAL</span>'
+                            f'<div class="cs174-scoreline"><span class="cs174-team {"cs174-winner" if away_score > home_score else ""}">{html.escape(away)}</span>'
+                            f'<strong>{away_score} – {home_score}</strong>'
+                            f'<span class="cs174-team {"cs174-winner" if home_score > away_score else ""}">{html.escape(home)}</span></div>'
+                            f'<div class="cs174-final-winner">{html.escape(winner)} {"wins" if winner != "Tie" else ""}</div>'
+                            '</div>', unsafe_allow_html=True)
+                    else:
+                        st.markdown(f'<div style="border-left:4px solid {color};padding-left:11px"><b>{html.escape(away)} @ {html.escape(home)}</b><br><span style="color:#64748B;font-size:12px">{html.escape(str(row.get("Display time",row["Time (ET)"])))} · {html.escape(str(row["Status"]))} · {"D1 vs D1" if d1 else "Other matchup"}</span><br><span style="font-size:13px">{"Model: "+html.escape(proj) if proj else "No D1 model line"}</span></div>',unsafe_allow_html=True)
                 with y:
                     if st.button('Details →',key=f'court_game_{row["Game ID"]}_{ix}',use_container_width=True):
                         st.session_state['courtside_selected_game']=str(row['Game ID'])
