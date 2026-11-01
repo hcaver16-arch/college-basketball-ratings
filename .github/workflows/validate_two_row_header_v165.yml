@@ -1,0 +1,23 @@
+name: Validate V165 two-row header
+on:
+  pull_request:
+    paths:
+      - app.py
+      - test_two_row_header_v165.py
+      - .github/workflows/validate_two_row_header_v165.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m py_compile app.py
+      - run: python test_two_row_header_v165.py
+      - run: python test_header_alignment_v162.py
+      - run: python test_nav_alignment_v163.py
+      - run: python test_compact_nav_v159.py
