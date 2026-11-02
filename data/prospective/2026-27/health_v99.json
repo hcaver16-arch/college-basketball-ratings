@@ -1,47 +1,40 @@
 {
   "version": 99,
   "season": "2026-27",
-  "checked_at_utc": "2026-11-02T13:50:03+00:00",
+  "checked_at_utc": "2026-11-02T19:35:20+00:00",
   "status": "critical",
   "divisions": {
     "mens": {
       "status": "critical",
       "games_seen": 239,
-      "upcoming_12h": 142,
-      "upcoming_3h": 6,
+      "upcoming_12h": 171,
+      "upcoming_3h": 5,
       "official_forecasts_total": 194,
-      "final_results_total": 4,
+      "final_results_total": 11,
       "issues": [
         {
-          "severity": "warning",
-          "code": "MISSING_UPCOMING_FORECASTS",
-          "message": "14 games within 12 hours lack a locked official forecast",
-          "count": 14,
+          "severity": "critical",
+          "code": "MISSING_IMMINENT_FORECASTS",
+          "message": "1 games within three hours lack a locked official forecast",
+          "count": 1,
           "examples": [
-            "North American Stallions @ Nicholls Colonels",
-            "Carnegie Mellon Tartans @ Princeton Tigers",
-            "Southeastern Baptist Chargers @ West Florida Argonauts",
-            "Rhode Island College Anchormen @ UAlbany Great Danes",
-            "Saint Vincent Bearcats @ Delaware State Hornets",
-            "Coast Guard Bears @ Sacred Heart Pioneers",
-            "Bridgewater Eagles @ William & Mary Tribe",
-            "Berry Vikings @ Samford Bulldogs"
+            "Carnegie Mellon Tartans @ Princeton Tigers"
           ]
         },
         {
           "severity": "critical",
           "code": "UNKNOWN_RATED_TEAMS",
-          "message": "14 imminent games reference teams absent from saved ratings",
-          "count": 14,
+          "message": "15 imminent games reference teams absent from saved ratings",
+          "count": 15,
           "examples": [
-            "North American Stallions @ Nicholls Colonels",
             "Carnegie Mellon Tartans @ Princeton Tigers",
             "Southeastern Baptist Chargers @ West Florida Argonauts",
             "Rhode Island College Anchormen @ UAlbany Great Danes",
             "Saint Vincent Bearcats @ Delaware State Hornets",
             "Coast Guard Bears @ Sacred Heart Pioneers",
             "Bridgewater Eagles @ William & Mary Tribe",
-            "Berry Vikings @ Samford Bulldogs"
+            "Berry Vikings @ Samford Bulldogs",
+            "IU Kokomo Cougars @ Evansville Purple Aces"
           ]
         }
       ]
@@ -49,35 +42,36 @@
     "womens": {
       "status": "critical",
       "games_seen": 242,
-      "upcoming_12h": 155,
-      "upcoming_3h": 11,
+      "upcoming_12h": 133,
+      "upcoming_3h": 20,
       "official_forecasts_total": 178,
-      "final_results_total": 1,
+      "final_results_total": 14,
       "issues": [
         {
           "severity": "critical",
           "code": "MISSING_IMMINENT_FORECASTS",
-          "message": "2 games within three hours lack a locked official forecast",
-          "count": 2,
+          "message": "3 games within three hours lack a locked official forecast",
+          "count": 3,
           "examples": [
-            "Michigan Dearborn Wolves @ Detroit Mercy Titans",
-            "Dominican (NY) Chargers @ Iona Gaels"
+            "Chowan Hawks @ William & Mary Tribe",
+            "Elms Blazers @ Yale Bulldogs",
+            "MIT Engineers @ Bryant Bulldogs"
           ]
         },
         {
           "severity": "critical",
           "code": "UNKNOWN_RATED_TEAMS",
-          "message": "22 imminent games reference teams absent from saved ratings",
-          "count": 22,
+          "message": "17 imminent games reference teams absent from saved ratings",
+          "count": 17,
           "examples": [
-            "Michigan Dearborn Wolves @ Detroit Mercy Titans",
-            "Dominican (NY) Chargers @ Iona Gaels",
-            "Mississippi Christian Choctaws @ Southern Miss Lady Eagles",
-            "Baker BAKER @ Kansas City Roos",
-            "Black Hills State Yellow Jackets @ Montana State Bobcats",
             "Chowan Hawks @ William & Mary Tribe",
             "Elms Blazers @ Yale Bulldogs",
-            "MIT Engineers @ Bryant Bulldogs"
+            "MIT Engineers @ Bryant Bulldogs",
+            "Mitchell Mariners @ New Haven Chargers",
+            "Keene State Owls @ Vermont Catamounts",
+            "St. Thomas Aquinas Spartans @ Army Black Knights",
+            "Hiram Terriers @ Youngstown State Penguins",
+            "Newman Jets @ North Texas Mean Green"
           ]
         }
       ]
