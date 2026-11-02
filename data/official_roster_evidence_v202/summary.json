@@ -1,7 +1,7 @@
 {
-  "checked_utc": "2026-11-02T20:34:06.592705+00:00",
+  "checked_utc": "2026-11-02T20:37:57.503361+00:00",
   "division": "mens-college-basketball",
-  "source": "Official 2025-26 school athletics roster listings + ESPN 2025-26 box scores and season-labeled roster snapshots",
+  "source": "Official 2025-26 and 2026-27 school athletics roster listings + ESPN 2025-26 box scores and season-labeled roster snapshots",
   "limitation": "Sources were checked retrospectively; not proof of pre-November-2026 availability, season-complete ESPN membership, or NCAA eligibility.",
   "model_changed": false,
   "teams": [
@@ -19,6 +19,13 @@
       "ambiguous_matches": 0,
       "eligible_in_existing_model": "Not changed by this audit",
       "source_url": "https://utepminers.com/sports/mens-basketball/roster/2025-26",
+      "current_official_roster_players": 15,
+      "current_official_names_confirmed_by_espn_current_roster": 15,
+      "documented_returning_players": 0,
+      "candidate_returning_minutes_pct": 0.0,
+      "independent_evidence_candidate_eligible": true,
+      "independent_evidence_notes": "Retrospective comparison, subject to manual review; not automatically an experimental model input.",
+      "current_roster_source_url": "https://utepminers.com/sports/mens-basketball/roster",
       "existing_model_roster_adjustment": null,
       "existing_model_eligible": false
     },
@@ -36,6 +43,13 @@
       "ambiguous_matches": 0,
       "eligible_in_existing_model": "Not changed by this audit",
       "source_url": "https://nkunorse.com/roster.aspx?path=mbball&season=2025-26",
+      "current_official_roster_players": 13,
+      "current_official_names_confirmed_by_espn_current_roster": 13,
+      "documented_returning_players": 4,
+      "candidate_returning_minutes_pct": null,
+      "independent_evidence_candidate_eligible": false,
+      "independent_evidence_notes": "Retrospective comparison, subject to manual review; not automatically an experimental model input.",
+      "current_roster_source_url": "https://nkunorse.com/sports/mbball/roster",
       "existing_model_roster_adjustment": null,
       "existing_model_eligible": false
     }
