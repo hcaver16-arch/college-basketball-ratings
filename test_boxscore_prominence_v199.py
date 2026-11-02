@@ -12,6 +12,14 @@ eff=Path("efficiency_ui.py").read_text()
 for content in (profile,raw,eff): ast.parse(content)
 assert 'st.markdown(_boxscore_overview_markup(raw_stats)' in profile
 assert profile.index('_boxscore_overview_markup(raw_stats)') < profile.index("st.markdown('#### Next matchup')")
+# V200: box-score strip should appear before the large snapshot/trend/recent panels.
+overview_start=profile.index('with tabs[0]:')
+box_strip=profile.index('st.markdown(_boxscore_overview_markup(raw_stats)',overview_start)
+panels=profile.index('snapshot_col,trend_col,recent_col=st.columns(',overview_start)
+next_matchup=profile.index("st.markdown('#### Next matchup')",overview_start)
+assert overview_start < box_strip < panels < next_matchup
+assert 'cs198_rating_graph' in profile
+
 assert 'st.line_chart(' in profile  # V198 history remains
 assert "['Overview','Schedule','Statistics','Roster','Ratings']" in profile
 assert "title == 'Box-score averages'" in eff

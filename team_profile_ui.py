@@ -137,23 +137,23 @@ def render_team_profile(*, team, team_id, league, sport, ratings, games, prelimi
     .cs198-header-label{color:#617792;font-size:.69rem;font-weight:650}
     .cs198-header-value{color:#19437b;font-size:1.05rem;font-weight:850;overflow-wrap:anywhere;line-height:1.35}
     .cs198-section{font-size:.88rem;color:#193a6a;font-weight:800;margin:3px 0 10px}
-    .cs198-snapshot{border:1px solid #dbe6f3;border-radius:12px;background:#fff;padding:12px 13px;min-height:255px}
+    .cs198-snapshot{border:1px solid #dbe6f3;border-radius:12px;background:#fff;padding:12px 13px;min-height:220px}
     .cs198-snapshot-row{display:flex;align-items:center;justify-content:space-between;gap:9px;padding:7px 0;border-bottom:1px solid #edf1f6;font-size:.77rem}
     .cs198-snapshot-row:last-child{border-bottom:0}
     .cs198-snapshot-row strong{color:#193e74;font-size:.84rem;white-space:nowrap}
-    .cs198-recent{border:1px solid #dbe6f3;border-radius:12px;background:#fff;padding:12px 13px;min-height:255px}
+    .cs198-recent{border:1px solid #dbe6f3;border-radius:12px;background:#fff;padding:12px 13px;min-height:220px}
     .cs198-recent-line{display:flex;justify-content:space-between;gap:8px;border-bottom:1px solid #edf1f6;padding:7px 0;font-size:.77rem}
     .cs198-recent-line strong{color:#153d70}
     .cs198-trend-title{display:flex;justify-content:space-between;gap:8px;font-size:.88rem;font-weight:800;color:#193a6a}
     .cs198-trend-delta{font-size:.74rem;font-weight:800;color:#0c7772}
     .cs198-trend-note{font-size:.72rem;color:#637a98;margin-top:5px}
-    .st-key-cs198_rating_graph{border:1px solid #dbe6f3;border-radius:12px;background:#fff;padding:10px 12px 7px;min-height:255px}
+    .st-key-cs198_rating_graph{border:1px solid #dbe6f3;border-radius:12px;background:#fff;padding:10px 12px 7px;min-height:220px}
     .st-key-cs198_rating_graph [data-testid="stVegaLiteChart"]{margin-top:-5px}
     .cs198-next{background:#eff5fd;border-radius:8px;padding:9px 10px;margin-top:10px}
     @media(max-width:850px){.cs198-header-stats{grid-template-columns:repeat(3,minmax(0,1fr))}}
     @media(max-width:500px){.cs198-header-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.cs198-header-kpi{padding:7px}}
     /* V199: dedicated, prominent season box-score average strip. */
-    .cs199-stat-heading{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:16px 0 8px}
+    .cs199-stat-heading{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:2px 0 8px}
     .cs199-stat-heading strong{color:#193b71;font-size:1rem;font-weight:850}
     .cs199-stat-heading span{color:#6c7e96;font-size:.76rem}
     .cs199-box-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px;margin-bottom:8px}
@@ -233,6 +233,28 @@ def render_team_profile(*, team, team_id, league, sport, ratings, games, prelimi
     tabs=st.tabs(['Overview','Schedule','Statistics','Roster','Ratings'])
     history=_history_rows(history_loader(sport,str(team_id)))
     with tabs[0]:
+        # V200: headline completed-game averages immediately below Overview tabs.
+        boxscore_count = int(raw_stats.get('boxscore_games',0)) if isinstance(raw_stats,dict) else 0
+        available_final_count = int(raw_stats.get('eligible_final_games',0)) if isinstance(raw_stats,dict) else len(finals)
+        st.markdown(
+            '<div class="cs199-stat-heading"><strong>Box-score averages</strong>'
+            '<span>Current season · Completed games</span></div>',
+            unsafe_allow_html=True
+        )
+        st.markdown(_boxscore_overview_markup(raw_stats),unsafe_allow_html=True)
+        if boxscore_count:
+            st.markdown(
+                f'<div class="cs199-box-foot">Based on {boxscore_count} available ESPN '
+                f'box scores from {available_final_count} loaded final games. '
+                'Individual metrics are hidden if their sample is incomplete. '
+                'Additional shooting and efficiency figures are in Statistics.</div>',
+                unsafe_allow_html=True
+            )
+        else:
+            st.caption(
+                "Verified box-score averages are not available yet. These tiles fill "
+                "as completed ESPN game box scores are collected."
+            )
         # V198: balanced three-column Overview with the saved trend front and center.
         snapshot_col,trend_col,recent_col=st.columns([1.10,1.65,1.10],gap="small")
         with snapshot_col:
@@ -258,7 +280,7 @@ def render_team_profile(*, team, team_id, league, sport, ratings, games, prelimi
                     st.caption(f"{change:+.2f} since first saved snapshot · {len(valid)} dated snapshots")
                     st.line_chart(
                         valid.set_index('Snapshot date')[['Current power']],
-                        use_container_width=True,height=190
+                        use_container_width=True,height=165
                     )
                     if abs(change)<0.05:
                         st.caption("Rating is essentially unchanged across the available dates.")
@@ -288,28 +310,6 @@ def render_team_profile(*, team, team_id, league, sport, ratings, games, prelimi
                 )
             rows.append('</div>')
             st.markdown(''.join(rows),unsafe_allow_html=True)
-        # V199: keep real box-score averages visible without opening Statistics.
-        boxscore_count = int(raw_stats.get('boxscore_games',0)) if isinstance(raw_stats,dict) else 0
-        available_final_count = int(raw_stats.get('eligible_final_games',0)) if isinstance(raw_stats,dict) else len(finals)
-        st.markdown(
-            '<div class="cs199-stat-heading"><strong>Box-score averages</strong>'
-            '<span>Current season · Completed games</span></div>',
-            unsafe_allow_html=True
-        )
-        st.markdown(_boxscore_overview_markup(raw_stats),unsafe_allow_html=True)
-        if boxscore_count:
-            st.markdown(
-                f'<div class="cs199-box-foot">Based on {boxscore_count} available ESPN '
-                f'box scores from {available_final_count} loaded final games. '
-                'Individual metrics are hidden if their sample is incomplete. '
-                'Additional shooting and efficiency figures are in Statistics.</div>',
-                unsafe_allow_html=True
-            )
-        else:
-            st.caption(
-                "Verified box-score averages are not available yet. These tiles fill "
-                "as completed ESPN game box scores are collected."
-            )
         st.markdown('#### Next matchup')
         upcoming=(tg[tg['Status'].astype(str).str.lower().eq('scheduled')].sort_values('Date')
                   if not tg.empty and 'Status' in tg else pd.DataFrame())
