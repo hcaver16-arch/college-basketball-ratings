@@ -171,8 +171,9 @@ def _subset(df,team_id):
     if not isinstance(df,pd.DataFrame) or df.empty:return pd.DataFrame()
     return df.loc[df["Team ID"].astype(str).eq(str(team_id))].copy()
 
-def perform(sources, fetcher=fetch_official, now=None):
+def perform(sources, fetcher=None, now=None):
     """Fetch both seasons per team; if one fails do not upgrade that team."""
+    fetcher = fetcher or fetch_official
     now=now or datetime.now(timezone.utc)
     checked=now.isoformat()
     audit=[];previous=[];current=[]
