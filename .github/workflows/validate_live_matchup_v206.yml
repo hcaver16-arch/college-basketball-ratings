@@ -1,0 +1,35 @@
+name: V206 live matchup score and archived forecast validation
+on:
+  push:
+    branches:
+      - courtside-v206-live-matchup-scoreboard
+    paths:
+      - app.py
+      - matchup_analysis.py
+      - live_matchup_v206.py
+      - test_live_matchup_v206.py
+      - .github/workflows/validate_live_matchup_v206.yml
+  pull_request:
+    paths:
+      - app.py
+      - matchup_analysis.py
+      - live_matchup_v206.py
+      - test_live_matchup_v206.py
+      - .github/workflows/validate_live_matchup_v206.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install 'pandas>=2.1,<3'
+      - name: Validate parsing, live phase display and immutable V97 forecast reading
+        run: |
+          python -m py_compile app.py matchup_analysis.py live_matchup_v206.py test_live_matchup_v206.py
+          python test_live_matchup_v206.py
