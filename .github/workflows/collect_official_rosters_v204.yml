@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - courtside-v204-d1-official-roster-coverage
+      - courtside-v205-opponent-coverage-forecast-readiness
     paths:
       - collect_official_rosters_v204.py
       - backfill_roster_stats_v204.py
