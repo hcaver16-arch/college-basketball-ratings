@@ -151,7 +151,7 @@ if __name__=='__main__':
     parser.add_argument('--team-ids',default='',help='Comma-separated ESPN team IDs for a source-safe targeted refresh')
     args=parser.parse_args()
     team_ids=[x.strip() for x in args.team_ids.split(',') if x.strip()]
-    if team_ids and args.batch<len(team_ids]:
+    if team_ids and args.batch < len(team_ids):
         parser.error('--batch must be at least the number of --team-ids')
     for sport in (['mens-college-basketball','womens-college-basketball'] if args.sport=='both' else [args.sport]):
         run(sport,args.batch,repair_only=args.repair_only,team_ids=team_ids)
