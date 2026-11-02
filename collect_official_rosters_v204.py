@@ -18,7 +18,7 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 
-from archive_roster_batch import directory as espn_directory, read
+from archive_roster_batch import directory as espn_directory
 from priority_schedule import upcoming_d1_ids
 from official_roster_reconcile_v202 import normalized_name, reconcile
 from independent_roster_prospective_v203 import candidates, truth
@@ -208,9 +208,11 @@ def _ensure_rows(rows):
 
 def _match(official,previous,current,stats):
     if official.empty:return pd.DataFrame()
-    try:return reconcile(official,previous,current,stats)
-    except ValueError:
-        return pd.DataFrame()
+    frames=[]
+    for tid,school in official.groupby("Team ID"):
+        try: frames.append(reconcile(school,previous,current,stats))
+        except ValueError: continue
+    return pd.concat(frames,ignore_index=True) if frames else pd.DataFrame()
 
 def _fallback(records,base,excluded):
     """Carry forward V202 source-backed records for skipped teams, with original checked dates."""
@@ -243,21 +245,45 @@ def run(root=ROOT,limit=26,now=None,remote=True):
     for item in selected:item["Priority upcoming"]=item["Team ID"] in priority_ids
     audit,old_rows,new_rows=perform(selected,now=now)
     old=_ensure_rows(old_rows);current=_ensure_rows(new_rows)
-    success_ids=set(old["Team ID"].astype(str))
-    prev_rosters=read("previous_rosters",SPORT)
-    curr_rosters=read("current_rosters",SPORT)
-    stats=read("previous_stats",SPORT)
+    # A structured roster page is necessary but not sufficient: insist that
+    # both seasons independently corroborate multiple unique ESPN athletes.
+    def archive(kind):
+        path=root/"data"/f"{SPORT}_{kind}.csv.gz"
+        return pd.read_csv(path,dtype={"Team ID":str,"Player ID":str}) if path.is_file() else pd.DataFrame()
+    prev_rosters=archive("previous_rosters")
+    curr_rosters=archive("current_rosters")
+    stats=archive("previous_stats")
+    verified_ids=set()
+    fresh_old_links=[]
+    fresh_current_links=[]
+    for tid in sorted(set(old["Team ID"].astype(str)) & set(current["Team ID"].astype(str))):
+        o=_match(_subset(old,tid),prev_rosters,curr_rosters,stats)
+        c=_match(_subset(current,tid),prev_rosters,curr_rosters,stats)
+        past_count=int(o["Matched ESPN prior box scores"].map(truth).sum()) if not o.empty else 0
+        present_count=int(c["Matched ESPN current roster"].map(truth).sum()) if not c.empty else 0
+        if past_count>=MIN_MATCHED_ESPN and present_count>=MIN_MATCHED_ESPN:
+            verified_ids.add(tid)
+            fresh_old_links.append(o)
+            fresh_current_links.append(c)
+        else:
+            for rec in audit:
+                if rec["team_id"]==tid:
+                    rec["status"]="parsed_but_insufficient_independent_id_matches"
+                    rec["prior_espn_matches"]=past_count
+                    rec["current_espn_matches"]=present_count
+    old=old[old["Team ID"].isin(verified_ids)]
+    current=current[current["Team ID"].isin(verified_ids)]
+    old_links=pd.concat(fresh_old_links,ignore_index=True) if fresh_old_links else pd.DataFrame()
+    curr_links=pd.concat(fresh_current_links,ignore_index=True) if fresh_current_links else pd.DataFrame()
     legacy=root/"data/official_roster_evidence_v202"
     # Backfill only when no current official source succeeded for a previously
     # reviewed team. Never forge a successful fresh fetch.
-    old=_fallback(old,legacy/"mens_2025_26_school_rosters.csv",success_ids)
-    current=_fallback(current,legacy/"mens_2026_27_school_rosters.csv",success_ids)
+    old=_fallback(old,legacy/"mens_2025_26_school_rosters.csv",verified_ids)
+    current=_fallback(current,legacy/"mens_2026_27_school_rosters.csv",verified_ids)
     # Saved V202 team-specific mapping is preserved only when its official page
     # was not replaced by a newly parsed successful source, with original checked dates.
-    old_links=_match(old[old["Team ID"].isin(success_ids)],prev_rosters,curr_rosters,stats)
-    curr_links=_match(current[current["Team ID"].isin(success_ids)],prev_rosters,curr_rosters,stats)
-    old_links=_fallback_links(old_links,legacy/"linked_players.csv",success_ids)
-    curr_links=_fallback_links(curr_links,legacy/"linked_current_players.csv",success_ids)
+    old_links=_fallback_links(old_links,legacy/"linked_players.csv",verified_ids)
+    curr_links=_fallback_links(curr_links,legacy/"linked_current_players.csv",verified_ids)
     if old_links.empty or curr_links.empty:
         status="no_independent_both_season_coverage"
         qualifications={}
@@ -281,6 +307,7 @@ def run(root=ROOT,limit=26,now=None,remote=True):
         "status":status,"target_count":len(selected),"manifest_count":len(manifest),
         "upcoming_target_count":sum(bool(x["Priority upcoming"]) for x in selected),
         "source_pages_parsed":sum(r["status"]=="official_pages_parsed" for r in audit),
+        "both_season_independently_reconciled":len(verified_ids),
         "source_review_needed":sum(r["status"]!="official_pages_parsed" for r in audit),
         "source_schedule_errors":priority_errors,
         "qualified_team_count":sum(bool(q["qualified"]) for q in qualifications.values()),
