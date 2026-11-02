@@ -180,7 +180,7 @@ def run(root=ROOT,now=None,event_fetch=get_day,membership_fetch=ratings_membersh
         if not 300<=len(verified)<=450:
             issues.append(sport+": invalid verified membership size")
             continue
-        source_days={now.date()+timedelta(days=i) for i in range(4)}
+        source_days={now.astimezone(ZoneInfo("America/New_York")).date()+timedelta(days=i) for i in range(4)}
         # Resolve previous results for each explicitly locked game date. Do
         # not create or grade games that were never locked before tipoff.
         for row in previous:
