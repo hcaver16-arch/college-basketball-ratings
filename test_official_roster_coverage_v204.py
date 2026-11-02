@@ -16,7 +16,7 @@ def page(year,names):
         for i,name in enumerate(names)
     )+"""</div><div id="staff"><p>Coaching Staff</p></div></body></html>"""
 
-names=[f"First{i} Family{i}" for i in range(1,10)]
+names=["Abel Stone","Ben Harper","Caleb Rivers","Daniel Foster","Ethan Carter","Frank Mitchell","Gabe Turner","Henry Morris","Isaac Brooks"]
 valid,err=v.extract_roster_players(page("2025-26",names),2026)
 assert not err and len(valid)==9
 assert "Head Coach" not in valid
