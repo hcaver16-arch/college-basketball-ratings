@@ -1,33 +1,47 @@
 {
   "version": 99,
   "season": "2026-27",
-  "checked_at_utc": "2026-11-02T08:00:44+00:00",
+  "checked_at_utc": "2026-11-02T13:50:03+00:00",
   "status": "critical",
   "divisions": {
     "mens": {
       "status": "critical",
       "games_seen": 239,
-      "upcoming_12h": 11,
-      "upcoming_3h": 1,
-      "official_forecasts_total": 168,
-      "final_results_total": 1,
+      "upcoming_12h": 142,
+      "upcoming_3h": 6,
+      "official_forecasts_total": 194,
+      "final_results_total": 4,
       "issues": [
         {
           "severity": "warning",
           "code": "MISSING_UPCOMING_FORECASTS",
-          "message": "1 games within 12 hours lack a locked official forecast",
-          "count": 1,
+          "message": "14 games within 12 hours lack a locked official forecast",
+          "count": 14,
           "examples": [
-            "North American Stallions @ Nicholls Colonels"
+            "North American Stallions @ Nicholls Colonels",
+            "Carnegie Mellon Tartans @ Princeton Tigers",
+            "Southeastern Baptist Chargers @ West Florida Argonauts",
+            "Rhode Island College Anchormen @ UAlbany Great Danes",
+            "Saint Vincent Bearcats @ Delaware State Hornets",
+            "Coast Guard Bears @ Sacred Heart Pioneers",
+            "Bridgewater Eagles @ William & Mary Tribe",
+            "Berry Vikings @ Samford Bulldogs"
           ]
         },
         {
           "severity": "critical",
           "code": "UNKNOWN_RATED_TEAMS",
-          "message": "1 imminent games reference teams absent from saved ratings",
-          "count": 1,
+          "message": "14 imminent games reference teams absent from saved ratings",
+          "count": 14,
           "examples": [
-            "North American Stallions @ Nicholls Colonels"
+            "North American Stallions @ Nicholls Colonels",
+            "Carnegie Mellon Tartans @ Princeton Tigers",
+            "Southeastern Baptist Chargers @ West Florida Argonauts",
+            "Rhode Island College Anchormen @ UAlbany Great Danes",
+            "Saint Vincent Bearcats @ Delaware State Hornets",
+            "Coast Guard Bears @ Sacred Heart Pioneers",
+            "Bridgewater Eagles @ William & Mary Tribe",
+            "Berry Vikings @ Samford Bulldogs"
           ]
         }
       ]
@@ -35,44 +49,35 @@
     "womens": {
       "status": "critical",
       "games_seen": 242,
-      "upcoming_12h": 31,
-      "upcoming_3h": 0,
-      "official_forecasts_total": 143,
-      "final_results_total": 0,
+      "upcoming_12h": 155,
+      "upcoming_3h": 11,
+      "official_forecasts_total": 178,
+      "final_results_total": 1,
       "issues": [
         {
-          "severity": "warning",
-          "code": "MISSING_UPCOMING_FORECASTS",
-          "message": "5 games within 12 hours lack a locked official forecast",
-          "count": 5,
+          "severity": "critical",
+          "code": "MISSING_IMMINENT_FORECASTS",
+          "message": "2 games within three hours lack a locked official forecast",
+          "count": 2,
           "examples": [
             "Michigan Dearborn Wolves @ Detroit Mercy Titans",
-            "Dominican (NY) Chargers @ Iona Gaels",
-            "Mississippi Christian Choctaws @ Southern Miss Lady Eagles",
-            "Baker BAKER @ Kansas City Roos",
-            "Black Hills State Yellow Jackets @ Montana State Bobcats"
-          ]
-        },
-        {
-          "severity": "warning",
-          "code": "MISSING_FINAL_RESULTS",
-          "message": "1 ESPN-final games with locked forecasts lack archived results (8h+ since start)",
-          "count": 1,
-          "examples": [
-            "401920983"
+            "Dominican (NY) Chargers @ Iona Gaels"
           ]
         },
         {
           "severity": "critical",
           "code": "UNKNOWN_RATED_TEAMS",
-          "message": "5 imminent games reference teams absent from saved ratings",
-          "count": 5,
+          "message": "22 imminent games reference teams absent from saved ratings",
+          "count": 22,
           "examples": [
             "Michigan Dearborn Wolves @ Detroit Mercy Titans",
             "Dominican (NY) Chargers @ Iona Gaels",
             "Mississippi Christian Choctaws @ Southern Miss Lady Eagles",
             "Baker BAKER @ Kansas City Roos",
-            "Black Hills State Yellow Jackets @ Montana State Bobcats"
+            "Black Hills State Yellow Jackets @ Montana State Bobcats",
+            "Chowan Hawks @ William & Mary Tribe",
+            "Elms Blazers @ Yale Bulldogs",
+            "MIT Engineers @ Bryant Bulldogs"
           ]
         }
       ]
