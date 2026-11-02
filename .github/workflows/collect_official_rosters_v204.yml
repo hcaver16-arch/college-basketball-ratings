@@ -1,0 +1,60 @@
+name: V204 verify official Division I roster sources
+on:
+  push:
+    branches:
+      - courtside-v204-d1-official-roster-coverage
+    paths:
+      - collect_official_rosters_v204.py
+      - test_official_roster_coverage_v204.py
+      - independent_roster_prospective_v203.py
+      - data/official_roster_evidence_v204/source_manifest.csv
+      - .github/workflows/collect_official_rosters_v204.yml
+  pull_request:
+    paths:
+      - collect_official_rosters_v204.py
+      - test_official_roster_coverage_v204.py
+      - independent_roster_prospective_v203.py
+      - data/official_roster_evidence_v204/source_manifest.csv
+      - .github/workflows/collect_official_rosters_v204.yml
+  workflow_dispatch:
+  schedule:
+    - cron: '35 9 * * 1,4'
+permissions:
+  contents: write
+concurrency:
+  group: courtside-v204-official-roster-collection
+  cancel-in-progress: false
+jobs:
+  collect-and-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install parser and research dependencies
+        run: pip install 'pandas>=2.1,<3' requests beautifulsoup4
+      - name: Test source parser, quality gates, V203 research compatibility and chronology
+        run: |
+          python -m py_compile collect_official_rosters_v204.py independent_roster_prospective_v203.py
+          python test_official_roster_coverage_v204.py
+          python test_independent_roster_prospective_v203.py
+      - name: Collect 26 curated official school roster pairs, upcoming games first
+        if: github.event_name != 'pull_request'
+        run: |
+          python collect_official_rosters_v204.py --limit 26
+          cat data/official_roster_evidence_v204/summary.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Save new source-backed audit to branch; never touch predictions
+        if: github.event_name != 'pull_request'
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- data/official_roster_evidence_v204/
+          if ! git diff --cached --quiet; then
+            git commit -m 'V204: refresh independent official-school roster coverage and source audit'
+            git push
+          fi
