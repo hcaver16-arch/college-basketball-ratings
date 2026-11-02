@@ -206,6 +206,63 @@ def lock_pairs(baselines, existing, adjustments, snapshot, now, season=SEASON,
     return created,dict(skipped)
 
 
+def matchup_readiness(baselines, adjustments, evidence_time, now, lead_minutes=30):
+    """Explain research sample bottlenecks without creating late predictions.
+
+    Uses *only* previously locked official baseline forecasts. These counts
+    are diagnostics, not new forecasts or claims about schedule completeness.
+    """
+    counters = Counter()
+    missing = {}
+    seen = set()
+    for f in baselines:
+        if f.get("division") != "mens" or f.get("model_id") != "official_saved_v97":
+            continue
+        gid = str(f.get("game_id") or "")
+        if not gid or gid in seen:
+            continue
+        seen.add(gid)
+        tip = utc(f.get("game_start_utc"))
+        created = utc(f.get("forecast_created_utc"))
+        if tip is None or tip <= now:
+            continue
+        counters["upcoming_locked_mens_baselines"] += 1
+        h, a = str(f.get("home_id") or ""), str(f.get("away_id") or "")
+        qualified = int(h in adjustments) + int(a in adjustments)
+        if qualified == 0:
+            counters["neither_team_qualified"] += 1
+        elif qualified == 1:
+            counters["exactly_one_team_qualified"] += 1
+            tid = a if h in adjustments else h
+            if tid:
+                entry = missing.setdefault(tid, {
+                    "team_id": tid, "team": f.get("away_team") if h in adjustments else f.get("home_team"),
+                    "upcoming_one_sided_games": 0
+                })
+                entry["upcoming_one_sided_games"] += 1
+        else:
+            counters["both_teams_qualified"] += 1
+            if not created or not evidence_time or created < evidence_time:
+                counters["both_but_first_baseline_predates_verified_evidence"] += 1
+            elif now >= tip-timedelta(minutes=lead_minutes):
+                counters["both_but_tipoff_too_close"] += 1
+            elif now-created > timedelta(minutes=60):
+                counters["both_but_first_baseline_not_fresh"] += 1
+            else:
+                counters["both_with_contemporaneous_baseline"] += 1
+    counters["upcoming_opponents_missing_qualification"] = len(missing)
+    return {
+        "source": "V97 first official pregame forecast journal, future start times only",
+        "counts": dict(counters),
+        "opponents_to_prioritize": sorted(
+            missing.values(),
+            key=lambda r: (-r["upcoming_one_sided_games"], r["team"])
+        )[:30],
+        "note": "Unqualified opponents are priorities for independent verification, not automatic exemptions. "
+                "Archived baselines that predate evidence cannot be used for V203 pairing.",
+    }
+
+
 def run(root:Path, now:datetime, season=SEASON,min_lead_minutes=30):
     if min_lead_minutes < 30:raise ValueError("Minimum pregame lead must be >=30 minutes")
     directory=root/"data"/"prospective"/season
@@ -239,6 +296,7 @@ def run(root:Path, now:datetime, season=SEASON,min_lead_minutes=30):
         "new_pairs":len(additions),"total_pairs":len(all_pairs),
         "skipped":skip,
         "paired_results":evaluate(all_pairs,scores,min_lead_minutes),
+        "matchup_readiness":matchup_readiness(baselines,signals,snapshot["created"] if snapshot else None,now,min_lead_minutes),
         "limitations":[
             "Only baseline forecasts made after the official/ESPN evidence verification can be paired",
             "Both teams must have >=8 official previous-season players, >=90% valid prior-player totals and exact current IDs",

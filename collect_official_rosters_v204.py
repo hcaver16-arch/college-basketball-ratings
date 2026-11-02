@@ -21,7 +21,8 @@ from bs4 import BeautifulSoup
 from archive_roster_batch import directory as espn_directory
 from priority_schedule import upcoming_d1_ids
 from official_roster_reconcile_v202 import normalized_name, reconcile
-from independent_roster_prospective_v203 import candidates, truth
+from independent_roster_prospective_v203 import candidates, truth, matchup_readiness
+from prospective_roster_eval_v109 import rows as locked_forecast_rows
 
 SPORT = "mens-college-basketball"
 ROOT = Path(__file__).resolve().parent
@@ -302,11 +303,12 @@ def run(root=ROOT,limit=26,now=None,remote=True):
     curr_links=_fallback_links(curr_links,legacy/"linked_current_players.csv",verified_ids)
     if old_links.empty or curr_links.empty:
         status="no_independent_both_season_coverage"
+        adjustments={}
         qualifications={}
     else:
         # Reuse exactly V203's gating, not newly invented eligibility rules.
         snap={"previous":old_links,"current":curr_links,"stats":stats}
-        _,qualifications=candidates(snap)
+        adjustments,qualifications=candidates(snap)
         status="research_only_not_deployed"
     for r in audit:
         q=qualifications.get(r["team_id"])
@@ -328,6 +330,10 @@ def run(root=ROOT,limit=26,now=None,remote=True):
         "source_schedule_errors":priority_errors,
         "qualified_team_count":sum(bool(q["qualified"]) for q in qualifications.values()),
         "qualifications":qualifications,
+        "matchup_readiness":matchup_readiness(
+            locked_forecast_rows(root/"data/prospective/2026-27/forecasts.csv"),
+            adjustments,now,now
+        ),
         "teams":audit,
         "limitations":[
             "ESPN team directory and scheduled games only choose priority; they do not prove independent school roster membership.",

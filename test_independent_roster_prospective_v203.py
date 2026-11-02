@@ -137,4 +137,25 @@ with TemporaryDirectory() as tmp:
     assert "94" not in signals
     assert "prior_player_stats_below_90pct" in reasons["94"]["blocked_reasons"]
 
+# V205: readiness counts only future *locked* baselines, and prioritizes
+# opposite teams without treating them as qualified research inputs.
+from independent_roster_prospective_v203 import matchup_readiness
+research_time=dt("2026-11-03T14:00:00Z")
+source_time=dt("2026-11-02T20:40:48Z")
+one_sided=baseline("one","2638","unqualified")
+two_sided=baseline("two","2638","94")
+already_past=baseline("past","2638","94",start="2026-11-03T12:00:00Z")
+ready=matchup_readiness([one_sided,two_sided,already_past],
+                         {"2638":-2.5,"94":2.5},source_time,research_time)
+counts=ready["counts"]
+assert counts["upcoming_locked_mens_baselines"]==2
+assert counts["exactly_one_team_qualified"]==1
+assert counts["both_teams_qualified"]==1
+assert counts["both_with_contemporaneous_baseline"]==1
+assert ready["opponents_to_prioritize"][0]["team_id"]=="unqualified"
+before_verified=baseline("old","2638","94",created="2026-11-02T18:00:00Z")
+unready=matchup_readiness([before_verified],
+                           {"2638":-2.5,"94":2.5},source_time,research_time)
+assert unready["counts"]["both_but_first_baseline_predates_verified_evidence"]==1
+
 print("V203 locks, evidence quality, one-sided rejection and result grading passed")
