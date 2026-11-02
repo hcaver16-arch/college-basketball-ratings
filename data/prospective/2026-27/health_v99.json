@@ -1,26 +1,36 @@
 {
   "version": 99,
   "season": "2026-27",
-  "checked_at_utc": "2026-11-01T19:22:14+00:00",
-  "status": "ok",
+  "checked_at_utc": "2026-11-02T01:46:34+00:00",
+  "status": "warning",
   "divisions": {
     "mens": {
       "status": "ok",
       "games_seen": 213,
-      "upcoming_12h": 1,
+      "upcoming_12h": 3,
       "upcoming_3h": 0,
       "official_forecasts_total": 168,
       "final_results_total": 1,
       "issues": []
     },
     "womens": {
-      "status": "ok",
+      "status": "warning",
       "games_seen": 206,
       "upcoming_12h": 0,
       "upcoming_3h": 0,
       "official_forecasts_total": 143,
       "final_results_total": 0,
-      "issues": []
+      "issues": [
+        {
+          "severity": "warning",
+          "code": "MISSING_FINAL_RESULTS",
+          "message": "1 ESPN-final games with locked forecasts lack archived results (8h+ since start)",
+          "count": 1,
+          "examples": [
+            "401920983"
+          ]
+        }
+      ]
     }
   },
   "scoreboard_fetch_errors": [],
