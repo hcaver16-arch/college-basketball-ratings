@@ -69,7 +69,7 @@ def parse_final(event):
             "Venue":"Neutral" if competition.get("neutralSite") is True else "Home"}
 
 
-def ratings_membership(sport):
+def ratings_membership(sport, season=2026):
     """Official ESPN D1 group membership, NOT the power-rating table.
 
     The rating snapshot can include non-D1 opponents because the exploratory
@@ -77,7 +77,7 @@ def ratings_membership(sport):
     would incorrectly exclude every cross-division result.
     """
     base=(f"https://sports.core.api.espn.com/v2/sports/basketball/leagues/"
-          f"{sport}/seasons/2026/types/2")
+          f"{sport}/seasons/{season}/types/2")
     session=requests.Session()
     session.headers.update(HEADERS)
     def page_items(url):
