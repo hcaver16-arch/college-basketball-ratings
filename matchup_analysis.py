@@ -241,11 +241,20 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
     st.caption("SOS/SOR may cover only the currently loaded schedule. Provisional ranks must not be interpreted as official NCAA rankings.")
 
     # V100: use the same pregame raw box-score data for the concise preview and detail.
-    cs_away_stats = team_raw_stats(games,aid,league,before=game.get('Date'))
-    cs_home_stats = team_raw_stats(games,hid,league,before=game.get('Date'))
+    # A finished game may contribute to its own postgame summary. Upcoming and
+    # live previews still exclude the current date to prevent future leakage.
+    is_completed = str(game.get("Status")) == "Final"
+    matchup_date = pd.to_datetime(game.get("Date"), errors="coerce")
+    if is_completed and pd.notna(matchup_date):
+        stat_cutoff = str((matchup_date + pd.Timedelta(days=1)).date())
+    else:
+        stat_cutoff = game.get("Date")
+    cs_away_stats = team_raw_stats(games,aid,league,before=stat_cutoff)
+    cs_home_stats = team_raw_stats(games,hid,league,before=stat_cutoff)
     render_matchup_preview(away,home,away_stats=cs_away_stats,home_stats=cs_home_stats)
     with st.expander("Offense, defense & matchup statistics", expanded=False):
-        render_matchup_stats(away,home,away_stats=cs_away_stats,home_stats=cs_home_stats)
+        render_matchup_stats(away,home,away_stats=cs_away_stats,home_stats=cs_home_stats,
+                             postgame=is_completed)
 
     has_recent = bool(_recent(games,aid) or _recent(games,hid))
     with st.expander("Recent results — last five loaded final games" + ("" if has_recent else " (not yet available)"),expanded=False):
