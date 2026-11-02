@@ -919,9 +919,17 @@ if selected_section == "Home":
     _v175_live_home(games, ratings_for_schedule, team_ratings, verified_d1_ids, league, period, selected_timezone)
 
 if selected_section == "Rankings":
-    render_rankings(team_ratings, preliminary_ratings, league, verified_d1_ids)
+    # V194: distinguish Courtside's model ratings from independent AP/Coaches polls.
     from published_polls_v137 import render_polls
-    render_polls(league, team_ratings)
+    power_tab, ap_tab, coaches_tab = st.tabs(
+        ["Courtside Power", "AP Top 25", "Coaches Poll"]
+    )
+    with power_tab:
+        render_rankings(team_ratings, preliminary_ratings, league, verified_d1_ids)
+    with ap_tab:
+        render_polls(league, team_ratings, poll_choice="AP Top 25")
+    with coaches_tab:
+        render_polls(league, team_ratings, poll_choice="Coaches Poll")
 
 if selected_section == "Model Lab":
     from opening_game_monitor_v133 import render_opening_game_monitor_v133
