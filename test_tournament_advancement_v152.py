@@ -29,5 +29,6 @@ for stage,n in zip(STAGES,(64,32,16,8,4,2,1)):
 assert math.isclose(win_probability(5,5),.5)
 assert all(0<=prob<=1 for row in p.values() for prob in row.values())
 assert math.isclose(p["Open0A"]["Win championship"],p["Open0B"]["Win championship"])
-assert "render_advancement(data)" in Path("tournament_native_v142.py").read_text()
+assert "render_advancement(payload)" in Path("bracketology_v138.py").read_text()
+assert "advancement_probabilities(data)" in Path("tournament_native_v142.py").read_text()
 print("V152 advancement probability invariants passed")
