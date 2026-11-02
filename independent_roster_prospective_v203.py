@@ -73,7 +73,7 @@ def load_evidence(root: Path, now: datetime, max_age_days: int = 240):
         if not required.issubset(previous.columns) or not required.issubset(current.columns):
             return None, "Incomplete linked roster evidence schema"
         for frame in (previous,current):
-            if frame["Team ID"].astype(str).eq("").any() or frame["ESPN Player ID"].astype(str).duplicated().all() and len(frame)>1:
+            if frame["Team ID"].astype(str).eq("").any():
                 return None, "Malformed player IDs in roster source"
         # Evidence source fingerprint; future changes create a new provenance marker.
         digest = hashlib.sha256()
@@ -164,7 +164,8 @@ def lock_pairs(baselines, existing, adjustments, snapshot, now, season=SEASON,
         baseline_time=utc(f.get("forecast_created_utc"))
         rating_time=utc(f.get("ratings_snapshot_utc"))
         if not tip or not baseline_time or not rating_time or not (
-            snapshot["created"]<=rating_time<=baseline_time<=now<tip-timedelta(minutes=min_lead_minutes)
+            rating_time<=baseline_time<=now<tip-timedelta(minutes=min_lead_minutes)
+            and snapshot["created"]<=baseline_time
         ):
             skipped["invalid_evidence_or_pregame_timing"]+=1
             continue
