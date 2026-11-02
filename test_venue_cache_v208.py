@@ -7,6 +7,7 @@ in the live ESPN scoreboard but cached processed rows rendered
 from pathlib import Path
 import ast
 import pandas as pd
+from datetime import date
 from game_location_v207 import game_location_from_espn, UNKNOWN_LOCATION
 from live_matchup_v206 import espn_progress
 
@@ -52,6 +53,7 @@ event = {
 # Use app's exact parser without importing/launching Streamlit.
 env = {
     "pd": pd,
+    "date": date,
     "safe_name": lambda t: t.get("displayName") or t.get("name") or "Unknown",
     "broadcast_names": lambda e,c: "Not announced",
     "game_location_from_espn": game_location_from_espn,
