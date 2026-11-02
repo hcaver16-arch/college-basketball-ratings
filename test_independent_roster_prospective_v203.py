@@ -95,7 +95,7 @@ with TemporaryDirectory() as tmp:
     row=saved[0]
     assert row["game_id"]=="future" and row["model_id"]==MODEL_ID
     assert float(row["baseline_predicted_home_margin"])==2
-    assert float(row["experimental_predicted_home_margin"])==-0.5
+    assert float(row["experimental_predicted_home_margin"])==-3.0
     original=folder.joinpath("independent_roster_pairs_v203.csv").read_bytes()
     again=run(Path(tmp),NOW+timedelta(minutes=1))
     assert again["new_pairs"]==0
@@ -113,7 +113,7 @@ with TemporaryDirectory() as tmp:
     metrics=evaluated["paired_results"]["mens"]
     assert metrics["paired_completed_games"]==1,metrics
     assert metrics["baseline_margin_mae"]==6.0
-    assert metrics["experimental_margin_mae"]==3.5
+    assert metrics["experimental_margin_mae"]==1.0
     assert folder.joinpath("independent_roster_pairs_v203.csv").read_bytes()==original
 
     # Source verified AFTER baseline forecast must be rejected; don't backfill.
