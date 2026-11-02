@@ -1,6 +1,7 @@
 """Official 2027 NCAA tournament hosts + explicitly hypothetical regional assignments."""
 from __future__ import annotations
 import pandas as pd
+import re
 import streamlit as st
 from tournament_ui_v140 import bracket_payload
 
@@ -22,49 +23,132 @@ NCAA_MEN="https://www.ncaa.com/mens-final-four/future-info"
 NCAA_WOMEN="https://www.ncaa.com/news/basketball-women/article/2026-05-07/2027-march-madness-womens-ncaa-tournament-schedule-dates-times"
 
 
+def _region_entrants(bracket, region):
+    """All potentially placed teams, including both sides of Opening Round slots."""
+    opening={int(match["game"]):match for match in bracket["opening"]}
+    seen=set()
+    for game in region["games"]:
+        for slot in (game["a"],game["b"]):
+            candidates=[(slot,"Direct projected entrant")]
+            if slot not in bracket["teams"]:
+                match=re.match(r"^Winner OR(\d+):",slot)
+                if match and int(match.group(1)) in opening:
+                    pair=opening[int(match.group(1))]
+                    candidates=[
+                        (pair["a"],f"Opening Round {pair['game']} · contingent"),
+                        (pair["b"],f"Opening Round {pair['game']} · contingent"),
+                    ]
+                else:
+                    candidates=[]
+            for name,status in candidates:
+                if name in bracket["teams"] and name not in seen:
+                    seen.add(name)
+                    yield name,status
+
+
 def projected_region_table(field, league):
+    """Team-linked projected regions; no women's arena placements are invented."""
     bracket=bracket_payload(field)
-    if league=="Men's":
-        rows=[]
-        for region in bracket["regions"]:
+    rows=[]
+    for region in bracket["regions"]:
+        if league=="Men's":
             city,arena,dates=MEN_REGIONS[region["name"]]
-            for game in region["games"]:
-                for team in (game["a"],game["b"]):
-                    # An Opening Round placeholder is not a known team assignment.
-                    if team in bracket["teams"]:
-                        rows.append({"Team":team,"Projected region":region["name"],
-                            "Potential regional city":city,"Venue":arena,
-                            "Official regional dates":dates,"Confidence":"Hypothetical placement"})
-        return pd.DataFrame(rows)
-    # Women's East/West/etc. regions are not tied to individual official
-    # Philadelphia/Las Vegas sites by the current hypothetical bracket.
-    return pd.DataFrame()
+            venue=arena
+            location=city
+        else:
+            location="Regional site not assigned"
+            venue="TBD"
+            dates=""
+        for name,status in _region_entrants(bracket,region):
+            rows.append({
+                "Projected region":region["name"],
+                "Team":name,
+                "Overall order":bracket["teams"][name]["overall"],
+                "Projected location":location,
+                "Venue":venue,
+                "Dates":dates,
+                "Participation":status,
+            })
+    return pd.DataFrame(rows)
+
+
+def projected_first_weekend_teams(field):
+    """Men's hypothetical pod-site assignments with potential Opening Round teams."""
+    from tournament_first_weekend_v151 import assign_pod_sites
+    bracket=bracket_payload(field)
+    assignments=assign_pod_sites(bracket)
+    rows=[]
+    for region in bracket["regions"]:
+        for pod in range(4):
+            site=assignments[(region["name"],pod)]
+            # Include two R64 games per pod; expand Opening Round winner placeholders
+            subset={"games":region["games"][2*pod:2*pod+2]}
+            for name,status in _region_entrants(bracket,subset):
+                rows.append({
+                    "Projected city":site["city"] if site["city"]!="TBD" else "Site TBD",
+                    "Venue":site["venue"],
+                    "Projected region":region["name"],
+                    "Team":name,
+                    "Overall order":bracket["teams"][name]["overall"],
+                    "Participation":status,
+                    "Assignment basis":site["basis"],
+                })
+    return pd.DataFrame(rows)
 
 
 def render_locations(field,league):
-    st.markdown("### Tournament locations · 2027")
-    st.caption("Host cities and venues below are officially scheduled. Team assignments are Courtside scenarios, not NCAA announcements.")
+    st.markdown("#### Projected locations and teams")
+    st.caption(
+        "Teams are placed using Courtside's hypothetical bracket. "
+        "Official NCAA host venues are not confirmations of any projected team assignment. "
+        "Opening Round participants are potential entrants, not guaranteed regional qualifiers."
+    )
+    assignments=projected_region_table(field,league)
+    if assignments.empty:
+        st.info("No projected team-location assignments are available.")
+        return
+    regions=assignments["Projected region"].drop_duplicates().tolist()
+    chosen=st.selectbox("Projected region",["All regions"]+regions,key="cs197_location_region")
+    shown=assignments if chosen=="All regions" else assignments[assignments["Projected region"]==chosen]
+    st.caption(f"{len(shown)} teams listed, including contingent Opening Round participants.")
+    for region in regions:
+        subset=shown[shown["Projected region"]==region].sort_values("Overall order")
+        if subset.empty:
+            continue
+        city=str(subset.iloc[0]["Projected location"])
+        venue=str(subset.iloc[0]["Venue"])
+        dates=str(subset.iloc[0]["Dates"])
+        with st.container(border=True):
+            st.markdown(f"**{region} Region · {city}**")
+            st.caption(
+                (venue + (f" · {dates}" if dates else ""))
+                + " · Hypothetical team assignment"
+            )
+            st.dataframe(
+                subset[["Overall order","Team","Participation"]],
+                hide_index=True,use_container_width=True
+            )
     if league=="Men's":
-        source=NCAA_MEN
-        rows=[{"Region":name,"Host city":city,"Venue":venue,"Dates":dates}
-              for name,(city,venue,dates) in MEN_REGIONS.items()]
-        st.markdown("**Official regional venues**")
-        st.dataframe(pd.DataFrame(rows),hide_index=True,use_container_width=True)
-        st.markdown("**Projected team-to-region assignments**")
-        st.info("These are based on Courtside's current illustrative four-region bracket. They are not independent geography-optimized projections. NCAA geography, protected seeds, rematch restrictions, and committee bracketing may change every assignment.")
-        assignments=projected_region_table(field,league)
-        if not assignments.empty:
-            st.dataframe(assignments,hide_index=True,use_container_width=True)
-        from tournament_geography_v146 import render_geographic_sites
-        render_geographic_sites(field)
-        st.markdown("**Official first- and second-round hosts**")
-        st.dataframe(pd.DataFrame(MEN_EARLY,columns=["City","Venue"]),hide_index=True,use_container_width=True)
-        st.caption("First-weekend team assignments: not projected yet. Accurate placement requires verified team-campus coordinates and NCAA bracketing constraints.")
-        st.caption("Opening Round: Dayton, OH (UD Arena) and Wichita, KS (INTRUST Bank Arena). Final Four: Detroit, MI (Ford Field).")
+        with st.expander("Projected first-weekend sites and teams",expanded=False):
+            st.caption(
+                "Four-team pods are assigned to host venues through a limited campus-geography "
+                "scenario; locations may remain TBD. Pairings and site assignments are not NCAA announcements."
+            )
+            first=projected_first_weekend_teams(field)
+            if not first.empty:
+                grouped=first.groupby(["Projected city","Venue"],sort=True,dropna=False)
+                for (city,venue),teams in grouped:
+                    st.markdown(f"**{city} · {venue}**")
+                    st.dataframe(
+                        teams.sort_values("Overall order")[["Projected region","Team","Participation"]],
+                        hide_index=True,use_container_width=True
+                    )
+        st.caption("Opening Round sites and Final Four hosts are not assigned to individual projected teams.")
     else:
-        source=NCAA_WOMEN
-        st.markdown("**Official regional hosts**")
-        st.dataframe(pd.DataFrame(WOMEN_REGIONAL,columns=["City","Venue","Dates"]),hide_index=True,use_container_width=True)
-        st.caption("Opening Round and first/second rounds: campus sites. Projected top-16 hosts and team placements are not available without a validated campus-location and eligibility model.")
-        st.caption("Final Four: Columbus, OH · Nationwide Arena · April 2 & 4.")
-    st.markdown(f"[Official NCAA tournament locations and dates]({source})")
+        st.caption(
+            "Women's regional sites are in Philadelphia and Las Vegas, but this provisional "
+            "four-region bracket has no verified region-to-city mapping. Locations stay unassigned "
+            "instead of guessing team sites."
+        )
+    source=NCAA_MEN if league=="Men's" else NCAA_WOMEN
+    st.markdown(f"[Official NCAA tournament host information]({source})")
