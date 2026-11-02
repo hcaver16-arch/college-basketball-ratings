@@ -1,0 +1,41 @@
+name: V208 ESPN venue source probe
+on:
+  push:
+    branches: [courtside-v208-mens-venue-recovery]
+    paths: [.github/workflows/probe_mens_venues_v208.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compare-espn-feeds:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Compare real ESPN location sources for 2026-11-02
+        run: |
+          python - <<'PY'
+          import json, urllib.request, urllib.parse
+          def get(league, endpoint, **params):
+              url=f'https://site.api.espn.com/apis/site/v2/sports/basketball/{league}/{endpoint}?'+urllib.parse.urlencode(params)
+              req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0','Accept':'application/json'})
+              try:
+                  with urllib.request.urlopen(req,timeout=12) as r:return json.load(r)
+              except Exception as e:
+                  print(type(e).__name__, str(e)[:200])
+                  return {}
+          for league in ('mens-college-basketball','womens-college-basketball'):
+              result=get(league,'scoreboard',dates='20261102',groups='50',limit=500)
+              events=result.get('events') or []
+              filled=[e for e in events if (e.get('competitions') or [{}])[0].get('venue')]
+              print('LEAGUE',league,'EVENTS',len(events),'VENUE IN SCOREBOARD',len(filled))
+              for e in events[:3]:
+                  c=(e.get('competitions') or [{}])[0]
+                  print('SCOREBOARD',e.get('id'),e.get('name'), 'venue=',str(c.get('venue'))[:300])
+                  summary=get(league,'summary',event=e.get('id'))
+                  print('SUMMARY',e.get('id'),'gameInfoVenue=',str((summary.get('gameInfo') or {}).get('venue'))[:400],
+                  'headerCompVenue=',str(((summary.get('header') or {}).get('competitions') or [{}])[0].get('venue'))[:300])
+          PY
