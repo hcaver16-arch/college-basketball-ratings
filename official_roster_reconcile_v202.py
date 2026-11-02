@@ -16,6 +16,7 @@ from prospective_roster import evidence_adjustments
 
 ROOT = Path(__file__).resolve().parent
 INPUT = ROOT / "data/official_roster_evidence_v202/mens_2025_26_school_rosters.csv"
+CURRENT_INPUT = ROOT / "data/official_roster_evidence_v202/mens_2026_27_school_rosters.csv"
 OUTPUT = ROOT / "data/official_roster_evidence_v202"
 SPORT = "mens-college-basketball"
 
@@ -139,16 +140,40 @@ def main():
     prior,current,stats,status=load_saved_data(SPORT)
     official=pd.read_csv(INPUT,dtype={"Team ID":str})
     links=reconcile(official,prior,current,stats)
+    official_current=pd.read_csv(CURRENT_INPUT,dtype={"Team ID":str})
+    current_links=reconcile(official_current,prior,current,stats)
     teams=summarize(links,prior,current,stats)
     baseline=evidence_adjustments(prior,current,stats,set(official["Team ID"].astype(str)))
     for team in teams:
-        team["existing_model_roster_adjustment"]=baseline.get(team["team_id"],{}).get("adjustment")
-        team["existing_model_eligible"]=team["team_id"] in baseline
+        tid=team["team_id"]
+        before=links.loc[links["Team ID"].eq(tid)]
+        after=current_links.loc[current_links["Team ID"].eq(tid)]
+        before_verified=before.loc[before["Matched ESPN prior box scores"] & before["ESPN Player ID"].ne("")]
+        after_verified=after.loc[after["Matched ESPN current roster"] & after["ESPN Player ID"].ne("")]
+        old_ids=set(before_verified["ESPN Player ID"])
+        current_ids=set(after_verified["ESPN Player ID"])
+        returning=old_ids & current_ids
+        sample=stats.loc[stats["Team ID"].astype(str).eq(tid)].copy()
+        sample["Minutes"]=pd.to_numeric(sample.get("Minutes"),errors="coerce")
+        sample=sample.loc[sample["Player ID"].astype(str).isin(old_ids)]
+        total=sample["Minutes"].sum(min_count=1)
+        ret=sample.loc[sample["Player ID"].astype(str).isin(returning),"Minutes"].sum(min_count=1)
+        verified_complete=(len(before)>=8 and len(before_verified)/len(before)>=.90 and len(after_verified)==len(after))
+        team["current_official_roster_players"]=len(after)
+        team["current_official_names_confirmed_by_espn_current_roster"]=len(after_verified)
+        team["documented_returning_players"]=len(returning)
+        team["candidate_returning_minutes_pct"]=round(100*float(ret) / float(total),2) if pd.notna(ret) else 0.0 if verified_complete and pd.notna(total) and total>0 else None
+        team["independent_evidence_candidate_eligible"]=bool(verified_complete)
+        team["independent_evidence_notes"]="Retrospective comparison, subject to manual review; not automatically an experimental model input."
+        team["current_roster_source_url"]=str(after.iloc[0]["Official source URL"]) if not after.empty else ""
+        team["existing_model_roster_adjustment"]=baseline.get(tid,{}).get("adjustment")
+        team["existing_model_eligible"]=tid in baseline
     OUTPUT.mkdir(parents=True,exist_ok=True)
     links.to_csv(OUTPUT/"linked_players.csv",index=False)
+    current_links.to_csv(OUTPUT/"linked_current_players.csv",index=False)
     report={
         "checked_utc":datetime.now(timezone.utc).isoformat(),"division":SPORT,
-        "source":"Official 2025-26 school athletics roster listings + ESPN 2025-26 box scores and season-labeled roster snapshots",
+        "source":"Official 2025-26 and 2026-27 school athletics roster listings + ESPN 2025-26 box scores and season-labeled roster snapshots",
         "limitation":"Sources were checked retrospectively; not proof of pre-November-2026 availability, season-complete ESPN membership, or NCAA eligibility.",
         "model_changed":False,
         "teams":teams
