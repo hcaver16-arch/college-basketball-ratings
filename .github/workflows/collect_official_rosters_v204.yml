@@ -43,17 +43,17 @@ jobs:
           python -m py_compile collect_official_rosters_v204.py backfill_roster_stats_v204.py independent_roster_prospective_v203.py
           python test_official_roster_coverage_v204.py
           python test_independent_roster_prospective_v203.py
-      - name: Backfill actual player game IDs for up to 24 priority teams in resumable groups
+      - name: Backfill actual player game IDs for up to 40 priority teams in resumable groups
         if: github.event_name != 'pull_request'
         run: |
-          for batch in 1 2 3; do
-            echo "### Game-provenance backfill cohort $batch / 3"
+          for batch in 1 2 3 4 5; do
+            echo "### Game-provenance backfill cohort $batch / 5"
             python backfill_roster_stats_v204.py --limit 8
           done
-      - name: Collect 26 curated official school roster pairs, upcoming games first
+      - name: Collect 36 curated official school roster pairs, upcoming games first
         if: github.event_name != 'pull_request'
         run: |
-          python collect_official_rosters_v204.py --limit 26
+          python collect_official_rosters_v204.py --limit 40
           cat data/official_roster_evidence_v204/summary.json >> "$GITHUB_STEP_SUMMARY"
       - name: Save new source-backed audit to branch; never touch predictions
         if: github.event_name != 'pull_request'
