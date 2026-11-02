@@ -1,26 +1,58 @@
 {
   "version": 99,
   "season": "2026-27",
-  "checked_at_utc": "2026-11-02T01:46:34+00:00",
-  "status": "warning",
+  "checked_at_utc": "2026-11-02T08:00:44+00:00",
+  "status": "critical",
   "divisions": {
     "mens": {
-      "status": "ok",
-      "games_seen": 213,
-      "upcoming_12h": 3,
-      "upcoming_3h": 0,
+      "status": "critical",
+      "games_seen": 239,
+      "upcoming_12h": 11,
+      "upcoming_3h": 1,
       "official_forecasts_total": 168,
       "final_results_total": 1,
-      "issues": []
+      "issues": [
+        {
+          "severity": "warning",
+          "code": "MISSING_UPCOMING_FORECASTS",
+          "message": "1 games within 12 hours lack a locked official forecast",
+          "count": 1,
+          "examples": [
+            "North American Stallions @ Nicholls Colonels"
+          ]
+        },
+        {
+          "severity": "critical",
+          "code": "UNKNOWN_RATED_TEAMS",
+          "message": "1 imminent games reference teams absent from saved ratings",
+          "count": 1,
+          "examples": [
+            "North American Stallions @ Nicholls Colonels"
+          ]
+        }
+      ]
     },
     "womens": {
-      "status": "warning",
-      "games_seen": 206,
-      "upcoming_12h": 0,
+      "status": "critical",
+      "games_seen": 242,
+      "upcoming_12h": 31,
       "upcoming_3h": 0,
       "official_forecasts_total": 143,
       "final_results_total": 0,
       "issues": [
+        {
+          "severity": "warning",
+          "code": "MISSING_UPCOMING_FORECASTS",
+          "message": "5 games within 12 hours lack a locked official forecast",
+          "count": 5,
+          "examples": [
+            "Michigan Dearborn Wolves @ Detroit Mercy Titans",
+            "Dominican (NY) Chargers @ Iona Gaels",
+            "Mississippi Christian Choctaws @ Southern Miss Lady Eagles",
+            "Baker BAKER @ Kansas City Roos",
+            "Black Hills State Yellow Jackets @ Montana State Bobcats"
+          ]
+        },
         {
           "severity": "warning",
           "code": "MISSING_FINAL_RESULTS",
@@ -28,6 +60,19 @@
           "count": 1,
           "examples": [
             "401920983"
+          ]
+        },
+        {
+          "severity": "critical",
+          "code": "UNKNOWN_RATED_TEAMS",
+          "message": "5 imminent games reference teams absent from saved ratings",
+          "count": 5,
+          "examples": [
+            "Michigan Dearborn Wolves @ Detroit Mercy Titans",
+            "Dominican (NY) Chargers @ Iona Gaels",
+            "Mississippi Christian Choctaws @ Southern Miss Lady Eagles",
+            "Baker BAKER @ Kansas City Roos",
+            "Black Hills State Yellow Jackets @ Montana State Bobcats"
           ]
         }
       ]
