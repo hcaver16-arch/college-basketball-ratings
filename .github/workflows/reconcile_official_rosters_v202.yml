@@ -5,9 +5,11 @@ on:
       - courtside-v202-official-roster-reconciliation
     paths:
       - player_stats_import.py
+      - roster_reconciliation.py
       - official_roster_reconcile_v202.py
       - test_official_roster_v202.py
       - data/official_roster_evidence_v202/mens_2025_26_school_rosters.csv
+      - data/official_roster_evidence_v202/mens_2026_27_school_rosters.csv
       - .github/workflows/reconcile_official_rosters_v202.yml
   workflow_dispatch:
 permissions:
@@ -51,4 +53,5 @@ jobs:
           path: |
             data/official_roster_evidence_v202/summary.json
             data/official_roster_evidence_v202/linked_players.csv
+            data/official_roster_evidence_v202/linked_current_players.csv
           if-no-files-found: ignore
