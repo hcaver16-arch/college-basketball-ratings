@@ -10,7 +10,7 @@ assert "if targeted:" in source
 assert "selected=schools[schools['Team ID'].astype(str).isin(targeted)].copy()" in source
 assert "selected=select_batch(schools,status,limit" in source
 assert "parser.add_argument('--team-ids'" in source
-assert "if args.batch < len(team_ids):" in source
+assert "if team_ids and args.batch < len(team_ids):" in source
 assert "evidence_adjustments(prev,current,stats,set(TARGETS))" in audit
 assert '"2638":"UTEP Miners"' in audit
 assert '"94":"Northern Kentucky Norse"' in audit
