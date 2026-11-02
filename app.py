@@ -1716,7 +1716,7 @@ if selected_section == "Games":
             portion = shown.iloc[(page-1)*page_size:page*page_size]
             for _, game in portion.iterrows():
                 status = str(game["Status"])
-                with st.container(key=f"cs186_game_{status.lower()}", border=True):
+                with st.container(key=f"cs186_game_{status.lower()}_{game['Game ID']}", border=True):
                     c_game, c_line, c_action = st.columns([5.4, 2.25, 1.45], vertical_alignment="center", gap="small")
                     with c_game:
                         away_record, home_record = game_records(record_schedule, game)
