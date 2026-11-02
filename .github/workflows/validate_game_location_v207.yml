@@ -1,0 +1,34 @@
+name: V207 real arena and city validation
+on:
+  push:
+    branches:
+      - courtside-v207-real-game-locations
+    paths:
+      - app.py
+      - matchup_analysis.py
+      - game_location_v207.py
+      - test_game_location_v207.py
+      - .github/workflows/validate_game_location_v207.yml
+  pull_request:
+    paths:
+      - app.py
+      - matchup_analysis.py
+      - game_location_v207.py
+      - test_game_location_v207.py
+      - .github/workflows/validate_game_location_v207.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Check game location extraction and unchanged home-court model metadata
+        run: |
+          python -m py_compile app.py matchup_analysis.py game_location_v207.py test_game_location_v207.py
+          python test_game_location_v207.py
