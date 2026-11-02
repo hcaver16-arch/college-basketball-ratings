@@ -34,6 +34,7 @@ from historical_evidence import classify_evidence, player_membership_audit, EVID
 from prospective_roster import evidence_adjustments, make_forecasts, evaluate_forecasts
 from forecast_comparison import combined_forecasts
 from preliminary_model import build_preliminary_ratings, add_experimental_lines
+from live_matchup_v206 import espn_progress, progress_label
 from courtside_home import style as courtside_style, render_home
 from courtside_theme_v153 import apply_v153_theme
 from courtside_tables import apply_table_theme, dataframe as courtside_dataframe
@@ -277,7 +278,7 @@ selected_section = st.session_state['courtside_page']
 SPORTS = {"Men's": "mens-college-basketball", "Women's": "womens-college-basketball"}
 START = date(2026, 11, 1)
 END = date(2027, 4, 12)
-COLUMNS = ["Game ID", "Date", "Time (ET)", "Away", "Home", "Away conference", "Home conference", "Away ID", "Home ID", "Venue", "Status", "Away score", "Home score", "Game URL", "Watch"]
+COLUMNS = ["Game ID", "Date", "Time (ET)", "Away", "Home", "Away conference", "Home conference", "Away ID", "Home ID", "Venue", "Status", "Away score", "Home score", "Game URL", "Watch", "Game period", "Game clock", "Game phase"]
 
 
 def days_between(start: date, end: date):
@@ -355,7 +356,7 @@ def parse_game(event):
             "Away ID": str((away.get("team") or {}).get("id", "")), "Home ID": str((home.get("team") or {}).get("id", "")),
             "Venue": venue, "Status": status, "Away score": score(away) if status != "Scheduled" else None,
             "Home score": score(home) if status != "Scheduled" else None, "Game URL": game_url,
-            "Watch": broadcast_names(event, competition)}
+            "Watch": broadcast_names(event, competition), **espn_progress(event, competition, status)}
 
 
 @st.cache_data(ttl=12 * 60 * 60, show_spinner=False)
@@ -1620,7 +1621,7 @@ if selected_section == "Games":
                         if table.empty:
                             continue
                         game_ids = table["Game ID"].astype(str)
-                        for col in ("Status", "Home score", "Away score"):
+                        for col in ("Status", "Home score", "Away score", "Game period", "Game clock", "Game phase"):
                             table[col] = [fresh.at[gid, col] if gid in fresh.index else original
                                           for gid, original in zip(game_ids, table[col])]
         except (requests.RequestException, ValueError, KeyError, TypeError):
@@ -1789,7 +1790,7 @@ if selected_section == "Games":
                             st.markdown(
                                 '<div class="cs191-top"><span class="cs191-status">'
                                 + html.escape(status_label) + '</span><span>'
-                                + html.escape("Final" if status == "Final" else tipoff)
+                                + html.escape("Final" if status == "Final" else progress_label(game) if status == "Live" else tipoff)
                                 + '</span></div>', unsafe_allow_html=True
                             )
                             away_id, home_id = str(game["Away ID"]), str(game["Home ID"])
