@@ -27,7 +27,7 @@ from published_polls_v137 import render_polls
 import published_polls_v137 as module
 shown, notices = [], []
 fake.caption = lambda msg: None
-fake.markdown = lambda msg: None
+fake.markdown = lambda msg, **kwargs: None
 fake.info = notices.append
 fake.warning = lambda msg: (_ for _ in ()).throw(AssertionError(msg))
 fake.dataframe = lambda frame, **kwargs: shown.append(frame.copy())
