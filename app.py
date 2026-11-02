@@ -1725,10 +1725,10 @@ if selected_section == "Games":
             if not selected.empty:
                 game = selected.iloc[0]
                 with st.container(key="cs186_matchup_detail", border=True):
-                    col_title, col_close = st.columns([6, 1])
+                    # V193: avoid duplicating the matchup heading and details in the panel.
+                    col_title, col_close = st.columns([6, 1], vertical_alignment="center")
                     with col_title:
-                        st.subheader(f"{game['Away']} at {game['Home']}")
-                        st.caption(f"{game.get('Display date',game['Date'])} · {game.get('Display time',game['Time (ET)'])} · {game['Venue']} court · {game['Status']}")
+                        st.caption("MATCHUP DETAILS")
                     with col_close:
                         if st.button("Close details", key="close_game_details", use_container_width=True):
                             st.session_state.pop("courtside_selected_game", None)
