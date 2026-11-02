@@ -8,6 +8,7 @@ from __future__ import annotations
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import date, datetime, timedelta, timezone
 import io
+import html
 from time import perf_counter
 from pathlib import Path
 from math import erf, sqrt, log10
@@ -1535,6 +1536,16 @@ if selected_section == "Model Lab":
                         st.download_button("Download November comparison predictions",early_predictions.to_csv(index=False).encode(),"november_2025_backtest.csv","text/csv",key="early_download")
 
 
+
+# V183: compact scoreboard team identities (respect user logo preference).
+st.markdown("""<style>
+.cs183-matchup {display:flex;align-items:center;gap:10px;min-width:0;}
+.cs183-logo-stack {display:flex;flex-direction:column;gap:3px;flex-shrink:0;}
+.cs183-logo-stack img {width:25px;height:25px;object-fit:contain;}
+.cs183-teams {min-width:0;font-weight:750;font-size:.88rem;color:#203b63;line-height:1.5;}
+.cs183-teams span {font-weight:450;color:#697c95;}
+@media(max-width:700px){.cs183-logo-stack img{width:21px;height:21px}.cs183-matchup{gap:6px}.cs183-teams{font-size:.78rem}}
+</style>""",unsafe_allow_html=True)
 if selected_section == "Games":
     # Win-loss records depend on completed games, not future schedules.
     # Only fetch season dates through today, while keeping the selected
@@ -1547,165 +1558,199 @@ if selected_section == "Games":
         st.warning("Some season dates could not be loaded. Team records below may be incomplete; they are marked as partial.")
     st.subheader("Games")
     st.caption(f"{first:%B %d, %Y} – {last:%B %d, %Y} · Times Eastern · Select a matchup for the full preview.")
-    # V182: all three states share one scoreboard, with optional status filters.
-    status_counts = games["Status"].value_counts()
-    st.caption(
-        f"Live: {int(status_counts.get('Live', 0))}  ·  "
-        f"Upcoming: {int(status_counts.get('Scheduled', 0))}  ·  "
-        f"Final: {int(status_counts.get('Final', 0))}"
-    )
-    view = st.segmented_control(
-        "Game status", ["All", "Live", "Upcoming", "Final"],
-        default="All", key="courtside_games_status_v182"
-    )
-    sort_order = st.selectbox(
-        "Sort games", ["Tipoff order", "Live games first"],
-        key="courtside_games_sort_v182"
-    )
-    shown = games.copy()
-    if view == "Live":
-        shown = shown[shown["Status"] == "Live"]
-    elif view == "Upcoming":
-        shown = shown[shown["Status"] == "Scheduled"]
-    elif view == "Final":
-        shown = shown[shown["Status"] == "Final"]
-    with st.expander("Filter games", expanded=False):
-        f1, f2, f3 = st.columns(3)
-        with f1:
-            team_filter = st.selectbox("Team", ["All teams"] + unique_teams, key="v12_game_team")
-        with f2:
-            conf_filter = st.selectbox("Conference", ["All conferences"] + sorted(set(games["Away conference name"]).union(games["Home conference name"])), key="v12_game_conf")
-        with f3:
-            venue_filter = st.selectbox("Venue", ["Any location", "Home", "Neutral"], key="v12_game_venue")
-    if team_filter != "All teams":
-        shown = shown[(shown["Home"] == team_filter) | (shown["Away"] == team_filter)]
-    if conf_filter != "All conferences":
-        shown = shown[(shown["Home conference name"] == conf_filter) | (shown["Away conference name"] == conf_filter)]
-    if venue_filter != "Any location":
-        shown = shown[shown["Venue"] == venue_filter]
-    net_ranks, net_status = load_net(league)
-    shown = annotate_games(shown, net_ranks, verified_d1_ids, league)
-    with st.expander("NET quadrant filters", expanded=False):
-        st.caption(net_status + " · Quadrants are opponent-specific, based on game location.")
-        quadrant_filter = st.selectbox("Quadrant", ["All", "Q1", "Q2", "Q3", "Q4"], key="games_net_quadrant", disabled=not bool(net_ranks))
-        side_filter = st.selectbox("For which team?", ["Either team", "Home team", "Away team", "Both teams"], key="games_net_side", disabled=not bool(net_ranks))
-        if net_ranks:
-            if quadrant_filter != "All":
-                hq = shown['Home quadrant'] == quadrant_filter
-                aq = shown['Away quadrant'] == quadrant_filter
-                if side_filter == "Home team": shown = shown[hq]
-                elif side_filter == "Away team": shown = shown[aq]
-                elif side_filter == "Both teams": shown = shown[hq & aq]
-                else: shown = shown[hq | aq]
-            q1_only = st.checkbox("Q1 opportunities (either team)", key="games_net_q1", disabled=not bool(net_ranks))
-            if q1_only:
-                shown = shown[(shown['Home quadrant']=='Q1') | (shown['Away quadrant']=='Q1')]
-    shown = attach_model_lines(shown, ratings_for_schedule, verified_d1_ids)
-    shown = add_experimental_lines(shown, preliminary_ratings, verified_d1_ids)
-    # Home-page links already store the selected Game ID here.
-    selected_id = str(st.session_state.get("courtside_selected_game") or "")
-    if selected_id:
-        selected = shown[shown["Game ID"].astype(str) == selected_id]
-        if selected.empty:
-            selected = games[games["Game ID"].astype(str) == selected_id]
+    @st.fragment(run_every="120s")
+    def _v183_games_scoreboard(games, record_schedule):
+        # Refresh only the visible Eastern calendar day. Avoid a full-season fetch.
+        # On a feed failure, retain the last loaded scoreboard unchanged.
+        try:
+            today_et = pd.Timestamp.now(tz="America/New_York").date()
+            if first <= today_et <= last:
+                fresh_rows = _v175_today_scoreboard(SPORTS[league], today_et)
+                if fresh_rows:
+                    fresh = pd.DataFrame(fresh_rows, columns=COLUMNS)
+                    fresh = fresh.drop_duplicates("Game ID").set_index("Game ID")
+                    for table in (games, record_schedule):
+                        if table.empty:
+                            continue
+                        game_ids = table["Game ID"].astype(str)
+                        for col in ("Status", "Home score", "Away score"):
+                            table[col] = [fresh.at[gid, col] if gid in fresh.index else original
+                                          for gid, original in zip(game_ids, table[col])]
+        except (requests.RequestException, ValueError, KeyError, TypeError):
+            st.caption("Live scoreboard temporarily unavailable — showing last loaded results.")
+        # V182: all three states share one scoreboard, with optional status filters.
+        status_counts = games["Status"].value_counts()
+        st.caption(
+            f"Live: {int(status_counts.get('Live', 0))}  ·  "
+            f"Upcoming: {int(status_counts.get('Scheduled', 0))}  ·  "
+            f"Final: {int(status_counts.get('Final', 0))}"
+        )
+        view = st.segmented_control(
+            "Game status", ["All", "Live", "Upcoming", "Final"],
+            default="All", key="courtside_games_status_v182"
+        )
+        sort_order = st.selectbox(
+            "Sort games", ["Tipoff order", "Live games first"],
+            key="courtside_games_sort_v182"
+        )
+        shown = games.copy()
+        if view == "Live":
+            shown = shown[shown["Status"] == "Live"]
+        elif view == "Upcoming":
+            shown = shown[shown["Status"] == "Scheduled"]
+        elif view == "Final":
+            shown = shown[shown["Status"] == "Final"]
+        with st.expander("Filter games", expanded=False):
+            f1, f2, f3 = st.columns(3)
+            with f1:
+                team_filter = st.selectbox("Team", ["All teams"] + unique_teams, key="v12_game_team")
+            with f2:
+                conf_filter = st.selectbox("Conference", ["All conferences"] + sorted(set(games["Away conference name"]).union(games["Home conference name"])), key="v12_game_conf")
+            with f3:
+                venue_filter = st.selectbox("Venue", ["Any location", "Home", "Neutral"], key="v12_game_venue")
+        if team_filter != "All teams":
+            shown = shown[(shown["Home"] == team_filter) | (shown["Away"] == team_filter)]
+        if conf_filter != "All conferences":
+            shown = shown[(shown["Home conference name"] == conf_filter) | (shown["Away conference name"] == conf_filter)]
+        if venue_filter != "Any location":
+            shown = shown[shown["Venue"] == venue_filter]
+        net_ranks, net_status = load_net(league)
+        shown = annotate_games(shown, net_ranks, verified_d1_ids, league)
+        with st.expander("NET quadrant filters", expanded=False):
+            st.caption(net_status + " · Quadrants are opponent-specific, based on game location.")
+            quadrant_filter = st.selectbox("Quadrant", ["All", "Q1", "Q2", "Q3", "Q4"], key="games_net_quadrant", disabled=not bool(net_ranks))
+            side_filter = st.selectbox("For which team?", ["Either team", "Home team", "Away team", "Both teams"], key="games_net_side", disabled=not bool(net_ranks))
+            if net_ranks:
+                if quadrant_filter != "All":
+                    hq = shown['Home quadrant'] == quadrant_filter
+                    aq = shown['Away quadrant'] == quadrant_filter
+                    if side_filter == "Home team": shown = shown[hq]
+                    elif side_filter == "Away team": shown = shown[aq]
+                    elif side_filter == "Both teams": shown = shown[hq & aq]
+                    else: shown = shown[hq | aq]
+                q1_only = st.checkbox("Q1 opportunities (either team)", key="games_net_q1", disabled=not bool(net_ranks))
+                if q1_only:
+                    shown = shown[(shown['Home quadrant']=='Q1') | (shown['Away quadrant']=='Q1')]
+        shown = attach_model_lines(shown, ratings_for_schedule, verified_d1_ids)
+        shown = add_experimental_lines(shown, preliminary_ratings, verified_d1_ids)
+        # Home-page links already store the selected Game ID here.
+        selected_id = str(st.session_state.get("courtside_selected_game") or "")
+        if selected_id:
+            selected = shown[shown["Game ID"].astype(str) == selected_id]
+            if selected.empty:
+                selected = games[games["Game ID"].astype(str) == selected_id]
+                if not selected.empty:
+                    selected = add_experimental_lines(attach_model_lines(annotate_games(selected, net_ranks, verified_d1_ids, league), ratings_for_schedule, verified_d1_ids), preliminary_ratings, verified_d1_ids)
+            # A team-profile link carries the complete fixture row. Use it when the
+            # requested calendar day's scoreboard does not contain the fixture.
+            # A game ID check prevents a stale row being used for another selection.
+            if selected.empty:
+                linked = st.session_state.get("courtside_selected_game_payload")
+                if isinstance(linked, dict) and str(linked.get("Game ID", "")) == selected_id:
+                    selected = pd.DataFrame([linked])
+                    selected = annotate_games(selected, net_ranks, verified_d1_ids, league)
+                    selected = attach_model_lines(selected, ratings_for_schedule, verified_d1_ids)
+                    selected = add_experimental_lines(selected, preliminary_ratings, verified_d1_ids)
             if not selected.empty:
-                selected = add_experimental_lines(attach_model_lines(annotate_games(selected, net_ranks, verified_d1_ids, league), ratings_for_schedule, verified_d1_ids), preliminary_ratings, verified_d1_ids)
-        # A team-profile link carries the complete fixture row. Use it when the
-        # requested calendar day's scoreboard does not contain the fixture.
-        # A game ID check prevents a stale row being used for another selection.
-        if selected.empty:
-            linked = st.session_state.get("courtside_selected_game_payload")
-            if isinstance(linked, dict) and str(linked.get("Game ID", "")) == selected_id:
-                selected = pd.DataFrame([linked])
-                selected = annotate_games(selected, net_ranks, verified_d1_ids, league)
-                selected = attach_model_lines(selected, ratings_for_schedule, verified_d1_ids)
-                selected = add_experimental_lines(selected, preliminary_ratings, verified_d1_ids)
-        if not selected.empty:
-            game = selected.iloc[0]
-            with st.container(border=True):
-                col_title, col_close = st.columns([6, 1])
-                with col_title:
-                    st.subheader(f"{game['Away']} at {game['Home']}")
-                    st.caption(f"{game.get('Display date',game['Date'])} · {game.get('Display time',game['Time (ET)'])} · {game['Venue']} court · {game['Status']}")
-                with col_close:
-                    if st.button("Close details", key="close_game_details", use_container_width=True):
-                        st.session_state.pop("courtside_selected_game", None)
-                        st.session_state.pop("courtside_selected_game_payload", None)
-                        st.rerun()
-                away_record, home_record = game_records(record_schedule, game)
-                render_matchup(
-                    game, team_ratings=team_ratings, ratings=ratings_for_schedule,
-                    preliminary_ratings=preliminary_ratings, sos_ratings=sos_ratings,
-                    sor_ratings=sor_ratings, games=games, net_ranks=net_ranks,
-                    net_status=net_status, verified_d1_ids=verified_d1_ids,
-                    league=league, game_projection=game_projection,
-                    away_record=away_record, home_record=home_record, record_coverage_ok=record_coverage_ok,
-                )
-        else:
-            st.session_state.pop("courtside_selected_game", None)
-
-    st.caption(f"{len(shown):,} matching games")
-    if shown.empty:
-        st.info("No games match these filters.")
-    else:
-        shown = shown.sort_values(["Date", "Time (ET)", "Away"], kind="stable")
-        if sort_order == "Live games first":
-            shown["_live_first"] = shown["Status"].ne("Live").astype(int)
-            shown = shown.sort_values(["_live_first", "Date", "Time (ET)", "Away"], kind="stable").drop(columns="_live_first")
-        shown = shown.reset_index(drop=True)
-        page_size = 20
-        max_page = max(1, (len(shown) + page_size - 1) // page_size)
-        # Clamp the page if a changed filter produces fewer results.
-        if "courtside_games_page" not in st.session_state:
-            st.session_state["courtside_games_page"] = 1
-        st.session_state["courtside_games_page"] = min(max_page, max(1, int(st.session_state["courtside_games_page"])))
-        left, right = st.columns([2, 5])
-        with left:
-            page = st.number_input("Page", min_value=1, max_value=max_page, step=1, key="courtside_games_page")
-        with right:
-            st.caption(f"Showing {(page-1)*page_size+1}–{min(page*page_size,len(shown))} of {len(shown):,} games")
-        portion = shown.iloc[(page-1)*page_size:page*page_size]
-        for _, game in portion.iterrows():
-            status = str(game["Status"])
-            with st.container(border=True):
-                c_game, c_line, c_action = st.columns([5, 2.5, 1.65], vertical_alignment="center", gap="small")
-                with c_game:
+                game = selected.iloc[0]
+                with st.container(border=True):
+                    col_title, col_close = st.columns([6, 1])
+                    with col_title:
+                        st.subheader(f"{game['Away']} at {game['Home']}")
+                        st.caption(f"{game.get('Display date',game['Date'])} · {game.get('Display time',game['Time (ET)'])} · {game['Venue']} court · {game['Status']}")
+                    with col_close:
+                        if st.button("Close details", key="close_game_details", use_container_width=True):
+                            st.session_state.pop("courtside_selected_game", None)
+                            st.session_state.pop("courtside_selected_game_payload", None)
+                            st.rerun()
                     away_record, home_record = game_records(record_schedule, game)
-                    if status == "Live":
-                        st.markdown("🔴 **LIVE**")
-                    elif status == "Final":
-                        st.markdown("**FINAL**")
-                    else:
-                        st.caption("UPCOMING")
-                    st.markdown(f"**{game['Away']} ({away_record}) at {game['Home']} ({home_record})**")
-                    st.caption(f"{game.get('Display date',game['Date'])} · {game.get('Display time',game['Time (ET)'])}" + (" · Records partial" if not record_coverage_ok else ""))
-                    st.caption("📺 " + str(game.get("Watch") or "Watch info unavailable"))
-                    if net_ranks:
-                        st.caption(f"NET: Away {game.get('Away quadrant','—')} · Home {game.get('Home quadrant','—')}")
-                with c_line:
-                    has_score = pd.notna(game.get('Away score')) and pd.notna(game.get('Home score'))
-                    if status in ("Final", "Live") and has_score:
-                        away_score, home_score = int(game["Away score"]), int(game["Home score"])
-                        st.markdown(f"### {away_score} – {home_score}")
-                        if status == "Final":
-                            winner = game["Away"] if away_score > home_score else game["Home"] if home_score > away_score else "Tied"
-                            st.caption(f"{winner} wins" if winner != "Tied" else "Tied")
+                    render_matchup(
+                        game, team_ratings=team_ratings, ratings=ratings_for_schedule,
+                        preliminary_ratings=preliminary_ratings, sos_ratings=sos_ratings,
+                        sor_ratings=sor_ratings, games=games, net_ranks=net_ranks,
+                        net_status=net_status, verified_d1_ids=verified_d1_ids,
+                        league=league, game_projection=game_projection,
+                        away_record=away_record, home_record=home_record, record_coverage_ok=record_coverage_ok,
+                    )
+            else:
+                st.session_state.pop("courtside_selected_game", None)
+
+        st.caption(f"{len(shown):,} matching games")
+        if shown.empty:
+            st.info("No games match these filters.")
+        else:
+            shown = shown.sort_values(["Date", "Time (ET)", "Away"], kind="stable")
+            if sort_order == "Live games first":
+                shown["_live_first"] = shown["Status"].ne("Live").astype(int)
+                shown = shown.sort_values(["_live_first", "Date", "Time (ET)", "Away"], kind="stable").drop(columns="_live_first")
+            shown = shown.reset_index(drop=True)
+            page_size = 30
+            max_page = max(1, (len(shown) + page_size - 1) // page_size)
+            # Clamp the page if a changed filter produces fewer results.
+            if "courtside_games_page" not in st.session_state:
+                st.session_state["courtside_games_page"] = 1
+            st.session_state["courtside_games_page"] = min(max_page, max(1, int(st.session_state["courtside_games_page"])))
+            left, right = st.columns([2, 5])
+            with left:
+                page = st.number_input("Page", min_value=1, max_value=max_page, step=1, key="courtside_games_page")
+            with right:
+                st.caption(f"Showing {(page-1)*page_size+1}–{min(page*page_size,len(shown))} of {len(shown):,} games")
+            portion = shown.iloc[(page-1)*page_size:page*page_size]
+            for _, game in portion.iterrows():
+                status = str(game["Status"])
+                with st.container(border=True):
+                    c_game, c_line, c_action = st.columns([5.4, 2.25, 1.45], vertical_alignment="center", gap="small")
+                    with c_game:
+                        away_record, home_record = game_records(record_schedule, game)
+                        if status == "Live":
+                            st.markdown("🔴 **LIVE**")
+                        elif status == "Final":
+                            st.markdown("**FINAL**")
                         else:
-                            st.caption("Live score")
-                    elif status == "Live":
-                        st.markdown("**Live — score pending**")
-                    else:
-                        st.markdown(f"**{game.get('Model line', '—')}**")
-                        if status == "Scheduled":
-                            st.caption("Model projection")
-                with c_action:
-                    if st.button("View matchup →", key=f"game_detail_{league}_{game['Game ID']}", use_container_width=True):
-                        st.session_state["courtside_selected_game"] = str(game["Game ID"])
-                        st.session_state["courtside_selected_game_payload"] = game.to_dict()
-                        st.rerun()
-    with st.expander("Download full game data and notes"):
-        st.download_button("Download filtered games CSV", shown.to_csv(index=False).encode(), "basketball_games.csv", "text/csv", key="v12_download_games")
-        st.caption("The full export includes model lines, experimental lines, scores, and roster status. ESPN scoreboard data may be incomplete.")
+                            st.caption("UPCOMING")
+                        away_id, home_id = str(game["Away ID"]), str(game["Home ID"])
+                        logos_enabled = st.session_state.get("courtside_logos_enabled", True)
+                        if logos_enabled and away_id.isdigit() and home_id.isdigit():
+                            st.markdown(
+                                '<div class="cs183-matchup">'
+                                '<div class="cs183-logo-stack">'
+                                f'<img src="https://a.espncdn.com/i/teamlogos/ncaa/500/{away_id}.png" alt="" loading="lazy"/>'
+                                f'<img src="https://a.espncdn.com/i/teamlogos/ncaa/500/{home_id}.png" alt="" loading="lazy"/>'
+                                '</div>'
+                                '<div class="cs183-teams">'
+                                f'<div>{html.escape(str(game["Away"]))} <span>({away_record})</span></div>'
+                                f'<div>{html.escape(str(game["Home"]))} <span>({home_record})</span></div>'
+                                '</div></div>', unsafe_allow_html=True)
+                        else:
+                            st.markdown(f"**{game['Away']} ({away_record}) at {game['Home']} ({home_record})**")
+                        st.caption(f"{game.get('Display date',game['Date'])} · {game.get('Display time',game['Time (ET)'])}" + (" · Records partial" if not record_coverage_ok else ""))
+                        # Watch detail remains available within the opened matchup preview.
+                        # NET quadrant detail remains in the expanded matchup analysis.
+                    with c_line:
+                        has_score = pd.notna(game.get('Away score')) and pd.notna(game.get('Home score'))
+                        if status in ("Final", "Live") and has_score:
+                            away_score, home_score = int(game["Away score"]), int(game["Home score"])
+                            st.markdown(f"### {away_score} – {home_score}")
+                            if status == "Final":
+                                winner = game["Away"] if away_score > home_score else game["Home"] if home_score > away_score else "Tied"
+                                st.caption(f"{winner} wins" if winner != "Tied" else "Tied")
+                            else:
+                                st.caption("Live score")
+                        elif status == "Live":
+                            st.markdown("**Live — score pending**")
+                        else:
+                            st.markdown(f"**{game.get('Model line', '—')}**")
+                            if status == "Scheduled":
+                                st.caption("Model projection")
+                    with c_action:
+                        if st.button("View matchup →", key=f"game_detail_{league}_{game['Game ID']}", use_container_width=True):
+                            st.session_state["courtside_selected_game"] = str(game["Game ID"])
+                            st.session_state["courtside_selected_game_payload"] = game.to_dict()
+                            st.rerun()
+        with st.expander("Download full game data and notes"):
+            st.download_button("Download filtered games CSV", shown.to_csv(index=False).encode(), "basketball_games.csv", "text/csv", key="v12_download_games")
+            st.caption("The full export includes model lines, experimental lines, scores, and roster status. ESPN scoreboard data may be incomplete.")
+    _v183_games_scoreboard(games.copy(), record_schedule.copy())
 
 if selected_section == "Teams":
     st.subheader("Team center")
