@@ -10,6 +10,7 @@ from efficiency_ui import render_matchup_stats
 from raw_team_stats import team_raw_stats
 from live_matchup_v206 import progress_label, score_pair, locked_pregame_forecast
 from game_location_v207 import display_game_location
+from cross_division_v209 import estimate as estimate_cross_division
 
 
 def _number(x, fmt="+.1f"):
@@ -145,7 +146,7 @@ def _compact_line(game, projection):
     return str(game.get("Model line") or "Unavailable")
 
 
-def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_ratings, sor_ratings, games, net_ranks, net_status, verified_d1_ids, league, game_projection, away_record=None, home_record=None, record_coverage_ok=True, stats_games=None):
+def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_ratings, sor_ratings, games, net_ranks, net_status, verified_d1_ids, league, game_projection, cross_division_model=None, away_record=None, home_record=None, record_coverage_ok=True, stats_games=None):
     """Render under an already open game header, using only existing verified app datasets."""
     st.markdown("""<style>
     .cs-kpi {background:#fff;border:1px solid #e2e8f0;border-radius:13px;padding:15px 16px;min-height:116px;box-sizing:border-box}
@@ -166,6 +167,7 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
     away_rating=_row(team_ratings,aid)
     home_rating=_row(team_ratings,hid)
     projection=game_projection(game,ratings) if is_d1 else None
+    cross_projection=estimate_cross_division(game,ratings,verified_d1_ids,cross_division_model) if not is_d1 else None
     game_status=str(game.get("Status") or "Scheduled")
     is_live=game_status=="Live"
     is_final=game_status=="Final"
@@ -284,13 +286,33 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
             experimental_value, experimental_note = experimental, "Untrained roster scenario · not betting odds"
     else:
         experimental_value, experimental_note = experimental, "Untrained roster scenario · not betting odds"
-    quick1, quick2, quick3 = st.columns(3, gap="small")
-    with quick1:
-        _card(model_label, _compact_line(game, displayed_projection), model_note)
-    with quick2:
-        _card(probability_label, f"{displayed_projection[1]:.1f}%" if displayed_projection else "Unavailable", home + " · estimate, not live probability")
-    with quick3:
-        _card("Roster-adjusted scenario", experimental_value, experimental_note)
+    if cross_projection is not None:
+        # A separate, explicitly low-confidence study model; never represent
+        # this as a calibrated home-win probability or locked pretip forecast.
+        from_home = "D1 home" if hid in verified_d1_ids else "D1 away"
+        cross_label = f"{short_school_name(cross_projection['favorite'])} -{cross_projection['spread']:.1f}"
+        quick1, quick2, quick3 = st.columns(3, gap="small")
+        with quick1:
+            _card("Cross-division estimate · provisional",cross_label,"Prior-season results · not betting odds")
+        with quick2:
+            _card("Confidence","Low","Different competitive divisions · unvalidated spread")
+        with quick3:
+            _card("Source evidence",f"{cross_projection['outside_games']} opponent games",
+                  f"{cross_projection['history_games']} previous-season cross-division games pooled")
+        st.caption(
+            "Research-only estimate from 2025–26 results and the D1 team's current rating. "
+            "The opponent is outside Courtside's verified Division I membership; their exact division is not independently confirmed. "
+            "Not a locked pregame forecast or a live in-game prediction. "
+            "Cross-division games remain excluded from official D1 model evaluation."
+        )
+    else:
+        quick1, quick2, quick3 = st.columns(3, gap="small")
+        with quick1:
+            _card(model_label, _compact_line(game, displayed_projection), model_note)
+        with quick2:
+            _card(probability_label, f"{displayed_projection[1]:.1f}%" if displayed_projection else "Unavailable", home + " · estimate, not live probability")
+        with quick3:
+            _card("Roster-adjusted scenario", experimental_value, experimental_note)
     if is_live:
         st.caption("Live score, period and clock come from ESPN. Prediction cards do not respond to in-game scoring; no live win-probability model is active.")
     elif is_final:
@@ -300,6 +322,12 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
     )
     with overview_tab:
         st.markdown("##### Matchup overview")
+        if cross_projection is not None:
+            st.caption(
+                "Cross-division study: pooled 2025–26 D1 vs outside-D1 scores set the baseline; "
+                "the opponent-specific estimate is strongly shrunk toward that baseline "
+                "where historical games exist. Current game points never enter this estimate."
+            )
         left, right = st.columns(2, gap="small")
         with left:
             st.markdown("**Power ratings**")
