@@ -1671,6 +1671,7 @@ if selected_section == "Games":
                         net_status=net_status, verified_d1_ids=verified_d1_ids,
                         league=league, game_projection=game_projection,
                         away_record=away_record, home_record=home_record, record_coverage_ok=record_coverage_ok,
+                    stats_games=record_schedule,
                     )
             else:
                 st.session_state.pop("courtside_selected_game", None)
