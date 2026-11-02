@@ -16,5 +16,7 @@ assert 'render_matchup(' in app
 assert 'cs_calendar_anchor' in app
 assert 'More filters · Team, conference, venue & NET' in app
 assert 'Download filtered games CSV' in app
-assert 'st.markdown(f"### {int(game[\'Away score\'])} – {int(game[\'Home score\'])}")' in app
+assert 'cs191-score' in app
+assert 'int(game["Away score"])' in app
+assert 'int(game["Home score"])' in app
 print("V182 unified scoreboard checks passed")
