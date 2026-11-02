@@ -60,5 +60,7 @@ jobs:
           git add -- data/official_roster_evidence_v204/ data/mens-college-basketball_previous_rosters.csv.gz data/mens-college-basketball_current_rosters.csv.gz data/mens-college-basketball_previous_stats.csv.gz data/mens-college-basketball_previous_player_pool.csv.gz data/mens-college-basketball_collection_status.csv.gz
           if ! git diff --cached --quiet; then
             git commit -m 'V204: refresh independent official-school roster coverage and source audit'
-            git push
+            git fetch origin "$GITHUB_REF_NAME"
+            git rebase "origin/$GITHUB_REF_NAME"
+            git push origin "HEAD:$GITHUB_REF_NAME"
           fi
