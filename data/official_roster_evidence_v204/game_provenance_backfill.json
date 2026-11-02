@@ -1,0 +1,58 @@
+{
+  "version": 204,
+  "checked_utc": "2026-11-02T21:07:59.510702+00:00",
+  "division": "mens-college-basketball",
+  "queued_missing_player_provenance": 24,
+  "attempted": [
+    {
+      "team_id": "333",
+      "team": "Alabama Crimson Tide",
+      "priority_upcoming": true,
+      "reason": "one_or_more_players_missing_named_game_provenance"
+    },
+    {
+      "team_id": "2",
+      "team": "Auburn Tigers",
+      "priority_upcoming": true,
+      "reason": "one_or_more_players_missing_named_game_provenance"
+    },
+    {
+      "team_id": "252",
+      "team": "BYU Cougars",
+      "priority_upcoming": true,
+      "reason": "one_or_more_players_missing_named_game_provenance"
+    },
+    {
+      "team_id": "239",
+      "team": "Baylor Bears",
+      "priority_upcoming": true,
+      "reason": "one_or_more_players_missing_named_game_provenance"
+    },
+    {
+      "team_id": "150",
+      "team": "Duke Blue Devils",
+      "priority_upcoming": true,
+      "reason": "one_or_more_players_missing_named_game_provenance"
+    },
+    {
+      "team_id": "57",
+      "team": "Florida Gators",
+      "priority_upcoming": true,
+      "reason": "one_or_more_players_missing_named_game_provenance"
+    },
+    {
+      "team_id": "2250",
+      "team": "Gonzaga Bulldogs",
+      "priority_upcoming": true,
+      "reason": "one_or_more_players_missing_named_game_provenance"
+    },
+    {
+      "team_id": "248",
+      "team": "Houston Cougars",
+      "priority_upcoming": true,
+      "reason": "one_or_more_players_missing_named_game_provenance"
+    }
+  ],
+  "source_schedule_errors": [],
+  "note": "This source-only backfill neither changes power ratings nor upgrades teams without corroborated game IDs."
+}
