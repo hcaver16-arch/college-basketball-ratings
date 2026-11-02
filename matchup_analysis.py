@@ -8,6 +8,7 @@ from net_quadrants import annotate_games, quadrant_records
 from team_identity import team_identity
 from efficiency_ui import render_matchup_stats
 from raw_team_stats import team_raw_stats
+from live_matchup_v206 import progress_label, score_pair, locked_pregame_forecast
 
 
 def _number(x, fmt="+.1f"):
@@ -164,13 +165,15 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
     away_rating=_row(team_ratings,aid)
     home_rating=_row(team_ratings,hid)
     projection=game_projection(game,ratings) if is_d1 else None
-    if game.get("Status") in ("Live","Final"):
-        a=pd.to_numeric(game.get("Away score"),errors="coerce")
-        h=pd.to_numeric(game.get("Home score"),errors="coerce")
-        if pd.notna(a) and pd.notna(h): st.markdown(f"### {away} {int(a)} — {home} {int(h)}")
+    game_status=str(game.get("Status") or "Scheduled")
+    is_live=game_status=="Live"
+    is_final=game_status=="Final"
+    scores=score_pair(game) if is_live or is_final else None
+    # Never mistake a live calculation for a historical pretip probability.
+    archived=locked_pregame_forecast(game,"mens" if str(league).lower().startswith("men") else "womens") if (is_live or is_final) else None
     # V193: compact matchup header consolidates teams, records, context and viewing info.
     external_logos = st.session_state.get("courtside_logos_enabled", True)
-    record_label = "Postgame record" if str(game.get("Status")) == "Final" else "Pregame record"
+    record_label = "Postgame record" if is_final else "Pregame record"
     def _mini_team(team, tid, record):
         logo = (
             f'<img src="https://a.espncdn.com/i/teamlogos/ncaa/500/{tid}.png" alt="" loading="lazy"/>'
@@ -198,30 +201,99 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
     .cs193-side strong{display:block;color:#173665;font-size:1rem;line-height:1.2;overflow-wrap:anywhere}
     .cs193-side small{display:block;color:#657998;font-size:.72rem}
     .cs193-vs{text-align:center;color:#47658b;font-weight:800}
+    .cs206-active-header{background:linear-gradient(115deg,#e8f7f7,#edf3ff);border-color:#b5d9e4}
+    .cs206-active-header.cs206-final{background:linear-gradient(115deg,#eff5ff,#edf2fc);border-color:#c1d4ee}
+    .cs206-active-header .cs193-teams{grid-template-columns:minmax(0,1fr) minmax(92px,.6fr) minmax(0,1fr)}
+    .cs206-center{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:0;gap:3px;text-align:center}
+    .cs206-score{font-weight:850;font-size:clamp(1.35rem,2.8vw,2rem);letter-spacing:-.055em;line-height:1.05;color:#153e72;white-space:nowrap}
+    .cs206-score span{color:#8395af;padding:0 .06em;font-size:.78em}
+    .cs206-phase{font-size:.74rem;color:#36627d;font-weight:750;white-space:normal;line-height:1.2}
+    .cs206-status{display:inline-flex;align-items:center;gap:6px;border-radius:5px;padding:3px 7px;font-weight:850;font-size:.69rem;letter-spacing:.05em}
+    .cs206-status-live{background:#bbeddf;color:#09634f}
+    .cs206-status-final{background:#dbe8ff;color:#244e9b}
+    .cs206-status-upcoming{background:#e4eaf3;color:#536985}
+    .cs206-no-score{font-size:.83rem;font-weight:750;color:#526f91}
+
     .cs193-meta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px;font-size:.76rem;color:#566c8c}
     .st-key-cs186_matchup_detail .cs-kpi{min-height:76px!important;padding:10px 12px!important}
     .st-key-cs186_matchup_detail .cs-kpi-label{margin-bottom:4px!important}
     .st-key-cs186_matchup_detail [data-testid="stTabs"] [role="tablist"]{gap:8px;flex-wrap:wrap}
     .st-key-cs186_matchup_detail [data-testid="stTabs"] [role="tab"]{font-size:.84rem;font-weight:700}
-    @media(max-width:700px){.cs193-header{padding:9px}.cs193-side img{width:28px;height:28px}.cs193-side strong{font-size:.78rem}.cs193-teams{gap:4px;grid-template-columns:minmax(0,1fr) 20px minmax(0,1fr)}}
+    @media(max-width:700px){.cs193-header{padding:9px}.cs193-side img{width:28px;height:28px}.cs193-side strong{font-size:.78rem}.cs193-teams{gap:4px;grid-template-columns:minmax(0,1fr) 20px minmax(0,1fr)}.cs206-active-header .cs193-teams{grid-template-columns:minmax(0,1fr) 82px minmax(0,1fr)}.cs206-score{font-size:1.3rem}.cs206-phase{font-size:.65rem}.cs193-side{gap:5px}}
     </style>""", unsafe_allow_html=True)
+    # V206: live/final points belong between logos, never in a second heading.
+    if is_live or is_final:
+        phase = escape(progress_label(game))
+        if scores is None:
+            center = '<div class="cs206-center"><span class="cs206-no-score">Score pending</span><small class="cs206-phase">' + phase + '</small></div>'
+        else:
+            center = ('<div class="cs206-center"><div class="cs206-score">'
+                      + str(scores[0]) + '<span>–</span>' + str(scores[1])
+                      + '</div><small class="cs206-phase">' + phase + '</small></div>')
+    else:
+        center = '<span class="cs193-vs">' + ("VS" if str(game.get("Venue")) == "Neutral" else "@") + '</span>'
+    status_class = "live" if is_live else "final" if is_final else "upcoming"
+    status_label = "LIVE" if is_live else "FINAL" if is_final else "UPCOMING"
+    active_class = " cs206-active-header" + (" cs206-final" if is_final else "") if (is_live or is_final) else ""
     st.markdown(
-        '<div class="cs193-header"><div class="cs193-teams">'
+        '<div class="cs193-header' + active_class + '"><div class="cs193-teams">'
         + _mini_team(away, aid, away_record)
-        + '<span class="cs193-vs">' + ("VS" if str(game.get("Venue")) == "Neutral" else "@") + '</span>'
+        + center
         + _mini_team(home, hid, home_record)
-        + '</div><div class="cs193-meta"><span>' + display_date + ' · ' + display_time
-        + '</span><span>' + venue + ' court</span><span>' + status
-        + '</span><span>Watch: ' + escape(watch) + '</span></div></div>',
+        + '</div><div class="cs193-meta"><span class="cs206-status cs206-status-' + status_class + '">'
+        + status_label + '</span><span>' + display_date + ' · ' + display_time
+        + '</span><span>' + venue + ' court</span>'
+        + '<span>Watch: ' + escape(watch) + '</span></div></div>',
         unsafe_allow_html=True
     )
     if not record_coverage_ok:
         st.caption("Records may be incomplete because some season dates could not be loaded.")
-    # Headline forecasts remain above the five tabs.
+    # V206: distinguish locked pregame predictions from ratings recalculated today.
+    displayed_projection = (archived["margin"], archived["probability"]) if archived else projection
+    if archived:
+        model_label, model_note = "Locked pregame line", "Saved before tipoff · not an in-game line"
+        probability_label = "Pregame home win estimate"
+    elif is_live or is_final:
+        model_label, model_note = "Model estimate · not live", "Current saved ratings · not a locked pregame prediction"
+        probability_label = "Home win estimate · not live"
+    else:
+        model_label, model_note = "Model line", "Current rating estimate · not betting odds"
+        probability_label = "Home win estimate"
+    # The roster scenario displayed on Games uses current descriptive inputs,
+    # not the archived forecast. Never compare or present it as a locked pretip bet.
+    experimental = str(game.get("Experimental line") or "—")
+    roster_status = str(game.get("Roster input status") or "Unavailable")
+    if archived:
+        experimental_value, experimental_note = "Not archived", "Current roster scenario is not a saved pregame prediction"
+    elif roster_status == "Baseline fallback":
+        experimental_value, experimental_note = "No adjustment", "Insufficient qualifying roster data"
+    elif projection:
+        exp_lookup = preliminary_ratings.drop_duplicates("Team ID").set_index("Team ID") if isinstance(preliminary_ratings,pd.DataFrame) and not preliminary_ratings.empty and "Team ID" in preliminary_ratings else None
+        try:
+            exp_margin = (
+                float(exp_lookup.at[hid,"Experimental power"])
+                - float(exp_lookup.at[aid,"Experimental power"])
+                + (0 if str(game.get("Venue"))=="Neutral" else 3)
+            ) if exp_lookup is not None and hid in exp_lookup.index and aid in exp_lookup.index else None
+        except (KeyError,TypeError,ValueError):
+            exp_margin = None
+        if exp_margin is not None and pd.notna(exp_margin) and round(exp_margin,1) == round(float(projection[0]),1):
+            experimental_value, experimental_note = "No change", "Same spread to one decimal · roster scenario"
+        else:
+            experimental_value, experimental_note = experimental, "Untrained roster scenario · not betting odds"
+    else:
+        experimental_value, experimental_note = experimental, "Untrained roster scenario · not betting odds"
     quick1, quick2, quick3 = st.columns(3, gap="small")
-    with quick1: _card("Model line", _compact_line(game, projection), "Preliminary; not betting odds")
-    with quick2: _card("Home win probability", f"{projection[1]:.1f}%" if projection else "Unavailable", home)
-    with quick3: _card("Experimental line", str(game.get("Experimental line", "—")), "Roster scenario")
+    with quick1:
+        _card(model_label, _compact_line(game, displayed_projection), model_note)
+    with quick2:
+        _card(probability_label, f"{displayed_projection[1]:.1f}%" if displayed_projection else "Unavailable", home + " · estimate, not live probability")
+    with quick3:
+        _card("Roster-adjusted scenario", experimental_value, experimental_note)
+    if is_live:
+        st.caption("Live score, period and clock come from ESPN. Prediction cards do not respond to in-game scoring; no live win-probability model is active.")
+    elif is_final:
+        st.caption("Final score is actual. Model cards show pregame estimates where archived; no outcome-driven updates to archived forecasts.")
     overview_tab, ratings_tab, stats_tab, form_tab, context_tab = st.tabs(
         ["Overview", "Ratings", "Team stats", "Form & H2H", "Context"]
     )
@@ -244,10 +316,11 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
                 strength = float(home_strength) - float(away_strength)
                 court = 0.0 if str(game.get("Venue")) == "Neutral" else 3.0
                 st.caption(
-                    f"Estimated home margin: {strength + court:+.1f} points "
-                    f"(team strength {strength:+.1f}; home court {court:+.1f})."
+                    ("Current-rating illustration (not the archived pregame forecast): " if archived else "Estimated home margin: ")
+                    + f"{strength + court:+.1f} points "
+                    + f"(team strength {strength:+.1f}; home court {court:+.1f})."
                 )
-        st.caption("Model forecasts are preliminary, not sportsbook odds. ESPN broadcast listings may change.")
+        st.caption("Courtside estimates are not sportsbook odds or live win probabilities. ESPN broadcast listings may change.")
 
     with ratings_tab:
         st.markdown("#### Head-to-head team analytics")
@@ -279,6 +352,8 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
 
 
     with stats_tab:
+        if is_live:
+            st.info("Pregame team averages only — these are not live box-score statistics. The current game is excluded from the averages.")
         # V100: use the same pregame raw box-score data for the concise preview and detail.
         # A finished game may contribute to its own postgame summary. Upcoming and
         # live previews still exclude the current date to prevent future leakage.
