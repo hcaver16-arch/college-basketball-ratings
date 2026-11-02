@@ -1,0 +1,55 @@
+{
+  "created_utc": "2026-11-02T20:25:54.904686+00:00",
+  "division": "mens-college-basketball",
+  "roster_experiment_thresholds": {
+    "minimum_prior_roster_players": 8,
+    "minimum_prior_stat_match_pct": 90
+  },
+  "purpose": "Explain matching experimental vs baseline spreads without inventing roster adjustments.",
+  "teams": [
+    {
+      "team": "UTEP Miners",
+      "team_id": "2638",
+      "previous_roster_players": 7,
+      "current_roster_players": 15,
+      "valid_player_stat_ids": 14,
+      "prior_players_with_matching_stats": 7,
+      "prior_stat_match_pct": 100.0,
+      "same_team_ids_in_prior_and_current_rosters": 0,
+      "current_players_with_prior_stats": 0,
+      "returning_minutes_pct_known_only": 0.0,
+      "collector_state": "collected",
+      "boxscores_parsed": 31,
+      "games_in_source_feed": 31,
+      "experimental_qualified": false,
+      "raw_roster_scenario_adjustment": null,
+      "blocking_reasons": [
+        "fewer_than_8_prior_roster_players"
+      ],
+      "collector_detail": "All discovered completed box scores parsed; full season/roster unverified",
+      "data_limitations": "ESPN season roster and box-score totals may omit players; eligible evidence is provisional, not verified lineup membership."
+    },
+    {
+      "team": "Northern Kentucky Norse",
+      "team_id": "94",
+      "previous_roster_players": 9,
+      "current_roster_players": 13,
+      "valid_player_stat_ids": 12,
+      "prior_players_with_matching_stats": 7,
+      "prior_stat_match_pct": 77.8,
+      "same_team_ids_in_prior_and_current_rosters": 6,
+      "current_players_with_prior_stats": 4,
+      "returning_minutes_pct_known_only": 43.5,
+      "collector_state": "collected",
+      "boxscores_parsed": 34,
+      "games_in_source_feed": 34,
+      "experimental_qualified": false,
+      "raw_roster_scenario_adjustment": null,
+      "blocking_reasons": [
+        "fewer_than_90pct_prior_players_matched_to_valid_stats"
+      ],
+      "collector_detail": "All discovered completed box scores parsed; full season/roster unverified",
+      "data_limitations": "ESPN season roster and box-score totals may omit players; eligible evidence is provisional, not verified lineup membership."
+    }
+  ]
+}
