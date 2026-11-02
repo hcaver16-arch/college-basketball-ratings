@@ -1600,6 +1600,7 @@ st.markdown("""<style>
 .cs191-team{display:flex;align-items:center;gap:8px;min-width:0}
 .cs191-team img{height:32px;width:32px;object-fit:contain;flex-shrink:0}
 .cs191-team strong{display:block;color:#193c71;font-size:.91rem;line-height:1.2;overflow-wrap:anywhere}
+.cs210-rank{display:inline-block;margin-right:5px;padding:1px 5px;border-radius:5px;background:#e3edff;color:#174a98;font-size:.73rem;font-weight:850;vertical-align:1px}
 .cs191-team small{display:block;color:#6b7c93;font-size:.73rem;line-height:1.45}
 .cs191-center{font-weight:800;color:#142b4d;text-align:center;white-space:nowrap}
 .cs191-score{font-size:1.14rem}
@@ -1633,6 +1634,19 @@ if selected_section == "Games":
     st.caption(f"{first:%B %d, %Y} – {last:%B %d, %Y} · Times Eastern · Select a matchup for the full preview.")
     # V209: previous-season cross-division calibration is a separate read-only source.
     cross_model = load_cross_division_calibration(SPORTS[league])
+    # V210: published polls are separate from Courtside model ranks.
+    from published_polls_v137 import fetch_polls
+    try:
+        game_polls = fetch_polls(SPORTS[league])
+    except (requests.RequestException, ValueError, TypeError, KeyError):
+        game_polls = {}
+    power_rank_lookup = {}
+    if isinstance(team_ratings, pd.DataFrame) and {"Team ID", "Rank"}.issubset(team_ratings.columns):
+        for _, ranked in team_ratings.iterrows():
+            try:
+                power_rank_lookup[str(ranked["Team ID"])] = int(ranked["Rank"])
+            except (TypeError, ValueError, OverflowError):
+                pass
     @st.fragment(run_every="120s")
     def _v183_games_scoreboard(games, record_schedule):
         # Refresh only the visible Eastern calendar day. Avoid a full-season fetch.
@@ -1669,6 +1683,28 @@ if selected_section == "Games":
             f"Upcoming: {int(status_counts.get('Scheduled', 0))}  ·  "
             f"Final: {int(status_counts.get('Final', 0))}"
         )
+        # V210: selectable team ranking labels, AP Top 25 by default.
+        rank_source = st.selectbox(
+            "Team rankings", ["AP Top 25", "Coaches Poll", "Courtside Power", "Hide rankings"],
+            key="cs210_game_rank_source",
+            help="AP and Coaches are published polls; Courtside Power uses our model."
+        )
+        if rank_source in ("AP Top 25", "Coaches Poll"):
+            poll_record = game_polls.get(rank_source, {})
+            poll_rows = poll_record.get("rows", pd.DataFrame())
+            rank_lookup = {}
+            if isinstance(poll_rows, pd.DataFrame) and not poll_rows.empty:
+                rank_lookup = {
+                    str(row["Team ID"]): int(row["Rank"])
+                    for _, row in poll_rows.iterrows()
+                    if pd.notna(row.get("Team ID")) and pd.notna(row.get("Rank"))
+                }
+            if not rank_lookup:
+                st.caption(f"{rank_source} rankings unavailable for this division; no ranks displayed.")
+        elif rank_source == "Courtside Power":
+            rank_lookup = power_rank_lookup
+        else:
+            rank_lookup = {}
         # V190: keep all primary filters on one horizontal bar and NET controls in a popover.
         # Replaces the old "More filters · Team, conference, venue & NET" expander.
         net_ranks, net_status = load_net(league)
@@ -1837,7 +1873,9 @@ if selected_section == "Games":
                                     f'<img src="https://a.espncdn.com/i/teamlogos/ncaa/500/{team_id}.png" alt="" loading="lazy"/>'
                                     if logos_enabled and team_id.isdigit() else ""
                                 )
-                                return f'<div class="cs191-team">{logo}<div><strong>{name}</strong><small>({html.escape(record)})</small></div></div>'
+                                rank = rank_lookup.get(team_id)
+                                rank_html = f'<span class="cs210-rank">#{rank}</span>' if rank is not None else ""
+                                return f'<div class="cs191-team">{logo}<div><strong>{rank_html}{name}</strong><small>({html.escape(record)})</small></div></div>'
                             has_score = pd.notna(game.get("Away score")) and pd.notna(game.get("Home score"))
                             if status in ("Live", "Final") and has_score:
                                 score_markup = (
