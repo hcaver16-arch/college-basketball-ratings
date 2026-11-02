@@ -252,7 +252,7 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
     stats_source = stats_games if isinstance(stats_games, pd.DataFrame) and not stats_games.empty else games
     cs_away_stats = team_raw_stats(stats_source,aid,league,before=stat_cutoff)
     cs_home_stats = team_raw_stats(stats_source,hid,league,before=stat_cutoff)
-    render_matchup_preview(away,home,away_stats=cs_away_stats,home_stats=cs_home_stats)
+    render_matchup_preview(away,home,away_stats=cs_away_stats,home_stats=cs_home_stats,postgame=is_completed)
     with st.expander("Offense, defense & matchup statistics", expanded=False):
         render_matchup_stats(away,home,away_stats=cs_away_stats,home_stats=cs_home_stats,
                              postgame=is_completed)
