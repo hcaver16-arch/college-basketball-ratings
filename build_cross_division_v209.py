@@ -70,13 +70,47 @@ def parse_final(event):
 
 
 def ratings_membership(sport):
-    path=ROOT/"data"/"ratings"/sport/"latest.csv.gz"
-    if not path.exists():
-        raise RuntimeError(f"Missing existing Courtside D1 rating snapshot for {sport}")
-    frame=pd.read_csv(path,compression="gzip",dtype={"Team ID":str})
-    ids=set(frame["Team ID"].dropna().astype(str))
-    if len(ids)<300:
-        raise RuntimeError(f"{sport}: rated D1 snapshot has only {len(ids)} teams; refuse calibration")
+    """Official ESPN D1 group membership, NOT the power-rating table.
+
+    The rating snapshot can include non-D1 opponents because the exploratory
+    power engine fits any connected team. Using that table as a D1 authority
+    would incorrectly exclude every cross-division result.
+    """
+    base=(f"https://sports.core.api.espn.com/v2/sports/basketball/leagues/"
+          f"{sport}/seasons/2026/types/2")
+    session=requests.Session()
+    session.headers.update(HEADERS)
+    def page_items(url):
+        out=[]
+        while url:
+            response=session.get(url,timeout=25)
+            response.raise_for_status()
+            data=response.json()
+            out.extend(data.get("items") or [])
+            url=(data.get("page") or {}).get("next")
+        return out
+    conference_refs=page_items(base+"/groups/50/children?limit=200")
+    if len(conference_refs)<25:
+        raise RuntimeError(f"{sport}: ESPN core membership has {len(conference_refs)} conferences")
+    def read_conf(ref):
+        url=ref.get("$ref")
+        if not url:return set()
+        response=session.get(url,timeout=25)
+        response.raise_for_status()
+        cid=str(response.json().get("id") or "")
+        if not cid:return set()
+        participants=page_items(base+f"/groups/{cid}/teams?limit=500")
+        return {
+            a.get("$ref","").split("?")[0].rstrip("/").rsplit("/",1)[-1]
+            for a in participants if a.get("$ref")
+        }
+    ids=set()
+    with ThreadPoolExecutor(max_workers=5) as pool:
+        futures=[pool.submit(read_conf, ref) for ref in conference_refs]
+        for f in as_completed(futures):
+            ids.update(f.result())
+    if not 300<=len(ids)<=450:
+        raise RuntimeError(f"{sport}: implausible D1 group count {len(ids)}")
     return ids
 
 
