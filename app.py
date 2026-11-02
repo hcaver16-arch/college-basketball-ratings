@@ -1684,11 +1684,21 @@ if selected_section == "Games":
             f"Final: {int(status_counts.get('Final', 0))}"
         )
         # V210: selectable team ranking labels, AP Top 25 by default.
-        rank_source = st.selectbox(
-            "Team rankings", ["AP Top 25", "Coaches Poll", "Courtside Power", "Hide rankings"],
-            key="cs210_game_rank_source",
-            help="AP and Coaches are published polls; Courtside Power uses our model."
-        )
+        from ranked_games_filter_v211 import RANKED_GAME_FILTER_OPTIONS, filter_by_ranked_teams
+        rank_source_col, ranked_filter_col = st.columns([1, 1.2], gap="small")
+        with rank_source_col:
+            rank_source = st.selectbox(
+                "Team rankings", ["AP Top 25", "Coaches Poll", "Courtside Power", "Hide rankings"],
+                key="cs210_game_rank_source",
+                help="AP and Coaches are published polls; Courtside Power uses our model."
+            )
+        with ranked_filter_col:
+            ranked_filter = st.selectbox(
+                "Ranked matchups", RANKED_GAME_FILTER_OPTIONS,
+                key="cs211_ranked_game_filter",
+                disabled=rank_source == "Hide rankings",
+                help="Filter using the chosen poll's Top 25, or Courtside Power's top 25 teams."
+            )
         if rank_source in ("AP Top 25", "Coaches Poll"):
             poll_record = game_polls.get(rank_source, {})
             poll_rows = poll_record.get("rows", pd.DataFrame())
@@ -1754,6 +1764,9 @@ if selected_section == "Games":
                         key="games_net_q1", disabled=not bool(net_ranks)
                     )
         shown = games.copy()
+        # Hidden labels should also deactivate ranked-matchup filtering.
+        if rank_source != "Hide rankings":
+            shown = filter_by_ranked_teams(shown, rank_lookup, ranked_filter)
         if matchup_scope == "D1 vs D1 only":
             shown = shown[
                 shown["Home ID"].astype(str).isin(verified_d1_ids) &
