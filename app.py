@@ -1558,6 +1558,24 @@ st.markdown("""<style>
 .st-key-cs186_matchup_detail .cs-kpi{border-top:3px solid #0e9f91;box-shadow:0 2px 8px rgba(18,48,106,.04)}
 .st-key-cs186_matchup_detail [data-testid="stExpander"] summary{background:#edf4ff;color:#173b73;font-weight:700}
 .st-key-cs186_scoreboard .cs183-teams{color:#173b73}
+.cs191-top{display:flex;align-items:center;gap:10px;font-size:.79rem;font-weight:600;color:#566b89;margin-bottom:8px}
+.cs191-status{font-weight:800;color:#15468d;letter-spacing:.025em}
+.st-key-cs186_game_live .cs191-status{color:#b42338}
+.st-key-cs186_game_final .cs191-status{color:#13764f}
+.cs191-matchup{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:8px;min-height:72px}
+.cs191-team{display:flex;align-items:center;gap:8px;min-width:0}
+.cs191-team img{height:32px;width:32px;object-fit:contain;flex-shrink:0}
+.cs191-team strong{display:block;color:#193c71;font-size:.91rem;line-height:1.2;overflow-wrap:anywhere}
+.cs191-team small{display:block;color:#6b7c93;font-size:.73rem;line-height:1.45}
+.cs191-center{font-weight:800;color:#142b4d;text-align:center;white-space:nowrap}
+.cs191-score{font-size:1.14rem}
+.cs191-at{color:#7c8ca3;font-size:.85rem}
+.cs191-pending{font-size:.73rem;white-space:normal}
+.cs191-footer{border-top:1px solid #e1e9f4;margin-top:9px;padding-top:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:0}
+.cs191-context{font-size:.73rem;color:#63768f;overflow-wrap:anywhere}
+.cs191-line{font-size:.76rem;font-weight:750;white-space:normal;text-align:center;color:#1b4688;background:#edf3fc;border:1px solid #d5e2f4;border-radius:7px;padding:5px 8px;max-width:47%}
+@media(max-width:850px){.cs191-matchup{gap:4px}.cs191-team img{height:25px;width:25px}.cs191-team strong{font-size:.8rem}.cs191-score{font-size:.95rem}.cs191-footer{flex-wrap:wrap}.cs191-line{max-width:100%}}
+
 .st-key-cs186_scoreboard [class*="st-key-cs186_game_"] {min-height:168px}
 .st-key-cs186_scoreboard [class*="st-key-cs186_game_"] [data-testid="stCaptionContainer"] p{font-size:.75rem}
 .st-key-cs186_scoreboard [class*="st-key-cs186_game_"] button{font-size:.78rem}
@@ -1750,66 +1768,76 @@ if selected_section == "Games":
             with right:
                 st.caption(f"Showing {(page-1)*page_size+1}–{min(page*page_size,len(shown))} of {len(shown):,} games")
             portion = shown.iloc[(page-1)*page_size:page*page_size]
-            # V189: two balanced tiles per desktop row; Streamlit stacks columns on mobile.
+            # V191: richer two-column cards, using only fields available in the feed.
             for start_idx in range(0, len(portion), 2):
                 tile_cols = st.columns(2, gap="small")
-                tile_games = list(portion.iloc[start_idx:start_idx + 2].iterrows())
-                for tile_idx, (_, game) in enumerate(tile_games):
+                for tile_idx, (_, game) in enumerate(portion.iloc[start_idx:start_idx + 2].iterrows()):
                     with tile_cols[tile_idx]:
                         status = str(game["Status"])
                         with st.container(key=f"cs186_game_{status.lower()}_{game['Game ID']}", border=True):
                             away_record, home_record = game_records(record_schedule, game)
-                            if status == "Live":
-                                status_label = "🔴 LIVE"
-                            elif status == "Final":
-                                status_label = "FINAL"
-                            else:
-                                status_label = "UPCOMING"
-                            st.caption(f"{status_label}  ·  {game.get('Display date',game['Date'])}  ·  {game.get('Display time',game['Time (ET)'])}" + (" · Records partial" if not record_coverage_ok else ""))
-                            logos_enabled = st.session_state.get("courtside_logos_enabled", True)
+                            status_label = "🔴 LIVE" if status == "Live" else "FINAL" if status == "Final" else "UPCOMING"
+                            tipoff = str(game.get("Display time", game["Time (ET)"]))
+                            st.markdown(
+                                '<div class="cs191-top"><span class="cs191-status">'
+                                + html.escape(status_label) + '</span><span>'
+                                + html.escape("Final" if status == "Final" else tipoff)
+                                + '</span></div>', unsafe_allow_html=True
+                            )
                             away_id, home_id = str(game["Away ID"]), str(game["Home ID"])
-                            identity_col, result_col = st.columns([3.1, 1.6], gap="small", vertical_alignment="center")
-                            with identity_col:
-                                if logos_enabled and away_id.isdigit() and home_id.isdigit():
-                                    st.markdown(
-                                        '<div class="cs183-matchup">'
-                                        '<div class="cs183-logo-stack">'
-                                        f'<img src="https://a.espncdn.com/i/teamlogos/ncaa/500/{away_id}.png" alt="" loading="lazy"/>'
-                                        f'<img src="https://a.espncdn.com/i/teamlogos/ncaa/500/{home_id}.png" alt="" loading="lazy"/>'
-                                        '</div><div class="cs183-teams">'
-                                        f'<div>{html.escape(str(game["Away"]))} <span>({away_record})</span></div>'
-                                        f'<div>{html.escape(str(game["Home"]))} <span>({home_record})</span></div>'
-                                        '</div></div>', unsafe_allow_html=True)
-                                else:
-                                    st.markdown(f"**{game['Away']}** ({away_record})")
-                                    st.markdown(f"**{game['Home']}** ({home_record})")
-                            with result_col:
-                                has_score = pd.notna(game.get("Away score")) and pd.notna(game.get("Home score"))
-                                if status in ("Final", "Live") and has_score:
-                                    st.markdown(f"### {int(game['Away score'])} – {int(game['Home score'])}")
-                                    st.caption("Final score" if status == "Final" else "Live score")
-                                elif status == "Live":
-                                    st.markdown("**Score pending**")
-                                else:
-                                    home_d1 = str(game["Home ID"]) in verified_d1_ids
-                                    away_d1 = str(game["Away ID"]) in verified_d1_ids
-                                    if not (home_d1 and away_d1):
-                                        st.markdown("**Non-D1 opponent**" if home_d1 or away_d1 else "**Outside D1 model**")
-                                        st.caption("No model line")
-                                    elif str(game.get("Model line", "")) in ("Not rated", "—", ""):
-                                        st.markdown("**Rating unavailable**")
-                                        st.caption("Both teams D1")
-                                    else:
-                                        st.markdown(f"**{game.get('Model line', '—')}**")
-                                        st.caption("Model projection")
-                            footer_info, footer_action = st.columns([2.6, 1.4], gap="small", vertical_alignment="center")
-                            with footer_info:
-                                st.caption(f"{game.get('Away conference name', '—')} · {game.get('Venue', '—')} venue")
-                            with footer_action:
-                                if st.button("View matchup →", key=f"game_detail_{league}_{game['Game ID']}", use_container_width=True):
-                                    st.session_state["courtside_selected_game"] = str(game["Game ID"])
-                                    st.session_state["courtside_selected_game_payload"] = game.to_dict()
-                                    st.rerun()
+                            logos_enabled = st.session_state.get("courtside_logos_enabled", True)
+                            def team_markup(side, team_id, record):
+                                name = html.escape(str(game[side]))
+                                logo = (
+                                    f'<img src="https://a.espncdn.com/i/teamlogos/ncaa/500/{team_id}.png" alt="" loading="lazy"/>'
+                                    if logos_enabled and team_id.isdigit() else ""
+                                )
+                                return f'<div class="cs191-team">{logo}<div><strong>{name}</strong><small>({html.escape(record)})</small></div></div>'
+                            has_score = pd.notna(game.get("Away score")) and pd.notna(game.get("Home score"))
+                            if status in ("Live", "Final") and has_score:
+                                score_markup = (
+                                    f'<span class="cs191-score">{int(game["Away score"])} – {int(game["Home score"])}</span>'
+                                )
+                            elif status == "Live":
+                                score_markup = '<span class="cs191-pending">Score pending</span>'
+                            else:
+                                score_markup = '<span class="cs191-at">@</span>'
+                            st.markdown(
+                                '<div class="cs191-matchup">'
+                                + team_markup("Away", away_id, away_record)
+                                + '<div class="cs191-center">' + score_markup + '</div>'
+                                + team_markup("Home", home_id, home_record)
+                                + '</div>', unsafe_allow_html=True
+                            )
+                            home_d1 = home_id in verified_d1_ids
+                            away_d1 = away_id in verified_d1_ids
+                            if status == "Scheduled" and not (home_d1 and away_d1):
+                                line_label = "Non-D1 opponent" if home_d1 or away_d1 else "Outside D1 model"
+                            elif status == "Scheduled" and str(game.get("Model line", "")) in ("Not rated", "—", ""):
+                                line_label = "Rating unavailable"
+                            else:
+                                line_label = str(game.get("Model line", "—"))
+                            away_conf = str(game.get("Away conference name") or "—")
+                            home_conf = str(game.get("Home conference name") or "—")
+                            conf_label = home_conf if home_conf == away_conf else f"{away_conf} / {home_conf}"
+                            venue_label = str(game.get("Venue") or "Unknown")
+                            watch_value = str(game.get("Watch") or "").strip()
+                            if watch_value.lower() in ("nan", "none", "—", "unknown"):
+                                watch_value = ""
+                            context = conf_label + " · " + venue_label + " court"
+                            if watch_value:
+                                context += " · " + watch_value
+                            st.markdown(
+                                '<div class="cs191-footer"><span class="cs191-context">'
+                                + html.escape(context) + '</span><span class="cs191-line">'
+                                + html.escape(line_label) + '</span></div>', unsafe_allow_html=True
+                            )
+                            if not record_coverage_ok:
+                                st.caption("Records may be partial")
+                            if st.button("View matchup →", key=f"game_detail_{league}_{game['Game ID']}", use_container_width=True):
+                                st.session_state["courtside_selected_game"] = str(game["Game ID"])
+                                st.session_state["courtside_selected_game_payload"] = game.to_dict()
+                                st.rerun()
         with st.expander("Download full game data and notes"):
             st.download_button("Download filtered games CSV", shown.to_csv(index=False).encode(), "basketball_games.csv", "text/csv", key="v12_download_games")
             st.caption("The full export includes model lines, experimental lines, scores, and roster status. ESPN scoreboard data may be incomplete.")
