@@ -1,0 +1,55 @@
+name: V203 research-only independent roster forecast evaluation
+on:
+  pull_request:
+    paths:
+      - independent_roster_prospective_v203.py
+      - test_independent_roster_prospective_v203.py
+      - .github/workflows/evaluate_independent_rosters_v203.yml
+  push:
+    branches:
+      - courtside-v203-prospective-independent-roster-evaluation
+    paths:
+      - independent_roster_prospective_v203.py
+      - test_independent_roster_prospective_v203.py
+      - .github/workflows/evaluate_independent_rosters_v203.yml
+  workflow_dispatch:
+  schedule:
+    # Existing V97 and V109 jobs run at 12:15/18:15 and 12:20/18:20 UTC.
+    # Run 25 minutes later to allow their append-only baseline archives to commit.
+    - cron: '45 12,18 * * *'
+permissions:
+  contents: write
+concurrency:
+  group: courtside-v97-prospective
+  cancel-in-progress: false
+jobs:
+  prospective-study:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install 'pandas>=2.1,<3' requests
+      - name: Validate timestamp gating, source evidence and immutable forecasts
+        run: |
+          python -m py_compile independent_roster_prospective_v203.py test_independent_roster_prospective_v203.py
+          python test_independent_roster_prospective_v203.py
+      - name: Audit real independent roster evidence and lock fresh eligible future predictions
+        run: |
+          python independent_roster_prospective_v203.py --season 2026-27
+          cat data/prospective/2026-27/independent_roster_evaluation_v203.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Commit V203 separate research journal only
+        if: github.event_name != 'pull_request'
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- data/prospective/2026-27/independent_roster_pairs_v203.csv data/prospective/2026-27/independent_roster_evaluation_v203.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'V203: archive independent roster research predictions and comparison'
+            git push
+          fi
