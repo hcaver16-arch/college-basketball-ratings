@@ -46,12 +46,8 @@ jobs:
             git commit -m 'V202: preserve sourced ESPN player names and official school reconciliation'
             git push origin HEAD:refs/heads/courtside-v202-official-roster-reconciliation
           fi
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: official-roster-evidence-v202
-          path: |
-            data/official_roster_evidence_v202/summary.json
-            data/official_roster_evidence_v202/linked_players.csv
-            data/official_roster_evidence_v202/linked_current_players.csv
-          if-no-files-found: ignore
+      - name: Confirm saved audit was published
+        run: |
+          test -s data/official_roster_evidence_v202/summary.json
+          test -s data/official_roster_evidence_v202/linked_players.csv
+          test -s data/official_roster_evidence_v202/linked_current_players.csv
