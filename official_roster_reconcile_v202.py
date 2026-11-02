@@ -27,7 +27,14 @@ def normalized_name(name):
     txt = "".join(c for c in txt if not unicodedata.combining(c))
     txt = txt.casefold().replace("&", " and ")
     txt = re.sub(r"[^a-z0-9 ]+", " ", txt)
-    return " ".join(txt.split())
+    tokens = txt.split()
+    # C.J. / C J / CJ resolve to the same full initials, without fuzzy joins.
+    if len(tokens) >= 3 and len(tokens[0]) == len(tokens[1]) == 1:
+        head = 0
+        while head < len(tokens) - 1 and len(tokens[head]) == 1:
+            head += 1
+        tokens = ["".join(tokens[:head])] + tokens[head:]
+    return " ".join(tokens)
 
 def _identity_map(frames, tid):
     """Map unambiguous team-local normalized ESPN names to player IDs and sources."""
