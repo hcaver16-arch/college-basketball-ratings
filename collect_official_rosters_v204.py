@@ -108,6 +108,21 @@ def extract_roster_players(html,year):
             if a.find_parent(["nav","footer"]):continue
             name=clean_player(a.get_text(" ",strip=True))
             if name:names.append(name)
+    if len(names)<MIN_PLAYERS:
+        # Some school templates use athlete-name headings rather than SIDEARM
+        # classes. Stop before the coaching-staff section and still require
+        # a plausible cohort plus exact ESPN identity corroboration downstream.
+        heading_names=[]
+        for header in soup.find_all(["h2","h3","h4"]):
+            raw=header.get_text(" ",strip=True)
+            if "coaching staff" in raw.casefold():
+                break
+            if header.name not in ("h3","h4"):
+                continue
+            candidate=clean_player(raw)
+            if candidate:heading_names.append(candidate)
+        if len(heading_names)>=MIN_PLAYERS:
+            names=heading_names
     if not names:return [],"no_structured_player_names"
     seen={}
     for name in names:
