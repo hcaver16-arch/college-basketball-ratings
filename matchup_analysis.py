@@ -9,6 +9,7 @@ from team_identity import team_identity
 from efficiency_ui import render_matchup_stats
 from raw_team_stats import team_raw_stats
 from live_matchup_v206 import progress_label, score_pair, locked_pregame_forecast
+from game_location_v207 import display_game_location
 
 
 def _number(x, fmt="+.1f"):
@@ -191,7 +192,7 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
     status = escape(str(game.get("Status") or "Scheduled"))
     display_date = escape(str(game.get("Display date", game.get("Date", ""))))
     display_time = escape(str(game.get("Display time", game.get("Time (ET)", ""))))
-    venue = escape(str(game.get("Venue", "Unknown")))
+    venue = escape(display_game_location(game))
     st.markdown("""<style>
     .cs193-header{background:#eef3fb;border:1px solid #d6e3f3;border-radius:12px;padding:10px 14px;margin:2px 0 10px}
     .cs193-teams{display:grid;grid-template-columns:minmax(0,1fr) 30px minmax(0,1fr);gap:12px;align-items:center}
@@ -242,7 +243,7 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
         + _mini_team(home, hid, home_record)
         + '</div><div class="cs193-meta"><span class="cs206-status cs206-status-' + status_class + '">'
         + status_label + '</span><span>' + display_date + ' · ' + display_time
-        + '</span><span>' + venue + ' court</span>'
+        + '</span><span>' + venue + '</span>'
         + '<span>Watch: ' + escape(watch) + '</span></div></div>',
         unsafe_allow_html=True
     )
