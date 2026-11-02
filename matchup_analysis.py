@@ -316,8 +316,9 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
                 strength = float(home_strength) - float(away_strength)
                 court = 0.0 if str(game.get("Venue")) == "Neutral" else 3.0
                 st.caption(
-                    f"Estimated home margin: {strength + court:+.1f} points "
-                    f"(team strength {strength:+.1f}; home court {court:+.1f})."
+                    ("Current-rating illustration (not the archived pregame forecast): " if archived else "Estimated home margin: ")
+                    + f"{strength + court:+.1f} points "
+                    + f"(team strength {strength:+.1f}; home court {court:+.1f})."
                 )
         st.caption("Courtside estimates are not sportsbook odds or live win probabilities. ESPN broadcast listings may change.")
 
