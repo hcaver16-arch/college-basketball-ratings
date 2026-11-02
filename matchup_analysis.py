@@ -168,55 +168,50 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
         a=pd.to_numeric(game.get("Away score"),errors="coerce")
         h=pd.to_numeric(game.get("Home score"),errors="coerce")
         if pd.notna(a) and pd.notna(h): st.markdown(f"### {away} {int(a)} — {home} {int(h)}")
-    # V192: compact tabbed matchup deep dive. No model/data changes.
+    # V193: one compact header replaces both the duplicate title and oversized logo panel.
+    external_logos = st.session_state.get("courtside_logos_enabled", True)
+    def _mini_team(team, tid, record):
+        logo = (f'<img src="https://a.espncdn.com/i/teamlogos/ncaa/500/{tid}.png" alt="" loading="lazy"/>'
+                if external_logos and str(tid).isdigit() else "")
+        rec = escape(str(record)) if record is not None else "Record unavailable"
+        return f'<div class="cs193-side">{logo}<div><strong>{escape(team)}</strong><small>{rec}</small></div></div>'
+    watch = game.get("Watch")
+    if not isinstance(watch, str) or not watch.strip() or watch.lower() in ("nan", "none"):
+        watch = "Not announced"
+    status = escape(str(game.get("Status") or "Scheduled"))
+    display_date = escape(str(game.get("Display date", game.get("Date", ""))))
+    display_time = escape(str(game.get("Display time", game.get("Time (ET)", ""))))
+    venue = escape(str(game.get("Venue", "Unknown")))
     st.markdown("""<style>
-    .cs192-hero{display:flex;justify-content:space-between;align-items:center;gap:12px;background:linear-gradient(110deg,#152c55,#243e71);color:#fff;border-radius:12px;padding:14px 18px;margin:4px 0 8px}
-    .cs192-hero-team{font-size:1.1rem;font-weight:800;min-width:0;overflow-wrap:anywhere}
-    .cs192-hero-at{font-weight:750;color:#d9e5f7}
-    .cs192-headline{font-size:.82rem;color:#536987;margin:8px 0}
-    .st-key-cs186_matchup_detail [data-testid="stTabs"] [role="tablist"]{gap:5px;flex-wrap:wrap}
-    .st-key-cs186_matchup_detail [data-testid="stTabs"] [role="tab"]{font-size:.82rem;font-weight:700}
-    .st-key-cs186_matchup_detail .cs-kpi{min-height:88px;padding:10px 13px}
-    @media(max-width:700px){.cs192-hero{padding:12px}.cs192-hero-team{font-size:.92rem}}
-    </style>""",unsafe_allow_html=True)
-    st.markdown(
-        '<div class="cs192-hero"><span class="cs192-hero-team">' + escape(away) +
-        '</span><span class="cs192-hero-at">@</span><span class="cs192-hero-team">' +
-        escape(home) + '</span></div>', unsafe_allow_html=True
-    )
-    # Keep key forecasts visible without forcing visitors through multiple panels.
-    st.markdown("#### Matchup projection")
-    quick1, quick2, quick3 = st.columns(3, gap="small")
-    with quick1: _card("Model line", _compact_line(game,projection), "Preliminary, not betting odds")
-    with quick2: _card("Home win probability", f"{projection[1]:.1f}%" if projection else "Unavailable", home)
-    with quick3:
-        _card("Experimental line", str(game.get("Experimental line", "—")), "Roster scenario, not sportsbook odds")
-    overview_tab, ratings_tab, stats_tab, form_tab, context_tab = st.tabs(
-        ["Overview", "Ratings", "Team stats", "Form & H2H", "Context"]
-    )
-    with overview_tab:
+    .cs193-header{background:#eef3fb;border:1px solid #d6e3f3;border-radius:12px;padding:10px 14px;margin:2px 0 10px}
+    .cs193-teams{display:grid;grid-template-columns:minmax(0,1fr) 35px minmax(0,1fr);gap:12px;align-items:center}
+    .cs193-side{display:flex;align-items:center;gap:10px;min-width:0}
+    .cs193-side:last-child{justify-content:flex-end}
+    .cs193-side img{width:42px;height:42px;object-fit:contain;flex:none}
+    .cs193-side strong{display:block;color:#173665;font-size:1rem;line-height:1.2;overflow-wrap:anywhere}
+    .cs193-side small{display:block;color:#657998;font-size:.78rem}
+    .cs193-vs{text-align:center;color:#47658b;font-weight:800}
+    .cs193-meta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px;font-size:.76rem;color:#566c8c}
+    .st-key-cs186_mat    with overview_tab:
         st.markdown("##### Matchup overview")
-        st.caption("A concise overview of the current prediction, team records, and viewing information.")
-        # Shared, site-wide logo setting is owned by app.py.
-        record_label = "Postgame record" if str(game.get("Status")) == "Final" else "Pregame record"
-        external_logos = st.session_state.get("courtside_logos_enabled", True)
-        with st.container(border=True):
-            a_col, vs_col, h_col = st.columns([4, 1, 4], vertical_alignment="center")
-            team_identity(a_col, away, aid, league, external_logos=external_logos)
-            with a_col:
-                st.markdown(f"**{away_record}** · {record_label}" if away_record is not None else "Record unavailable")
-            with vs_col:
-                st.markdown("### at" if str(game.get("Venue")) != "Neutral" else "### vs")
-            team_identity(h_col, home, hid, league, external_logos=external_logos)
-            with h_col:
-                st.markdown(f"**{home_record}** · {record_label}" if home_record is not None else "Record unavailable")
-            if external_logos:
-                st.caption("Logos are externally hosted and belong to their respective rights holders; Courtside is not affiliated with or endorsed by these schools.")
-        if not record_coverage_ok:
-            st.caption("Records may be incomplete because some season schedule dates could not be loaded.")
-        watch = game.get("Watch")
-        if not isinstance(watch, str) or not watch.strip() or watch.lower() in ("nan", "none"):
-            watch = "Not announced"
+        left, right = st.columns(2, gap="small")
+        with left:
+            st.markdown("**Team ratings**")
+            st.markdown(f"{escape(away)}: **{_cell(away_rating,['Current power'],'+.1f')}**")
+            st.markdown(f"{escape(home)}: **{_cell(home_rating,['Current power'],'+.1f')}**")
+        with right:
+            st.markdown("**Recent results**")
+            for label,tid in ((away,aid),(home,hid)):
+                recent = _recent(games,tid)
+                st.caption(f"{label}: " + (" · ".join(recent[:2]) if recent else "No completed games loaded"))
+        if projection:
+            a=ratings.get(aid); h=ratings.get(hid)
+            if a is not None and h is not None:
+                strength=float(h)-float(a)
+                court=0.0 if str(game.get("Venue"))=="Neutral" else 3.0
+                st.caption(f"Estimated home margin: {strength+court:+.1f} points (team strength {strength:+.1f}, home court {court:+.1f}).")
+        st.caption("Model forecasts are preliminary, not sportsbook odds. ESPN broadcast information may change.")
+= "Not announced"
         st.markdown("#### Where to watch")
         st.markdown(f"**{escape(watch)}**")
         st.caption("Broadcast listings are supplied by ESPN and may be added or changed closer to tipoff. Check the broadcaster or game page for streaming availability and subscription requirements.")
