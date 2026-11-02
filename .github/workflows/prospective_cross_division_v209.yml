@@ -1,0 +1,54 @@
+name: V209 prospective cross-division tracking
+on:
+  push:
+    branches:
+      - courtside-v209-cross-division-projections
+    paths:
+      - prospective_cross_division_v209.py
+      - test_prospective_cross_division_v209.py
+      - .github/workflows/prospective_cross_division_v209.yml
+  pull_request:
+    paths:
+      - prospective_cross_division_v209.py
+      - test_prospective_cross_division_v209.py
+      - .github/workflows/prospective_cross_division_v209.yml
+  workflow_dispatch:
+  schedule:
+    - cron: '20 11,17,23 * * *'
+permissions:
+  contents: write
+concurrency:
+  group: courtside-cross-division-prospective
+  cancel-in-progress: false
+jobs:
+  prospective-cross-division:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install 'pandas>=2.1,<3' 'numpy>=1.26,<3' requests
+      - name: Verify first-lock chronology, no live-score leakage, archival immutability and outcome scoring
+        run: |
+          python -m py_compile cross_division_v209.py build_cross_division_v209.py prospective_cross_division_v209.py
+          python test_cross_division_v209.py
+          python test_prospective_cross_division_v209.py
+      - name: Collect source-only future pregame spreads and grade completed locks
+        if: github.event_name != 'pull_request'
+        run: python prospective_cross_division_v209.py
+      - name: Commit separate cross-division forecasts and results; never edit official D1 archives
+        if: github.event_name != 'pull_request'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/cross_division_prospective/2026-27/
+          if ! git diff --cached --quiet; then
+            git commit -m 'V209: lock and evaluate independent cross-division research forecasts'
+            git fetch origin "$GITHUB_REF_NAME"
+            git rebase "origin/$GITHUB_REF_NAME"
+            git push origin "HEAD:$GITHUB_REF_NAME"
+          fi

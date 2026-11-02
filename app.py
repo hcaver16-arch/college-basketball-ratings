@@ -36,6 +36,7 @@ from forecast_comparison import combined_forecasts
 from preliminary_model import build_preliminary_ratings, add_experimental_lines
 from live_matchup_v206 import espn_progress, progress_label
 from game_location_v207 import game_location_from_espn, display_game_location, UNKNOWN_LOCATION
+from cross_division_v209 import load_cross_division_calibration, estimate as estimate_cross_division, line_for_game as cross_division_line
 from courtside_home import style as courtside_style, render_home
 from courtside_theme_v153 import apply_v153_theme
 from courtside_tables import apply_table_theme, dataframe as courtside_dataframe
@@ -681,14 +682,15 @@ def game_projection(game, ratings):
 
 
 
-def attach_model_lines(frame: pd.DataFrame, rating_lookup: dict, verified_d1: set):
-    """Create estimated lines only where both teams are rated and verified D1."""
+def attach_model_lines(frame: pd.DataFrame, rating_lookup: dict, verified_d1: set, cross_model=None):
+    """Show standard D1 predictions or separately labeled cross-division research lines."""
     out = frame.copy()
     def get_line(row):
         if row["Status"] != "Scheduled":
             return "—"
         if str(row["Home ID"]) not in verified_d1 or str(row["Away ID"]) not in verified_d1:
-            return "Not rated"
+            experimental=estimate_cross_division(row, rating_lookup, verified_d1, cross_model)
+            return "Cross-div · " + cross_division_line(experimental) if experimental else "Not rated"
         projection = game_projection(row, rating_lookup)
         if projection is None:
             return "Not rated"
@@ -1629,6 +1631,8 @@ if selected_section == "Games":
         st.warning("Some season dates could not be loaded. Team records below may be incomplete; they are marked as partial.")
     st.subheader("Games")
     st.caption(f"{first:%B %d, %Y} – {last:%B %d, %Y} · Times Eastern · Select a matchup for the full preview.")
+    # V209: previous-season cross-division calibration is a separate read-only source.
+    cross_model = load_cross_division_calibration(SPORTS[league])
     @st.fragment(run_every="120s")
     def _v183_games_scoreboard(games, record_schedule):
         # Refresh only the visible Eastern calendar day. Avoid a full-season fetch.
@@ -1743,7 +1747,7 @@ if selected_section == "Games":
                 else: shown = shown[hq | aq]
             if q1_only:
                 shown = shown[(shown["Home quadrant"] == "Q1") | (shown["Away quadrant"] == "Q1")]
-        shown = attach_model_lines(shown, ratings_for_schedule, verified_d1_ids)
+        shown = attach_model_lines(shown, ratings_for_schedule, verified_d1_ids, cross_model)
         shown = add_experimental_lines(shown, preliminary_ratings, verified_d1_ids)
         # Home-page links already store the selected Game ID here.
         selected_id = str(st.session_state.get("courtside_selected_game") or "")
@@ -1781,7 +1785,7 @@ if selected_section == "Games":
                         preliminary_ratings=preliminary_ratings, sos_ratings=sos_ratings,
                         sor_ratings=sor_ratings, games=games, net_ranks=net_ranks,
                         net_status=net_status, verified_d1_ids=verified_d1_ids,
-                        league=league, game_projection=game_projection,
+                        league=league, game_projection=game_projection, cross_division_model=cross_model,
                         away_record=away_record, home_record=home_record, record_coverage_ok=record_coverage_ok,
                     stats_games=record_schedule,
                     )
@@ -1853,7 +1857,7 @@ if selected_section == "Games":
                             home_d1 = home_id in verified_d1_ids
                             away_d1 = away_id in verified_d1_ids
                             if status == "Scheduled" and not (home_d1 and away_d1):
-                                line_label = "Non-D1 opponent" if home_d1 or away_d1 else "Outside D1 model"
+                                line_label = str(game.get("Model line")) if str(game.get("Model line","")).startswith("Cross-div · ") else "Non-D1 opponent" if home_d1 or away_d1 else "Outside D1 model"
                             elif status == "Scheduled" and str(game.get("Model line", "")) in ("Not rated", "—", ""):
                                 line_label = "Rating unavailable"
                             else:

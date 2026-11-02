@@ -1,0 +1,37 @@
+name: V209 cross-division model regression tests
+on:
+  push:
+    branches:
+      - courtside-v209-cross-division-projections
+    paths:
+      - app.py
+      - matchup_analysis.py
+      - cross_division_v209.py
+      - build_cross_division_v209.py
+      - test_cross_division_v209.py
+      - .github/workflows/test_cross_division_v209.yml
+  pull_request:
+    paths:
+      - app.py
+      - matchup_analysis.py
+      - cross_division_v209.py
+      - build_cross_division_v209.py
+      - test_cross_division_v209.py
+      - .github/workflows/test_cross_division_v209.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install 'pandas>=2.1,<3' 'numpy>=1.26,<3' requests
+      - name: Cross-division projection and no-lookahead regression
+        run: |
+          python -m py_compile app.py matchup_analysis.py cross_division_v209.py build_cross_division_v209.py test_cross_division_v209.py
+          python test_cross_division_v209.py

@@ -1,0 +1,1226 @@
+{
+  "model_version": "v209_empirical_prior_v1",
+  "sport": "womens-college-basketball",
+  "source_season": "2025-26",
+  "source_cutoff_utc": "2026-04-15T00:00:00Z",
+  "collection_window_start": "2025-11-01",
+  "collection_window_end": "2026-01-15",
+  "verified_d1_team_ids": 363,
+  "final_games_processed": 3296,
+  "d1_games_fitted": 2894,
+  "training_games": 402,
+  "opponents_with_historical_games": 298,
+  "pooled_non_d1_rating": -44.585,
+  "opponents": {
+    "1": {
+      "games": 3,
+      "shrunk_rating": -32.585
+    },
+    "100": {
+      "games": 1,
+      "shrunk_rating": -35.994
+    },
+    "100277": {
+      "games": 1,
+      "shrunk_rating": -45.094
+    },
+    "106392": {
+      "games": 1,
+      "shrunk_rating": -45.614
+    },
+    "107607": {
+      "games": 1,
+      "shrunk_rating": -46.6
+    },
+    "108784": {
+      "games": 1,
+      "shrunk_rating": -38.512
+    },
+    "108810": {
+      "games": 2,
+      "shrunk_rating": -46.32
+    },
+    "108823": {
+      "games": 1,
+      "shrunk_rating": -45.094
+    },
+    "108827": {
+      "games": 1,
+      "shrunk_rating": -45.826
+    },
+    "108866": {
+      "games": 1,
+      "shrunk_rating": -45.476
+    },
+    "108867": {
+      "games": 1,
+      "shrunk_rating": -47.478
+    },
+    "108878": {
+      "games": 2,
+      "shrunk_rating": -49.538
+    },
+    "109019": {
+      "games": 1,
+      "shrunk_rating": -47.508
+    },
+    "109466": {
+      "games": 3,
+      "shrunk_rating": -45.209
+    },
+    "109542": {
+      "games": 1,
+      "shrunk_rating": -46.912
+    },
+    "109546": {
+      "games": 3,
+      "shrunk_rating": -48.663
+    },
+    "109604": {
+      "games": 3,
+      "shrunk_rating": -48.41
+    },
+    "109672": {
+      "games": 1,
+      "shrunk_rating": -43.78
+    },
+    "109680": {
+      "games": 1,
+      "shrunk_rating": -43.088
+    },
+    "109688": {
+      "games": 1,
+      "shrunk_rating": -44.35
+    },
+    "109704": {
+      "games": 2,
+      "shrunk_rating": -40.803
+    },
+    "109716": {
+      "games": 1,
+      "shrunk_rating": -46.458
+    },
+    "110398": {
+      "games": 2,
+      "shrunk_rating": -47.967
+    },
+    "110419": {
+      "games": 3,
+      "shrunk_rating": -39.187
+    },
+    "110442": {
+      "games": 2,
+      "shrunk_rating": -44.89
+    },
+    "111203": {
+      "games": 1,
+      "shrunk_rating": -39.164
+    },
+    "111214": {
+      "games": 1,
+      "shrunk_rating": -45.212
+    },
+    "111228": {
+      "games": 1,
+      "shrunk_rating": -44.152
+    },
+    "111960": {
+      "games": 3,
+      "shrunk_rating": -45.676
+    },
+    "111994": {
+      "games": 1,
+      "shrunk_rating": -47.708
+    },
+    "111998": {
+      "games": 1,
+      "shrunk_rating": -45.112
+    },
+    "112102": {
+      "games": 2,
+      "shrunk_rating": -47.083
+    },
+    "112702": {
+      "games": 2,
+      "shrunk_rating": -43.068
+    },
+    "112704": {
+      "games": 1,
+      "shrunk_rating": -43.658
+    },
+    "116335": {
+      "games": 1,
+      "shrunk_rating": -44.588
+    },
+    "116420": {
+      "games": 2,
+      "shrunk_rating": -44.582
+    },
+    "117": {
+      "games": 1,
+      "shrunk_rating": -46.42
+    },
+    "118": {
+      "games": 1,
+      "shrunk_rating": -34.378
+    },
+    "121690": {
+      "games": 1,
+      "shrunk_rating": -44.77
+    },
+    "121697": {
+      "games": 1,
+      "shrunk_rating": -46.372
+    },
+    "121698": {
+      "games": 2,
+      "shrunk_rating": -44.415
+    },
+    "121702": {
+      "games": 1,
+      "shrunk_rating": -42.624
+    },
+    "122210": {
+      "games": 1,
+      "shrunk_rating": -42.868
+    },
+    "123": {
+      "games": 1,
+      "shrunk_rating": -45.728
+    },
+    "123309": {
+      "games": 1,
+      "shrunk_rating": -46.34
+    },
+    "123310": {
+      "games": 1,
+      "shrunk_rating": -44.512
+    },
+    "123311": {
+      "games": 1,
+      "shrunk_rating": -46.282
+    },
+    "123358": {
+      "games": 1,
+      "shrunk_rating": -45.224
+    },
+    "123387": {
+      "games": 2,
+      "shrunk_rating": -39.533
+    },
+    "123546": {
+      "games": 2,
+      "shrunk_rating": -44.01
+    },
+    "124954": {
+      "games": 1,
+      "shrunk_rating": -45.632
+    },
+    "126756": {
+      "games": 4,
+      "shrunk_rating": -48.968
+    },
+    "126757": {
+      "games": 1,
+      "shrunk_rating": -47.824
+    },
+    "126823": {
+      "games": 1,
+      "shrunk_rating": -47.08
+    },
+    "126864": {
+      "games": 1,
+      "shrunk_rating": -46.2
+    },
+    "128307": {
+      "games": 1,
+      "shrunk_rating": -47.92
+    },
+    "128451": {
+      "games": 1,
+      "shrunk_rating": -41.652
+    },
+    "128474": {
+      "games": 1,
+      "shrunk_rating": -41.502
+    },
+    "128567": {
+      "games": 1,
+      "shrunk_rating": -45.108
+    },
+    "128568": {
+      "games": 1,
+      "shrunk_rating": -47.39
+    },
+    "128658": {
+      "games": 2,
+      "shrunk_rating": -49.912
+    },
+    "130129": {
+      "games": 1,
+      "shrunk_rating": -47.108
+    },
+    "130132": {
+      "games": 1,
+      "shrunk_rating": -41.546
+    },
+    "130137": {
+      "games": 1,
+      "shrunk_rating": -43.95
+    },
+    "130174": {
+      "games": 1,
+      "shrunk_rating": -39.646
+    },
+    "130215": {
+      "games": 1,
+      "shrunk_rating": -46.37
+    },
+    "130263": {
+      "games": 2,
+      "shrunk_rating": -44.818
+    },
+    "131": {
+      "games": 1,
+      "shrunk_rating": -37.444
+    },
+    "131604": {
+      "games": 1,
+      "shrunk_rating": -47.078
+    },
+    "131653": {
+      "games": 1,
+      "shrunk_rating": -40.93
+    },
+    "131664": {
+      "games": 1,
+      "shrunk_rating": -47.75
+    },
+    "131667": {
+      "games": 1,
+      "shrunk_rating": -46.508
+    },
+    "131682": {
+      "games": 1,
+      "shrunk_rating": -44.982
+    },
+    "131690": {
+      "games": 1,
+      "shrunk_rating": -39.62
+    },
+    "131731": {
+      "games": 1,
+      "shrunk_rating": -45.95
+    },
+    "131773": {
+      "games": 1,
+      "shrunk_rating": -44.142
+    },
+    "131775": {
+      "games": 2,
+      "shrunk_rating": -49.383
+    },
+    "131817": {
+      "games": 1,
+      "shrunk_rating": -46.214
+    },
+    "131833": {
+      "games": 1,
+      "shrunk_rating": -47.286
+    },
+    "14": {
+      "games": 2,
+      "shrunk_rating": -36.858
+    },
+    "144": {
+      "games": 2,
+      "shrunk_rating": -36.152
+    },
+    "15252": {
+      "games": 1,
+      "shrunk_rating": -41.812
+    },
+    "175": {
+      "games": 1,
+      "shrunk_rating": -40.914
+    },
+    "18": {
+      "games": 1,
+      "shrunk_rating": -45.778
+    },
+    "191": {
+      "games": 1,
+      "shrunk_rating": -47.642
+    },
+    "2002": {
+      "games": 1,
+      "shrunk_rating": -37.284
+    },
+    "2013": {
+      "games": 1,
+      "shrunk_rating": -40.162
+    },
+    "2019": {
+      "games": 1,
+      "shrunk_rating": -41.18
+    },
+    "2023": {
+      "games": 1,
+      "shrunk_rating": -43.35
+    },
+    "2027": {
+      "games": 3,
+      "shrunk_rating": -43.679
+    },
+    "2040": {
+      "games": 2,
+      "shrunk_rating": -36.967
+    },
+    "2047": {
+      "games": 1,
+      "shrunk_rating": -47.894
+    },
+    "2054": {
+      "games": 1,
+      "shrunk_rating": -39.178
+    },
+    "2071": {
+      "games": 2,
+      "shrunk_rating": -40.815
+    },
+    "2077": {
+      "games": 2,
+      "shrunk_rating": -39.278
+    },
+    "2094": {
+      "games": 1,
+      "shrunk_rating": -38.936
+    },
+    "2102": {
+      "games": 1,
+      "shrunk_rating": -37.312
+    },
+    "2104": {
+      "games": 1,
+      "shrunk_rating": -44.286
+    },
+    "2109": {
+      "games": 1,
+      "shrunk_rating": -41.854
+    },
+    "2113": {
+      "games": 1,
+      "shrunk_rating": -47.956
+    },
+    "2123": {
+      "games": 2,
+      "shrunk_rating": -45.275
+    },
+    "2129": {
+      "games": 2,
+      "shrunk_rating": -46.697
+    },
+    "2133": {
+      "games": 1,
+      "shrunk_rating": -43.678
+    },
+    "214": {
+      "games": 1,
+      "shrunk_rating": -45.33
+    },
+    "2148": {
+      "games": 1,
+      "shrunk_rating": -46.17
+    },
+    "215": {
+      "games": 1,
+      "shrunk_rating": -46.488
+    },
+    "2152": {
+      "games": 1,
+      "shrunk_rating": -37.942
+    },
+    "2153": {
+      "games": 1,
+      "shrunk_rating": -40.482
+    },
+    "2157": {
+      "games": 1,
+      "shrunk_rating": -45.078
+    },
+    "2163": {
+      "games": 1,
+      "shrunk_rating": -45.712
+    },
+    "2167": {
+      "games": 2,
+      "shrunk_rating": -46.663
+    },
+    "2170": {
+      "games": 1,
+      "shrunk_rating": -35.636
+    },
+    "2176": {
+      "games": 2,
+      "shrunk_rating": -46.013
+    },
+    "2177": {
+      "games": 2,
+      "shrunk_rating": -43.87
+    },
+    "22": {
+      "games": 1,
+      "shrunk_rating": -43.04
+    },
+    "2201": {
+      "games": 1,
+      "shrunk_rating": -37.6
+    },
+    "2202": {
+      "games": 1,
+      "shrunk_rating": -36.358
+    },
+    "2206": {
+      "games": 2,
+      "shrunk_rating": -34.34
+    },
+    "2207": {
+      "games": 1,
+      "shrunk_rating": -46.034
+    },
+    "2211": {
+      "games": 1,
+      "shrunk_rating": -44.288
+    },
+    "2213": {
+      "games": 1,
+      "shrunk_rating": -42.37
+    },
+    "2215": {
+      "games": 3,
+      "shrunk_rating": -47.519
+    },
+    "2219": {
+      "games": 1,
+      "shrunk_rating": -35.468
+    },
+    "2225": {
+      "games": 4,
+      "shrunk_rating": -41.03
+    },
+    "2227": {
+      "games": 1,
+      "shrunk_rating": -44.402
+    },
+    "223": {
+      "games": 2,
+      "shrunk_rating": -37.452
+    },
+    "2233": {
+      "games": 1,
+      "shrunk_rating": -42.3
+    },
+    "2235": {
+      "games": 1,
+      "shrunk_rating": -44.834
+    },
+    "224": {
+      "games": 3,
+      "shrunk_rating": -42.461
+    },
+    "2242": {
+      "games": 1,
+      "shrunk_rating": -43.642
+    },
+    "2245": {
+      "games": 1,
+      "shrunk_rating": -42.628
+    },
+    "2267": {
+      "games": 1,
+      "shrunk_rating": -37.972
+    },
+    "2281": {
+      "games": 2,
+      "shrunk_rating": -42.793
+    },
+    "2299": {
+      "games": 1,
+      "shrunk_rating": -48.142
+    },
+    "2304": {
+      "games": 1,
+      "shrunk_rating": -44.94
+    },
+    "2310": {
+      "games": 2,
+      "shrunk_rating": -47.278
+    },
+    "2312": {
+      "games": 3,
+      "shrunk_rating": -45.53
+    },
+    "2324": {
+      "games": 1,
+      "shrunk_rating": -43.514
+    },
+    "2326": {
+      "games": 2,
+      "shrunk_rating": -49.963
+    },
+    "2327": {
+      "games": 1,
+      "shrunk_rating": -45.68
+    },
+    "2332": {
+      "games": 1,
+      "shrunk_rating": -39.988
+    },
+    "2339": {
+      "games": 1,
+      "shrunk_rating": -43.528
+    },
+    "2345": {
+      "games": 1,
+      "shrunk_rating": -36.564
+    },
+    "2347": {
+      "games": 2,
+      "shrunk_rating": -45.943
+    },
+    "2358": {
+      "games": 1,
+      "shrunk_rating": -45.382
+    },
+    "2365": {
+      "games": 1,
+      "shrunk_rating": -44.772
+    },
+    "2369": {
+      "games": 2,
+      "shrunk_rating": -45.507
+    },
+    "2374": {
+      "games": 1,
+      "shrunk_rating": -43.828
+    },
+    "2384": {
+      "games": 2,
+      "shrunk_rating": -34.432
+    },
+    "2389": {
+      "games": 1,
+      "shrunk_rating": -41.432
+    },
+    "2396": {
+      "games": 1,
+      "shrunk_rating": -40.354
+    },
+    "2404": {
+      "games": 1,
+      "shrunk_rating": -42.318
+    },
+    "2409": {
+      "games": 1,
+      "shrunk_rating": -40.886
+    },
+    "241": {
+      "games": 1,
+      "shrunk_rating": -44.582
+    },
+    "2410": {
+      "games": 2,
+      "shrunk_rating": -49.327
+    },
+    "2424": {
+      "games": 2,
+      "shrunk_rating": -33.342
+    },
+    "2444": {
+      "games": 2,
+      "shrunk_rating": -45.542
+    },
+    "2465": {
+      "games": 2,
+      "shrunk_rating": -45.357
+    },
+    "247": {
+      "games": 1,
+      "shrunk_rating": -45.708
+    },
+    "2474": {
+      "games": 1,
+      "shrunk_rating": -44.78
+    },
+    "2475": {
+      "games": 1,
+      "shrunk_rating": -43.996
+    },
+    "2476": {
+      "games": 1,
+      "shrunk_rating": -45.704
+    },
+    "2487": {
+      "games": 1,
+      "shrunk_rating": -41.292
+    },
+    "2489": {
+      "games": 1,
+      "shrunk_rating": -37.324
+    },
+    "2498": {
+      "games": 1,
+      "shrunk_rating": -45.58
+    },
+    "2503": {
+      "games": 1,
+      "shrunk_rating": -45.678
+    },
+    "2518": {
+      "games": 1,
+      "shrunk_rating": -42.032
+    },
+    "2528": {
+      "games": 1,
+      "shrunk_rating": -45.174
+    },
+    "2544": {
+      "games": 1,
+      "shrunk_rating": -46.446
+    },
+    "2548": {
+      "games": 1,
+      "shrunk_rating": -43.81
+    },
+    "2551": {
+      "games": 2,
+      "shrunk_rating": -45.325
+    },
+    "2553": {
+      "games": 2,
+      "shrunk_rating": -47.702
+    },
+    "2560": {
+      "games": 1,
+      "shrunk_rating": -45.388
+    },
+    "2568": {
+      "games": 1,
+      "shrunk_rating": -44.008
+    },
+    "2573": {
+      "games": 1,
+      "shrunk_rating": -45.768
+    },
+    "2576": {
+      "games": 2,
+      "shrunk_rating": -45.717
+    },
+    "2589": {
+      "games": 1,
+      "shrunk_rating": -43.186
+    },
+    "2595": {
+      "games": 1,
+      "shrunk_rating": -41.212
+    },
+    "2606": {
+      "games": 1,
+      "shrunk_rating": -36.172
+    },
+    "2610": {
+      "games": 3,
+      "shrunk_rating": -33.727
+    },
+    "2616": {
+      "games": 2,
+      "shrunk_rating": -46.653
+    },
+    "2625": {
+      "games": 2,
+      "shrunk_rating": -42.795
+    },
+    "2637": {
+      "games": 1,
+      "shrunk_rating": -40.28
+    },
+    "2644": {
+      "games": 1,
+      "shrunk_rating": -45.862
+    },
+    "2645": {
+      "games": 1,
+      "shrunk_rating": -44.388
+    },
+    "2650": {
+      "games": 1,
+      "shrunk_rating": -41.568
+    },
+    "2654": {
+      "games": 1,
+      "shrunk_rating": -42.218
+    },
+    "2657": {
+      "games": 1,
+      "shrunk_rating": -39.954
+    },
+    "2658": {
+      "games": 1,
+      "shrunk_rating": -43.432
+    },
+    "2660": {
+      "games": 1,
+      "shrunk_rating": -45.66
+    },
+    "2667": {
+      "games": 1,
+      "shrunk_rating": -45.228
+    },
+    "2682": {
+      "games": 1,
+      "shrunk_rating": -40.074
+    },
+    "2683": {
+      "games": 1,
+      "shrunk_rating": -46.276
+    },
+    "2684": {
+      "games": 2,
+      "shrunk_rating": -51.592
+    },
+    "2695": {
+      "games": 2,
+      "shrunk_rating": -33.697
+    },
+    "2699": {
+      "games": 1,
+      "shrunk_rating": -41.288
+    },
+    "2701": {
+      "games": 1,
+      "shrunk_rating": -44.394
+    },
+    "2703": {
+      "games": 2,
+      "shrunk_rating": -40.437
+    },
+    "2716": {
+      "games": 1,
+      "shrunk_rating": -39.564
+    },
+    "2726": {
+      "games": 2,
+      "shrunk_rating": -44.483
+    },
+    "2728": {
+      "games": 1,
+      "shrunk_rating": -39.34
+    },
+    "2730": {
+      "games": 1,
+      "shrunk_rating": -37.226
+    },
+    "2736": {
+      "games": 1,
+      "shrunk_rating": -42.61
+    },
+    "2741": {
+      "games": 1,
+      "shrunk_rating": -41.352
+    },
+    "2743": {
+      "games": 1,
+      "shrunk_rating": -43.47
+    },
+    "2744": {
+      "games": 1,
+      "shrunk_rating": -43.162
+    },
+    "2757": {
+      "games": 1,
+      "shrunk_rating": -41.408
+    },
+    "2758": {
+      "games": 1,
+      "shrunk_rating": -45.182
+    },
+    "2778": {
+      "games": 1,
+      "shrunk_rating": -34.728
+    },
+    "2783": {
+      "games": 2,
+      "shrunk_rating": -40.997
+    },
+    "2789": {
+      "games": 1,
+      "shrunk_rating": -45.244
+    },
+    "2820": {
+      "games": 2,
+      "shrunk_rating": -46.468
+    },
+    "2822": {
+      "games": 1,
+      "shrunk_rating": -47.072
+    },
+    "2830": {
+      "games": 2,
+      "shrunk_rating": -35.942
+    },
+    "2839": {
+      "games": 1,
+      "shrunk_rating": -45.456
+    },
+    "2842": {
+      "games": 2,
+      "shrunk_rating": -42.58
+    },
+    "2848": {
+      "games": 1,
+      "shrunk_rating": -39.986
+    },
+    "2854": {
+      "games": 3,
+      "shrunk_rating": -36.089
+    },
+    "286": {
+      "games": 1,
+      "shrunk_rating": -46.656
+    },
+    "2862": {
+      "games": 1,
+      "shrunk_rating": -42.032
+    },
+    "2863": {
+      "games": 3,
+      "shrunk_rating": -41.274
+    },
+    "2866": {
+      "games": 1,
+      "shrunk_rating": -48.516
+    },
+    "2871": {
+      "games": 1,
+      "shrunk_rating": -46.508
+    },
+    "2876": {
+      "games": 1,
+      "shrunk_rating": -47.356
+    },
+    "2877": {
+      "games": 1,
+      "shrunk_rating": -45.116
+    },
+    "2880": {
+      "games": 1,
+      "shrunk_rating": -45.966
+    },
+    "2882": {
+      "games": 1,
+      "shrunk_rating": -40.232
+    },
+    "2888": {
+      "games": 1,
+      "shrunk_rating": -46.742
+    },
+    "2889": {
+      "games": 1,
+      "shrunk_rating": -42.58
+    },
+    "2891": {
+      "games": 1,
+      "shrunk_rating": -42.352
+    },
+    "2892": {
+      "games": 2,
+      "shrunk_rating": -44.785
+    },
+    "2894": {
+      "games": 1,
+      "shrunk_rating": -38.57
+    },
+    "2904": {
+      "games": 3,
+      "shrunk_rating": -45.123
+    },
+    "2905": {
+      "games": 1,
+      "shrunk_rating": -43.94
+    },
+    "2911": {
+      "games": 1,
+      "shrunk_rating": -47.286
+    },
+    "2913": {
+      "games": 2,
+      "shrunk_rating": -49.023
+    },
+    "2930": {
+      "games": 2,
+      "shrunk_rating": -44.453
+    },
+    "2931": {
+      "games": 1,
+      "shrunk_rating": -42.182
+    },
+    "2940": {
+      "games": 3,
+      "shrunk_rating": -40.25
+    },
+    "2943": {
+      "games": 1,
+      "shrunk_rating": -45.402
+    },
+    "2947": {
+      "games": 1,
+      "shrunk_rating": -35.354
+    },
+    "2948": {
+      "games": 1,
+      "shrunk_rating": -47.486
+    },
+    "3065": {
+      "games": 1,
+      "shrunk_rating": -40.16
+    },
+    "3077": {
+      "games": 1,
+      "shrunk_rating": -46.714
+    },
+    "3078": {
+      "games": 1,
+      "shrunk_rating": -42.058
+    },
+    "3079": {
+      "games": 3,
+      "shrunk_rating": -46.623
+    },
+    "3082": {
+      "games": 1,
+      "shrunk_rating": -44.14
+    },
+    "3083": {
+      "games": 2,
+      "shrunk_rating": -40.94
+    },
+    "3091": {
+      "games": 2,
+      "shrunk_rating": -37.312
+    },
+    "3092": {
+      "games": 1,
+      "shrunk_rating": -39.976
+    },
+    "3105": {
+      "games": 1,
+      "shrunk_rating": -38.412
+    },
+    "3106": {
+      "games": 1,
+      "shrunk_rating": -42.474
+    },
+    "3111": {
+      "games": 1,
+      "shrunk_rating": -47.114
+    },
+    "3120": {
+      "games": 1,
+      "shrunk_rating": -46.39
+    },
+    "3141": {
+      "games": 1,
+      "shrunk_rating": -45.994
+    },
+    "3148": {
+      "games": 2,
+      "shrunk_rating": -46.447
+    },
+    "3152": {
+      "games": 1,
+      "shrunk_rating": -45.386
+    },
+    "3154": {
+      "games": 1,
+      "shrunk_rating": -46.992
+    },
+    "316": {
+      "games": 1,
+      "shrunk_rating": -41.24
+    },
+    "3163": {
+      "games": 1,
+      "shrunk_rating": -33.92
+    },
+    "3166": {
+      "games": 2,
+      "shrunk_rating": -48.992
+    },
+    "3174": {
+      "games": 1,
+      "shrunk_rating": -48.414
+    },
+    "3178": {
+      "games": 1,
+      "shrunk_rating": -46.2
+    },
+    "3182": {
+      "games": 2,
+      "shrunk_rating": -40.402
+    },
+    "3185": {
+      "games": 1,
+      "shrunk_rating": -43.736
+    },
+    "3195": {
+      "games": 2,
+      "shrunk_rating": -38.188
+    },
+    "3229": {
+      "games": 2,
+      "shrunk_rating": -46.647
+    },
+    "3233": {
+      "games": 1,
+      "shrunk_rating": -40.944
+    },
+    "330": {
+      "games": 1,
+      "shrunk_rating": -41.048
+    },
+    "366": {
+      "games": 1,
+      "shrunk_rating": -45.41
+    },
+    "387": {
+      "games": 1,
+      "shrunk_rating": -44.854
+    },
+    "402": {
+      "games": 1,
+      "shrunk_rating": -44.002
+    },
+    "408": {
+      "games": 1,
+      "shrunk_rating": -45.378
+    },
+    "411": {
+      "games": 2,
+      "shrunk_rating": -44.333
+    },
+    "418": {
+      "games": 2,
+      "shrunk_rating": -39.075
+    },
+    "451": {
+      "games": 1,
+      "shrunk_rating": -46.702
+    },
+    "458": {
+      "games": 1,
+      "shrunk_rating": -48.204
+    },
+    "463": {
+      "games": 1,
+      "shrunk_rating": -46.202
+    },
+    "492": {
+      "games": 1,
+      "shrunk_rating": -41.394
+    },
+    "495": {
+      "games": 1,
+      "shrunk_rating": -45.632
+    },
+    "498": {
+      "games": 1,
+      "shrunk_rating": -48.556
+    },
+    "499": {
+      "games": 1,
+      "shrunk_rating": -38.72
+    },
+    "502": {
+      "games": 1,
+      "shrunk_rating": -44.166
+    },
+    "509": {
+      "games": 1,
+      "shrunk_rating": -46.762
+    },
+    "511": {
+      "games": 1,
+      "shrunk_rating": -40.288
+    },
+    "53": {
+      "games": 1,
+      "shrunk_rating": -40.564
+    },
+    "534": {
+      "games": 3,
+      "shrunk_rating": -46.687
+    },
+    "546": {
+      "games": 2,
+      "shrunk_rating": -48.375
+    },
+    "548": {
+      "games": 2,
+      "shrunk_rating": -44.03
+    },
+    "561": {
+      "games": 1,
+      "shrunk_rating": -47.24
+    },
+    "568": {
+      "games": 1,
+      "shrunk_rating": -41.686
+    },
+    "571": {
+      "games": 1,
+      "shrunk_rating": -48.414
+    },
+    "5793": {
+      "games": 2,
+      "shrunk_rating": -46.83
+    },
+    "589": {
+      "games": 1,
+      "shrunk_rating": -45.436
+    },
+    "590": {
+      "games": 1,
+      "shrunk_rating": -42.252
+    },
+    "613": {
+      "games": 1,
+      "shrunk_rating": -42.758
+    },
+    "63": {
+      "games": 1,
+      "shrunk_rating": -44.244
+    },
+    "7052": {
+      "games": 1,
+      "shrunk_rating": -41.086
+    }
+  },
+  "time_split_diagnostic": {
+    "train_through": "2025-12-15",
+    "train_d1_games": 1693,
+    "train_cross_division_games": 300,
+    "holdout_cross_division_games": 102,
+    "pooled_margin_MAE": 12.32,
+    "team_shrunk_margin_MAE": 12.05,
+    "note": "Out-of-sample *within 2025-26* using early season ratings. Does not validate 2026-27 forecast performance."
+  },
+  "failed_source_dates": [],
+  "notes": [
+    "Provisional pooled strength for teams outside Courtside's verified D1 membership; not proof of D2, D3, NAIA category.",
+    "Team historical results are strongly shrunk toward pooled median; unknown opponents receive the pooled prior.",
+    "Prior-season team power and current-season D1 power are assumed to share an approximate centered scale. Not yet calibrated out of sample for 2026-27.",
+    "Not a betting line, live in-game probability or official D1 model forecast.",
+    "Data excludes all 2026-27 scores; no future outcome leakage into training.",
+    "Historical margins are clipped at +/-55 before inferring strengths. Historical D1 power is a separate ridge-fitted network."
+  ]
+}
