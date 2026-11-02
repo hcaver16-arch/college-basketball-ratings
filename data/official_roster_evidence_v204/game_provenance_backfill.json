@@ -1,0 +1,9 @@
+{
+  "version": 204,
+  "checked_utc": "2026-11-02T21:10:47.114293+00:00",
+  "division": "mens-college-basketball",
+  "queued_missing_player_provenance": 0,
+  "attempted": [],
+  "source_schedule_errors": [],
+  "note": "This source-only backfill neither changes power ratings nor upgrades teams without corroborated game IDs."
+}

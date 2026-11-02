@@ -22,6 +22,7 @@ from prospective_roster_eval_v109 import FIELDS, rows, save, utc, number, evalua
 
 MODEL_ID = "v203_official_school_roster_research_v1"
 SOURCE_FOLDER = Path("data/official_roster_evidence_v202")
+EXPANDED_SOURCE_FOLDER = Path("data/official_roster_evidence_v204")
 PREV = "linked_players.csv"
 CURR = "linked_current_players.csv"
 SUMMARY = "summary.json"
@@ -48,7 +49,11 @@ def load_evidence(root: Path, now: datetime, max_age_days: int = 240):
     A checked-at timestamp alone does NOT prove actual pregame membership. It
     merely gives a conservative earliest date on which this evidence is usable.
     """
-    folder = root / SOURCE_FOLDER
+    # V204 is an opt-in independently sourced expansion. V202 remains the
+    # fallback until V204 has all three complete, timestamped evidence files.
+    v204 = root / EXPANDED_SOURCE_FOLDER
+    expanded = [v204 / name for name in (PREV,CURR,SUMMARY)]
+    folder = v204 if all(path.is_file() for path in expanded) else root / SOURCE_FOLDER
     paths = [folder / name for name in (PREV, CURR, SUMMARY)]
     if not all(p.is_file() for p in paths):
         return None, "Official/ESPN reconciliation files missing"
