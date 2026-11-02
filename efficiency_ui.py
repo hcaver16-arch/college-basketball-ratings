@@ -88,6 +88,20 @@ def _css():
     .cs-eff-compare-row small{display:block;color:#94a3b8;font-size:.65rem;margin-top:3px;text-align:center}
     .cs-eff-compare-row>span:last-child,.cs-eff-compare-head>span:last-child{text-align:right}
     @media(max-width:720px){.cs-eff-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.cs-eff-tile{padding:10px}.cs-eff-compare-row,.cs-eff-compare-head{grid-template-columns:minmax(0,1fr) 105px minmax(0,1fr);gap:4px;padding:10px 6px}.cs-eff-compare-row>span:first-child,.cs-eff-compare-row>span:last-child{font-size:.67rem}}
+    /* V185: match Courtside's blue/teal visual identity without full-width cards. */
+    .st-key-cs185_matchup_stats {max-width:1120px;margin-inline:auto;width:100%;}
+    .st-key-cs185_matchup_stats [data-testid="stExpander"] {border:1px solid #cbdcf1;border-radius:13px;background:#f8fbff;overflow:hidden;}
+    .st-key-cs185_matchup_stats [data-testid="stExpander"] summary {background:#e9f1ff;color:#153c79;font-weight:750;}
+    .st-key-cs185_matchup_stats .cs-eff-compare {max-width:1040px;margin:10px auto 14px;border:1px solid #cbdcf1;box-shadow:0 2px 8px rgba(18,48,106,.04);}
+    .st-key-cs185_matchup_stats .cs-eff-compare-head {background:#173b7b;color:#fff;}
+    .st-key-cs185_matchup_stats .cs-eff-compare-head>span {color:#fff;}
+    .st-key-cs185_matchup_stats .cs-eff-compare-row:nth-child(odd) {background:#f0f7ff;}
+    .st-key-cs185_matchup_stats .cs-eff-compare-row:nth-child(even) {background:#fff;}
+    .st-key-cs185_matchup_stats .cs-eff-compare-row>span:nth-child(2) strong {color:#1752a0;font-size:.81rem;}
+    .st-key-cs185_matchup_stats .cs-eff-compare-row>span:first-child,
+    .st-key-cs185_matchup_stats .cs-eff-compare-row>span:last-child {font-weight:700;color:#153c67;}
+    .st-key-cs185_matchup_stats .cs-eff-compare-row:hover {background:#e6f5f3;}
+    @media(max-width:720px) {.st-key-cs185_matchup_stats {max-width:100%;}.st-key-cs185_matchup_stats .cs-eff-compare-head,.st-key-cs185_matchup_stats .cs-eff-compare-row {grid-template-columns:minmax(0,1fr) 105px minmax(0,1fr);padding:9px 5px;gap:4px;}}
     </style>'''
 
 
@@ -139,12 +153,13 @@ def render_matchup_stats(away, home, *, away_stats=None, home_stats=None, postga
     if away_stats or home_stats:
         st.caption(f"Efficiency sample: {away} — {(away_stats or {}).get('efficiency_games',0)} games; {home} — {(home_stats or {}).get('efficiency_games',0)} games.")
     st.markdown(_css(), unsafe_allow_html=True)
-    for group_index, (group_title, metrics) in enumerate(GROUPS):
-        with st.expander(group_title, expanded=(group_index == 0)):
-            rows = [f'<div class="cs-eff-compare-head"><span>{html.escape(str(away))}</span><span>Metric</span><span>{html.escape(str(home))}</span></div>']
-            for key, label, unit in metrics:
-                rows.append('<div class="cs-eff-compare-row">'
-                            f'<span>{html.escape(_value(away_stats,key))}</span>'
-                            f'<span><strong>{html.escape(label)}</strong><small>{html.escape(unit)}</small></span>'
-                            f'<span>{html.escape(_value(home_stats,key))}</span></div>')
-            st.markdown('<div class="cs-eff-compare">' + ''.join(rows) + '</div>', unsafe_allow_html=True)
+    with st.container(key="cs185_matchup_stats"):
+        for group_index, (group_title, metrics) in enumerate(GROUPS):
+            with st.expander(group_title, expanded=(group_index == 0)):
+                rows = [f'<div class="cs-eff-compare-head"><span>{html.escape(str(away))}</span><span>Metric</span><span>{html.escape(str(home))}</span></div>']
+                for key, label, unit in metrics:
+                    rows.append('<div class="cs-eff-compare-row">'
+                                f'<span>{html.escape(_value(away_stats,key))}</span>'
+                                f'<span><strong>{html.escape(label)}</strong><small>{html.escape(unit)}</small></span>'
+                                f'<span>{html.escape(_value(home_stats,key))}</span></div>')
+                st.markdown('<div class="cs-eff-compare">' + ''.join(rows) + '</div>', unsafe_allow_html=True)
