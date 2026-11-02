@@ -1546,6 +1546,19 @@ st.markdown("""<style>
 .cs183-teams span {font-weight:450;color:#697c95;}
 @media(max-width:700px){.cs183-logo-stack img{width:21px;height:21px}.cs183-matchup{gap:6px}.cs183-teams{font-size:.78rem}}
 </style>""",unsafe_allow_html=True)
+# V186: width constraint and consistent color on the visible Games scoreboard.
+st.markdown("""<style>
+.st-key-cs186_scoreboard {max-width:1240px;margin-left:auto;margin-right:auto;width:100%}
+.st-key-cs186_scoreboard [class*="st-key-cs186_game_"] {border:1px solid #d4e2f3;border-radius:12px;background:#f9fbff;padding:8px 12px;box-shadow:0 2px 9px rgba(18,48,106,.04)}
+.st-key-cs186_scoreboard .st-key-cs186_game_live {border-left:5px solid #0e9f91;background:#effbf9}
+.st-key-cs186_scoreboard .st-key-cs186_game_final {border-left:5px solid #2054c5;background:#f2f7ff}
+.st-key-cs186_scoreboard .st-key-cs186_game_scheduled {border-left:5px solid #a3b7d5;background:#fff}
+.st-key-cs186_scoreboard .cs183-teams{color:#173b73}
+.st-key-cs186_scoreboard .cs183-logo-stack img{width:28px;height:28px}
+.st-key-cs186_scoreboard [class*="st-key-cs186_game_"] [data-testid="stMarkdownContainer"] h3{color:#153c79;font-size:1.25rem;margin:0}
+.st-key-cs186_scoreboard [class*="st-key-cs186_game_"] button{min-height:34px;border-color:#c5d8ef}
+@media(max-width:700px){.st-key-cs186_scoreboard{max-width:100%}.st-key-cs186_scoreboard [class*="st-key-cs186_game_"]{padding:8px}.st-key-cs186_scoreboard .cs183-logo-stack img{width:22px;height:22px}}
+</style>""",unsafe_allow_html=True)
 if selected_section == "Games":
     # Win-loss records depend on completed games, not future schedules.
     # Only fetch season dates through today, while keeping the selected
@@ -1699,7 +1712,7 @@ if selected_section == "Games":
             portion = shown.iloc[(page-1)*page_size:page*page_size]
             for _, game in portion.iterrows():
                 status = str(game["Status"])
-                with st.container(border=True):
+                with st.container(key=f"cs186_game_{status.lower()}", border=True):
                     c_game, c_line, c_action = st.columns([5.4, 2.25, 1.45], vertical_alignment="center", gap="small")
                     with c_game:
                         away_record, home_record = game_records(record_schedule, game)
@@ -1751,7 +1764,8 @@ if selected_section == "Games":
         with st.expander("Download full game data and notes"):
             st.download_button("Download filtered games CSV", shown.to_csv(index=False).encode(), "basketball_games.csv", "text/csv", key="v12_download_games")
             st.caption("The full export includes model lines, experimental lines, scores, and roster status. ESPN scoreboard data may be incomplete.")
-    _v183_games_scoreboard(games.copy(), record_schedule.copy())
+    with st.container(key="cs186_scoreboard"):
+        _v183_games_scoreboard(games.copy(), record_schedule.copy())
 
 if selected_section == "Teams":
     st.subheader("Team center")
