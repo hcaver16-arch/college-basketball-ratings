@@ -1,0 +1,21 @@
+name: Validate V183 Games polish
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - app.py
+      - test_games_polish_v183.py
+      - .github/workflows/validate_games_polish_v183.yml
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m py_compile app.py
+      - run: python test_games_polish_v183.py
+      - run: python test_games_scoreboard_v182.py
