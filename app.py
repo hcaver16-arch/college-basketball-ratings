@@ -1547,11 +1547,27 @@ if selected_section == "Games":
         st.warning("Some season dates could not be loaded. Team records below may be incomplete; they are marked as partial.")
     st.subheader("Games")
     st.caption(f"{first:%B %d, %Y} – {last:%B %d, %Y} · Times Eastern · Select a matchup for the full preview.")
-    view = st.segmented_control("Game status", ["Upcoming", "All games", "Final scores"], default="Upcoming", key="courtside_games_status")
+    # V182: all three states share one scoreboard, with optional status filters.
+    status_counts = games["Status"].value_counts()
+    st.caption(
+        f"Live: {int(status_counts.get('Live', 0))}  ·  "
+        f"Upcoming: {int(status_counts.get('Scheduled', 0))}  ·  "
+        f"Final: {int(status_counts.get('Final', 0))}"
+    )
+    view = st.segmented_control(
+        "Game status", ["All", "Live", "Upcoming", "Final"],
+        default="All", key="courtside_games_status_v182"
+    )
+    sort_order = st.selectbox(
+        "Sort games", ["Tipoff order", "Live games first"],
+        key="courtside_games_sort_v182"
+    )
     shown = games.copy()
-    if view == "Upcoming":
-        shown = shown[shown["Status"].isin(["Scheduled", "Live"])]
-    elif view == "Final scores":
+    if view == "Live":
+        shown = shown[shown["Status"] == "Live"]
+    elif view == "Upcoming":
+        shown = shown[shown["Status"] == "Scheduled"]
+    elif view == "Final":
         shown = shown[shown["Status"] == "Final"]
     with st.expander("Filter games", expanded=False):
         f1, f2, f3 = st.columns(3)
@@ -1632,7 +1648,11 @@ if selected_section == "Games":
     if shown.empty:
         st.info("No games match these filters.")
     else:
-        shown = shown.sort_values(["Date", "Time (ET)", "Away"], kind="stable").reset_index(drop=True)
+        shown = shown.sort_values(["Date", "Time (ET)", "Away"], kind="stable")
+        if sort_order == "Live games first":
+            shown["_live_first"] = shown["Status"].ne("Live").astype(int)
+            shown = shown.sort_values(["_live_first", "Date", "Time (ET)", "Away"], kind="stable").drop(columns="_live_first")
+        shown = shown.reset_index(drop=True)
         page_size = 20
         max_page = max(1, (len(shown) + page_size - 1) // page_size)
         # Clamp the page if a changed filter produces fewer results.
@@ -1646,20 +1666,38 @@ if selected_section == "Games":
             st.caption(f"Showing {(page-1)*page_size+1}–{min(page*page_size,len(shown))} of {len(shown):,} games")
         portion = shown.iloc[(page-1)*page_size:page*page_size]
         for _, game in portion.iterrows():
+            status = str(game["Status"])
             with st.container(border=True):
-                c_game, c_line, c_action = st.columns([5, 2.7, 1.5], vertical_alignment="center")
+                c_game, c_line, c_action = st.columns([5, 2.5, 1.65], vertical_alignment="center", gap="small")
                 with c_game:
                     away_record, home_record = game_records(record_schedule, game)
+                    if status == "Live":
+                        st.markdown("🔴 **LIVE**")
+                    elif status == "Final":
+                        st.markdown("**FINAL**")
+                    else:
+                        st.caption("UPCOMING")
                     st.markdown(f"**{game['Away']} ({away_record}) at {game['Home']} ({home_record})**")
-                    st.caption(f"{game.get('Display date',game['Date'])} · {game.get('Display time',game['Time (ET)'])} · {game['Status']}" + (" · Records partial" if not record_coverage_ok else ""))
-                    st.caption("📺 Watch: " + str(game.get("Watch") or "Not announced"))
+                    st.caption(f"{game.get('Display date',game['Date'])} · {game.get('Display time',game['Time (ET)'])}" + (" · Records partial" if not record_coverage_ok else ""))
+                    st.caption("📺 " + str(game.get("Watch") or "Watch info unavailable"))
                     if net_ranks:
                         st.caption(f"NET: Away {game.get('Away quadrant','—')} · Home {game.get('Home quadrant','—')}")
                 with c_line:
-                    if game['Status'] == 'Final' and pd.notna(game.get('Away score')) and pd.notna(game.get('Home score')):
-                        st.markdown(f"**Final: {int(game['Away score'])} – {int(game['Home score'])}**")
+                    has_score = pd.notna(game.get('Away score')) and pd.notna(game.get('Home score'))
+                    if status in ("Final", "Live") and has_score:
+                        away_score, home_score = int(game["Away score"]), int(game["Home score"])
+                        st.markdown(f"### {away_score} – {home_score}")
+                        if status == "Final":
+                            winner = game["Away"] if away_score > home_score else game["Home"] if home_score > away_score else "Tied"
+                            st.caption(f"{winner} wins" if winner != "Tied" else "Tied")
+                        else:
+                            st.caption("Live score")
+                    elif status == "Live":
+                        st.markdown("**Live — score pending**")
                     else:
                         st.markdown(f"**{game.get('Model line', '—')}**")
+                        if status == "Scheduled":
+                            st.caption("Model projection")
                 with c_action:
                     if st.button("View matchup →", key=f"game_detail_{league}_{game['Game ID']}", use_container_width=True):
                         st.session_state["courtside_selected_game"] = str(game["Game ID"])
