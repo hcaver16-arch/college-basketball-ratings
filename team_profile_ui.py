@@ -92,6 +92,29 @@ def _short_rating_row(label,value):
     return '<div class="cs198-snapshot-row"><span>'+html.escape(str(label))+'</span><strong>'+html.escape(str(value))+'</strong></div>'
 
 
+def _boxscore_overview_markup(stats):
+    """Surface only verified completed-game averages; never infer unavailable values."""
+    entries = (
+        ('pts_pg', 'Points / game'),
+        ('reb_pg', 'Rebounds / game'),
+        ('ast_pg', 'Assists / game'),
+        ('tov_pg', 'Turnovers / game'),
+        ('stl_pg', 'Steals / game'),
+        ('blk_pg', 'Blocks / game'),
+    )
+    verified = isinstance(stats, dict) and stats.get('validated') is True
+    rows = []
+    for key, label in entries:
+        value = _num(stats.get(key)) if verified else '—'
+        rows.append(
+            '<div class="cs199-box-stat"><div class="cs199-box-label">'
+            + html.escape(label) + '</div><div class="cs199-box-value'
+            + (' cs199-missing' if value == '—' else '')
+            + '">' + html.escape(value) + '</div></div>'
+        )
+    return '<div class="cs199-box-grid">' + ''.join(rows) + '</div>'
+
+
 def render_team_profile(*, team, team_id, league, sport, ratings, games, preliminary, sos, sor, directory, history_loader):
     """Render the public profile. Call before optional legacy audit tools."""
     st.markdown('''<style>
@@ -129,6 +152,20 @@ def render_team_profile(*, team, team_id, league, sport, ratings, games, prelimi
     .cs198-next{background:#eff5fd;border-radius:8px;padding:9px 10px;margin-top:10px}
     @media(max-width:850px){.cs198-header-stats{grid-template-columns:repeat(3,minmax(0,1fr))}}
     @media(max-width:500px){.cs198-header-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.cs198-header-kpi{padding:7px}}
+    /* V199: dedicated, prominent season box-score average strip. */
+    .cs199-stat-heading{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:16px 0 8px}
+    .cs199-stat-heading strong{color:#193b71;font-size:1rem;font-weight:850}
+    .cs199-stat-heading span{color:#6c7e96;font-size:.76rem}
+    .cs199-box-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px;margin-bottom:8px}
+    .cs199-box-stat{background:#f5f9ff;border:1px solid #d2e1f3;border-top:3px solid #255ba5;
+      border-radius:11px;padding:11px 12px;min-width:0;min-height:86px}
+    .cs199-box-label{color:#5f738f;font-size:.75rem;line-height:1.25;min-height:24px}
+    .cs199-box-value{color:#183d75;font-weight:850;font-size:1.46rem;line-height:1.25;
+      margin-top:5px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+    .cs199-box-value.cs199-missing{color:#7d8da5}
+    .cs199-box-foot{font-size:.74rem;color:#687d98;margin:0 0 14px}
+    @media(max-width:950px){.cs199-box-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+    @media(max-width:490px){.cs199-box-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.cs199-box-stat{padding:9px}}
     </style>''', unsafe_allow_html=True)
     rating=_lookup(ratings,team_id)
     experimental=_lookup(preliminary,team_id)
@@ -251,6 +288,28 @@ def render_team_profile(*, team, team_id, league, sport, ratings, games, prelimi
                 )
             rows.append('</div>')
             st.markdown(''.join(rows),unsafe_allow_html=True)
+        # V199: keep real box-score averages visible without opening Statistics.
+        boxscore_count = int(raw_stats.get('boxscore_games',0)) if isinstance(raw_stats,dict) else 0
+        available_final_count = int(raw_stats.get('eligible_final_games',0)) if isinstance(raw_stats,dict) else len(finals)
+        st.markdown(
+            '<div class="cs199-stat-heading"><strong>Box-score averages</strong>'
+            '<span>Current season · Completed games</span></div>',
+            unsafe_allow_html=True
+        )
+        st.markdown(_boxscore_overview_markup(raw_stats),unsafe_allow_html=True)
+        if boxscore_count:
+            st.markdown(
+                f'<div class="cs199-box-foot">Based on {boxscore_count} available ESPN '
+                f'box scores from {available_final_count} loaded final games. '
+                'Individual metrics are hidden if their sample is incomplete. '
+                'Additional shooting and efficiency figures are in Statistics.</div>',
+                unsafe_allow_html=True
+            )
+        else:
+            st.caption(
+                "Verified box-score averages are not available yet. These tiles fill "
+                "as completed ESPN game box scores are collected."
+            )
         st.markdown('#### Next matchup')
         upcoming=(tg[tg['Status'].astype(str).str.lower().eq('scheduled')].sort_values('Date')
                   if not tg.empty and 'Status' in tg else pd.DataFrame())

@@ -16,6 +16,7 @@ EFFICIENCY = [
 ]
 GROUPS = [
     ('Box-score averages', [
+        ('pts_pg', 'Points per game', 'per game'),
         ('reb_pg', 'Rebounds per game', 'per game'),
         ('ast_pg', 'Assists per game', 'per game'),
         ('tov_pg', 'Turnovers per game', 'per game'),
@@ -137,7 +138,7 @@ def render_team_efficiency(stats=None, *, compact=False):
     for title, rows in GROUPS:
         if title == 'Efficiency & pace':
             rows = rows[4:]
-        with st.expander(title, expanded=False):
+        with st.expander(title, expanded=(title == 'Box-score averages')):
             for key, label, unit in rows:
                 left, right = st.columns([3, 2], vertical_alignment='center')
                 left.write(f'**{label}**  ·  {unit}')
