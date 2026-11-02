@@ -36,7 +36,7 @@ def _history_rows(history):
     if not isinstance(history,pd.DataFrame) or history.empty or not {'Snapshot date','Current power'}.issubset(history.columns):
         return pd.DataFrame(columns=['Snapshot date','Current power','Rank'])
     data=history.copy()
-    data['Snapshot date']=pd.to_datetime(data['Snapshot date'],errors='coerce',utc=True)
+    data['Snapshot date']=pd.to_datetime(data['Snapshot date'],errors='coerce',utc=True,format='mixed')
     data['Current power']=pd.to_numeric(data['Current power'],errors='coerce')
     if 'Rank' in data:
         data['Rank']=pd.to_numeric(data['Rank'],errors='coerce')
@@ -75,7 +75,7 @@ def _poll_positions(team_id,sport):
     try:
         from published_polls_v137 import fetch_polls
         polls=fetch_polls(sport)
-    except (ValueError,KeyError,TypeError,Exception):
+    except Exception:
         return result
     for label in result:
         poll=polls.get(label)
