@@ -1553,6 +1553,10 @@ st.markdown("""<style>
 .st-key-cs186_scoreboard .st-key-cs186_game_live {border-left:5px solid #0e9f91;background:#effbf9}
 .st-key-cs186_scoreboard .st-key-cs186_game_final {border-left:5px solid #2054c5;background:#f2f7ff}
 .st-key-cs186_scoreboard .st-key-cs186_game_scheduled {border-left:5px solid #a3b7d5;background:#fff}
+.st-key-cs186_matchup_detail{max-width:1240px;margin-inline:auto;border:1px solid #cbdcf1;border-top:5px solid #2054c5;border-radius:14px;background:#fcfdff}
+.st-key-cs186_matchup_detail [data-testid="stHeading"] h2,.st-key-cs186_matchup_detail [data-testid="stHeading"] h3 {color:#173b73}
+.st-key-cs186_matchup_detail .cs-kpi{border-top:3px solid #0e9f91;box-shadow:0 2px 8px rgba(18,48,106,.04)}
+.st-key-cs186_matchup_detail [data-testid="stExpander"] summary{background:#edf4ff;color:#173b73;font-weight:700}
 .st-key-cs186_scoreboard .cs183-teams{color:#173b73}
 .st-key-cs186_scoreboard .cs183-logo-stack img{width:28px;height:28px}
 .st-key-cs186_scoreboard [class*="st-key-cs186_game_"] [data-testid="stMarkdownContainer"] h3{color:#153c79;font-size:1.25rem;margin:0}
@@ -1666,7 +1670,7 @@ if selected_section == "Games":
                     selected = add_experimental_lines(selected, preliminary_ratings, verified_d1_ids)
             if not selected.empty:
                 game = selected.iloc[0]
-                with st.container(border=True):
+                with st.container(key="cs186_matchup_detail", border=True):
                     col_title, col_close = st.columns([6, 1])
                     with col_title:
                         st.subheader(f"{game['Away']} at {game['Home']}")
