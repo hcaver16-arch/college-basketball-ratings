@@ -12,9 +12,12 @@ def standings_for_conference(members: pd.DataFrame, games: pd.DataFrame):
     id_to_name = dict(zip(teams['Team ID'], teams['Team']))
     records = {tid: {'Team ID':tid, 'Team':name, 'Conference W':0,'Conference L':0,'Overall W':0,'Overall L':0} for tid,name in id_to_name.items()}
     needed = {'Home ID','Away ID','Status','Home score','Away score'}
+    # With an unavailable schedule, still show every team in preseason order.
+    # The result must retain Conference PCT and Power columns for the UI.
     if not isinstance(games,pd.DataFrame) or not needed.issubset(games.columns):
-        return pd.DataFrame(records.values())
-    game_rows = games.drop_duplicates('Game ID') if 'Game ID' in games.columns else games
+        game_rows = pd.DataFrame(columns=list(needed))
+    else:
+        game_rows = games.drop_duplicates('Game ID') if 'Game ID' in games.columns else games
     for _, g in game_rows.iterrows():
         if str(g['Status']) != 'Final':
             continue
