@@ -1606,23 +1606,54 @@ if selected_section == "Games":
             f"Upcoming: {int(status_counts.get('Scheduled', 0))}  ·  "
             f"Final: {int(status_counts.get('Final', 0))}"
         )
-        # V189: one compact filter row keeps the full scoreboard above the fold.
-        status_col, scope_col, sort_col = st.columns([2.4, 1.5, 1.3], gap="small")
-        with status_col:
-            view = st.segmented_control(
-                "Game status", ["All", "Live", "Upcoming", "Final"],
-                default="All", key="courtside_games_status_v182"
+        # V190: keep all primary filters on one horizontal bar and NET controls in a popover.
+        # Replaces the old "More filters · Team, conference, venue & NET" expander.
+        net_ranks, net_status = load_net(league)
+        with st.container(key="cs190_filter_bar"):
+            status_col, scope_col, sort_col, team_col, conf_col, venue_col, more_col = st.columns(
+                [2.5, 1.25, 1.2, 1.45, 1.45, 1.15, 1.05], gap="small",
+                vertical_alignment="bottom"
             )
-        with scope_col:
-            matchup_scope = st.selectbox(
-                "Matchups", ["All games", "D1 vs D1 only"],
-                key="cs188_matchup_scope"
-            )
-        with sort_col:
-            sort_order = st.selectbox(
-                "Sort games", ["Tipoff order", "Live games first"],
-                key="courtside_games_sort_v182"
-            )
+            with status_col:
+                view = st.segmented_control(
+                    "Game status", ["All", "Live", "Upcoming", "Final"],
+                    default="All", key="courtside_games_status_v182"
+                )
+            with scope_col:
+                matchup_scope = st.selectbox(
+                    "Matchups", ["All games", "D1 vs D1 only"],
+                    key="cs188_matchup_scope"
+                )
+            with sort_col:
+                sort_order = st.selectbox(
+                    "Sort games", ["Tipoff order", "Live games first"],
+                    key="courtside_games_sort_v182"
+                )
+            with team_col:
+                team_filter = st.selectbox("Team", ["All teams"] + unique_teams, key="v12_game_team")
+            with conf_col:
+                conf_filter = st.selectbox(
+                    "Conference",
+                    ["All conferences"] + sorted(set(games["Away conference name"]).union(games["Home conference name"])),
+                    key="v12_game_conf"
+                )
+            with venue_col:
+                venue_filter = st.selectbox("Venue", ["Any location", "Home", "Neutral"], key="v12_game_venue")
+            with more_col:
+                with st.popover("More filters", use_container_width=True):
+                    st.caption(net_status + " · NET quadrants are opponent-specific, based on game location.")
+                    quadrant_filter = st.selectbox(
+                        "Quadrant", ["All", "Q1", "Q2", "Q3", "Q4"],
+                        key="games_net_quadrant", disabled=not bool(net_ranks)
+                    )
+                    side_filter = st.selectbox(
+                        "For which team?", ["Either team", "Home team", "Away team", "Both teams"],
+                        key="games_net_side", disabled=not bool(net_ranks)
+                    )
+                    q1_only = st.checkbox(
+                        "Q1 opportunities (either team)",
+                        key="games_net_q1", disabled=not bool(net_ranks)
+                    )
         shown = games.copy()
         if matchup_scope == "D1 vs D1 only":
             shown = shown[
@@ -1635,37 +1666,24 @@ if selected_section == "Games":
             shown = shown[shown["Status"] == "Scheduled"]
         elif view == "Final":
             shown = shown[shown["Status"] == "Final"]
-        with st.expander("More filters · Team, conference, venue & NET", expanded=False):
-            f1, f2, f3 = st.columns(3)
-            with f1:
-                team_filter = st.selectbox("Team", ["All teams"] + unique_teams, key="v12_game_team")
-            with f2:
-                conf_filter = st.selectbox("Conference", ["All conferences"] + sorted(set(games["Away conference name"]).union(games["Home conference name"])), key="v12_game_conf")
-            with f3:
-                venue_filter = st.selectbox("Venue", ["Any location", "Home", "Neutral"], key="v12_game_venue")
         if team_filter != "All teams":
             shown = shown[(shown["Home"] == team_filter) | (shown["Away"] == team_filter)]
         if conf_filter != "All conferences":
             shown = shown[(shown["Home conference name"] == conf_filter) | (shown["Away conference name"] == conf_filter)]
         if venue_filter != "Any location":
             shown = shown[shown["Venue"] == venue_filter]
-        net_ranks, net_status = load_net(league)
         shown = annotate_games(shown, net_ranks, verified_d1_ids, league)
-        with st.container():
-            st.caption(net_status + " · Quadrants are opponent-specific, based on game location.")
-            quadrant_filter = st.selectbox("Quadrant", ["All", "Q1", "Q2", "Q3", "Q4"], key="games_net_quadrant", disabled=not bool(net_ranks))
-            side_filter = st.selectbox("For which team?", ["Either team", "Home team", "Away team", "Both teams"], key="games_net_side", disabled=not bool(net_ranks))
-            if net_ranks:
-                if quadrant_filter != "All":
-                    hq = shown['Home quadrant'] == quadrant_filter
-                    aq = shown['Away quadrant'] == quadrant_filter
-                    if side_filter == "Home team": shown = shown[hq]
-                    elif side_filter == "Away team": shown = shown[aq]
-                    elif side_filter == "Both teams": shown = shown[hq & aq]
-                    else: shown = shown[hq | aq]
-                q1_only = st.checkbox("Q1 opportunities (either team)", key="games_net_q1", disabled=not bool(net_ranks))
-                if q1_only:
-                    shown = shown[(shown['Home quadrant']=='Q1') | (shown['Away quadrant']=='Q1')]
+        # NET quadrant filters remain active even after their popover is closed.
+        if net_ranks:
+            if quadrant_filter != "All":
+                hq = shown["Home quadrant"] == quadrant_filter
+                aq = shown["Away quadrant"] == quadrant_filter
+                if side_filter == "Home team": shown = shown[hq]
+                elif side_filter == "Away team": shown = shown[aq]
+                elif side_filter == "Both teams": shown = shown[hq & aq]
+                else: shown = shown[hq | aq]
+            if q1_only:
+                shown = shown[(shown["Home quadrant"] == "Q1") | (shown["Away quadrant"] == "Q1")]
         shown = attach_model_lines(shown, ratings_for_schedule, verified_d1_ids)
         shown = add_experimental_lines(shown, preliminary_ratings, verified_d1_ids)
         # Home-page links already store the selected Game ID here.
