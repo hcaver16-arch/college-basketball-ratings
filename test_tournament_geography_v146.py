@@ -13,7 +13,8 @@ out=regional_site_scenario(df)
 assert len(out)==16
 assert out.iloc[0]["Suggested regional host"]!="Unknown"
 assert out["Suggested regional host"].eq("Unknown").sum()==12
-assert "render_geographic_sites(field)" in Path("tournament_locations_v145.py").read_text()
+assert "projected_first_weekend_teams(field)" in Path("tournament_locations_v145.py").read_text()
+assert "projected_region_table(field,league)" in Path("tournament_locations_v145.py").read_text()
 for file in ("tournament_geography_v146.py","tournament_locations_v145.py"):
     ast.parse(Path(file).read_text())
 print("V146 tests passed")
