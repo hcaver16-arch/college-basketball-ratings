@@ -5,6 +5,7 @@ on:
       - courtside-v204-d1-official-roster-coverage
     paths:
       - collect_official_rosters_v204.py
+      - backfill_roster_stats_v204.py
       - test_official_roster_coverage_v204.py
       - independent_roster_prospective_v203.py
       - data/official_roster_evidence_v204/source_manifest.csv
@@ -22,7 +23,7 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: courtside-v204-official-roster-collection
+  group: basketball-roster-archive
   cancel-in-progress: false
 jobs:
   collect-and-audit:
@@ -39,9 +40,12 @@ jobs:
         run: pip install 'pandas>=2.1,<3' requests beautifulsoup4
       - name: Test source parser, quality gates, V203 research compatibility and chronology
         run: |
-          python -m py_compile collect_official_rosters_v204.py independent_roster_prospective_v203.py
+          python -m py_compile collect_official_rosters_v204.py backfill_roster_stats_v204.py independent_roster_prospective_v203.py
           python test_official_roster_coverage_v204.py
           python test_independent_roster_prospective_v203.py
+      - name: Backfill actual game IDs and player names for up to eight priority teams
+        if: github.event_name != 'pull_request'
+        run: python backfill_roster_stats_v204.py --limit 8
       - name: Collect 26 curated official school roster pairs, upcoming games first
         if: github.event_name != 'pull_request'
         run: |
@@ -53,7 +57,7 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -- data/official_roster_evidence_v204/
+          git add -- data/official_roster_evidence_v204/ data/mens-college-basketball_previous_rosters.csv.gz data/mens-college-basketball_current_rosters.csv.gz data/mens-college-basketball_previous_stats.csv.gz data/mens-college-basketball_previous_player_pool.csv.gz data/mens-college-basketball_collection_status.csv.gz
           if ! git diff --cached --quiet; then
             git commit -m 'V204: refresh independent official-school roster coverage and source audit'
             git push
