@@ -75,13 +75,24 @@ def select_batch(schools,status,limit,repair_only=False,priority_ids=None):
         selected=pd.concat([selected,repair.iloc[repair_slots:repair_slots+limit-len(selected)]],ignore_index=True)
     return selected[['Team ID','Team']].copy()
 
-def run(sport,limit,repair_only=False):
+def run(sport,limit,repair_only=False,team_ids=None):
     schools=directory(sport)
-    prioritized,priority_errors=upcoming_d1_ids(sport,set(schools['Team ID'].astype(str)))
-    print(f'{sport}: {len(prioritized)} upcoming-opponent priority IDs; {len(priority_errors)} daily schedule errors',flush=True)
-    if priority_errors:print('  Priority scan incomplete; still preserving ordinary batch and retries',flush=True)
+    targeted={str(t).strip() for t in (team_ids or []) if str(t).strip()}
+    if targeted:
+        # V201: explicit targeted source refresh; never invent team identity.
+        selected=schools[schools['Team ID'].astype(str).isin(targeted)].copy()
+        missing=targeted-set(selected['Team ID'].astype(str))
+        if missing:
+            raise ValueError(f'Target team IDs not present in ESPN directory: {sorted(missing)}')
+        selected=selected.head(limit)
+        print(f'{sport}: explicitly refreshing {len(selected)} team(s): {sorted(targeted)}',flush=True)
+    else:
+        prioritized,priority_errors=upcoming_d1_ids(sport,set(schools['Team ID'].astype(str)))
+        print(f'{sport}: {len(prioritized)} upcoming-opponent priority IDs; {len(priority_errors)} daily schedule errors',flush=True)
+        if priority_errors:print('  Priority scan incomplete; still preserving ordinary batch and retries',flush=True)
     old,new,stats,status=[read(k,sport) for k in ('previous_rosters','current_rosters','previous_stats','collection_status')]
-    selected=select_batch(schools,status,limit,repair_only=repair_only,priority_ids=prioritized)
+    if not targeted:
+        selected=select_batch(schools,status,limit,repair_only=repair_only,priority_ids=prioritized)
     existing_status={str(r['Team ID']):r.to_dict() for _,r in status.iterrows()} if not status.empty else {}
     log=[];past=[];now=[];totals=[]
     print(f'{sport}: selected {len(selected)} of {len(schools)} directory schools (repair_only={repair_only})',flush=True)
@@ -137,5 +148,10 @@ if __name__=='__main__':
     parser.add_argument('--batch',type=int,default=12)
     parser.add_argument('--sport',choices=['mens-college-basketball','womens-college-basketball','both'],default='both')
     parser.add_argument('--repair-only',action='store_true',help='Backfill old or partial records without using slots for new teams')
+    parser.add_argument('--team-ids',default='',help='Comma-separated ESPN team IDs for a source-safe targeted refresh')
     args=parser.parse_args()
-    for sport in (['mens-college-basketball','womens-college-basketball'] if args.sport=='both' else [args.sport]):run(sport,args.batch,repair_only=args.repair_only)
+    team_ids=[x.strip() for x in args.team_ids.split(',') if x.strip()]
+    if team_ids and args.batch < len(team_ids):
+        parser.error('--batch must be at least the number of --team-ids')
+    for sport in (['mens-college-basketball','womens-college-basketball'] if args.sport=='both' else [args.sport]):
+        run(sport,args.batch,repair_only=args.repair_only,team_ids=team_ids)

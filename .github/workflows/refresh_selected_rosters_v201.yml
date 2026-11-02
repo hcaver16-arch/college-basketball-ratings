@@ -1,0 +1,51 @@
+name: V201 targeted roster source refresh and evidence audit
+on:
+  push:
+    branches:
+      - courtside-v201-roster-evidence-refresh
+    paths:
+      - archive_roster_batch.py
+      - roster_target_audit_v201.py
+      - test_roster_target_v201.py
+      - .github/workflows/refresh_selected_rosters_v201.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: basketball-roster-archive
+  cancel-in-progress: false
+jobs:
+  targeted:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install 'pandas>=2.1,<3' requests
+      - name: Validate targeted scripts
+        run: |
+          python -m py_compile archive_roster_batch.py roster_target_audit_v201.py test_roster_target_v201.py
+          python test_roster_target_v201.py
+      - name: Refresh only UTEP and Northern Kentucky from ESPN
+        run: python archive_roster_batch.py --batch 2 --sport mens-college-basketball --team-ids 2638,94
+      - name: Audit documented prior roster and stat matching
+        run: python roster_target_audit_v201.py
+      - name: Commit refreshed archive and diagnostic report to V201 branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/mens-college-basketball_previous_rosters.csv.gz data/mens-college-basketball_current_rosters.csv.gz data/mens-college-basketball_previous_stats.csv.gz data/mens-college-basketball_previous_player_pool.csv.gz data/mens-college-basketball_collection_status.csv.gz data/roster_target_audit_v201/
+          if ! git diff --cached --quiet; then
+            git commit -m 'V201: refresh sourced UTEP/Northern Kentucky roster evidence and audit'
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: roster-evidence-v201
+          path: data/roster_target_audit_v201/diagnostics.json
+          if-no-files-found: ignore
