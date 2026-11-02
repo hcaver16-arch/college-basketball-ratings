@@ -123,6 +123,7 @@ with TemporaryDirectory() as tmp:
     assert not added and skipped["invalid_evidence_or_pregame_timing"]==1
     # Reject baselines created too long before a pairing run.
     stale=baseline("stale","2638","94",created="2026-11-03T12:00:00Z")
+    stale["ratings_snapshot_utc"]="2026-11-03T11:50:00Z"
     added,skipped=lock_pairs([stale],[],adjustments,evidence,NOW)
     assert not added and skipped["baseline_prediction_not_fresh_no_backfill"]==1
 
