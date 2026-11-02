@@ -14,7 +14,7 @@ assert 'st.session_state["courtside_selected_game_payload"] = game.to_dict()' in
 assert 'game_records(record_schedule, game)' in app
 assert 'render_matchup(' in app
 assert 'cs_calendar_anchor' in app
-assert 'NET quadrant filters' in app
+assert 'More filters · Team, conference, venue & NET' in app
 assert 'Download filtered games CSV' in app
-assert 'st.markdown(f"### {away_score} – {home_score}")' in app
+assert 'st.markdown(f"### {int(game[\'Away score\'])} – {int(game[\'Home score\'])}")' in app
 print("V182 unified scoreboard checks passed")
