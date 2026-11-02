@@ -32,11 +32,19 @@ def reconcile_prior_players(previous, totals):
         k=(r['Team ID'],r['Player ID'])
         if k in original:continue
         source=r.get('Source','')
+        player=r.get('Player','')
+        documented_name=(str(player).strip() if pd.notna(player) else '')
+        games=r.get('Game IDs','')
+        game_ref=(str(games).strip() if pd.notna(games) else '')
+        provenance=str(source).strip() if pd.notna(source) and str(source).strip() else 'Box-score totals (source unspecified)'
+        if game_ref:
+            provenance += '; recorded game IDs: ' + game_ref
         rows.append({'Team ID':r['Team ID'],'Team':team_names.get(r['Team ID'],''),
-             'Player ID':r['Player ID'],'Player':'Unknown (box-score ID only)',
+             'Player ID':r['Player ID'],
+             'Player':documented_name or 'Unknown (box-score ID only)',
              'Position':'','Class':'','Roster season':2026,
              'Roster source':'Box-score totals; not a roster snapshot',
-             'Evidence source':source if pd.notna(source) and str(source).strip() else 'Box-score totals (source unspecified)',
+             'Evidence source':provenance,
              'In roster snapshot':False,'In box-score totals':True})
     if not rows:return pd.DataFrame(columns=POOL_COLS)
     out=pd.DataFrame(rows)
