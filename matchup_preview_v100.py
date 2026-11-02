@@ -43,7 +43,7 @@ def comparison_rows(away, home, a, h):
     return rows
 
 
-def render_matchup_preview(away,home,*,away_stats=None,home_stats=None):
+def render_matchup_preview(away,home,*,away_stats=None,home_stats=None,postgame=False):
     st.markdown('#### Matchup at a glance')
     ag = away_stats.get('boxscore_games',0) if isinstance(away_stats,dict) else 0
     hg = home_stats.get('boxscore_games',0) if isinstance(home_stats,dict) else 0

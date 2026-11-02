@@ -80,12 +80,12 @@ def _css():
     .cs-eff-label{color:#64748b;font-size:.78rem}.cs-eff-value{font-weight:700;color:#243449;font-size:1.05rem;margin:8px 0;overflow-wrap:anywhere}
     .cs-eff-unit{color:#8491a4;font-size:.72rem}
     .cs-eff-compare{border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;background:white;margin:8px 0 18px}
-    .cs-eff-compare-head,.cs-eff-compare-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(115px,.95fr) minmax(0,1fr);gap:8px;align-items:center;padding:12px;border-bottom:1px solid #edf1f5}
+    .cs-eff-compare-head,.cs-eff-compare-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(145px,.95fr) minmax(0,1fr);gap:8px;align-items:center;padding:12px;border-bottom:1px solid #edf1f5}
     .cs-eff-compare-head{background:#f8fafc;color:#34465f;font-size:.8rem;font-weight:650}
     .cs-eff-compare-row:last-child{border-bottom:0}
     .cs-eff-compare-row>span:first-child,.cs-eff-compare-row>span:last-child{color:#23354b;font-size:.79rem;font-weight:550;overflow-wrap:anywhere}
-    .cs-eff-compare-row>span:nth-child(2){color:#64748b;font-size:.77rem;text-align:center}
-    .cs-eff-compare-row small{display:block;color:#94a3b8;font-size:.65rem;margin-top:3px}
+    .cs-eff-compare-row>span:nth-child(2),.cs-eff-compare-head>span:nth-child(2){color:#64748b;font-size:.77rem;text-align:center;justify-self:center;width:100%;}
+    .cs-eff-compare-row small{display:block;color:#94a3b8;font-size:.65rem;margin-top:3px;text-align:center}
     .cs-eff-compare-row>span:last-child,.cs-eff-compare-head>span:last-child{text-align:right}
     @media(max-width:720px){.cs-eff-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.cs-eff-tile{padding:10px}.cs-eff-compare-row,.cs-eff-compare-head{grid-template-columns:minmax(0,1fr) 105px minmax(0,1fr);gap:4px;padding:10px 6px}.cs-eff-compare-row>span:first-child,.cs-eff-compare-row>span:last-child{font-size:.67rem}}
     </style>'''
@@ -130,9 +130,12 @@ def render_team_efficiency(stats=None, *, compact=False):
                 right.write(_value(stats, key))
 
 
-def render_matchup_stats(away, home, *, away_stats=None, home_stats=None):
+def render_matchup_stats(away, home, *, away_stats=None, home_stats=None, postgame=False):
     st.markdown('#### Offense, defense & matchup statistics')
-    st.caption('Pregame comparisons use only prior completed games. Current-day adjusted ratings are withheld here to prevent future information leaking into historical matchups.')
+    if postgame:
+        st.caption('Postgame box-score averages include the completed matchup when available. Raw statistics are descriptive, not opponent-adjusted ratings.')
+    else:
+        st.caption('Pregame comparisons use only prior completed games. Current-day adjusted ratings are withheld to prevent future information leakage.')
     if away_stats or home_stats:
         st.caption(f"Efficiency sample: {away} — {(away_stats or {}).get('efficiency_games',0)} games; {home} — {(home_stats or {}).get('efficiency_games',0)} games.")
     st.markdown(_css(), unsafe_allow_html=True)
