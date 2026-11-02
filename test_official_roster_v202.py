@@ -59,4 +59,28 @@ box={"boxscore":{"players":[{"team":{"id":"1"},"statistics":[{
  }]}]}}
 assert parse_boxscore(box,"1","game-a")[0]["Player"]=="CJ Smith"
 assert parse_boxscore(box,"1","game-a")[0]["Game ID"]=="game-a"
+
+from roster_reconciliation import reconcile_prior_players
+pool=reconcile_prior_players(
+    pd.DataFrame([{"Team ID":"1","Player ID":"31","Player":"CJ Smith"}]),
+    pd.DataFrame([
+        {"Team ID":"1","Player ID":"31","Player":"CJ Smith","Game IDs":"g1;g2","Source":"ESPN prior boxscores"},
+        {"Team ID":"1","Player ID":"33","Player":"Independent Player","Game IDs":"g2","Source":"ESPN prior boxscores"},
+    ])
+)
+extra=pool[pool["Player ID"].eq("33")].iloc[0]
+assert extra["Player"]=="Independent Player"
+assert extra["In box-score totals"] and not extra["In roster snapshot"]
+assert "g2" in extra["Evidence source"]
+assert "not a roster snapshot" in extra["Roster source"]
+
+reference=pd.read_csv(mod.INPUT,dtype={"Team ID":str})
+new_reference=pd.read_csv(mod.CURRENT_INPUT,dtype={"Team ID":str})
+assert set(reference["Team ID"])=={"2638","94"}
+assert set(new_reference["Team ID"])=={"2638","94"}
+assert len(reference)==28 and len(new_reference)==28
+assert (reference["Season"]=="2025-26").all()
+assert (new_reference["Season"]=="2026-27").all()
+assert reference["Source URL"].str.startswith("https://").all()
+assert new_reference["Source URL"].str.startswith("https://").all()
 print("V202 official-roster matching, ambiguity protection and ESPN player provenance passed")
