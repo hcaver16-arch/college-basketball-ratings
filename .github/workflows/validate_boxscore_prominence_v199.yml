@@ -1,0 +1,23 @@
+name: Validate V199 box-score prominence
+on:
+  pull_request:
+    paths:
+      - team_profile_ui.py
+      - raw_team_stats.py
+      - efficiency_ui.py
+      - test_boxscore_prominence_v199.py
+      - .github/workflows/validate_boxscore_prominence_v199.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install 'pandas>=2.1,<3' requests
+      - run: python -m py_compile team_profile_ui.py raw_team_stats.py efficiency_ui.py test_boxscore_prominence_v199.py
+      - run: python test_boxscore_prominence_v199.py
