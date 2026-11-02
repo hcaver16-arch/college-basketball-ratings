@@ -63,8 +63,12 @@ def fetch_polls(sport):
     return parse_polls(payload)
 
 
-def render_polls(league, ratings):
-    st.markdown("### National polls · 2026–27")
+def render_polls(league, ratings, poll_choice=None):
+    """Render a specified published poll, or keep the legacy selector when unspecified."""
+    if poll_choice is None:
+        st.markdown("### National polls · 2026–27")
+    elif poll_choice not in ("AP Top 25", "Coaches Poll"):
+        raise ValueError("Unknown published poll")
     st.caption("AP and Coaches rankings are independent published polls, not inputs to Courtside power ratings. Data: ESPN's public rankings feed (unofficial API), cached up to six hours.")
     try:
         polls = fetch_polls(SPORTS[league])
@@ -74,7 +78,7 @@ def render_polls(league, ratings):
     if not polls:
         st.info("No AP or Coaches poll was returned for this division. Courtside will not display unverified or previous-season ranks as current.")
         return
-    choice = st.radio("Poll", ["AP Top 25", "Coaches Poll"], horizontal=True, key="v137_poll")
+    choice = poll_choice if poll_choice is not None else st.radio("Poll", ["AP Top 25", "Coaches Poll"], horizontal=True, key="v137_poll")
     if choice not in polls:
         st.info(f"{choice} is not currently available from the poll source.")
         return
