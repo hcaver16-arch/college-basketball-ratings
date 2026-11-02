@@ -35,6 +35,7 @@ from prospective_roster import evidence_adjustments, make_forecasts, evaluate_fo
 from forecast_comparison import combined_forecasts
 from preliminary_model import build_preliminary_ratings, add_experimental_lines
 from live_matchup_v206 import espn_progress, progress_label
+from game_location_v207 import game_location_from_espn, display_game_location, UNKNOWN_LOCATION
 from courtside_home import style as courtside_style, render_home
 from courtside_theme_v153 import apply_v153_theme
 from courtside_tables import apply_table_theme, dataframe as courtside_dataframe
@@ -278,7 +279,7 @@ selected_section = st.session_state['courtside_page']
 SPORTS = {"Men's": "mens-college-basketball", "Women's": "womens-college-basketball"}
 START = date(2026, 11, 1)
 END = date(2027, 4, 12)
-COLUMNS = ["Game ID", "Date", "Time (ET)", "Away", "Home", "Away conference", "Home conference", "Away ID", "Home ID", "Venue", "Status", "Away score", "Home score", "Game URL", "Watch", "Game period", "Game clock", "Game phase"]
+COLUMNS = ["Game ID", "Date", "Time (ET)", "Away", "Home", "Away conference", "Home conference", "Away ID", "Home ID", "Venue", "Status", "Away score", "Home score", "Game URL", "Watch", "Game period", "Game clock", "Game phase", "Game location"]
 
 
 def days_between(start: date, end: date):
@@ -356,7 +357,8 @@ def parse_game(event):
             "Away ID": str((away.get("team") or {}).get("id", "")), "Home ID": str((home.get("team") or {}).get("id", "")),
             "Venue": venue, "Status": status, "Away score": score(away) if status != "Scheduled" else None,
             "Home score": score(home) if status != "Scheduled" else None, "Game URL": game_url,
-            "Watch": broadcast_names(event, competition), **espn_progress(event, competition, status)}
+            "Watch": broadcast_names(event, competition), "Game location": game_location_from_espn(event, competition),
+            **espn_progress(event, competition, status)}
 
 
 @st.cache_data(ttl=12 * 60 * 60, show_spinner=False)
@@ -489,7 +491,7 @@ def conf_label(raw: str, lookup: dict):
     return lookup.get(str(raw), f"Conference ID {raw}")
 
 def show_schedule(df):
-    columns = ["Display date", "Display time", "Away", "Home", "Venue", "Status", "Model line", "Away score", "Home score"]
+    columns = ["Display date", "Display time", "Away", "Home", "Game location", "Status", "Model line", "Away score", "Home score"]
     courtside_dataframe(df[[col for col in columns if col in df.columns]], hide_index=True, use_container_width=True, height=560)
 
 
@@ -1581,7 +1583,7 @@ st.markdown("""<style>
 .cs191-at{color:#7c8ca3;font-size:.85rem}
 .cs191-pending{font-size:.73rem;white-space:normal}
 .cs191-footer{border-top:1px solid #e1e9f4;margin-top:9px;padding-top:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:0}
-.cs191-context{font-size:.73rem;color:#63768f;overflow-wrap:anywhere}
+.cs191-context{font-size:.73rem;color:#63768f;overflow-wrap:anywhere;flex:1 1 190px;min-width:0;line-height:1.4}
 .cs191-line{font-size:.76rem;font-weight:750;white-space:normal;text-align:center;color:#1b4688;background:#edf3fc;border:1px solid #d5e2f4;border-radius:7px;padding:5px 8px;max-width:47%}
 @media(max-width:850px){.cs191-matchup{gap:4px}.cs191-team img{height:25px;width:25px}.cs191-team strong{font-size:.8rem}.cs191-score{font-size:.95rem}.cs191-footer{flex-wrap:wrap}.cs191-line{max-width:100%}}
 
@@ -1624,6 +1626,15 @@ if selected_section == "Games":
                         for col in ("Status", "Home score", "Away score", "Game period", "Game clock", "Game phase"):
                             table[col] = [fresh.at[gid, col] if gid in fresh.index else original
                                           for gid, original in zip(game_ids, table[col])]
+                        # Venue names can arrive or change as ESPN updates the
+                        # live event. Do not replace a known location with TBD.
+                        if "Game location" in table.columns:
+                            table["Game location"] = [
+                                fresh.at[gid, "Game location"]
+                                if gid in fresh.index and fresh.at[gid, "Game location"] != UNKNOWN_LOCATION
+                                else original
+                                for gid, original in zip(game_ids, table["Game location"])
+                            ]
         except (requests.RequestException, ValueError, KeyError, TypeError):
             st.caption("Live scoreboard temporarily unavailable — showing last loaded results.")
         # V182: all three states share one scoreboard, with optional status filters.
@@ -1829,11 +1840,11 @@ if selected_section == "Games":
                             away_conf = str(game.get("Away conference name") or "—")
                             home_conf = str(game.get("Home conference name") or "—")
                             conf_label = home_conf if home_conf == away_conf else f"{away_conf} / {home_conf}"
-                            venue_label = str(game.get("Venue") or "Unknown")
+                            location_label = display_game_location(game)
                             watch_value = str(game.get("Watch") or "").strip()
                             if watch_value.lower() in ("nan", "none", "—", "unknown"):
                                 watch_value = ""
-                            context = conf_label + " · " + venue_label + " court"
+                            context = conf_label + " · " + location_label
                             if watch_value:
                                 context += " · " + watch_value
                             st.markdown(
