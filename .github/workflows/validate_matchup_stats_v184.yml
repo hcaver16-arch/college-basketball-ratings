@@ -1,0 +1,23 @@
+name: Validate V184 matchup statistics
+on:
+  pull_request:
+    paths:
+      - app.py
+      - matchup_analysis.py
+      - efficiency_ui.py
+      - matchup_preview_v100.py
+      - test_matchup_stats_v184.py
+      - .github/workflows/validate_matchup_stats_v184.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m py_compile app.py matchup_analysis.py efficiency_ui.py matchup_preview_v100.py
+      - run: python test_matchup_stats_v184.py
