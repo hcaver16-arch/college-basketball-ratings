@@ -1,0 +1,39 @@
+name: V209 empirical cross-division calibration and source audit
+on:
+  push:
+    branches:
+      - courtside-v209-cross-division-projections
+    paths:
+      - build_cross_division_v209.py
+      - .github/workflows/calibrate_cross_division_v209.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: courtside-cross-division-calibration
+  cancel-in-progress: false
+jobs:
+  calibrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install 'pandas>=2.1,<3' 'numpy>=1.26,<3' requests
+      - name: Calibrate both leagues from actual 2025-26 results only
+        run: python build_cross_division_v209.py
+      - name: Commit dated, separately audited source calibration only
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/cross_division/mens-college-basketball_2025-26.json data/cross_division/womens-college-basketball_2025-26.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'V209: archive source-trained cross-division model priors with holdout diagnostics'
+            git fetch origin "$GITHUB_REF_NAME"
+            git rebase "origin/$GITHUB_REF_NAME"
+            git push origin "HEAD:$GITHUB_REF_NAME"
+          fi
