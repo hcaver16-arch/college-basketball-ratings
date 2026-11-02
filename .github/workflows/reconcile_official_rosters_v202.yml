@@ -1,0 +1,54 @@
+name: V202 official-school roster reconciliation
+on:
+  push:
+    branches:
+      - courtside-v202-official-roster-reconciliation
+    paths:
+      - player_stats_import.py
+      - official_roster_reconcile_v202.py
+      - test_official_roster_v202.py
+      - data/official_roster_evidence_v202/mens_2025_26_school_rosters.csv
+      - .github/workflows/reconcile_official_rosters_v202.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: basketball-roster-archive
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install 'pandas>=2.1,<3' requests
+      - name: Validate independent-source reconciliation
+        run: |
+          python -m py_compile official_roster_reconcile_v202.py player_stats_import.py test_official_roster_v202.py
+          python test_official_roster_v202.py
+      - name: Refresh ESPN prior-season player-name provenance for both teams
+        run: python archive_roster_batch.py --batch 2 --sport mens-college-basketball --team-ids 2638,94
+      - name: Produce retrospective official-versus-ESPN identity audit
+        run: python official_roster_reconcile_v202.py
+      - name: Commit source-derived player names and documented matches to PR branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/mens-college-basketball_previous_rosters.csv.gz data/mens-college-basketball_current_rosters.csv.gz data/mens-college-basketball_previous_stats.csv.gz data/mens-college-basketball_previous_player_pool.csv.gz data/mens-college-basketball_collection_status.csv.gz data/official_roster_evidence_v202/
+          if ! git diff --cached --quiet; then
+            git commit -m 'V202: preserve sourced ESPN player names and official school reconciliation'
+            git push origin HEAD:refs/heads/courtside-v202-official-roster-reconciliation
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: official-roster-evidence-v202
+          path: |
+            data/official_roster_evidence_v202/summary.json
+            data/official_roster_evidence_v202/linked_players.csv
+          if-no-files-found: ignore
