@@ -1610,7 +1610,16 @@ if selected_section == "Games":
             "Sort games", ["Tipoff order", "Live games first"],
             key="courtside_games_sort_v182"
         )
+        matchup_scope = st.segmented_control(
+            "Matchups", ["All games", "D1 vs D1 only"],
+            default="All games", key="cs188_matchup_scope"
+        )
         shown = games.copy()
+        if matchup_scope == "D1 vs D1 only":
+            shown = shown[
+                shown["Home ID"].astype(str).isin(verified_d1_ids) &
+                shown["Away ID"].astype(str).isin(verified_d1_ids)
+            ]
         if view == "Live":
             shown = shown[shown["Status"] == "Live"]
         elif view == "Upcoming":
@@ -1757,9 +1766,18 @@ if selected_section == "Games":
                         elif status == "Live":
                             st.markdown("**Live — score pending**")
                         else:
-                            st.markdown(f"**{game.get('Model line', '—')}**")
-                            if status == "Scheduled":
-                                st.caption("Model projection")
+                            home_d1 = str(game["Home ID"]) in verified_d1_ids
+                            away_d1 = str(game["Away ID"]) in verified_d1_ids
+                            if status == "Scheduled" and not (home_d1 and away_d1):
+                                st.markdown("**Non-D1 opponent**" if home_d1 or away_d1 else "**Outside D1 model**")
+                                st.caption("No model line")
+                            elif status == "Scheduled" and str(game.get("Model line", "")) in ("Not rated", "—", ""):
+                                st.markdown("**Rating unavailable**")
+                                st.caption("Both teams D1 · No model line")
+                            else:
+                                st.markdown(f"**{game.get('Model line', '—')}**")
+                                if status == "Scheduled":
+                                    st.caption("Model projection")
                     with c_action:
                         if st.button("View matchup →", key=f"game_detail_{league}_{game['Game ID']}", use_container_width=True):
                             st.session_state["courtside_selected_game"] = str(game["Game ID"])
