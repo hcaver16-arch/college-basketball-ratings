@@ -1,0 +1,67 @@
+{
+  "version": 203,
+  "season": "2026-27",
+  "as_of_utc": "2026-11-02T20:48:52.103458Z",
+  "status": "PROSPECTIVE_RESEARCH_ONLY_NOT_DEPLOYED",
+  "production_model_modified": false,
+  "published_pregame_forecasts_unchanged": true,
+  "baseline_source": "immutable V97 official_saved_v97 forecasts",
+  "source_errors": null,
+  "source_checked_utc": "2026-11-02T20:40:48.118499Z",
+  "source_sha256": "5bbdbb5f4a0f0528c7caa9beb43e2da824ebbdf7348c2189a215b3e4226a1ec4",
+  "teams_audited": {
+    "2638": {
+      "team_id": "2638",
+      "official_prior_players": 14,
+      "official_current_players": 15,
+      "matched_prior_stats": 14,
+      "prior_stats_coverage_pct": 100.0,
+      "current_identity_coverage_pct": 100.0,
+      "returning_players_in_valid_stats": 0,
+      "retention_pct_known_only": 0.0,
+      "blocked_reasons": [],
+      "qualified": true,
+      "hypothetical_adjustment_points": -2.5
+    },
+    "94": {
+      "team_id": "94",
+      "official_prior_players": 14,
+      "official_current_players": 13,
+      "matched_prior_stats": 12,
+      "prior_stats_coverage_pct": 85.7,
+      "current_identity_coverage_pct": 100.0,
+      "returning_players_in_valid_stats": 4,
+      "retention_pct_known_only": 23.69,
+      "blocked_reasons": [
+        "prior_player_stats_below_90pct"
+      ],
+      "qualified": false,
+      "hypothetical_adjustment_points": null
+    }
+  },
+  "qualified_team_count": 1,
+  "new_pairs": 0,
+  "total_pairs": 0,
+  "skipped": {
+    "invalid_evidence_or_pregame_timing": 194
+  },
+  "paired_results": {
+    "mens": {
+      "paired_completed_games": 0,
+      "status": "INSUFFICIENT_PROSPECTIVE_DATA"
+    },
+    "womens": {
+      "paired_completed_games": 0,
+      "status": "INSUFFICIENT_PROSPECTIVE_DATA"
+    }
+  },
+  "limitations": [
+    "Only baseline forecasts made after the official/ESPN evidence verification can be paired",
+    "Both teams must have >=8 official previous-season players, >=90% valid prior-player totals and exact current IDs",
+    "Observed school rosters are retrospective and do not establish any older pregame state",
+    "Adjustment slope 0.5 pts per 10% returning minutes is untrained and must be evaluated before deployment",
+    "No early-season or already completed game backfill; no replacement of first archived forecasts",
+    "A zero returning estimate represents no matching sourced returnees, not known roster value",
+    "No new live in-game win probabilities or betting odds are generated"
+  ]
+}
