@@ -79,8 +79,8 @@ POLL_TILE_STYLE = """<style>
 .cr196-label{display:block;color:#697c97;font-size:.69rem}
 .cr196-value{display:block;color:#19457f;font-size:1.13rem;font-weight:850;font-variant-numeric:tabular-nums}
 .cr196-comparison{text-align:right}
-.st-key-cr196_poll_tiles [class*="st-key-cr196_poll_card_"]{background:#fff;border:1px solid #d8e3f2;border-top:3px solid #2760b8;border-radius:12px;padding:9px 11px 8px;min-width:0}
-.st-key-cr196_poll_tiles [class*="st-key-cr196_poll_card_"] button{min-height:30px!important;font-size:.78rem!important}
+[class*="st-key-cr196_poll_tiles_"] [class*="st-key-cr196_poll_card_"]{background:#fff;border:1px solid #d8e3f2;border-top:3px solid #2760b8;border-radius:12px;padding:9px 11px 8px;min-width:0}
+[class*="st-key-cr196_poll_tiles_"] [class*="st-key-cr196_poll_card_"] button{min-height:30px!important;font-size:.78rem!important}
 @media(max-width:700px){.cr196-logo,.cr196-initials{height:30px;width:30px}.cr196-name{font-size:.9rem}}
 </style>"""
 
@@ -101,7 +101,7 @@ def _poll_tile_markup(row, *, show_logos):
     name = str(row.get("Team", "Team"))
     tid = str(row.get("Team ID", "")).strip()
     rank = _poll_number(row.get("Rank"), prefix="#")
-    record = str(row.get("Record") or "").strip()
+    record = str(row.get("Record", "")).strip()
     if record.lower() in ("nan", "none") or not record:
         record = "Record unavailable"
     points = _poll_number(row.get("Points"))
@@ -182,7 +182,7 @@ def render_polls(league, ratings, poll_choice=None):
     else:
         st.markdown(POLL_TILE_STYLE, unsafe_allow_html=True)
         show_logos = st.session_state.get("courtside_logos_enabled", True)
-        with st.container(key="cr196_poll_tiles"):
+        with st.container(key=f"cr196_poll_tiles_{key_prefix}"):
             for start in range(0, len(frame), 3):
                 tile_cols = st.columns(3, gap="small")
                 for column_index, (_, team) in enumerate(frame.iloc[start:start + 3].iterrows()):
