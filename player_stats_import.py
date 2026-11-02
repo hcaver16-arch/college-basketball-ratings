@@ -8,7 +8,7 @@ import re
 import requests
 import pandas as pd
 
-FIELDS = ['Team ID','Player ID','Minutes','Points','Rebounds','Assists','Source']
+FIELDS = ['Team ID','Player ID','Player','Minutes','Points','Rebounds','Assists','Games with box score','Game IDs','Source']
 HEADERS = {'User-Agent':'Mozilla/5.0 (compatible; college-basketball-research/1.0)', 'Accept':'application/json'}
 STAT_ALIASES = {'Minutes':['MIN','minutes'], 'Points':['PTS','points'], 'Rebounds':['REB','rebounds'], 'Assists':['AST','assists']}
 
@@ -46,7 +46,9 @@ def parse_boxscore(data, team_id, game_id):
                 if max(slots.values())>=len(values):continue
                 nums={k:(parse_minutes(values[idx]) if k=='Minutes' else numeric(values[idx])) for k,idx in slots.items()}
                 if any(v is None for v in nums.values()):continue
-                extracted.append({'Team ID':str(team_id),'Player ID':pid,**nums,'Game ID':str(game_id)})
+                extracted.append({'Team ID':str(team_id),'Player ID':pid,
+                                  'Player':str(athlete.get('displayName') or athlete.get('fullName') or '').strip(),
+                                  **nums,'Game ID':str(game_id)})
     return extracted
 
 def games_from_schedule(data):
@@ -112,7 +114,13 @@ def fetch_prior_stats(sport, teams, season=2026, max_games=45, max_workers=4, se
         if not df.empty:
             df=df.drop_duplicates(['Team ID','Player ID','Game ID'])
             for pid,group in df.groupby('Player ID'):
-                row={'Team ID':tid,'Player ID':str(pid),'Source':f'ESPN boxscores / {sport} / season {season} / {parsed} of {len(gids)} games'}
+                names={str(x).strip() for x in group['Player'].dropna() if str(x).strip()}
+                # Non-unique names cannot be joined to independent official rosters.
+                name=next(iter(names)) if len(names)==1 else ''
+                game_ids=sorted(set(group['Game ID'].astype(str)))
+                row={'Team ID':tid,'Player ID':str(pid),'Player':name,
+                     'Games with box score':len(game_ids),'Game IDs':';'.join(game_ids),
+                     'Source':f'ESPN boxscores / {sport} / season {season} / {parsed} of {len(gids)} games'}
                 for stat in ('Minutes','Points','Rebounds','Assists'):row[stat]=round(float(group[stat].sum()),2)
                 stats.append(row)
         missing=len(gids)-parsed
