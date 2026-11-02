@@ -143,7 +143,7 @@ def _compact_line(game, projection):
     return str(game.get("Model line") or "Unavailable")
 
 
-def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_ratings, sor_ratings, games, net_ranks, net_status, verified_d1_ids, league, game_projection, away_record=None, home_record=None, record_coverage_ok=True):
+def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_ratings, sor_ratings, games, net_ranks, net_status, verified_d1_ids, league, game_projection, away_record=None, home_record=None, record_coverage_ok=True, stats_games=None):
     """Render under an already open game header, using only existing verified app datasets."""
     st.markdown("""<style>
     .cs-kpi {background:#fff;border:1px solid #e2e8f0;border-radius:13px;padding:15px 16px;min-height:116px;box-sizing:border-box}
@@ -249,8 +249,9 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
         stat_cutoff = str((matchup_date + pd.Timedelta(days=1)).date())
     else:
         stat_cutoff = game.get("Date")
-    cs_away_stats = team_raw_stats(games,aid,league,before=stat_cutoff)
-    cs_home_stats = team_raw_stats(games,hid,league,before=stat_cutoff)
+    stats_source = stats_games if isinstance(stats_games, pd.DataFrame) and not stats_games.empty else games
+    cs_away_stats = team_raw_stats(stats_source,aid,league,before=stat_cutoff)
+    cs_home_stats = team_raw_stats(stats_source,hid,league,before=stat_cutoff)
     render_matchup_preview(away,home,away_stats=cs_away_stats,home_stats=cs_home_stats)
     with st.expander("Offense, defense & matchup statistics", expanded=False):
         render_matchup_stats(away,home,away_stats=cs_away_stats,home_stats=cs_home_stats,
