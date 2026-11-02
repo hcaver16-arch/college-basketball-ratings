@@ -162,7 +162,10 @@ def main():
         team["current_official_roster_players"]=len(after)
         team["current_official_names_confirmed_by_espn_current_roster"]=len(after_verified)
         team["documented_returning_players"]=len(returning)
-        team["candidate_returning_minutes_pct"]=round(100*float(ret) / float(total),2) if pd.notna(ret) else 0.0 if verified_complete and pd.notna(total) and total>0 else None
+        team["candidate_returning_minutes_pct"]=(
+            (round(100*float(ret)/float(total),2) if pd.notna(ret) else 0.0)
+            if verified_complete and pd.notna(total) and total>0 else None
+        )
         team["independent_evidence_candidate_eligible"]=bool(verified_complete)
         team["independent_evidence_notes"]="Retrospective comparison, subject to manual review; not automatically an experimental model input."
         team["current_roster_source_url"]=str(after.iloc[0]["Official source URL"]) if not after.empty else ""
