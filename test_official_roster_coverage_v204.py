@@ -100,4 +100,18 @@ with TemporaryDirectory() as tmp:
     assert fail["source_pages_parsed"]==0
     assert fail["source_review_needed"]==1
     assert fail["qualified_team_count"]==0
+from backfill_roster_stats_v204 import needing_provenance
+m=pd.DataFrame([
+  {"ESPN Team":"UTEP Miners","Prior official URL":"https://school.edu/prior","Current official URL":"https://school.edu/now"},
+  {"ESPN Team":"Northern Kentucky Norse","Prior official URL":"https://school.edu/prior","Current official URL":"https://school.edu/now"},
+])
+archived=pd.DataFrame([
+  {"Team ID":"2638","Player ID":"11","Player":"Real Player","Game IDs":"game1","Games with box score":1},
+  {"Team ID":"94","Player ID":"22","Player":"","Game IDs":"","Games with box score":None},
+])
+missing,full=needing_provenance(m,teams,{"94"},archived,limit=1)
+assert len(full)==1
+assert missing[0]["team"]=="Northern Kentucky Norse"
+assert missing[0]["reason"]=="one_or_more_players_missing_named_game_provenance"
+
 print("V204 official-site parsing, upcoming ranking, strict corroboration, fallback and V203 data format passed")
