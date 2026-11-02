@@ -125,6 +125,8 @@ def team_raw_stats(games, tid, league, *, before=None, max_games=45):
     totals = {key:0. for key in ('fgm','fga','tpm','tpa','ftm','fta','reb','oreb','dreb','ast','tov','stl','blk')}
     counts = {key:0 for key in totals}
     found = 0
+    score_games = 0
+    scored_points = 0.0
     eff_games = 0
     points, opponent_points, possessions = 0., 0., 0.
     tempo_possessions, tempo_games = 0., 0
@@ -134,6 +136,11 @@ def team_raw_stats(games, tid, league, *, before=None, max_games=45):
         if not stat:
             continue
         found += 1
+        # ESPN completed-game header totals; only expose PPG for full sample coverage.
+        scored = stat.get('points')
+        if scored is not None:
+            scored_points += float(scored)
+            score_games += 1
         for key, made, attempted in (('fg','fgm','fga'), ('three','tpm','tpa'), ('ft','ftm','fta')):
             pair = stat.get(key)
             if pair is not None:
@@ -171,6 +178,8 @@ def team_raw_stats(games, tid, league, *, before=None, max_games=45):
         if counts[n] != found or counts[d] != found or totals[d] <= 0:
             return None
         return scale * totals[n] / totals[d]
+    if score_games == found:
+        result['pts_pg'] = scored_points / found
     for target, key in (('reb_pg','reb'),('ast_pg','ast'),('tov_pg','tov'),('stl_pg','stl'),('blk_pg','blk')):
         if counts[key] == found:
             result[target] = totals[key] / found
