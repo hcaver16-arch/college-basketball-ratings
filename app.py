@@ -362,16 +362,27 @@ def parse_game(event):
 
 
 @st.cache_data(ttl=12 * 60 * 60, show_spinner=False)
-def retrieve_day(sport: str, day: date):
-    """ESPN now rejects dates=YYYYMMDD-YYYYMMDD; use one YYYYMMDD per request."""
+def _v208_cached_day_events(sport: str, day: date):
+    """Cache the raw ESPN events, not parse_game's output.
+
+    Previously the 12-hour cached rows could lack fields added by newer site
+    versions (notably Game location on the men's schedule). Keeping source
+    events here means each rerun uses the *current* parser and schema.
+    ESPN rejects date ranges; fetch one YYYYMMDD per request.
+    """
     url = f"https://site.api.espn.com/apis/site/v2/sports/basketball/{sport}/scoreboard"
     params = {"dates": day.strftime("%Y%m%d"), "groups": "50", "limit": 500}
     response = requests.get(url, params=params, headers={"User-Agent": "Mozilla/5.0 CollegeBasketballDashboard/1.1", "Accept": "application/json"}, timeout=25)
     response.raise_for_status()
-    payload = response.json()
-    events = payload.get("events")
+    events = response.json().get("events")
     if not isinstance(events, list):
         raise ValueError("Schedule feed did not return a game list")
+    return events
+
+
+def retrieve_day(sport: str, day: date):
+    """Always reparse cached ESPN events using the current game schema."""
+    events = _v208_cached_day_events(sport, day)
     return [parsed for event in events if (parsed := parse_game(event)) is not None], len(events)
 
 
@@ -744,7 +755,9 @@ else:
     first, last = windows[period]
 settings_panel.caption(f"Tipoff times displayed in {selected_timezone} time; game times and schedules may change.")
 if settings_panel.button("🔄 Refresh schedule now", use_container_width=True):
-    retrieve_day.clear()
+    # Clear the actual network caches, not the now-uncached parsed rows.
+    _v208_cached_day_events.clear()
+    _v208_cached_today_events.clear()
     st.rerun()
 
 
@@ -891,14 +904,22 @@ if isinstance(team_ratings, pd.DataFrame) and not team_ratings.empty:
             st.session_state[f"sor_{SPORTS[league]}"]=live_sor
 
 @st.cache_data(ttl=90, show_spinner=False)
-def _v175_today_scoreboard(sport: str, game_day: date):
-    """Short-lived scoreboard feed; independently refreshes live/final games."""
+def _v208_cached_today_events(sport: str, game_day: date):
+    """Cache only raw ESPN today's events; parsed fields stay current."""
     url = f"https://site.api.espn.com/apis/site/v2/sports/basketball/{sport}/scoreboard"
     response = requests.get(url, params={"dates": game_day.strftime("%Y%m%d"), "groups": "50", "limit": 500},
                             headers={"User-Agent": "Mozilla/5.0", "Accept": "application/json"}, timeout=20)
     response.raise_for_status()
-    rows = [parse_game(event) for event in response.json().get("events", [])]
-    return [row for row in rows if row is not None]
+    events = response.json().get("events")
+    if not isinstance(events, list):
+        raise ValueError("Live scoreboard feed did not return a game list")
+    return events
+
+
+def _v175_today_scoreboard(sport: str, game_day: date):
+    """Short-lived source events, reparsed for latest game/location fields."""
+    return [row for event in _v208_cached_today_events(sport, game_day)
+            if (row := parse_game(event)) is not None]
 
 
 @st.fragment(run_every="120s")

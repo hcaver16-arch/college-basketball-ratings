@@ -1,0 +1,33 @@
+name: V208 men's and women's venue cache regression
+on:
+  push:
+    branches:
+      - courtside-v208-mens-venue-recovery
+    paths:
+      - app.py
+      - test_venue_cache_v208.py
+      - .github/workflows/test_venue_cache_v208.yml
+  pull_request:
+    paths:
+      - app.py
+      - test_venue_cache_v208.py
+      - .github/workflows/test_venue_cache_v208.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test-cache-and-location:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install parser dependencies
+        run: pip install 'pandas>=2.1,<3'
+      - name: Validate site and actual ESPN location fixtures
+        run: |
+          python -m py_compile app.py game_location_v207.py test_venue_cache_v208.py
+          python test_game_location_v207.py
+          python test_venue_cache_v208.py
