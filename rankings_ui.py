@@ -27,6 +27,56 @@ def _fmt(value, signed=False):
         return '—'
 
 
+
+def _tile_markup(item, value, metric_label, logos_enabled):
+    """Safe, data-only markup for the optional dense rankings tile view."""
+    name = html.escape(str(item.get("Team", "Unknown")))
+    conf = html.escape(str(item.get("Conference", "Unassigned")))
+    tid = str(item.get("Team ID", "")).strip()
+    rank = item.get("Rank")
+    try:
+        rank_label = f"#{int(rank)}" if pd.notna(rank) else "—"
+    except (TypeError, ValueError):
+        rank_label = "—"
+    if logos_enabled and tid.isdigit():
+        logo = (
+            f'<img class="cr195-logo" '
+            f'src="https://a.espncdn.com/i/teamlogos/ncaa/500/{tid}.png" '
+            'alt="" loading="lazy"/>'
+        )
+    else:
+        initials = "".join(piece[0] for piece in str(item.get("Team", "")).split()[:2]) or "?"
+        logo = f'<span class="cr195-monogram">{html.escape(initials.upper())}</span>'
+    played = item.get("Games played")
+    try:
+        played_label = str(int(played)) if pd.notna(played) else "—"
+    except (TypeError, ValueError):
+        played_label = "—"
+    # These are model values, not movement in an official poll.
+    if metric_label == "Experimental":
+        context = f'Baseline {_fmt(item.get("Current power"), True)}'
+    else:
+        change = _fmt(item.get("Rating change"), True)
+        context = f'Vs preseason {change}' if change != "—" else (
+            f'Preseason {_fmt(item.get("Preseason rating"), True)}'
+        )
+    return (
+        '<div class="cr195-tile">'
+        '<div class="cr195-top"><span class="cr195-rank">' + html.escape(rank_label) +
+        '</span><span class="cr195-conf">' + conf + '</span></div>'
+        '<div class="cr195-identity">' + logo +
+        '<span class="cr195-name">' + name + '</span></div>'
+        '<div class="cr195-metrics">'
+        '<div><span class="cr195-metric-label">' + html.escape(metric_label) +
+        '</span><strong class="cr195-metric-value">' + html.escape(_fmt(value, True)) +
+        '</strong></div>'
+        '<div class="cr195-played"><span class="cr195-metric-label">Games</span>'
+        '<strong>' + played_label + '</strong></div></div>'
+        '<div class="cr195-context">' + html.escape(context) + '</div>'
+        '</div>'
+    )
+
+
 def render_rankings(ratings: pd.DataFrame, preliminary: pd.DataFrame, league: str, verified_d1_ids: set[str]):
     st.markdown('''<style>
     .cr-head{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:17px 20px;margin-bottom:14px}
@@ -39,6 +89,36 @@ def render_rankings(ratings: pd.DataFrame, preliminary: pd.DataFrame, league: st
     .cr-conf{font-size:.76rem;color:#728096}
     .cr-value{font-weight:750;color:#23354b;font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
     .cr-label{font-size:.71rem;color:#728096;text-align:right}
+
+    /* V195: three-up rankings tiles, keeping the original list available. */
+    .st-key-cr195_tile_grid [class*="st-key-cr195_tile_"]{
+      background:#fff;border:1px solid #d8e3f2;border-top:3px solid #2760b8;
+      border-radius:12px;padding:10px 12px 8px;min-width:0;
+      box-shadow:0 2px 7px rgba(27,61,109,.05)
+    }
+    .cr195-tile{min-height:132px}
+    .cr195-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+    .cr195-rank{font-size:.82rem;font-weight:850;color:#1a478a;background:#edf3fc;
+      border-radius:7px;padding:3px 7px}
+    .cr195-conf{font-size:.71rem;color:#6c7b90;text-align:right;overflow-wrap:anywhere}
+    .cr195-identity{display:flex;align-items:center;gap:9px;margin:10px 0;min-height:38px}
+    .cr195-logo{width:38px;height:38px;object-fit:contain;flex:none}
+    .cr195-monogram{width:38px;height:38px;display:grid;place-items:center;flex:none;
+      border-radius:9px;background:#e4edf9;color:#28518a;font-size:.86rem;font-weight:800}
+    .cr195-name{font-size:.98rem;line-height:1.22;font-weight:800;color:#20385e;
+      overflow-wrap:anywhere;min-width:0}
+    .cr195-metrics{display:flex;justify-content:space-between;gap:10px;
+      border-top:1px solid #e7edf5;padding-top:8px}
+    .cr195-metric-label{font-size:.69rem;color:#697c97;display:block}
+    .cr195-metric-value{font-size:1.23rem;font-weight:850;color:#19457f;
+      font-variant-numeric:tabular-nums}
+    .cr195-played{text-align:right;min-width:42px}
+    .cr195-played strong{font-size:1rem;color:#23436a;font-variant-numeric:tabular-nums}
+    .cr195-context{font-size:.69rem;color:#667a96;margin-top:5px;min-height:13px}
+    .st-key-cr195_tile_grid [class*="st-key-cr195_tile_"] button{
+      min-height:30px!important;font-size:.78rem!important;margin-top:1px
+    }
+    @media(max-width:700px){.cr195-name{font-size:.9rem}.cr195-logo,.cr195-monogram{width:30px;height:30px}}
     </style>''',unsafe_allow_html=True)
     st.markdown(MOBILE_CARD_STYLE, unsafe_allow_html=True)
     st.markdown(f'<div class="cr-head"><h2>National Power Rankings</h2><div class="cr-sub">{html.escape(league)} Division I · Saved baseline ratings · Select a team for its scouting report</div></div>',unsafe_allow_html=True)
@@ -93,33 +173,70 @@ def render_rankings(ratings: pd.DataFrame, preliminary: pd.DataFrame, league: st
     if not total:
         st.info('No teams match these filters.')
         return
+
+    # V195: dense three-column tiles are the default, while the original list
+    # remains selectable for scanning one team at a time.
+    view_mode = st.segmented_control(
+        "Display rankings", ["Tiles", "Compact list"],
+        default="Tiles", key="cr195_view_mode"
+    )
     per_page=25
     max_page=max(1,math.ceil(total/per_page))
+    if "cr_page" in st.session_state:
+        try:
+            st.session_state["cr_page"] = max(1, min(max_page, int(st.session_state["cr_page"])))
+        except (ValueError, TypeError):
+            st.session_state["cr_page"] = 1
     page=st.number_input('Page',min_value=1,max_value=max_page,value=1,step=1,key='cr_page') if max_page>1 else 1
     start=(int(page)-1)*per_page
     shown=data.iloc[start:start+per_page]
-    for j,(_,item) in enumerate(shown.iterrows()):
-        rank=item.get('Rank')
-        try: rank_label=f'#{int(rank)}' if pd.notna(rank) else '—'
-        except (TypeError,ValueError):rank_label='—'
-        v=item.get('Experimental power') if sort=='Experimental rating' else item['Current power']
-        label='Experimental' if sort=='Experimental rating' else 'Power rating'
-        with st.container(border=True):
-            st.html(
-                '<div class="cs79-grid">'
-                f'<div class="cs79-rank">{html.escape(rank_label)}</div>'
-                '<div class="cs79-team">'
-                f'<div class="cs79-name">{html.escape(str(item["Team"]))}</div>'
-                f'<div class="cs79-meta">{html.escape(str(item["Conference"]))}</div>'
-                '</div><div class="cs79-result">'
-                f'<div class="cs79-number">{html.escape(_fmt(v, True))}</div>'
-                f'<div class="cs79-label">{html.escape(label)}</div>'
-                '</div></div>'
-            )
-            if st.button('View team →',key=f'cr_open_{league}_{item.get("Team ID",str(item["Team"]))}_{start+j}',use_container_width=True):
-                st.session_state['v12_team_pick']=str(item['Team'])
-                st.session_state['courtside_page']='Teams'
-                st.rerun()
+    logos_enabled = st.session_state.get("courtside_logos_enabled", True)
+    if view_mode == "Tiles":
+        with st.container(key="cr195_tile_grid"):
+            for row_start in range(0, len(shown), 3):
+                tile_cols = st.columns(3, gap="small")
+                tile_rows = list(shown.iloc[row_start:row_start + 3].iterrows())
+                for col_index, (_, item) in enumerate(tile_rows):
+                    j = row_start + col_index
+                    value = item.get("Experimental power") if sort == "Experimental rating" else item["Current power"]
+                    label = "Experimental" if sort == "Experimental rating" else "Power rating"
+                    with tile_cols[col_index]:
+                        with st.container(
+                            key=f'cr195_tile_{league}_{str(item["Team ID"])}_{start+j}',
+                            border=True
+                        ):
+                            st.html(_tile_markup(item, value, label, logos_enabled))
+                            if st.button(
+                                "View team →",
+                                key=f'cr_open_{league}_{item.get("Team ID",str(item["Team"]))}_{start+j}',
+                                use_container_width=True
+                            ):
+                                st.session_state['v12_team_pick'] = str(item['Team'])
+                                st.session_state['courtside_page'] = 'Teams'
+                                st.rerun()
+    else:
+        for j,(_,item) in enumerate(shown.iterrows()):
+            rank=item.get('Rank')
+            try: rank_label=f'#{int(rank)}' if pd.notna(rank) else '—'
+            except (TypeError,ValueError):rank_label='—'
+            v=item.get('Experimental power') if sort=='Experimental rating' else item['Current power']
+            label='Experimental' if sort=='Experimental rating' else 'Power rating'
+            with st.container(border=True):
+                st.html(
+                    '<div class="cs79-grid">'
+                    f'<div class="cs79-rank">{html.escape(rank_label)}</div>'
+                    '<div class="cs79-team">'
+                    f'<div class="cs79-name">{html.escape(str(item["Team"]))}</div>'
+                    f'<div class="cs79-meta">{html.escape(str(item["Conference"]))}</div>'
+                    '</div><div class="cs79-result">'
+                    f'<div class="cs79-number">{html.escape(_fmt(v, True))}</div>'
+                    f'<div class="cs79-label">{html.escape(label)}</div>'
+                    '</div></div>'
+                )
+                if st.button('View team →',key=f'cr_open_{league}_{item.get("Team ID",str(item["Team"]))}_{start+j}',use_container_width=True):
+                    st.session_state['v12_team_pick']=str(item['Team'])
+                    st.session_state['courtside_page']='Teams'
+                    st.rerun()
     if max_page>1:st.caption(f'Page {page} of {max_page} · Showing {start+1}–{min(total,start+per_page)}')
     with st.expander('Advanced rankings and downloads',expanded=False):
         cols=[c for c in ['Rank','Team','Conference','Current power','Games played','Preseason rating','Experimental power','Roster adjustment'] if c in data]
