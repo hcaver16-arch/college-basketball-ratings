@@ -12,7 +12,7 @@ assert '"Status", "Home score", "Away score"' in s
 assert 'cs183-logo-stack' in s
 assert 'courtside_logos_enabled' in s
 assert 'page_size = 30' in s
-for preserved in ('cs_calendar_anchor','courtside_games_status_v182','NET quadrant filters',
+for preserved in ('cs_calendar_anchor','courtside_games_status_v182','More filters · Team, conference, venue & NET',
                   'render_matchup(','game_records(record_schedule, game)',
                   'Download filtered games CSV','View matchup →','courtside_selected_game_payload'):
     assert preserved in s, preserved
