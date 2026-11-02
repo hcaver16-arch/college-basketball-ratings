@@ -35,6 +35,13 @@ table="""<html><title>2025-26 Men's Basketball Roster</title>
 )+"""</tbody></table></html>"""
 table_names,why=v.extract_roster_players(table,2026)
 assert not why and table_names==names
+cards="""<html><title>2025-26 Men's Basketball Roster</title>
+<h1>2025-26 Men's Basketball Roster</h1><section id="players">"""+''.join(
+  f'<div class="person-card"><h3>{name}</h3></div>' for name in names
+)+"""</section><h2>Coaching Staff</h2><h3>Assistant Example</h3></html>"""
+card_names,why=v.extract_roster_players(cards,2026)
+assert not why and card_names==names
+
 teams=pd.DataFrame([{"Team ID":"94","Team":"Northern Kentucky Norse"},
                     {"Team ID":"2638","Team":"UTEP Miners"}])
 manifest=pd.DataFrame([{"ESPN Team":n,"Prior official URL":"https://school.edu/prior",
