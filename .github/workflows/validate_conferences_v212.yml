@@ -1,0 +1,24 @@
+name: Validate V212 Conferences layout
+on:
+  pull_request:
+    paths:
+      - conferences_ui.py
+      - conference_standings.py
+      - tournament_brackets.py
+      - tournament_rules.py
+      - test_conferences_ui_v212.py
+      - .github/workflows/validate_conferences_v212.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  conference-ui:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install pandas
+      - run: python -m py_compile conferences_ui.py conference_standings.py tournament_brackets.py
+      - run: python test_conferences_ui_v212.py
