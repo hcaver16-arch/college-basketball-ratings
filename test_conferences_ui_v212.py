@@ -27,8 +27,8 @@ teams = pd.DataFrame([
 valid={"1","2","3","4","5"}
 rated, summary = prepare_conference_summary(teams,valid)
 assert len(rated) == 3
-assert summary["Conference"].tolist() == ["SEC","Big Ten"]
-assert summary["Teams"].tolist() == [2,1]
+assert summary["Conference"].tolist() == ["Big Ten","SEC"]
+assert summary["Teams"].tolist() == [1,2]
 assert summary["Power rank"].tolist() == [1,2]
 assert summary["Average"].tolist() == [8.0,8.0]
 assert summary["Top five"].tolist() == [8.0,8.0]
