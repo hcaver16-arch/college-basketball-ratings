@@ -1,36 +1,55 @@
 {
   "version": 226,
   "season": "2026-27",
-  "checked_at_utc": "2026-11-03T07:52:57+00:00",
-  "status": "ok",
+  "checked_at_utc": "2026-11-03T13:50:30+00:00",
+  "status": "critical",
   "divisions": {
     "mens": {
       "status": "ok",
       "games_seen": 304,
-      "upcoming_12h": 0,
+      "upcoming_12h": 23,
       "upcoming_3h": 0,
-      "verified_d1_upcoming_12h": 0,
-      "excluded_non_d1_upcoming_12h": 0,
+      "verified_d1_upcoming_12h": 16,
+      "excluded_non_d1_upcoming_12h": 7,
       "d1_classification_available": true,
-      "official_forecasts_total": 194,
-      "final_results_total": 11,
-      "results_waiting_for_next_archive": 17,
-      "archive_as_of_utc": "2026-11-02T19:16:36+00:00",
+      "official_forecasts_total": 215,
+      "final_results_total": 168,
+      "results_waiting_for_next_archive": 0,
+      "archive_as_of_utc": "2026-11-03T13:28:47+00:00",
       "issues": []
     },
     "womens": {
-      "status": "ok",
+      "status": "critical",
       "games_seen": 328,
-      "upcoming_12h": 2,
-      "upcoming_3h": 0,
-      "verified_d1_upcoming_12h": 1,
-      "excluded_non_d1_upcoming_12h": 1,
+      "upcoming_12h": 36,
+      "upcoming_3h": 1,
+      "verified_d1_upcoming_12h": 25,
+      "excluded_non_d1_upcoming_12h": 11,
       "d1_classification_available": true,
-      "official_forecasts_total": 178,
-      "final_results_total": 14,
-      "results_waiting_for_next_archive": 65,
-      "archive_as_of_utc": "2026-11-02T19:16:36+00:00",
-      "issues": []
+      "official_forecasts_total": 209,
+      "final_results_total": 142,
+      "results_waiting_for_next_archive": 0,
+      "archive_as_of_utc": "2026-11-03T13:28:47+00:00",
+      "issues": [
+        {
+          "severity": "warning",
+          "code": "MISSING_UPCOMING_D1_FORECASTS",
+          "message": "1 verified D1-v-D1 games within 12 hours lack locked forecasts",
+          "count": 1,
+          "examples": [
+            "West Florida Argonauts @ East Tennessee State Buccaneers"
+          ]
+        },
+        {
+          "severity": "critical",
+          "code": "UNRATED_D1_TEAMS",
+          "message": "1 imminent verified D1-v-D1 games have missing team ratings",
+          "count": 1,
+          "examples": [
+            "West Florida Argonauts @ East Tennessee State Buccaneers"
+          ]
+        }
+      ]
     }
   },
   "scoreboard_fetch_errors": [],
