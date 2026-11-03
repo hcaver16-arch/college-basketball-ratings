@@ -42,7 +42,6 @@ for idx in (0, 1, 2):
 assert home.index("with first_row[0]:") < home.index("Today’s matchups")
 assert home.index("with first_row[1]:") < home.index("Featured game · Model preview")
 assert home.index("with first_row[2]:") < home.index("Power rankings")
-assert home.index("cs219_tile_") < 0 if False else True
 # The published AP/Coaches poll preview fills the featured column.
 assert home.index('with first_row[1]:') < home.index('_show_home_card(cards, "polls", league)') < home.index("with first_row[2]:")
 
@@ -73,8 +72,8 @@ for old in (
     "courtside_rankings",
     "cs171_highlight_",
     "courtside_selected_game_payload",
-    'st.session_state["courtside_requested_page"] = "Games"',
-    'st.session_state["courtside_requested_page"] = "Rankings"',
+    "courtside_requested_page",
+    "'Rankings';st.rerun()",
     "No upcoming rated D1 matchups",
     "No games available for today",
 ):
