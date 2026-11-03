@@ -154,15 +154,28 @@ def render_rankings(ratings: pd.DataFrame, preliminary: pd.DataFrame, league: st
         extra['Team ID']=extra['Team ID'].astype(str)
         data['Team ID']=data['Team ID'].astype(str)
         data=data.merge(extra.drop_duplicates('Team ID'),on='Team ID',how='left',suffixes=('','_experiment'))
-    c1,c2,c3=st.columns([2.3,1.7,1.5])
-    with c1: query=st.text_input('Search teams',placeholder='Search by school or mascot…',key='cr_search')
-    with c2:
-        conferences=['All conferences']+sorted(c for c in data['Conference'].unique() if c and c!='Unassigned')
-        conference=st.selectbox('Conference',conferences,key='cr_conference')
-    with c3:
-        sorts=['Power rating','School name','Games played']
-        if exp_available: sorts.append('Experimental rating')
-        sort=st.selectbox('Sort by',sorts,key='cr_sort')
+    # V225: a single filter control on phones; original desktop bar retained.
+    from mobile_filters_v225 import compact_filters_enabled, active_filter_caption
+    conferences=['All conferences']+sorted(c for c in data['Conference'].unique() if c and c!='Unassigned')
+    sorts=['Power rating','School name','Games played']
+    if exp_available: sorts.append('Experimental rating')
+    if compact_filters_enabled():
+        active_label = active_filter_caption(
+            st.session_state,
+            (('cr_search', '', 'Search'), ('cr_conference', 'All conferences', 'Conference'),
+             ('cr_sort', 'Power rating', 'Sort')),
+        )
+        with st.popover(f"⚙ Filter rankings · {active_label}", use_container_width=True):
+            query=st.text_input('Search teams',placeholder='Search by school or mascot…',key='cr_search')
+            conference=st.selectbox('Conference',conferences,key='cr_conference')
+            sort=st.selectbox('Sort by',sorts,key='cr_sort')
+    else:
+        c1,c2,c3=st.columns([2.3,1.7,1.5])
+        with c1: query=st.text_input('Search teams',placeholder='Search by school or mascot…',key='cr_search')
+        with c2:
+            conference=st.selectbox('Conference',conferences,key='cr_conference')
+        with c3:
+            sort=st.selectbox('Sort by',sorts,key='cr_sort')
     if query.strip(): data=data[data['Team'].astype(str).str.contains(query.strip(),case=False,regex=False,na=False)]
     if conference!='All conferences': data=data[data['Conference']==conference]
     order_col={'Power rating':'Current power','School name':'Team','Games played':'Games played','Experimental rating':'Experimental power'}.get(sort,'Current power')
