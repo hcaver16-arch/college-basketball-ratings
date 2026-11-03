@@ -177,7 +177,7 @@ def build_insights(ratings, ids, history, sos, sor, polls):
                 "Provisional: incomplete SOS coverage or limited SOR games may affect results.", "Strength"),
         Insight("players", "Player Leaders", "Points · rebounds · assists",
                 (("Points per game", "—"), ("Rebounds per game", "—"), ("Assists per game", "—")),
-                "", "Current-season national leaderboards will follow verified player-stat coverage.",
+                "", "2026–27 national player leaders will appear after current-season box-score coverage is verified.",
                 None, "Coming soon"),
         Insight("polls", "Poll Watch", "Independent published rankings", polls_rows, polls_message,
                 "Officially published AP / Coaches polls, via ESPN feed.", "Rankings"),
