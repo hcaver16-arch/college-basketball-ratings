@@ -322,6 +322,8 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
                     st.rerun()
         else:
             st.caption('A featured matchup will appear when both D1 opponents have published ratings.')
+        # Poll Watch shares the featured column instead of leaving an orphan row.
+        _show_home_card(cards, "polls", league)
     with first_row[2]:
         # Integrated light-theme rankings card: native st.dataframe rendered dark on some deployments.
         if isinstance(team_ratings,pd.DataFrame) and {'Team','Current power'}.issubset(team_ratings.columns) and not team_ratings.empty:
@@ -413,6 +415,3 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
     with third_row[2]:
         _show_home_card(cards, "players", league)
 
-    final_row = st.columns(3, gap="small")
-    with final_row[0]:
-        _show_home_card(cards, "polls", league)
