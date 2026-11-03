@@ -375,7 +375,7 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
         if highlight_scores:
             st.markdown('<div class="court-section-head"><h3>Coming up</h3><span>Closest games · Next 7 days</span></div>', unsafe_allow_html=True)
             with st.container(border=True, key="cs221_upcoming_tile"):
-            for index, (closeness, game) in enumerate(sorted(highlight_scores, key=lambda entry: (entry[0], str(entry[1]["Date"])))[:3]):
+                for index, (closeness, game) in enumerate(sorted(highlight_scores, key=lambda entry: (entry[0], str(entry[1]["Date"])))[:3]):
                     away, home = str(game["Away"]), str(game["Home"])
                     when = str(game.get("Display time", game["Time (ET)"]))
                     game_date = str(game["Date"])
