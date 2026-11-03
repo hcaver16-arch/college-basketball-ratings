@@ -14,7 +14,9 @@ assert 'st.session_state["courtside_selected_game_payload"] = game.to_dict()' in
 assert 'game_records(record_schedule, game)' in app
 assert 'render_matchup(' in app
 assert 'cs_calendar_anchor' in app
-assert 'More filters · Team, conference, venue & NET' in app
+assert 'f"⚙ Filters ({len(active)} active)"' in app
+assert 'with filter_panel:' in app
+assert 'with st.container(key="cs190_filter_bar"):' in app
 assert 'Download filtered games CSV' in app
 assert 'cs191-score' in app
 assert 'int(game["Away score"])' in app
