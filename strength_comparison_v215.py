@@ -298,7 +298,7 @@ def render_strength_comparison(
         with st.container(key="cs215_sor_panel", border=True):
             st.html(
                 '<div class="cs215-panel-header"><h3>Strength of Record (SOR)</h3>'
-                '<p>How impressive a team’s results are given its opponents and venues.</p></div>'
+                '<p>How impressive a team’s results are · * indicates display-only score position.</p></div>'
             )
             if sor.empty or "SOR score" not in sor.columns:
                 st.info(
