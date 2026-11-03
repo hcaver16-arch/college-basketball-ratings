@@ -80,7 +80,7 @@ assert "load_history(sport)" in insights
 assert 'render_home(live_games, ratings, team_ratings, d1_ids, league, period)' in app
 fn = next(n for n in ast.parse(home).body if isinstance(n, ast.FunctionDef) and n.name == "render_home")
 assert len(fn.args.args) == 6
-assert "Coming soon" in insights
+assert '"Players", "2026–27" if player_ready else "Collecting"' in insights
 
 # No change to Courtside's existing modeling, selection, or score definitions.
 for marker in ("def strength_of_record(", "def schedule_difficulty(", "def game_projection("):
