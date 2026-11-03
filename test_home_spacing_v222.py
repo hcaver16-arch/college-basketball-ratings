@@ -35,8 +35,8 @@ assert '_show_home_card(cards, "tournament", league)' in right
 assert '_show_home_card(cards, "players", league)' in right
 
 # Rankings and upcoming rows no longer use a tall native divider on every item.
-assert 'st.container(border=True, key="cs222_rankings_list")' in right
-assert "st.container(border=True, key=\"cs221_upcoming_tile\")" in left
+assert 'st.container(border=False, key="cs222_rankings_list")' in right
+assert "st.container(border=False, key=\"cs221_upcoming_tile\")" in left
 assert 'st.markdown(\'<div class="cs222-divider"></div>\', unsafe_allow_html=True)' in home
 # Preserve scoreboard separators, but not oversized dividers between Coming Up entries.
 coming_up = left.split("# Avoid repeating the featured game", 1)[1]
