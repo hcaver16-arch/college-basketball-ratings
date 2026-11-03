@@ -230,9 +230,20 @@ with st.container(key="courtside_header_top"):
     with settings_area:
         with st.container(key="courtside_sticky_settings"):
             settings_panel = st.popover("⚙ Settings", use_container_width=True)
-sections=["Home","Games","Rankings","Teams","Conferences","Tournament","Schedule strength","Record strength","Model Lab"]
-if st.session_state.get('courtside_requested_page') in sections:
-    st.session_state['courtside_page'] = st.session_state.pop('courtside_requested_page')
+sections=["Home","Games","Rankings","Teams","Conferences","Tournament","Strength","Model Lab"]
+# Preserve navigation from sessions opened before SOS and SOR were combined.
+legacy_strength_tabs = {"Schedule strength": "Schedule strength (SOS)",
+                        "Record strength": "Strength of record (SOR)"}
+requested_page = st.session_state.get("courtside_requested_page")
+if requested_page in legacy_strength_tabs:
+    st.session_state["cs_strength_view"] = legacy_strength_tabs[requested_page]
+    st.session_state["courtside_page"] = "Strength"
+    st.session_state.pop("courtside_requested_page", None)
+elif requested_page in sections:
+    st.session_state["courtside_page"] = st.session_state.pop("courtside_requested_page")
+if st.session_state.get("courtside_page") in legacy_strength_tabs:
+    st.session_state["cs_strength_view"] = legacy_strength_tabs[st.session_state["courtside_page"]]
+    st.session_state["courtside_page"] = "Strength"
 if st.session_state.get('courtside_page') not in sections:
     st.session_state['courtside_page']='Home'
 # Mobile uses one compact navigation select; desktop keeps the button row.
@@ -246,7 +257,7 @@ with st.container(key='courtside_mobile_nav'):
 with st.container(key="courtside_desktop_nav"):
     nav_cols = st.columns([1, 1, 1.1, 1.35, 1.05, 4.0], gap="small", vertical_alignment="center")
     primary_pages = ["Home", "Games", "Rankings", "Tournament"]
-    more_pages = ["Teams", "Conferences", "Schedule strength", "Record strength", "Model Lab"]
+    more_pages = ["Teams", "Conferences", "Strength", "Model Lab"]
     for nav_col, nav_label in zip(nav_cols[:4], primary_pages):
         with nav_col:
             if st.button(nav_label,
@@ -721,7 +732,7 @@ selected_timezone = settings_panel.selectbox("Show tipoff times in", ["Eastern",
 settings_panel.caption("All dates used for schedule filtering remain Eastern; displayed game times use your choice.")
 settings_panel.subheader("Season coverage")
 # Season-wide analysis pages must not silently inherit a short game window.
-season_wide_pages = {"Schedule strength", "Record strength", "Conferences", "Teams", "Tournament"}
+season_wide_pages = {"Strength", "Conferences", "Teams", "Tournament"}
 # V213: keep the Games calendar on the current Eastern day unless the user
 # intentionally navigated to a different date. Older active sessions only held
 # the anchor, so upgrade a recent stale "yesterday" anchor on first rerun.
@@ -2250,11 +2261,24 @@ if selected_section == "Tournament":
             st.caption(f"Updated tournament résumé unavailable; using saved SOR when available: {str(exc)[:90]}")
     render_bracketology(team_ratings, verified_d1_ids, league, tournament_sor)
 
-if selected_section == "Schedule strength":
-    render_sos(sos_ratings, league, verified_d1_ids)
-
-if selected_section == "Record strength":
-    render_sor(sor_ratings, league, verified_d1_ids)
+if selected_section == "Strength":
+    st.subheader("Team Strength")
+    st.caption(
+        "Explore schedule difficulty and résumé strength in one place. "
+        "Both metrics use Courtside's model and are not official NCAA rankings."
+    )
+    # Render only the selected metric to keep the combined page responsive.
+    strength_view = st.segmented_control(
+        "Strength metric",
+        ["Schedule strength (SOS)", "Strength of record (SOR)"],
+        key="cs_strength_view",
+        default="Schedule strength (SOS)",
+        label_visibility="collapsed",
+    )
+    if strength_view == "Strength of record (SOR)":
+        render_sor(sor_ratings, league, verified_d1_ids)
+    else:
+        render_sos(sos_ratings, league, verified_d1_ids)
 
 st.divider()
 st.caption("Data: ESPN unofficial public scoreboard feed. Historical ratings are experimental; lines are independent model estimates and not betting odds. Some game and roster data may be incomplete.")
