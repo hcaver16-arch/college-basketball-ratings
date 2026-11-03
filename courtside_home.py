@@ -168,16 +168,21 @@ def select_home_games(visible, ratings, top25_names, mode="Featured"):
     return candidates.drop(columns=["_game_order", "_margin_abs", "_top25"])
 
 
-def _render_home_insights(league, team_ratings, d1_ids):
-    """Load optional home-only previews without altering the six-argument renderer."""
-    from home_insights_v219 import render_home_insights
-    sport = ("womens-college-basketball" if league == "Women's"
-             else "mens-college-basketball")
-    render_home_insights(
+def _load_home_cards(league, team_ratings, d1_ids):
+    """Read existing research snapshots once per homepage refresh."""
+    from home_insights_v219 import load_home_insight_cards
+    sport = "womens-college-basketball" if league == "Women's" else "mens-college-basketball"
+    return {card.id: card for card in load_home_insight_cards(
         team_ratings, d1_ids, league,
         sos=st.session_state.get(f"sos_{sport}"),
         sor=st.session_state.get(f"sor_{sport}"),
-    )
+    )}
+
+
+def _show_home_card(cards, name, league):
+    from home_insights_v219 import render_home_insight_card
+    if name in cards:
+        render_home_insight_card(cards[name], league)
 
 
 def render_home(games, ratings, team_ratings, d1_ids, league, window):
@@ -196,18 +201,21 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
     rated_count=len(team_ratings) if isinstance(team_ratings,pd.DataFrame) else 0
     d1_visible=visible[visible['Home ID'].astype(str).isin(d1_ids)&visible['Away ID'].astype(str).isin(d1_ids)]
     if visible.empty:
-        st.markdown('<div class="cs169-summary"><strong>No games available</strong><span>Try another schedule window in Settings</span></div>', unsafe_allow_html=True)
-        _render_home_insights(league, team_ratings, d1_ids)
-        return
-    game_date = pd.to_datetime(visible.iloc[0]['Date'], errors='coerce')
-    date_label = game_date.strftime('%b %-d') if pd.notna(game_date) else 'Upcoming'
+        st.caption("No games available for today in the current schedule window. Try another date in Games.")
+    game_date = pd.to_datetime(visible.iloc[0]['Date'], errors='coerce') if not visible.empty else pd.NaT
+    date_label = game_date.strftime('%b %-d') if pd.notna(game_date) else 'Today'
     st.markdown(
         f'<div class="cs169-summary"><strong>{html.escape(date_label)} · {len(visible)} game{"s" if len(visible) != 1 else ""}</strong>'
         f'<span>{html.escape(league)} Division I · {len(d1_visible)} D1 matchup{"s" if len(d1_visible) != 1 else ""} · {html.escape(time_zone)} time</span></div>',
         unsafe_allow_html=True)
 
-    home_main, home_side = st.columns([1.65, 1], gap='large')
-    with home_main:
+    # V221: one integrated, responsive three-across home grid.
+    # Preserve scoreboards, game navigation and featured selection unchanged.
+    from home_insights_v219 import STYLE as HOME_INSIGHT_STYLE
+    st.markdown(HOME_INSIGHT_STYLE, unsafe_allow_html=True)
+    cards = _load_home_cards(league, team_ratings, d1_ids)
+    first_row = st.columns(3, gap="small")
+    with first_row[0]:
         top25_names = set()
         if isinstance(team_ratings, pd.DataFrame) and {"Team", "Current power"}.issubset(team_ratings.columns):
             top25_names = set(team_ratings.sort_values("Current power", ascending=False).head(25)["Team"].astype(str))
@@ -271,6 +279,7 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
             if st.button("View complete schedule →", key="cs170_all_games"):
                 st.session_state["courtside_requested_page"] = "Games"
                 st.rerun()
+    with first_row[1]:
         scheduled=visible[visible['Status']=='Scheduled']
         featured=featured_choice(scheduled,ratings,d1_ids)
         if featured is not None:
@@ -305,7 +314,7 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
                     st.rerun()
         else:
             st.caption('A featured matchup will appear when both D1 opponents have published ratings.')
-    with home_side:
+    with first_row[2]:
         # Integrated light-theme rankings card: native st.dataframe rendered dark on some deployments.
         if isinstance(team_ratings,pd.DataFrame) and {'Team','Current power'}.issubset(team_ratings.columns) and not team_ratings.empty:
             top=team_ratings.sort_values('Current power',ascending=False).head(5).copy()
@@ -339,6 +348,8 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
         else:
             st.markdown('#### Power rankings')
             st.info('Power rankings will appear when saved ratings are available.')
+    second_row = st.columns(3, gap="small")
+    with second_row[0]:
         # Avoid repeating the featured game or today's games in Highlights.
         # Only use later dates already loaded from the selected schedule window.
         later = games[(games["Date"] > str(today)) &
@@ -379,5 +390,19 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
                         st.session_state["courtside_selected_game_payload"] = game.to_dict()
                         st.session_state["courtside_requested_page"] = "Games"
                         st.rerun()
-    # Keep the game scoreboard, featured matchup and existing sidebar first.
-    _render_home_insights(league, team_ratings, d1_ids)
+    with second_row[1]:
+        _show_home_card(cards, "movers", league)
+    with second_row[2]:
+        _show_home_card(cards, "conferences", league)
+
+    third_row = st.columns(3, gap="small")
+    with third_row[0]:
+        _show_home_card(cards, "tournament", league)
+    with third_row[1]:
+        _show_home_card(cards, "strength", league)
+    with third_row[2]:
+        _show_home_card(cards, "players", league)
+
+    final_row = st.columns(3, gap="small")
+    with final_row[0]:
+        _show_home_card(cards, "polls", league)
