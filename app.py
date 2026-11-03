@@ -45,7 +45,7 @@ from matchup_analysis import render_matchup
 from season_records import game_records
 from team_profile_ui import render_team_profile
 from rankings_ui import render_rankings
-from strength_pages_ui import render_sos, render_sor
+from strength_comparison_v215 import render_strength_comparison
 from conferences_ui import render_conferences
 from game_timezones_v136 import annotate_display_times
 from games_preferences_v213 import calendar_today, rollover_anchor, parse_logo_setting
@@ -2262,23 +2262,8 @@ if selected_section == "Tournament":
     render_bracketology(team_ratings, verified_d1_ids, league, tournament_sor)
 
 if selected_section == "Strength":
-    st.subheader("Team Strength")
-    st.caption(
-        "Explore schedule difficulty and résumé strength in one place. "
-        "Both metrics use Courtside's model and are not official NCAA rankings."
-    )
-    # Render only the selected metric to keep the combined page responsive.
-    strength_view = st.segmented_control(
-        "Strength metric",
-        ["Schedule strength (SOS)", "Strength of record (SOR)"],
-        key="cs_strength_view",
-        default="Schedule strength (SOS)",
-        label_visibility="collapsed",
-    )
-    if strength_view == "Strength of record (SOR)":
-        render_sor(sor_ratings, league, verified_d1_ids)
-    else:
-        render_sos(sos_ratings, league, verified_d1_ids)
+    # V215: both metrics are visible; filters shared, paging/sorting independent.
+    render_strength_comparison(sos_ratings, sor_ratings, league, verified_d1_ids)
 
 st.divider()
 st.caption("Data: ESPN unofficial public scoreboard feed. Historical ratings are experimental; lines are independent model estimates and not betting odds. Some game and roster data may be incomplete.")
