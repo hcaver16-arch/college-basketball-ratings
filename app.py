@@ -293,6 +293,19 @@ settings_panel.toggle(
     help="Uses externally hosted ESPN team logos when available; otherwise shows team initials. School marks belong to their respective rights holders."
 )
 
+# V225: phone filters collapse automatically (best effort using request headers),
+# while desktop retains the existing inline controls. Override in Settings.
+from mobile_filters_v225 import compact_filters_enabled, mobile_client, active_game_filters
+if "courtside_compact_filters" not in st.session_state:
+    try:
+        st.session_state["courtside_compact_filters"] = mobile_client(st.context.headers)
+    except (AttributeError, RuntimeError, TypeError, ValueError):
+        st.session_state["courtside_compact_filters"] = False
+settings_panel.toggle(
+    "Compact filter panels", key="courtside_compact_filters",
+    help="Automatically on for detected phones. Turn off to show the full controls or on to condense filters on any device."
+)
+
 selected_section = st.session_state['courtside_page']
 
 SPORTS = {"Men's": "mens-college-basketball", "Women's": "womens-college-basketball"}
@@ -1746,22 +1759,104 @@ if selected_section == "Games":
             f"Upcoming: {int(status_counts.get('Scheduled', 0))}  ·  "
             f"Final: {int(status_counts.get('Final', 0))}"
         )
-        # V210: selectable team ranking labels, AP Top 25 by default.
+        # V225: always keep the game-status switch visible on phones; place
+        # the other controls in one collapsed popover, preserving every key.
+        # Desktop retains the existing multi-column filter presentation.
         from ranked_games_filter_v211 import RANKED_GAME_FILTER_OPTIONS, filter_by_ranked_teams
-        rank_source_col, ranked_filter_col = st.columns([1, 1.2], gap="small")
-        with rank_source_col:
-            rank_source = st.selectbox(
-                "Team rankings", ["AP Top 25", "Coaches Poll", "Courtside Power", "Hide rankings"],
-                key="cs210_game_rank_source",
-                help="AP and Coaches are published polls; Courtside Power uses our model."
+        net_ranks, net_status = load_net(league)
+        compact = compact_filters_enabled()
+        if compact:
+            view = st.segmented_control(
+                "Game status", ["All", "Live", "Upcoming", "Final"],
+                default="All", key="courtside_games_status_v182"
             )
-        with ranked_filter_col:
-            ranked_filter = st.selectbox(
-                "Ranked matchups", RANKED_GAME_FILTER_OPTIONS,
-                key="cs211_ranked_game_filter",
-                disabled=rank_source == "Hide rankings",
-                help="Filter using the chosen poll's Top 25, or Courtside Power's top 25 teams."
+            active = active_game_filters(st.session_state)
+            if active:
+                st.caption(f"Active: {', '.join(active)}")
+            filter_panel = st.popover(
+                f"⚙ Filters ({len(active)} active)" if active else "⚙ Filters · All games",
+                use_container_width=True,
             )
+        else:
+            filter_panel = st.container(key="cs225_games_desktop_filters")
+
+        with filter_panel:
+            if compact:
+                rank_source_col, ranked_filter_col = st.container(), st.container()
+            else:
+                rank_source_col, ranked_filter_col = st.columns([1, 1.2], gap="small")
+            with rank_source_col:
+                rank_source = st.selectbox(
+                    "Team rankings", ["AP Top 25", "Coaches Poll", "Courtside Power", "Hide rankings"],
+                    key="cs210_game_rank_source",
+                    help="AP and Coaches are published polls; Courtside Power uses our model."
+                )
+            with ranked_filter_col:
+                ranked_filter = st.selectbox(
+                    "Ranked matchups", RANKED_GAME_FILTER_OPTIONS,
+                    key="cs211_ranked_game_filter",
+                    disabled=rank_source == "Hide rankings",
+                    help="Filter using the selected poll's Top 25, or Courtside Power's top 25."
+                )
+            with st.container(key="cs190_filter_bar"):
+                if compact:
+                    # Streamlit columns stack on mobile; independent containers
+                    # keep each selector full-width inside the filter popover.
+                    status_col, scope_col, sort_col, team_col, conf_col, venue_col, more_col = (
+                        st.container() for _ in range(7)
+                    )
+                else:
+                    status_col, scope_col, sort_col, team_col, conf_col, venue_col, more_col = st.columns(
+                        [2.5, 1.25, 1.2, 1.45, 1.45, 1.15, 1.05], gap="small",
+                        vertical_alignment="bottom"
+                    )
+                with status_col:
+                    if not compact:
+                        view = st.segmented_control(
+                            "Game status", ["All", "Live", "Upcoming", "Final"],
+                            default="All", key="courtside_games_status_v182"
+                        )
+                with scope_col:
+                    matchup_scope = st.selectbox(
+                        "Matchups", ["All games", "D1 vs D1 only"], key="cs188_matchup_scope"
+                    )
+                with sort_col:
+                    sort_order = st.selectbox(
+                        "Sort games", ["Tipoff order", "Live games first"],
+                        key="courtside_games_sort_v182"
+                    )
+                with team_col:
+                    team_filter = st.selectbox("Team", ["All teams"] + unique_teams, key="v12_game_team")
+                with conf_col:
+                    conf_filter = st.selectbox(
+                        "Conference",
+                        ["All conferences"] + sorted(set(games["Away conference name"]).union(games["Home conference name"])),
+                        key="v12_game_conf"
+                    )
+                with venue_col:
+                    venue_filter = st.selectbox(
+                        "Venue", ["Any location", "Home", "Neutral"], key="v12_game_venue"
+                    )
+                with more_col:
+                    net_container = (
+                        st.expander("NET quadrant filters", expanded=False)
+                        if compact else st.popover("More filters", use_container_width=True)
+                    )
+                    with net_container:
+                        st.caption(net_status + " · NET quadrants are opponent-specific, based on game location.")
+                        quadrant_filter = st.selectbox(
+                            "Quadrant", ["All", "Q1", "Q2", "Q3", "Q4"],
+                            key="games_net_quadrant", disabled=not bool(net_ranks)
+                        )
+                        side_filter = st.selectbox(
+                            "For which team?", ["Either team", "Home team", "Away team", "Both teams"],
+                            key="games_net_side", disabled=not bool(net_ranks)
+                        )
+                        q1_only = st.checkbox(
+                            "Q1 opportunities (either team)",
+                            key="games_net_q1", disabled=not bool(net_ranks)
+                        )
+
         if rank_source in ("AP Top 25", "Coaches Poll"):
             poll_record = game_polls.get(rank_source, {})
             poll_rows = poll_record.get("rows", pd.DataFrame())
@@ -1780,54 +1875,6 @@ if selected_section == "Games":
             rank_lookup = power_rank_lookup
         else:
             rank_lookup = {}
-        # V190: keep all primary filters on one horizontal bar and NET controls in a popover.
-        # Replaces the old "More filters · Team, conference, venue & NET" expander.
-        net_ranks, net_status = load_net(league)
-        with st.container(key="cs190_filter_bar"):
-            status_col, scope_col, sort_col, team_col, conf_col, venue_col, more_col = st.columns(
-                [2.5, 1.25, 1.2, 1.45, 1.45, 1.15, 1.05], gap="small",
-                vertical_alignment="bottom"
-            )
-            with status_col:
-                view = st.segmented_control(
-                    "Game status", ["All", "Live", "Upcoming", "Final"],
-                    default="All", key="courtside_games_status_v182"
-                )
-            with scope_col:
-                matchup_scope = st.selectbox(
-                    "Matchups", ["All games", "D1 vs D1 only"],
-                    key="cs188_matchup_scope"
-                )
-            with sort_col:
-                sort_order = st.selectbox(
-                    "Sort games", ["Tipoff order", "Live games first"],
-                    key="courtside_games_sort_v182"
-                )
-            with team_col:
-                team_filter = st.selectbox("Team", ["All teams"] + unique_teams, key="v12_game_team")
-            with conf_col:
-                conf_filter = st.selectbox(
-                    "Conference",
-                    ["All conferences"] + sorted(set(games["Away conference name"]).union(games["Home conference name"])),
-                    key="v12_game_conf"
-                )
-            with venue_col:
-                venue_filter = st.selectbox("Venue", ["Any location", "Home", "Neutral"], key="v12_game_venue")
-            with more_col:
-                with st.popover("More filters", use_container_width=True):
-                    st.caption(net_status + " · NET quadrants are opponent-specific, based on game location.")
-                    quadrant_filter = st.selectbox(
-                        "Quadrant", ["All", "Q1", "Q2", "Q3", "Q4"],
-                        key="games_net_quadrant", disabled=not bool(net_ranks)
-                    )
-                    side_filter = st.selectbox(
-                        "For which team?", ["Either team", "Home team", "Away team", "Both teams"],
-                        key="games_net_side", disabled=not bool(net_ranks)
-                    )
-                    q1_only = st.checkbox(
-                        "Q1 opportunities (either team)",
-                        key="games_net_q1", disabled=not bool(net_ranks)
-                    )
         shown = games.copy()
         # Hidden labels should also deactivate ranked-matchup filtering.
         if rank_source != "Hide rankings" and rank_lookup:

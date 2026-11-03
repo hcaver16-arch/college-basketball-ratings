@@ -46,10 +46,16 @@ def render_model_lab_header(league: str):
         'review model performance, and manage experimental research.</p></div>'
     )
     with st.container(key="cs218_lab_nav"):
-        selected = st.segmented_control(
-            "Model Lab sections", SECTIONS, key="cs218_lab_section",
-            default="Overview", label_visibility="collapsed"
-        )
+        from mobile_filters_v225 import compact_filters_enabled
+        if compact_filters_enabled():
+            selected = st.selectbox(
+                "Model Lab section", SECTIONS, key="cs218_lab_section"
+            )
+        else:
+            selected = st.segmented_control(
+                "Model Lab sections", SECTIONS, key="cs218_lab_section",
+                default="Overview", label_visibility="collapsed"
+            )
     return selected if selected in SECTIONS else "Overview"
 
 

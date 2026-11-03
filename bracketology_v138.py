@@ -94,11 +94,21 @@ def render_bracketology(ratings,verified_d1_ids,league,sor=None):
                 "when eligible (five rated D1 games); otherwise power only. "
                 "Projected automatic bids are not earned conference championships."
             )
-            view=st.radio(
-                "Show teams",
-                ["All 76","Projected automatic bids","Projected at-large bids","Opening Round"],
-                horizontal=True,key="v138_filter"
-            )
+            from mobile_filters_v225 import compact_filters_enabled
+            if compact_filters_enabled():
+                with st.popover("⚙ Projected field · Filter teams", use_container_width=True):
+                    view=st.radio(
+                        "Show teams",
+                        ["All 76","Projected automatic bids","Projected at-large bids","Opening Round"],
+                        horizontal=False,key="v138_filter"
+                    )
+                st.caption(f"Showing: {view}")
+            else:
+                view=st.radio(
+                    "Show teams",
+                    ["All 76","Projected automatic bids","Projected at-large bids","Opening Round"],
+                    horizontal=True,key="v138_filter"
+                )
             shown=frame
             if view=="Projected automatic bids":
                 shown=shown[shown["Bid type"].str.startswith("Projected automatic")]
