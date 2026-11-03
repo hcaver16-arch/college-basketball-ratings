@@ -10,5 +10,5 @@ assert 'overflow-wrap:anywhere' in s
 assert 'courtside_feature_details' in s
 assert "st.session_state['courtside_selected_game']" in s
 assert "st.container(height=320,border=True)" in s
-assert "with home_side:" in s
+assert "with first_row[2]:" in s
 print("V160 compact matchup verified")
