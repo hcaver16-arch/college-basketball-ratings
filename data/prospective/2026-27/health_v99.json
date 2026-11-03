@@ -1,7 +1,7 @@
 {
   "version": 226,
   "season": "2026-27",
-  "checked_at_utc": "2026-11-03T15:32:26+00:00",
+  "checked_at_utc": "2026-11-03T19:33:19+00:00",
   "status": "critical",
   "divisions": {
     "mens": {
@@ -12,24 +12,24 @@
       "verified_d1_upcoming_12h": 19,
       "excluded_non_d1_upcoming_12h": 10,
       "d1_classification_available": true,
-      "official_forecasts_total": 215,
+      "official_forecasts_total": 216,
       "final_results_total": 168,
       "results_waiting_for_next_archive": 0,
-      "archive_as_of_utc": "2026-11-03T13:28:47+00:00",
+      "archive_as_of_utc": "2026-11-03T19:15:45+00:00",
       "issues": []
     },
     "womens": {
       "status": "critical",
       "games_seen": 328,
-      "upcoming_12h": 41,
-      "upcoming_3h": 1,
-      "verified_d1_upcoming_12h": 26,
-      "excluded_non_d1_upcoming_12h": 15,
+      "upcoming_12h": 39,
+      "upcoming_3h": 0,
+      "verified_d1_upcoming_12h": 25,
+      "excluded_non_d1_upcoming_12h": 14,
       "d1_classification_available": true,
-      "official_forecasts_total": 209,
-      "final_results_total": 142,
+      "official_forecasts_total": 210,
+      "final_results_total": 143,
       "results_waiting_for_next_archive": 0,
-      "archive_as_of_utc": "2026-11-03T13:28:47+00:00",
+      "archive_as_of_utc": "2026-11-03T19:15:45+00:00",
       "issues": [
         {
           "severity": "warning",
