@@ -160,7 +160,10 @@ def poll_watch(polls):
     return tuple(result), "" if result else "Published poll leaders are currently unavailable."
 
 
-def build_insights(ratings, ids, history, sos, sor, polls):
+def build_insights(ratings, ids, history, sos, sor, polls,
+                   player_rows=(), player_message="2026–27 individual game box scores are being collected.",
+                   player_note="Only verified current-season appearances count; incomplete games are never treated as zero.",
+                   player_ready=False):
     movers, mover_message = rating_movers(history, ids)
     conf, conf_message = conference_leaders(ratings, ids)
     field, field_message = projected_front_runners(ratings, ids, sor)
@@ -176,9 +179,8 @@ def build_insights(ratings, ids, history, sos, sor, polls):
         Insight("strength", "Strength Spotlight", "Schedule and résumé score leaders", strength, strength_message,
                 "Provisional: incomplete SOS coverage or limited SOR games may affect results.", "Strength"),
         Insight("players", "Player Leaders", "Points · rebounds · assists",
-                (("Points per game", "—"), ("Rebounds per game", "—"), ("Assists per game", "—")),
-                "", "2026–27 national player leaders will appear after current-season box-score coverage is verified.",
-                None, "Coming soon"),
+                tuple(player_rows), player_message, player_note,
+                "Players", "2026–27" if player_ready else "Collecting"),
         Insight("polls", "Poll Watch", "Independent published rankings", polls_rows, polls_message,
                 "Officially published AP / Coaches polls, via ESPN feed.", "Rankings"),
     )
@@ -221,11 +223,21 @@ def load_home_insight_cards(ratings, ids, league, sos=None, sor=None):
     except Exception:
         # Preserve strict separation: no poll rank inferred from model ratings.
         polls = {}
+    try:
+        from player_stats_ui_v228 import home_leader_rows
+        player_rows, player_message, player_note, player_ready = home_leader_rows(league, ids)
+    except (OSError, ValueError, TypeError, KeyError):
+        player_rows, player_message, player_note, player_ready = (
+            (), "Verified 2026–27 player stats currently unavailable.",
+            "Player figures are never extrapolated from missing box scores.", False
+        )
     return build_insights(
         ratings, ids, history,
         sos if isinstance(sos, pd.DataFrame) else pd.DataFrame(),
         sor if isinstance(sor, pd.DataFrame) else pd.DataFrame(),
         polls,
+        player_rows=player_rows, player_message=player_message,
+        player_note=player_note, player_ready=player_ready,
     )
 
 
