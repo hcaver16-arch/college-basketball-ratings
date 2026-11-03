@@ -8,6 +8,7 @@ import pandas as pd
 import streamlit as st
 from tournament_resume_v139 import add_resume
 from tournament_native_v142 import render_native_bracket
+from transition_research_v227 import ncaa_postseason_ineligible
 
 FIELD = 76
 AUTO = 32
@@ -21,6 +22,9 @@ def project_field(ratings, verified_d1_ids, sor=None):
     data["Team ID"]=data["Team ID"].astype(str)
     data["Current power"]=pd.to_numeric(data["Current power"],errors="coerce")
     data=data[data["Team ID"].isin(set(map(str,verified_d1_ids)))].dropna(subset=["Team","Conference","Current power"])
+    # V227: independently confirmed NCAA reclassification exclusion.
+    # A team can compete in the ASUN and still be ineligible for the NCAA field.
+    data=data[~data["Team ID"].isin(ncaa_postseason_ineligible("2026-27"))]
     data=data[~data["Conference"].astype(str).str.contains("Unassigned|not verified|Unknown|non-D1",case=False,na=False)]
     data=data.sort_values(["Current power","Team ID"],ascending=[False,True]).drop_duplicates("Team ID")
     data=add_resume(data,sor)
