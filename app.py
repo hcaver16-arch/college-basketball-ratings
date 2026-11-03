@@ -230,7 +230,7 @@ with st.container(key="courtside_header_top"):
     with settings_area:
         with st.container(key="courtside_sticky_settings"):
             settings_panel = st.popover("⚙ Settings", use_container_width=True)
-sections=["Home","Games","Rankings","Teams","Conferences","Tournament","Strength","Model Lab"]
+sections=["Home","Games","Rankings","Players","Teams","Conferences","Tournament","Strength","Model Lab"]
 # Preserve navigation from sessions opened before SOS and SOR were combined.
 legacy_strength_tabs = {"Schedule strength": "Schedule strength (SOS)",
                         "Record strength": "Strength of record (SOR)"}
@@ -257,7 +257,7 @@ with st.container(key='courtside_mobile_nav'):
 with st.container(key="courtside_desktop_nav"):
     nav_cols = st.columns([1, 1, 1.1, 1.35, 1.05, 4.0], gap="small", vertical_alignment="center")
     primary_pages = ["Home", "Games", "Rankings", "Tournament"]
-    more_pages = ["Teams", "Conferences", "Strength", "Model Lab"]
+    more_pages = ["Players", "Teams", "Conferences", "Strength", "Model Lab"]
     for nav_col, nav_label in zip(nav_cols[:4], primary_pages):
         with nav_col:
             if st.button(nav_label,
@@ -836,6 +836,14 @@ if settings_panel.button("🔄 Refresh schedule now", use_container_width=True):
     st.rerun()
 
 
+
+# V228: Players reads a separate, audited GitHub archive; no schedule downloads,
+# live game calls, or rating recalculation are needed just to browse athletes.
+if selected_section == "Players":
+    from player_stats_ui_v228 import render_players
+    saved_player_ratings, _ = load_ratings(SPORTS[league])
+    render_players(league, saved_player_ratings)
+    st.stop()
 
 with st.spinner(f"Loading {league.lower()} games for {period.lower()} (daily requests)…"):
     games, failures, truncated, windows_checked = _v130_measure('Schedule', get_schedule, SPORTS[league], first, last)

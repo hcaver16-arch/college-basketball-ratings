@@ -70,7 +70,7 @@ for keep in (
 # No new player statistics or recalculated models.
 assert "load_history(sport)" in insights
 assert "fetch_polls(sport)" in insights
-assert "Coming soon" in insights
+assert '"Players", "2026–27" if player_ready else "Collecting"' in insights
 for function in ("def strength_of_record(", "def schedule_difficulty(", "def game_projection("):
     assert function in app
 print("V222 independent columns, compact list spacing and page behavior validated")

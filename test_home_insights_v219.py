@@ -96,10 +96,11 @@ assert called["bracket"][2] is sor
 cards=build_insights(ratings,ids,history,sos,sor,polls)
 assert len(cards)==6
 assert [c.id for c in cards]==["movers","conferences","tournament","strength","players","polls"]
-assert [c.page for c in cards]==["Rankings","Conferences","Tournament","Strength",None,"Rankings"]
-assert cards[4].badge=="Coming soon"
-assert "2026–27" in cards[4].note
-assert cards[4].rows==(("Points per game","—"),("Rebounds per game","—"),("Assists per game","—"))
+assert [c.page for c in cards]==["Rankings","Conferences","Tournament","Strength","Players","Rankings"]
+assert cards[4].badge=="Collecting"
+assert cards[4].page=="Players"
+assert "2026–27" in cards[4].message
+assert cards[4].rows==()  # Withheld until verified, not shown as fake zeros.
 unsafe=card_html(Insight("bad","<script>alert(1)</script>","x",rows=(("A&B","<b>"),)))
 assert "<script>" not in unsafe and "<b>" not in unsafe
 assert "A&amp;B" in unsafe and "&lt;b&gt;" in unsafe
