@@ -100,7 +100,9 @@ assert [c.page for c in cards]==["Rankings","Conferences","Tournament","Strength
 assert cards[4].badge=="Coming soon"
 assert "2026–27" in cards[4].note
 assert cards[4].rows==(("Points per game","—"),("Rebounds per game","—"),("Assists per game","—"))
-assert "<" not in card_html(Insight("bad","<script>alert(1)</script>","x",rows=(("A&B","<b>"),)))
+unsafe=card_html(Insight("bad","<script>alert(1)</script>","x",rows=(("A&B","<b>"),)))
+assert "<script>" not in unsafe and "<b>" not in unsafe
+assert "A&amp;B" in unsafe and "&lt;b&gt;" in unsafe
 assert "&lt;script&gt;" in card_html(Insight("bad","<script>","x"))
 
 bracket.project_field=lambda *args:(pd.DataFrame(),"Found 30 conferences")
@@ -116,7 +118,7 @@ mod=ast.parse(home)
 fn=next(node for node in mod.body if isinstance(node,ast.FunctionDef) and node.name=="render_home")
 assert len(fn.args.args)==6
 assert "def _render_home_insights(" in home
-assert home.count("_render_home_insights(league, team_ratings, d1_ids)") == 2
+assert home.count("_render_home_insights(league, team_ratings, d1_ids)") == 3  # signature + two calls
 assert home.index("Featured game · Model preview") < home.rindex("_render_home_insights(league, team_ratings, d1_ids)")
 assert "st.columns(3, gap=\"small\")" in insights
 assert "for offset in (0, 3)" in insights
