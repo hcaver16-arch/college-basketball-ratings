@@ -62,6 +62,8 @@ sor_base = _base(sor, valid)
 by_sor = prepare_strength_rows(sor_base, kind="sor", score_col="SOR score", sort_col="SOR score")
 assert by_sor["Team ID"].tolist() == ["10", "30", "20"]
 assert "_display_sos_position" not in by_sor.columns
+assert by_sor["_display_sor_position"].tolist() == [1.0, 2.0, 3.0]
+assert by_sor["SOR position (display only)"].tolist() == [1.0, 2.0, 3.0]
 by_games = prepare_strength_rows(sor_base, kind="sor", score_col="SOR score", sort_col="SOR games")
 assert by_games["Team ID"].tolist() == ["30", "10", "20"]
 sor_sec = prepare_strength_rows(sor_base, kind="sor", score_col="SOR score", sort_col="SOR score", conference="SEC")
@@ -75,7 +77,7 @@ assert "Display pos." in html_sos
 html_sor_ranked = team_card_markup(by_sor.iloc[0], "sor", "SOR score", False)
 assert "#12" in html_sor_ranked and "1.40" in html_sor_ranked
 html_sor_unranked = team_card_markup(by_sor.iloc[1], "sor", "SOR score", False)
-assert "Not ranked" in html_sor_unranked and "#2" not in html_sor_unranked
+assert "#2*" in html_sor_unranked and "display only" in html_sor_unranked
 html_escaped = team_card_markup(global_order.iloc[1], "sos", "Full SOS", False)
 assert "&lt;Gamma&gt;" in html_escaped and "<Gamma>" not in html_escaped
 assert not html_escaped.count("teamlogos/")
