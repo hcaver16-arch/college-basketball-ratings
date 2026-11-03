@@ -236,12 +236,16 @@ def render_players(league: str, team_ratings=None, verified_ids=None):
         x for x in data["Conference"].unique()
         if x and x not in ("Unknown", "Unassigned", "not verified")
     })
-    search_options = ["All conferences", *conferences]
-    selected_stat = None
+    # Archived ratings can lack conference labels. In that case, a Team
+    # filter is meaningful whereas an empty Conference dropdown is not.
+    by_conference = bool(conferences)
+    filter_title = "Conference" if by_conference else "Team"
+    search_options = (["All conferences", *conferences] if by_conference
+                      else ["All teams", *sorted(data["Team"].dropna().astype(str).unique())])
     if compact_filters_enabled():
         with st.popover("⚙ Players filters · Search, conference, minimum games", use_container_width=True):
             query = st.text_input("Search player or team", key="cs228_player_search")
-            selected_conf = st.selectbox("Conference", search_options, key="cs228_player_conference")
+            selected_conf = st.selectbox(filter_title, search_options, key="cs228_player_conference")
             sort_by = st.selectbox("Rank by", list(SORT_OPTIONS), key="cs228_player_stat")
             min_gp = st.selectbox("Minimum games played", [1, 2, 3, 5, 10, 15, 20],
                                   key="cs228_player_min_gp")
@@ -257,8 +261,9 @@ def render_players(league: str, team_ratings=None, verified_ids=None):
             min_gp = st.selectbox("Minimum games played", [1, 2, 3, 5, 10, 15, 20],
                                   key="cs228_player_min_gp")
 
-    if selected_conf != "All conferences":
-        data = data.loc[data["Conference"].eq(selected_conf)]
+    if selected_conf not in ("All conferences", "All teams"):
+        column = "Conference" if by_conference else "Team"
+        data = data.loc[data[column].eq(selected_conf)]
     if query.strip():
         term = query.strip()
         data = data[data["Player"].str.contains(term, case=False, regex=False, na=False) |
