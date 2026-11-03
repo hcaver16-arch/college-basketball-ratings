@@ -1,0 +1,35 @@
+{
+  "version": 227,
+  "as_of_utc": "2026-11-03T15:48:50.723524+00:00",
+  "asof_date": "2026-11-03",
+  "notes": [
+    "RESEARCH ONLY. No values are loaded into official rating snapshots, model lines, or forecast archives.",
+    "Opponents anchored to preseason priors; 5 completed rated D1 games against 3 opponents before a provisional estimate is calculated.",
+    "No D2-D1 calibration or prospective validation yet; a research estimate is not an official or betting-ready prediction.",
+    "Explicitly reclassifying programs remain on a manual forecast hold until method evaluation and approval."
+  ],
+  "divisions": {
+    "mens-college-basketball": {
+      "division": "mens-college-basketball",
+      "verified_d1_count": 362,
+      "missing_official_d1_ratings": 0,
+      "source_confirmed_transition_count": 1,
+      "research_only_estimate_count": 0,
+      "blocked_from_official_forecasts": [
+        "West Florida Argonauts"
+      ],
+      "status": "RESEARCH_ONLY_NO_MODEL_CHANGES"
+    },
+    "womens-college-basketball": {
+      "division": "womens-college-basketball",
+      "verified_d1_count": 362,
+      "missing_official_d1_ratings": 1,
+      "source_confirmed_transition_count": 1,
+      "research_only_estimate_count": 0,
+      "blocked_from_official_forecasts": [
+        "West Florida Argonauts"
+      ],
+      "status": "RESEARCH_ONLY_NO_MODEL_CHANGES"
+    }
+  }
+}
