@@ -51,12 +51,12 @@ ast.parse(app)
 # SOS scope moved above both panels; same component sequence inside each panel:
 # header, sort, count, page, rows. This prevents the screenshot's row offset.
 shared = source.index('query_col, conf_col, scope_col = st.columns')
-scope = source.index('"SOS scope", ["Full SOS", "Played SOS", "Remaining SOS"]')
+scope = source.index('"SOS scope", ["Full SOS", "Played SOS", "Remaining SOS"]', shared)
 columns = source.index('left, right = st.columns(2, gap="medium")')
 sos_panel = source.index('with st.container(key="cs215_sos_panel"')
 sor_panel = source.index('with st.container(key="cs215_sor_panel"')
 assert shared < scope < columns < sos_panel < sor_panel
-assert source.count('key="cs215_sos_scope"') == 1
+assert source.count('key="cs215_sos_scope"') == 2  # mutually exclusive mobile and desktop controls
 assert 'min-height:73px' in source
 assert 'title="{html.escape(detail)}"' in source
 assert 'SOR score position (display only; not an eligible rank)' in source
