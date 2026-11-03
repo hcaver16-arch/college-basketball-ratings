@@ -14,6 +14,7 @@ from __future__ import annotations
 import argparse
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import date, datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 import json
 import math
 import os
@@ -24,7 +25,8 @@ import pandas as pd
 import requests
 
 from player_stats_import import HEADERS, parse_boxscore
-from prospective_archive_v97 import SPORTS, ET, event_data
+from prospective_archive_v97 import SPORTS, event_data
+ET = ZoneInfo("America/New_York")
 from reliability_v99 import fetch_d1_membership
 
 ROOT = Path(__file__).resolve().parent
@@ -98,12 +100,16 @@ def _valid_player_rows(rows, team_score):
                 return False, f"Invalid {field} in box score"
             if not math.isfinite(v) or v < 0:
                 return False, f"Invalid {field} in box score"
-    if team_score is not None:
+    try:
+        published_score = int(float(team_score)) if team_score is not None else None
+    except (ValueError, TypeError, OverflowError):
+        published_score = None
+    if published_score is not None:
         total = sum(float(row["Points"]) for row in rows)
         # Team points may include a small number of technical-foul points
         # not attributed to an athlete. Large differences mean a partial feed.
-        if abs(total - int(team_score)) > 2:
-            return False, f"Player points {total:g} do not reconcile with team score {team_score}"
+        if abs(total - published_score) > 2:
+            return False, f"Player points {total:g} do not reconcile with team score {published_score}"
     return True, ""
 
 
