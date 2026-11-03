@@ -1,64 +1,44 @@
 {
-  "version": 99,
+  "version": 226,
   "season": "2026-27",
-  "checked_at_utc": "2026-11-03T01:44:42+00:00",
-  "status": "critical",
+  "checked_at_utc": "2026-11-03T07:52:57+00:00",
+  "status": "ok",
   "divisions": {
     "mens": {
-      "status": "critical",
-      "games_seen": 239,
-      "upcoming_12h": 40,
-      "upcoming_3h": 39,
+      "status": "ok",
+      "games_seen": 304,
+      "upcoming_12h": 0,
+      "upcoming_3h": 0,
+      "verified_d1_upcoming_12h": 0,
+      "excluded_non_d1_upcoming_12h": 0,
+      "d1_classification_available": true,
       "official_forecasts_total": 194,
       "final_results_total": 11,
-      "issues": [
-        {
-          "severity": "critical",
-          "code": "MISSING_IMMINENT_FORECASTS",
-          "message": "2 games within three hours lack a locked official forecast",
-          "count": 2,
-          "examples": [
-            "Biola Eagles @ San Diego Toreros",
-            "Cal State San Marcos Cougars @ Cal Poly Mustangs"
-          ]
-        },
-        {
-          "severity": "critical",
-          "code": "UNKNOWN_RATED_TEAMS",
-          "message": "2 imminent games reference teams absent from saved ratings",
-          "count": 2,
-          "examples": [
-            "Biola Eagles @ San Diego Toreros",
-            "Cal State San Marcos Cougars @ Cal Poly Mustangs"
-          ]
-        }
-      ]
+      "results_waiting_for_next_archive": 17,
+      "archive_as_of_utc": "2026-11-02T19:16:36+00:00",
+      "issues": []
     },
     "womens": {
-      "status": "warning",
-      "games_seen": 242,
-      "upcoming_12h": 9,
-      "upcoming_3h": 9,
+      "status": "ok",
+      "games_seen": 328,
+      "upcoming_12h": 2,
+      "upcoming_3h": 0,
+      "verified_d1_upcoming_12h": 1,
+      "excluded_non_d1_upcoming_12h": 1,
+      "d1_classification_available": true,
       "official_forecasts_total": 178,
       "final_results_total": 14,
-      "issues": [
-        {
-          "severity": "warning",
-          "code": "MISSING_FINAL_RESULTS",
-          "message": "1 ESPN-final games with locked forecasts lack archived results (8h+ since start)",
-          "count": 1,
-          "examples": [
-            "401918849"
-          ]
-        }
-      ]
+      "results_waiting_for_next_archive": 65,
+      "archive_as_of_utc": "2026-11-02T19:16:36+00:00",
+      "issues": []
     }
   },
   "scoreboard_fetch_errors": [],
   "notes": [
-    "Read-only inspection of saved ratings and immutable V97 records.",
-    "Schedule coverage is based on ESPN scoreboard; missing API dates cause critical status.",
-    "No completed games or stale preseason ratings are not alerts by themselves.",
-    "V97 must run separately; this workflow diagnoses but cannot guarantee every forecast is captured."
+    "Read-only inspection; no forecasts, archived results, or model ratings are changed.",
+    "D1 eligibility comes from the same ESPN group-50 team directory used by the first-forecast archive; rating presence alone is not D1 proof.",
+    "Non-D1 matchups are excluded from D1 forecast critical alerts but remain counted.",
+    "Finished games are not considered overdue until a subsequent V97 archive run had a reasonable opportunity to capture them.",
+    "V97 must run independently; this workflow diagnoses but does not repair forecasts."
   ]
 }
