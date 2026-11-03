@@ -402,6 +402,10 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
                         st.session_state["courtside_selected_game_payload"] = game.to_dict()
                         st.session_state["courtside_requested_page"] = "Games"
                         st.rerun()
+        else:
+            st.markdown('<div class="court-section-head"><h3>Coming up</h3><span>Next 7 days</span></div>', unsafe_allow_html=True)
+            with st.container(border=True, key="cs221_upcoming_tile"):
+                st.caption("No upcoming rated D1 matchups are available in the loaded schedule.")
     with second_row[1]:
         _show_home_card(cards, "movers", league)
     with second_row[2]:
