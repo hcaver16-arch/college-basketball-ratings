@@ -29,7 +29,7 @@ assert 'with st.container(key="cs215_sos_panel", border=True):' in comparison
 assert 'with st.container(key="cs215_sor_panel", border=True):' in comparison
 assert 'key="cs215_shared_team_query"' in comparison
 assert 'key="cs215_shared_conference"' in comparison
-assert 'key=f"cs215_{kind}_sort"' in comparison
+assert 'sort_key = f"cs215_{kind}_sort"' in comparison
 assert 'page_key = f"cs215_{kind}_page"' in comparison
 assert 'st.session_state.get("courtside_logos_enabled", True)' in comparison
 
