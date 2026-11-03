@@ -76,7 +76,7 @@ for old in (
 # Every insight still preserves its proper navigation.
 for tab in ("Rankings", "Conferences", "Tournament", "Strength"):
     assert f'"{tab}"' in insights
-assert "None, \"Coming soon\"" in insights
+assert '"Players", "2026–27" if player_ready else "Collecting"' in insights
 assert "fetch_polls(sport)" in insights
 assert "load_history(sport)" in insights
 
