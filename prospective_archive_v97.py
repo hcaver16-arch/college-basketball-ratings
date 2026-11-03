@@ -15,6 +15,7 @@ import time
 from datetime import datetime, timedelta, timezone, date
 from pathlib import Path
 from zoneinfo import ZoneInfo
+from transition_research_v227 import newcomer_game
 import requests
 import pandas as pd
 
@@ -116,6 +117,10 @@ def new_forecasts(games,models,existing,now,season,division,minimum_lead_minutes
     for g in games.values():
         start=parse_dt(g['game_start_utc'])
         if g['final'] or start is None or start <= now+timedelta(minutes=minimum_lead_minutes): continue
+        # V227: a source-confirmed D1 newcomer has no validated prior model.
+        # Never create official (or optional) first forecasts solely from a
+        # neutral-prior rating learned from one early game.
+        if newcomer_game(g, season=season): continue
         if start > now+timedelta(hours=42):continue
         for model in models:
             key=(division,g['game_id'],model['id'])
