@@ -1,77 +1,54 @@
 {
   "version": 99,
   "season": "2026-27",
-  "checked_at_utc": "2026-11-02T19:35:20+00:00",
+  "checked_at_utc": "2026-11-03T01:44:42+00:00",
   "status": "critical",
   "divisions": {
     "mens": {
       "status": "critical",
       "games_seen": 239,
-      "upcoming_12h": 171,
-      "upcoming_3h": 5,
+      "upcoming_12h": 40,
+      "upcoming_3h": 39,
       "official_forecasts_total": 194,
       "final_results_total": 11,
       "issues": [
         {
           "severity": "critical",
           "code": "MISSING_IMMINENT_FORECASTS",
-          "message": "1 games within three hours lack a locked official forecast",
-          "count": 1,
+          "message": "2 games within three hours lack a locked official forecast",
+          "count": 2,
           "examples": [
-            "Carnegie Mellon Tartans @ Princeton Tigers"
+            "Biola Eagles @ San Diego Toreros",
+            "Cal State San Marcos Cougars @ Cal Poly Mustangs"
           ]
         },
         {
           "severity": "critical",
           "code": "UNKNOWN_RATED_TEAMS",
-          "message": "15 imminent games reference teams absent from saved ratings",
-          "count": 15,
+          "message": "2 imminent games reference teams absent from saved ratings",
+          "count": 2,
           "examples": [
-            "Carnegie Mellon Tartans @ Princeton Tigers",
-            "Southeastern Baptist Chargers @ West Florida Argonauts",
-            "Rhode Island College Anchormen @ UAlbany Great Danes",
-            "Saint Vincent Bearcats @ Delaware State Hornets",
-            "Coast Guard Bears @ Sacred Heart Pioneers",
-            "Bridgewater Eagles @ William & Mary Tribe",
-            "Berry Vikings @ Samford Bulldogs",
-            "IU Kokomo Cougars @ Evansville Purple Aces"
+            "Biola Eagles @ San Diego Toreros",
+            "Cal State San Marcos Cougars @ Cal Poly Mustangs"
           ]
         }
       ]
     },
     "womens": {
-      "status": "critical",
+      "status": "warning",
       "games_seen": 242,
-      "upcoming_12h": 133,
-      "upcoming_3h": 20,
+      "upcoming_12h": 9,
+      "upcoming_3h": 9,
       "official_forecasts_total": 178,
       "final_results_total": 14,
       "issues": [
         {
-          "severity": "critical",
-          "code": "MISSING_IMMINENT_FORECASTS",
-          "message": "3 games within three hours lack a locked official forecast",
-          "count": 3,
+          "severity": "warning",
+          "code": "MISSING_FINAL_RESULTS",
+          "message": "1 ESPN-final games with locked forecasts lack archived results (8h+ since start)",
+          "count": 1,
           "examples": [
-            "Chowan Hawks @ William & Mary Tribe",
-            "Elms Blazers @ Yale Bulldogs",
-            "MIT Engineers @ Bryant Bulldogs"
-          ]
-        },
-        {
-          "severity": "critical",
-          "code": "UNKNOWN_RATED_TEAMS",
-          "message": "17 imminent games reference teams absent from saved ratings",
-          "count": 17,
-          "examples": [
-            "Chowan Hawks @ William & Mary Tribe",
-            "Elms Blazers @ Yale Bulldogs",
-            "MIT Engineers @ Bryant Bulldogs",
-            "Mitchell Mariners @ New Haven Chargers",
-            "Keene State Owls @ Vermont Catamounts",
-            "St. Thomas Aquinas Spartans @ Army Black Knights",
-            "Hiram Terriers @ Youngstown State Penguins",
-            "Newman Jets @ North Texas Mean Green"
+            "401918849"
           ]
         }
       ]
