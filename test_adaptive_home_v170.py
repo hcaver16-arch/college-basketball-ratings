@@ -8,8 +8,8 @@ assert 'len(visible) > 30' in source
 assert 'len(visible) > 5' in source
 assert '["Featured", "Top 25", "Closest", "All"]' in source
 assert 'home_display = home_display.head(12)' in source
-assert 'st.container(height=320,border=True)' in source
-assert 'else st.container(border=True)' in source
+assert 'st.container(height=320,border=False)' in source
+assert 'else st.container(border=False)' in source
 assert 'cs170_all_games' in source
 assert 'st.session_state["courtside_requested_page"] = "Games"' in source
 assert 'Closest games · Next 7 days' in source

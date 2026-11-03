@@ -6,7 +6,7 @@ home = Path("courtside_home.py").read_text()
 app = Path("app.py").read_text()
 ast.parse(home)
 ast.parse(app)
-assert "else st.container(border=True)" in home
+assert "else st.container(border=False)" in home
 assert 'favorite_probability:.0%' in home
 assert 'win probability:' in home
 assert 'cs171-upcoming' in home

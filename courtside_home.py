@@ -150,6 +150,32 @@ def style():
       .st-key-cs222_rankings_list [data-testid="stHorizontalBlock"]{gap:.25rem;}
       .st-key-cs222_rankings_list button{font-size:.78rem!important}
     }
+    /* V223: all four original panels use the same surface and hierarchy as insights. */
+    [class*="st-key-cs223_tile_"]{
+      background:#fff!important;border:1px solid #dee7f2!important;
+      border-top:3px solid #2b69b9!important;border-radius:12px!important;
+      padding:12px 13px!important;min-width:0;
+    }
+    .st-key-cs223_tile_featured{border-top-color:#a45a90!important}
+    .st-key-cs223_tile_rankings{border-top-color:#2d6cb9!important}
+    .st-key-cs223_tile_upcoming{border-top-color:#0e8a83!important}
+    [class*="st-key-cs223_tile_"] [data-testid="stVerticalBlock"]{gap:.46rem}
+    [class*="st-key-cs223_tile_"] button{
+      min-height:30px;font-size:.78rem!important;
+    }
+    [class*="st-key-cs223_tile_"] .cs219-card-head{margin-bottom:4px}
+    [class*="st-key-cs223_tile_"] .cs219-sub{margin:0 0 8px}
+    .st-key-cs223_tile_games .cs169-games-title{font-size:1.02rem}
+    .st-key-cs223_tile_games [data-testid="stSelectbox"]{margin:0 0 3px}
+    .st-key-cs223_tile_games [data-testid="stVerticalBlock"]{gap:.32rem}
+    .st-key-cs223_tile_featured .cs160-matchup{margin:2px 0 8px!important}
+    .st-key-cs223_tile_featured .cs160-predictions{margin-bottom:6px!important}
+    .st-key-cs223_tile_rankings [data-testid="stVerticalBlock"]{gap:.27rem}
+    .st-key-cs223_tile_rankings .st-key-cs222_rankings_list button{border:0!important;background:transparent!important;}
+    .st-key-cs223_tile_upcoming .cs171-upcoming{gap:3px}
+    @media(max-width:700px){
+      [class*="st-key-cs223_tile_"]{padding:10px!important}
+    }
     </style>''',unsafe_allow_html=True)
 
 def featured_choice(upcoming, ratings, d1_ids):
@@ -206,6 +232,16 @@ def _show_home_card(cards, name, league):
         render_home_insight_card(cards[name], league)
 
 
+def _classic_home_card_heading(title: str, subtitle: str, badge: str = ""):
+    """Match the newer insight tiles; titles and values are HTML-escaped."""
+    badge_html = f'<span>{html.escape(badge)}</span>' if badge else ""
+    st.html(
+        '<div class="cs219-card-head">'
+        f'<strong>{html.escape(title)}</strong>{badge_html}</div>'
+        f'<div class="cs219-sub">{html.escape(subtitle)}</div>'
+    )
+
+
 def render_home(games, ratings, team_ratings, d1_ids, league, window):
     time_zone = st.session_state.get("courtside_timezone", "Central")
     today=pd.Timestamp.now(tz='America/New_York').date()
@@ -238,188 +274,188 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
     cards = _load_home_cards(league, team_ratings, d1_ids)
     home_columns = st.columns(3, gap="small")
     with home_columns[0]:
-        top25_names = set()
-        if isinstance(team_ratings, pd.DataFrame) and {"Team", "Current power"}.issubset(team_ratings.columns):
-            top25_names = set(team_ratings.sort_values("Current power", ascending=False).head(25)["Team"].astype(str))
-        st.markdown('<div class="cs169-games-title">Today’s matchups</div>', unsafe_allow_html=True)
-        busy = len(visible) > 30
-        mode = "Featured"
-        if busy:
-            mode = st.selectbox("Homepage games", ["Featured", "Top 25", "Closest", "All"],
-                            key="cs170_game_filter", label_visibility="collapsed")
-        home_display = select_home_games(visible, ratings, top25_names, mode) if busy else visible.copy()
-        if busy and mode == "Featured":
-            home_display = home_display.head(12)
-        elif busy and mode != "All":
-            home_display = home_display.head(25)
-        if home_display.empty:
-            st.caption("No games match this filter. Choose All to see the complete schedule.")
-        with (st.container(height=320,border=True) if len(visible) > 5 else st.container(border=True)):
-            for ix, row in home_display.reset_index(drop=True).iterrows():
-                home,away=str(row['Home']),str(row['Away'])
-                h_id,a_id=str(row['Home ID']),str(row['Away ID'])
-                d1=h_id in d1_ids and a_id in d1_ids
-                proj=None
-                if d1 and h_id in ratings and a_id in ratings and row['Status']=='Scheduled':
-                    m=ratings[h_id]-ratings[a_id]+(0 if row['Venue']=='Neutral' else 3)
-                    proj=f"{home if m>=0 else away} -{abs(m):.1f}"
-                is_final = row["Status"] == "Final" and pd.notna(row.get("Away score")) and pd.notna(row.get("Home score"))
-                color=color_for(home)
-                x,y=st.columns([3.2,1.8],gap="small",vertical_alignment='center')
-                with x:
-                    if is_final:
-                        away_score, home_score = int(row["Away score"]), int(row["Home score"])
-                        winner = away if away_score > home_score else home if home_score > away_score else "Tie"
-                        st.markdown(
-                            '<div class="cs174-final-card">'
-                            '<span class="cs174-final-status">FINAL</span>'
-                            f'<div class="cs174-scoreline"><span class="cs174-team {"cs174-winner" if away_score > home_score else ""}">{html.escape(away)}</span>'
-                            f'<strong>{away_score} – {home_score}</strong>'
-                            f'<span class="cs174-team {"cs174-winner" if home_score > away_score else ""}">{html.escape(home)}</span></div>'
-                            f'<div class="cs174-final-winner">{html.escape(winner)} {"wins" if winner != "Tie" else ""}</div>'
-                            '</div>', unsafe_allow_html=True)
-                    elif row["Status"] == "Live":
-                        live_score = ""
-                        if pd.notna(row.get("Away score")) and pd.notna(row.get("Home score")):
-                            live_score = f'{away} {int(row["Away score"])} – {home} {int(row["Home score"])}'
-                        st.markdown(
-                            '<div class="cs175-live-card"><strong>● LIVE</strong>'
-                            f'<div class="cs175-live-score">{html.escape(live_score or f"{away} at {home}")}</div>'
-                            '</div>', unsafe_allow_html=True)
-                    else:
-                        st.markdown(f'<div style="border-left:4px solid {color};padding-left:11px"><b>{html.escape(away)} @ {html.escape(home)}</b><br><span style="color:#64748B;font-size:12px">{html.escape(str(row.get("Display time",row["Time (ET)"])))} · {html.escape(str(row["Status"]))} · {"D1 vs D1" if d1 else "Other matchup"}</span><br><span style="font-size:13px">{"Model: "+html.escape(proj) if proj else "No D1 model line"}</span></div>',unsafe_allow_html=True)
-                with y:
-                    if st.button('Details →',key=f'court_game_{row["Game ID"]}_{ix}',use_container_width=True):
-                        st.session_state['courtside_selected_game']=str(row['Game ID'])
-                        st.session_state['courtside_requested_page']='Games'
-                        st.rerun()
-                if ix < len(home_display) - 1:
-                    st.divider()
-        if len(visible) > 5:
+        with st.container(border=True, key="cs223_tile_games"):
+            top25_names = set()
+            if isinstance(team_ratings, pd.DataFrame) and {"Team", "Current power"}.issubset(team_ratings.columns):
+                top25_names = set(team_ratings.sort_values("Current power", ascending=False).head(25)["Team"].astype(str))
+            _classic_home_card_heading("Today’s matchups", "Scores, schedules and model lines", f"{len(visible)} games")
+            busy = len(visible) > 30
+            mode = "Featured"
             if busy:
+                mode = st.selectbox("Homepage games", ["Featured", "Top 25", "Closest", "All"],
+                                key="cs170_game_filter", label_visibility="collapsed")
+            home_display = select_home_games(visible, ratings, top25_names, mode) if busy else visible.copy()
+            if busy and mode == "Featured":
+                home_display = home_display.head(12)
+            elif busy and mode != "All":
+                home_display = home_display.head(25)
+            if home_display.empty:
+                st.caption("No games match this filter. Choose All to see the complete schedule.")
+            with (st.container(height=320,border=False) if len(visible) > 5 else st.container(border=False)):
+                for ix, row in home_display.reset_index(drop=True).iterrows():
+                    home,away=str(row['Home']),str(row['Away'])
+                    h_id,a_id=str(row['Home ID']),str(row['Away ID'])
+                    d1=h_id in d1_ids and a_id in d1_ids
+                    proj=None
+                    if d1 and h_id in ratings and a_id in ratings and row['Status']=='Scheduled':
+                        m=ratings[h_id]-ratings[a_id]+(0 if row['Venue']=='Neutral' else 3)
+                        proj=f"{home if m>=0 else away} -{abs(m):.1f}"
+                    is_final = row["Status"] == "Final" and pd.notna(row.get("Away score")) and pd.notna(row.get("Home score"))
+                    color=color_for(home)
+                    x,y=st.columns([3.2,1.8],gap="small",vertical_alignment='center')
+                    with x:
+                        if is_final:
+                            away_score, home_score = int(row["Away score"]), int(row["Home score"])
+                            winner = away if away_score > home_score else home if home_score > away_score else "Tie"
+                            st.markdown(
+                                '<div class="cs174-final-card">'
+                                '<span class="cs174-final-status">FINAL</span>'
+                                f'<div class="cs174-scoreline"><span class="cs174-team {"cs174-winner" if away_score > home_score else ""}">{html.escape(away)}</span>'
+                                f'<strong>{away_score} – {home_score}</strong>'
+                                f'<span class="cs174-team {"cs174-winner" if home_score > away_score else ""}">{html.escape(home)}</span></div>'
+                                f'<div class="cs174-final-winner">{html.escape(winner)} {"wins" if winner != "Tie" else ""}</div>'
+                                '</div>', unsafe_allow_html=True)
+                        elif row["Status"] == "Live":
+                            live_score = ""
+                            if pd.notna(row.get("Away score")) and pd.notna(row.get("Home score")):
+                                live_score = f'{away} {int(row["Away score"])} – {home} {int(row["Home score"])}'
+                            st.markdown(
+                                '<div class="cs175-live-card"><strong>● LIVE</strong>'
+                                f'<div class="cs175-live-score">{html.escape(live_score or f"{away} at {home}")}</div>'
+                                '</div>', unsafe_allow_html=True)
+                        else:
+                            st.markdown(f'<div style="border-left:4px solid {color};padding-left:11px"><b>{html.escape(away)} @ {html.escape(home)}</b><br><span style="color:#64748B;font-size:12px">{html.escape(str(row.get("Display time",row["Time (ET)"])))} · {html.escape(str(row["Status"]))} · {"D1 vs D1" if d1 else "Other matchup"}</span><br><span style="font-size:13px">{"Model: "+html.escape(proj) if proj else "No D1 model line"}</span></div>',unsafe_allow_html=True)
+                    with y:
+                        if st.button('Details →',key=f'court_game_{row["Game ID"]}_{ix}',use_container_width=True):
+                            st.session_state['courtside_selected_game']=str(row['Game ID'])
+                            st.session_state['courtside_requested_page']='Games'
+                            st.rerun()
+                    if ix < len(home_display) - 1:
+                        st.divider()
+            if len(visible) > 5 and busy:
                 st.caption(f"Showing {len(home_display)} of {len(visible)} games · Choose All for the full day.")
-            if st.button("View complete schedule →", key="cs170_all_games"):
+            if st.button("View complete schedule →", key="cs170_all_games", use_container_width=True):
                 st.session_state["courtside_requested_page"] = "Games"
                 st.rerun()
-        # Avoid repeating the featured game or today's games in Highlights.
-        # Only use later dates already loaded from the selected schedule window.
-        later = games[(games["Date"] > str(today)) &
-                      (games["Date"] <= str(today + pd.Timedelta(days=7))) &
-                      (games["Status"] == "Scheduled")]
-        upcoming = later[later["Home ID"].astype(str).isin(d1_ids) &
-                         later["Away ID"].astype(str).isin(d1_ids)]
-        highlight_scores = []
-        for _, game in upcoming.iterrows():
-            hid, aid = str(game["Home ID"]), str(game["Away ID"])
-            if hid not in ratings or aid not in ratings:
-                continue
-            margin = ratings[hid] - ratings[aid] + (0 if game["Venue"] == "Neutral" else 3)
-            highlight_scores.append((abs(margin), game))
-        if highlight_scores:
-            st.markdown('<div class="court-section-head"><h3>Coming up</h3><span>Closest games · Next 7 days</span></div>', unsafe_allow_html=True)
-            with st.container(border=True, key="cs221_upcoming_tile"):
-                for index, (closeness, game) in enumerate(sorted(highlight_scores, key=lambda entry: (entry[0], str(entry[1]["Date"])))[:3]):
-                    away, home = str(game["Away"]), str(game["Home"])
-                    when = str(game.get("Display time", game["Time (ET)"]))
-                    game_date = str(game["Date"])
-                    hid, aid = str(game["Home ID"]), str(game["Away ID"])
-                    margin = ratings[hid] - ratings[aid] + (0 if game["Venue"] == "Neutral" else 3)
-                    from math import erf, sqrt
-                    home_probability = .5 * (1 + erf(margin / (11 * sqrt(2))))
-                    favorite = home if margin >= 0 else away
-                    favorite_probability = home_probability if margin >= 0 else 1 - home_probability
-                    margin_note = f"{favorite} win probability: {favorite_probability:.0%}"
-                    if index:
-                        st.markdown('<div class="cs222-divider"></div>', unsafe_allow_html=True)
-                    st.markdown(
-                        '<div class="cs171-upcoming">'
-                        f'<span class="cs171-upcoming-date">{html.escape(game_date)} · {html.escape(when)}</span>'
-                        f'<strong>{html.escape(away)} <span>at</span> {html.escape(home)}</strong>'
-                        f'<span class="cs171-upcoming-note">{html.escape(margin_note)} · {html.escape(str(game["Venue"]))} venue</span>'
-                        '</div>', unsafe_allow_html=True)
-                    if st.button('View matchup →', key=f'cs171_highlight_{index}_{game["Game ID"]}', use_container_width=False):
-                        # Pass the exact selected row: Games may load a different date range.
-                        st.session_state["courtside_selected_game"] = str(game["Game ID"])
-                        st.session_state["courtside_selected_game_payload"] = game.to_dict()
-                        st.session_state["courtside_requested_page"] = "Games"
-                        st.rerun()
-        else:
-            st.markdown('<div class="court-section-head"><h3>Coming up</h3><span>Next 7 days</span></div>', unsafe_allow_html=True)
-            with st.container(border=True, key="cs221_upcoming_tile"):
-                st.caption("No upcoming rated D1 matchups are available in the loaded schedule.")
+        with st.container(border=True, key="cs223_tile_upcoming"):
+            _classic_home_card_heading("Coming up", "Closest games · Next 7 days", "Next 7 days")
+            # Avoid repeating the featured game or today's games in Highlights.
+            # Only use later dates already loaded from the selected schedule window.
+            later = games[(games["Date"] > str(today)) &
+                          (games["Date"] <= str(today + pd.Timedelta(days=7))) &
+                          (games["Status"] == "Scheduled")]
+            upcoming = later[later["Home ID"].astype(str).isin(d1_ids) &
+                             later["Away ID"].astype(str).isin(d1_ids)]
+            highlight_scores = []
+            for _, game in upcoming.iterrows():
+                hid, aid = str(game["Home ID"]), str(game["Away ID"])
+                if hid not in ratings or aid not in ratings:
+                    continue
+                margin = ratings[hid] - ratings[aid] + (0 if game["Venue"] == "Neutral" else 3)
+                highlight_scores.append((abs(margin), game))
+            if highlight_scores:
+                with st.container(border=False, key="cs221_upcoming_tile"):
+                    for index, (closeness, game) in enumerate(sorted(highlight_scores, key=lambda entry: (entry[0], str(entry[1]["Date"])))[:3]):
+                        away, home = str(game["Away"]), str(game["Home"])
+                        when = str(game.get("Display time", game["Time (ET)"]))
+                        game_date = str(game["Date"])
+                        hid, aid = str(game["Home ID"]), str(game["Away ID"])
+                        margin = ratings[hid] - ratings[aid] + (0 if game["Venue"] == "Neutral" else 3)
+                        from math import erf, sqrt
+                        home_probability = .5 * (1 + erf(margin / (11 * sqrt(2))))
+                        favorite = home if margin >= 0 else away
+                        favorite_probability = home_probability if margin >= 0 else 1 - home_probability
+                        margin_note = f"{favorite} win probability: {favorite_probability:.0%}"
+                        if index:
+                            st.markdown('<div class="cs222-divider"></div>', unsafe_allow_html=True)
+                        st.markdown(
+                            '<div class="cs171-upcoming">'
+                            f'<span class="cs171-upcoming-date">{html.escape(game_date)} · {html.escape(when)}</span>'
+                            f'<strong>{html.escape(away)} <span>at</span> {html.escape(home)}</strong>'
+                            f'<span class="cs171-upcoming-note">{html.escape(margin_note)} · {html.escape(str(game["Venue"]))} venue</span>'
+                            '</div>', unsafe_allow_html=True)
+                        if st.button('View matchup →', key=f'cs171_highlight_{index}_{game["Game ID"]}', use_container_width=False):
+                            # Pass the exact selected row: Games may load a different date range.
+                            st.session_state["courtside_selected_game"] = str(game["Game ID"])
+                            st.session_state["courtside_selected_game_payload"] = game.to_dict()
+                            st.session_state["courtside_requested_page"] = "Games"
+                            st.rerun()
+            else:
+                with st.container(border=False, key="cs221_upcoming_tile"):
+                    st.caption("No upcoming rated D1 matchups are available in the loaded schedule.")
     with home_columns[1]:
-        scheduled=visible[visible['Status']=='Scheduled']
-        featured=featured_choice(scheduled,ratings,d1_ids)
-        if featured is not None:
-            h,a=str(featured['Home']),str(featured['Away'])
-            hid,aid=str(featured['Home ID']),str(featured['Away ID'])
-            home_color,away_color=color_for(h),color_for(a)
-            margin=ratings[hid]-ratings[aid]+(0 if featured['Venue']=='Neutral' else 3)
-            from math import erf,sqrt
-            chance=.5*(1+erf(margin/(11*sqrt(2))))
-            favorite=h if margin>=0 else a
-            show_feature_logos = st.session_state.get("courtside_logos_enabled", True)
-            home_logo = (f'<img class="cs178-feature-logo" src="https://a.espncdn.com/i/teamlogos/ncaa/500/{hid}.png" alt="" loading="lazy"/>'
-                         if show_feature_logos and hid.isdigit() else "")
-            away_logo = (f'<img class="cs178-feature-logo" src="https://a.espncdn.com/i/teamlogos/ncaa/500/{aid}.png" alt="" loading="lazy"/>'
-                         if show_feature_logos and aid.isdigit() else "")
-            st.markdown('<div class="cs160-feature-title">Featured game · Model preview</div>', unsafe_allow_html=True)
-            with st.container(border=True):
-                st.markdown(f'''<div class="cs160-matchup">
-                  <div class="cs160-team cs178-feature-team" style="border-left:4px solid {home_color}">{home_logo}<span>{html.escape(h)}</span></div>
-                  <div class="cs160-tip">VS · {html.escape(str(featured.get('Display time',featured['Time (ET)'])))}</div>
-                  <div class="cs160-team cs160-away cs178-feature-team" style="border-right:4px solid {away_color}">{away_logo}<span>{html.escape(a)}</span></div>
-                </div>''',unsafe_allow_html=True)
-                st.markdown('<div class="cs160-predictions">'
-                    f'<div class="cs160-stat"><span>PROJECTED SPREAD</span><strong>{html.escape(favorite)} -{abs(margin):.1f}</strong></div>'
-                    f'<div class="cs160-stat"><span>{html.escape(h)} WIN PROBABILITY</span><strong>{chance:.0%}</strong></div>'
-                    '</div>', unsafe_allow_html=True)
-                st.progress(float(max(0,min(1,chance))))
-                st.caption('Experimental prediction · Not a sportsbook line')
-                if st.button('Game details →',key='courtside_feature_details'):
-                    st.session_state['courtside_selected_game']=str(featured['Game ID'])
-                    st.session_state['courtside_requested_page']='Games'
-                    st.rerun()
-        else:
-            st.caption('A featured matchup will appear when both D1 opponents have published ratings.')
-        # Poll Watch shares the featured column instead of leaving an orphan row.
+        with st.container(border=True, key="cs223_tile_featured"):
+            _classic_home_card_heading("Featured game · Model preview", "Courtside projected matchup", "Model")
+            scheduled=visible[visible['Status']=='Scheduled']
+            featured=featured_choice(scheduled,ratings,d1_ids)
+            if featured is not None:
+                h,a=str(featured['Home']),str(featured['Away'])
+                hid,aid=str(featured['Home ID']),str(featured['Away ID'])
+                home_color,away_color=color_for(h),color_for(a)
+                margin=ratings[hid]-ratings[aid]+(0 if featured['Venue']=='Neutral' else 3)
+                from math import erf,sqrt
+                chance=.5*(1+erf(margin/(11*sqrt(2))))
+                favorite=h if margin>=0 else a
+                show_feature_logos = st.session_state.get("courtside_logos_enabled", True)
+                home_logo = (f'<img class="cs178-feature-logo" src="https://a.espncdn.com/i/teamlogos/ncaa/500/{hid}.png" alt="" loading="lazy"/>'
+                             if show_feature_logos and hid.isdigit() else "")
+                away_logo = (f'<img class="cs178-feature-logo" src="https://a.espncdn.com/i/teamlogos/ncaa/500/{aid}.png" alt="" loading="lazy"/>'
+                             if show_feature_logos and aid.isdigit() else "")
+                with st.container(border=False):
+                    st.markdown(f'''<div class="cs160-matchup">
+                      <div class="cs160-team cs178-feature-team" style="border-left:4px solid {home_color}">{home_logo}<span>{html.escape(h)}</span></div>
+                      <div class="cs160-tip">VS · {html.escape(str(featured.get('Display time',featured['Time (ET)'])))}</div>
+                      <div class="cs160-team cs160-away cs178-feature-team" style="border-right:4px solid {away_color}">{away_logo}<span>{html.escape(a)}</span></div>
+                    </div>''',unsafe_allow_html=True)
+                    st.markdown('<div class="cs160-predictions">'
+                        f'<div class="cs160-stat"><span>PROJECTED SPREAD</span><strong>{html.escape(favorite)} -{abs(margin):.1f}</strong></div>'
+                        f'<div class="cs160-stat"><span>{html.escape(h)} WIN PROBABILITY</span><strong>{chance:.0%}</strong></div>'
+                        '</div>', unsafe_allow_html=True)
+                    st.progress(float(max(0,min(1,chance))))
+                    st.caption('Experimental prediction · Not a sportsbook line')
+                    if st.button('Game details →',key='courtside_feature_details',use_container_width=True):
+                        st.session_state['courtside_selected_game']=str(featured['Game ID'])
+                        st.session_state['courtside_requested_page']='Games'
+                        st.rerun()
+            else:
+                st.caption('A featured matchup will appear when both D1 opponents have published ratings.')
         _show_home_card(cards, "polls", league)
         _show_home_card(cards, "movers", league)
         _show_home_card(cards, "strength", league)
     with home_columns[2]:
-        # Integrated light-theme rankings card: native st.dataframe rendered dark on some deployments.
-        if isinstance(team_ratings,pd.DataFrame) and {'Team','Current power'}.issubset(team_ratings.columns) and not team_ratings.empty:
-            top=team_ratings.sort_values('Current power',ascending=False).head(5).copy()
-            st.markdown('<div class="court-section-head"><h3>Power rankings</h3><span>Tap a team to view its profile</span></div>',unsafe_allow_html=True)
-            with st.container(border=True, key="cs222_rankings_list"):
-                for rank, (_, team) in enumerate(top.iterrows(), start=1):
-                    name = str(team["Team"])
-                    rating = float(team["Current power"])
-                    team_id = str(team.get("Team ID", ""))
-                    rank_col, logo_col, team_col, rating_col = st.columns([0.45, 0.55, 3.3, 1.0], vertical_alignment="center", gap="small")
-                    with rank_col:
-                        st.markdown(f'**{rank}**')
-                    with logo_col:
-                        if st.session_state.get("courtside_logos_enabled", True) and team_id.isdigit():
-                            st.image(f"https://a.espncdn.com/i/teamlogos/ncaa/500/{team_id}.png", width=25)
-                        else:
-                            st.markdown('<span class="court-team-dot" style="background:' + color_for(name) + '"></span>', unsafe_allow_html=True)
-                    with team_col:
-                        if st.button(f"{name} →", key=f"cs177_team_{rank}_{team_id}",
-                                     use_container_width=True, type="tertiary"):
-                            st.session_state["courtside_requested_team"] = name
-                            st.session_state["courtside_requested_team_id"] = team_id
-                            st.session_state["courtside_requested_page"] = "Teams"
-                            st.rerun()
-                    with rating_col:
-                        st.markdown(f'<div style="text-align:right;font-weight:750;color:#17345f">{rating:+.2f}</div>',unsafe_allow_html=True)
-                    if rank < len(top):
-                        st.markdown('<div class="cs222-divider"></div>', unsafe_allow_html=True)
-            if st.button('View full rankings →',key='courtside_rankings'):
-                st.session_state['courtside_requested_page']='Rankings';st.rerun()
-        else:
-            st.markdown('#### Power rankings')
-            st.info('Power rankings will appear when saved ratings are available.')
+        with st.container(border=True, key="cs223_tile_rankings"):
+            _classic_home_card_heading("Power rankings", "Tap a team to view its profile", "Top 5")
+            # Integrated light-theme rankings card: native st.dataframe rendered dark on some deployments.
+            if isinstance(team_ratings,pd.DataFrame) and {'Team','Current power'}.issubset(team_ratings.columns) and not team_ratings.empty:
+                top=team_ratings.sort_values('Current power',ascending=False).head(5).copy()
+                with st.container(border=False, key="cs222_rankings_list"):
+                    for rank, (_, team) in enumerate(top.iterrows(), start=1):
+                        name = str(team["Team"])
+                        rating = float(team["Current power"])
+                        team_id = str(team.get("Team ID", ""))
+                        rank_col, logo_col, team_col, rating_col = st.columns([0.45, 0.55, 3.3, 1.0], vertical_alignment="center", gap="small")
+                        with rank_col:
+                            st.markdown(f'**{rank}**')
+                        with logo_col:
+                            if st.session_state.get("courtside_logos_enabled", True) and team_id.isdigit():
+                                st.image(f"https://a.espncdn.com/i/teamlogos/ncaa/500/{team_id}.png", width=25)
+                            else:
+                                st.markdown('<span class="court-team-dot" style="background:' + color_for(name) + '"></span>', unsafe_allow_html=True)
+                        with team_col:
+                            if st.button(f"{name} →", key=f"cs177_team_{rank}_{team_id}",
+                                         use_container_width=True, type="tertiary"):
+                                st.session_state["courtside_requested_team"] = name
+                                st.session_state["courtside_requested_team_id"] = team_id
+                                st.session_state["courtside_requested_page"] = "Teams"
+                                st.rerun()
+                        with rating_col:
+                            st.markdown(f'<div style="text-align:right;font-weight:750;color:#17345f">{rating:+.2f}</div>',unsafe_allow_html=True)
+                        if rank < len(top):
+                            st.markdown('<div class="cs222-divider"></div>', unsafe_allow_html=True)
+                if st.button('View full rankings →',key='courtside_rankings',use_container_width=True):
+                    st.session_state['courtside_requested_page']='Rankings';st.rerun()
+            else:
+                st.info('Power rankings will appear when saved ratings are available.')
         _show_home_card(cards, "conferences", league)
         _show_home_card(cards, "tournament", league)
         _show_home_card(cards, "players", league)
