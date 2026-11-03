@@ -51,7 +51,7 @@ for target in ("conferences", "tournament", "players"):
 assert home.count('cards = _load_home_cards(league, team_ratings, d1_ids)') == 1
 assert "load_home_insight_cards(" in home
 assert "render_home_insight_card(" in home
-assert "st.container(border=True, key=\"cs221_upcoming_tile\")" in home
+assert "st.container(border=False, key=\"cs221_upcoming_tile\")" in home
 assert 'st.selectbox("Homepage games", ["Featured", "Top 25", "Closest", "All"]' in home
 assert '.cs160-predictions{grid-template-columns:1fr;}' in home
 
