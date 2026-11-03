@@ -8,7 +8,7 @@ assert "Today’s matchups" in home
 assert "cs161-feature-title" not in home
 assert "cs160-feature-title" in home
 assert "cs169-games-title" in home
-assert 'with first_row[0]:' in home and 'with first_row[2]:' in home
+assert 'with home_columns[0]:' in home and 'with home_columns[2]:' in home
 assert "settings_panel = st.popover" in app
 assert "with st.popover(\"More ▾\"" in app
 print("V161 header and spacing checks passed")
