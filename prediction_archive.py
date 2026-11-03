@@ -16,6 +16,7 @@ from prospective_roster import evidence_adjustments
 from saved_roster_data import load_saved_data
 from forecast_extensions import (EXTRA_FIELDS, matchup_classifications, new_roster_forecasts, join_evaluation)
 from forecast_comparison import roster_diagnostics
+from transition_research_v227 import newcomer_game
 
 ROOT = Path(__file__).resolve().parent / 'data'
 SPORTS = ('mens-college-basketball','womens-college-basketball')
@@ -139,6 +140,8 @@ def forecast_new_games(schedule,latest,rosters,now,sport,existing_ids):
     for g in schedule.to_dict('records'):
         gid=g['Game ID']; start=as_utc(g['Game start UTC'])
         if gid in existing_ids or not start or not now<start or g['Status']!='Scheduled':continue
+        # Do not import unvalidated newcomer ratings into new locked forecasts.
+        if newcomer_game(g):continue
         h,a=g['Home ID'],g['Away ID']
         hp,ap=lookup.get(h),lookup.get(a)
         if hp is None or ap is None or pd.isna(hp) or pd.isna(ap):continue
