@@ -176,6 +176,45 @@ def style():
     @media(max-width:700px){
       [class*="st-key-cs223_tile_"]{padding:10px!important}
     }
+    /* V224: compact home scoreboard tiles, with team-aligned result scores. */
+    [class*="st-key-cs224_game_card_"]{
+      background:#f8fbff;border:1px solid #e0e8f4;border-radius:10px;
+      padding:9px 10px!important;margin-bottom:7px;min-width:0;
+    }
+    [class*="st-key-cs224_game_card_"] [data-testid="stVerticalBlock"]{gap:.3rem!important}
+    [class*="st-key-cs224_game_card_"] button{
+      min-height:28px!important;font-size:.76rem!important;
+      border:1px solid #d3e2f7!important;background:#fff!important;
+    }
+    .cs224-game{min-width:0;color:#233e65}
+    .cs224-game-head{display:flex;align-items:center;justify-content:space-between;gap:7px;margin-bottom:6px}
+    .cs224-status{font-size:.65rem;font-weight:850;letter-spacing:.035em;padding:3px 7px;
+       color:#20549d;background:#e7f0ff;border-radius:5px;white-space:nowrap}
+    .cs224-final .cs224-status{color:#fff;background:#1e4b94}
+    .cs224-live .cs224-status{color:#06786c;background:#dff8f2}
+    .cs224-game-meta{font-size:.68rem;color:#73869f;text-align:right;line-height:1.3}
+    .cs224-teams{display:grid;gap:2px}
+    .cs224-team-row{display:flex;align-items:center;gap:7px;min-width:0;
+       min-height:32px;padding:4px 5px;border-radius:7px}
+    .cs224-winner{background:#e8f2ff}
+    .cs224-team-name{flex:1;min-width:0;overflow-wrap:anywhere;
+       font-size:.84rem;font-weight:650;color:#2d4669;line-height:1.25}
+    .cs224-winner .cs224-team-name{font-weight:850;color:#173d78}
+    .cs224-logo{width:23px;height:23px;object-fit:contain;flex:none}
+    .cs224-score{min-width:27px;flex:none;text-align:right;
+       font-size:1.07rem;line-height:1;font-weight:750;color:#71829a;
+       font-variant-numeric:tabular-nums}
+    .cs224-winner .cs224-score{color:#163d83;font-weight:900}
+    .cs224-win{font-size:.57rem;line-height:1;color:#1d61ab;font-weight:850;
+       border:1px solid #bed3ec;border-radius:4px;padding:3px 4px}
+    .cs224-side{font-size:.59rem;color:#8395ac;letter-spacing:.04em;font-weight:750}
+    .cs224-prediction{border-top:1px solid #e7edf7;margin-top:5px;padding:7px 3px 0;
+       font-size:.73rem;color:#526b90;line-height:1.3;overflow-wrap:anywhere}
+    @media(max-width:850px){
+      [class*="st-key-cs224_game_card_"]{padding:8px!important}
+      .cs224-team-name{font-size:.81rem}
+      .cs224-logo{width:21px;height:21px}
+    }
     </style>''',unsafe_allow_html=True)
 
 def featured_choice(upcoming, ratings, d1_ids):
@@ -230,6 +269,78 @@ def _show_home_card(cards, name, league):
     from home_insights_v219 import render_home_insight_card
     if name in cards:
         render_home_insight_card(cards[name], league)
+
+
+def home_game_scoreboard_markup(row, d1: bool, proj=None, show_logos=True):
+    """Compact two-team result display; scores and winner are always attached to a team.
+
+    This is display-only. Actual scores, statuses, projections and team IDs still
+    come from the existing scoreboard / rating sources.
+    """
+    def score_value(value):
+        try:
+            numeric = pd.to_numeric(value, errors="coerce")
+            if pd.notna(numeric) and float(numeric) >= 0 and float(numeric).is_integer():
+                return int(numeric)
+        except (TypeError, ValueError, OverflowError):
+            pass
+        return None
+
+    status = str(row.get("Status", "Scheduled"))
+    is_final = row["Status"] == "Final"
+    is_live = row["Status"] == "Live"
+    started = is_final or is_live
+    away_score = score_value(row.get("Away score")) if started else None
+    home_score = score_value(row.get("Home score")) if started else None
+    has_scores = away_score is not None and home_score is not None
+    away_won = is_final and has_scores and away_score > home_score
+    home_won = is_final and has_scores and home_score > away_score
+
+    badge = "FINAL" if is_final else "● LIVE" if is_live else status.upper()
+    status_class = "final" if is_final else "live" if is_live else "scheduled"
+    when = row.get("Display time")
+    if when is None or pd.isna(when) or not str(when).strip():
+        when = row.get("Time (ET)", "")
+    details = "D1 vs D1" if d1 else "Other matchup"
+    if not started and pd.notna(when) and str(when).strip():
+        details = f"{when} · {details}"
+
+    def team_line(side, name, identifier, points, won):
+        ident = str(identifier)
+        logo = (
+            f'<img class="cs224-logo" src="https://a.espncdn.com/i/teamlogos/ncaa/500/{ident}.png" '
+            'alt="" loading="lazy">'
+            if show_logos and ident.isdigit() else ""
+        )
+        score = str(points) if points is not None else "—" if started else ""
+        position = "" if started else f'<span class="cs224-side">{side}</span>'
+        winner = '<span class="cs224-win">W</span>' if won else ""
+        css_class = " cs224-winner" if won else ""
+        return (
+            f'<div class="cs224-team-row{css_class}">'
+            f'{logo}<span class="cs224-team-name">{html.escape(str(name))}</span>{winner}'
+            f'<span class="cs224-score">{score}</span>{position}</div>'
+        )
+
+    away = team_line("AWAY", row.get("Away", "—"), row.get("Away ID", ""),
+                     away_score, away_won)
+    home = team_line("HOME", row.get("Home", "—"), row.get("Home ID", ""),
+                     home_score, home_won)
+
+    footer = ""
+    if not started:
+        description = "Model: " + str(proj) if proj else "No D1 model line"
+        footer = f'<div class="cs224-prediction">{html.escape(description)}</div>'
+    elif not has_scores:
+        footer = '<div class="cs224-prediction">Score unavailable</div>'
+
+    return (
+        f'<div class="cs224-game cs224-{status_class}">'
+        f'<div class="cs224-game-head"><span class="cs224-status">{html.escape(badge)}</span>'
+        f'<span class="cs224-game-meta">{html.escape(details)}</span></div>'
+        f'<div class="cs224-teams">{away}{home}</div>'
+        f'{footer}</div>'
+    )
 
 
 def _classic_home_card_heading(title: str, subtitle: str, badge: str = ""):
@@ -300,38 +411,16 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
                     if d1 and h_id in ratings and a_id in ratings and row['Status']=='Scheduled':
                         m=ratings[h_id]-ratings[a_id]+(0 if row['Venue']=='Neutral' else 3)
                         proj=f"{home if m>=0 else away} -{abs(m):.1f}"
-                    is_final = row["Status"] == "Final" and pd.notna(row.get("Away score")) and pd.notna(row.get("Home score"))
-                    color=color_for(home)
-                    x,y=st.columns([3.2,1.8],gap="small",vertical_alignment='center')
-                    with x:
-                        if is_final:
-                            away_score, home_score = int(row["Away score"]), int(row["Home score"])
-                            winner = away if away_score > home_score else home if home_score > away_score else "Tie"
-                            st.markdown(
-                                '<div class="cs174-final-card">'
-                                '<span class="cs174-final-status">FINAL</span>'
-                                f'<div class="cs174-scoreline"><span class="cs174-team {"cs174-winner" if away_score > home_score else ""}">{html.escape(away)}</span>'
-                                f'<strong>{away_score} – {home_score}</strong>'
-                                f'<span class="cs174-team {"cs174-winner" if home_score > away_score else ""}">{html.escape(home)}</span></div>'
-                                f'<div class="cs174-final-winner">{html.escape(winner)} {"wins" if winner != "Tie" else ""}</div>'
-                                '</div>', unsafe_allow_html=True)
-                        elif row["Status"] == "Live":
-                            live_score = ""
-                            if pd.notna(row.get("Away score")) and pd.notna(row.get("Home score")):
-                                live_score = f'{away} {int(row["Away score"])} – {home} {int(row["Home score"])}'
-                            st.markdown(
-                                '<div class="cs175-live-card"><strong>● LIVE</strong>'
-                                f'<div class="cs175-live-score">{html.escape(live_score or f"{away} at {home}")}</div>'
-                                '</div>', unsafe_allow_html=True)
-                        else:
-                            st.markdown(f'<div style="border-left:4px solid {color};padding-left:11px"><b>{html.escape(away)} @ {html.escape(home)}</b><br><span style="color:#64748B;font-size:12px">{html.escape(str(row.get("Display time",row["Time (ET)"])))} · {html.escape(str(row["Status"]))} · {"D1 vs D1" if d1 else "Other matchup"}</span><br><span style="font-size:13px">{"Model: "+html.escape(proj) if proj else "No D1 model line"}</span></div>',unsafe_allow_html=True)
-                    with y:
-                        if st.button('Details →',key=f'court_game_{row["Game ID"]}_{ix}',use_container_width=True):
-                            st.session_state['courtside_selected_game']=str(row['Game ID'])
-                            st.session_state['courtside_requested_page']='Games'
+                    with st.container(key=f"cs224_game_card_{ix}"):
+                        st.html(home_game_scoreboard_markup(
+                            row, d1, proj,
+                            show_logos=st.session_state.get("courtside_logos_enabled", True),
+                        ))
+                        if st.button('Details →', key=f'court_game_{row["Game ID"]}_{ix}',
+                                     use_container_width=True):
+                            st.session_state['courtside_selected_game'] = str(row['Game ID'])
+                            st.session_state['courtside_requested_page'] = 'Games'
                             st.rerun()
-                    if ix < len(home_display) - 1:
-                        st.divider()
             if len(visible) > 5 and busy:
                 st.caption(f"Showing {len(home_display)} of {len(visible)} games · Choose All for the full day.")
             if st.button("View complete schedule →", key="cs170_all_games", use_container_width=True):
