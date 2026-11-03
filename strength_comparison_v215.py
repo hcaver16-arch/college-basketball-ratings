@@ -229,6 +229,10 @@ def render_strength_comparison(
         for conference in base["Conference"].unique()
         if conference and conference not in ("Unassigned", "Unassigned (not verified)")
     })
+    # A previously selected conference may not exist after changing divisions.
+    conference_options = ["All conferences"] + all_conferences
+    if st.session_state.get("cs215_shared_conference", "All conferences") not in conference_options:
+        st.session_state["cs215_shared_conference"] = "All conferences"
     query_col, conf_col = st.columns([2.2, 1.5], gap="small")
     with query_col:
         query = st.text_input(
@@ -237,7 +241,7 @@ def render_strength_comparison(
         )
     with conf_col:
         conference = st.selectbox(
-            "Conference", ["All conferences"] + all_conferences,
+            "Conference", conference_options,
             key="cs215_shared_conference"
         )
 
