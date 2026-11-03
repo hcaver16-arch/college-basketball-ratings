@@ -30,28 +30,23 @@ assert "home_main, home_side = st.columns" not in home
 assert "with home_side:" not in home
 assert "_render_home_insights(" not in home
 assert "Around Courtside" not in home
-assert home.count('st.columns(3, gap="small")') == 3
-for section in ("first_row", "second_row", "third_row"):
-    assert f'{section} = st.columns(3, gap="small")' in home
+assert home.count('st.columns(3, gap="small")') == 1
+assert 'home_columns = st.columns(3, gap="small")' in home
+assert "second_row = st.columns" not in home
+assert "third_row = st.columns" not in home
 for idx in (0, 1, 2):
-    assert f'with first_row[{idx}]:' in home
-    assert f'with second_row[{idx}]:' in home
-    assert f'with third_row[{idx}]:' in home
+    assert f'with home_columns[{idx}]:' in home
 
-# First row: existing scoreboard, featured matchup, power rankings.
-assert home.index("with first_row[0]:") < home.index("Today’s matchups")
-assert home.index("with first_row[1]:") < home.index("Featured game · Model preview")
-assert home.index("with first_row[2]:") < home.index("Power rankings")
-# The published AP/Coaches poll preview fills the featured column.
-assert home.index('with first_row[1]:') < home.index('_show_home_card(cards, "polls", league)') < home.index("with first_row[2]:")
-
-# Second row: existing upcoming matchups + two new research previews.
-assert home.index('with second_row[0]:') < home.index("Coming up")
-assert home.index('with second_row[1]:') < home.index('_show_home_card(cards, "movers", league)')
-assert home.index('with second_row[2]:') < home.index('_show_home_card(cards, "conferences", league)')
-# Third row: tournament, strength, and individual player preview.
-for stat, target in enumerate(("tournament", "strength", "players")):
-    assert f'_show_home_card(cards, "{target}", league)' in home
+# Independently stacked columns: all original panels and insights remain.
+assert home.index("with home_columns[0]:") < home.index("Today’s matchups")
+assert home.index("Today’s matchups") < home.index("Coming up") < home.index("with home_columns[1]:")
+assert home.index("with home_columns[1]:") < home.index("Featured game · Model preview")
+assert home.index("Featured game · Model preview") < home.index('_show_home_card(cards, "polls", league)')
+assert home.index('_show_home_card(cards, "polls", league)') < home.index('_show_home_card(cards, "movers", league)')
+assert home.index('_show_home_card(cards, "movers", league)') < home.index('_show_home_card(cards, "strength", league)')
+assert home.index("with home_columns[2]:") < home.index("Power rankings")
+for target in ("conferences", "tournament", "players"):
+    assert home.index("Power rankings") < home.index(f'_show_home_card(cards, "{target}", league)')
 
 assert home.count('cards = _load_home_cards(league, team_ratings, d1_ids)') == 1
 assert "load_home_insight_cards(" in home

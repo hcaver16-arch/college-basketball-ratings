@@ -3,10 +3,10 @@ import ast
 from pathlib import Path
 src=Path("courtside_home.py").read_text()
 ast.parse(src)
-assert 'first_row = st.columns(3, gap="small")' in src
-assert "with first_row[0]:" in src and "with first_row[2]:" in src
-assert src.index("with first_row[0]:") < src.index('st.markdown(\'<div class="cs169-games-title">Today’s matchups</div>\'')
-assert src.index("with first_row[2]:") < src.index("Power rankings")
+assert 'home_columns = st.columns(3, gap="small")' in src
+assert "with home_columns[0]:" in src and "with home_columns[2]:" in src
+assert src.index("with home_columns[0]:") < src.index('st.markdown(\'<div class="cs169-games-title">Today’s matchups</div>\'')
+assert src.index("with home_columns[2]:") < src.index("Power rankings")
 assert "st.container(height=320,border=True)" in src
 assert "st.caption(f\"{len(visible):,} games" not in src
 assert "courtside_feature_details" in src

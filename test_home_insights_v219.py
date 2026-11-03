@@ -119,9 +119,10 @@ fn=next(node for node in mod.body if isinstance(node,ast.FunctionDef) and node.n
 assert len(fn.args.args)==6
 assert "def _load_home_cards(" in home
 assert "def _show_home_card(" in home
-assert 'first_row = st.columns(3, gap="small")' in home
-assert 'second_row = st.columns(3, gap="small")' in home
-assert 'third_row = st.columns(3, gap="small")' in home
+assert 'home_columns = st.columns(3, gap="small")' in home
+assert 'with home_columns[0]:' in home
+assert 'with home_columns[1]:' in home
+assert 'with home_columns[2]:' in home
 assert "load_home_insight_cards(" in home
 assert "render_home_insight_card(" in insights
 assert "cs219_tile_" in insights
