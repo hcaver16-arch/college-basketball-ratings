@@ -281,23 +281,46 @@ def render_strength_comparison(
         st.session_state["cs215_shared_conference"] = "All conferences"
     # Put the SOS-only scope alongside shared filters, rather than above
     # SOS rows. This gives the two ranking panels identical control heights.
-    query_col, conf_col, scope_col = st.columns([2.2, 1.5, 1.3], gap="small")
-    with query_col:
-        query = st.text_input(
-            "Search both rankings", placeholder="School or mascot…",
-            key="cs215_shared_team_query"
+    from mobile_filters_v225 import compact_filters_enabled, active_filter_caption
+    compact = compact_filters_enabled()
+    if compact:
+        active_label = active_filter_caption(
+            st.session_state,
+            (("cs215_shared_team_query", "", "Search"),
+             ("cs215_shared_conference", "All conferences", "Conference"),
+             ("cs215_sos_scope", "Full SOS", "SOS scope")),
         )
-    with conf_col:
-        conference = st.selectbox(
-            "Conference", conference_options,
-            key="cs215_shared_conference"
-        )
-    with scope_col:
-        scope = st.selectbox(
-            "SOS scope", ["Full SOS", "Played SOS", "Remaining SOS"],
-            key="cs215_sos_scope",
-            help="Controls the SOS list only; SOR uses completed results."
-        )
+        with st.popover(f"⚙ Strength filters · {active_label}", use_container_width=True):
+            query = st.text_input(
+                "Search both rankings", placeholder="School or mascot…",
+                key="cs215_shared_team_query"
+            )
+            conference = st.selectbox(
+                "Conference", conference_options, key="cs215_shared_conference"
+            )
+            scope = st.selectbox(
+                "SOS scope", ["Full SOS", "Played SOS", "Remaining SOS"],
+                key="cs215_sos_scope",
+                help="Controls the SOS list only; SOR uses completed results."
+            )
+    else:
+        query_col, conf_col, scope_col = st.columns([2.2, 1.5, 1.3], gap="small")
+        with query_col:
+            query = st.text_input(
+                "Search both rankings", placeholder="School or mascot…",
+                key="cs215_shared_team_query"
+            )
+        with conf_col:
+            conference = st.selectbox(
+                "Conference", conference_options,
+                key="cs215_shared_conference"
+            )
+        with scope_col:
+            scope = st.selectbox(
+                "SOS scope", ["Full SOS", "Played SOS", "Remaining SOS"],
+                key="cs215_sos_scope",
+                help="Controls the SOS list only; SOR uses completed results."
+            )
 
     left, right = st.columns(2, gap="medium")
     with left:
