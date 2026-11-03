@@ -108,7 +108,12 @@ def render_native_bracket(field, league="Men's"):
                 )
             else:
                 names=[r["name"] for r in data["regions"]]
-                region_name=st.radio("Region",names,horizontal=True,key="v142_region")
+                from mobile_filters_v225 import compact_filters_enabled
+                region_name=(
+                    st.selectbox("Region", names, key="v142_region")
+                    if compact_filters_enabled()
+                    else st.radio("Region", names, horizontal=True, key="v142_region")
+                )
                 region=next(r for r in data["regions"] if r["name"]==region_name)
                 site,caveat=region_site(region_name,league)
                 st.markdown(f"#### {region_name} Region")
