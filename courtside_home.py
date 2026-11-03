@@ -413,7 +413,7 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
                         '</div>', unsafe_allow_html=True)
                     st.progress(float(max(0,min(1,chance))))
                     st.caption('Experimental prediction · Not a sportsbook line')
-                    if st.button('Game details →',key='courtside_feature_details'):
+                    if st.button('Game details →',key='courtside_feature_details',use_container_width=True):
                         st.session_state['courtside_selected_game']=str(featured['Game ID'])
                         st.session_state['courtside_requested_page']='Games'
                         st.rerun()
