@@ -26,10 +26,11 @@ STYLE_V215 = """
   padding:13px!important;box-shadow:0 2px 10px rgba(19,54,101,.04)}
 .st-key-cs215_sos_panel{border-top:4px solid #2864b3!important}
 .st-key-cs215_sor_panel{border-top:4px solid #168e83!important}
+.cs215-panel-header{min-height:73px}
 .cs215-panel-header h3{margin:0;font-size:1.1rem;color:#183963;font-weight:850}
 .cs215-panel-header p{margin:4px 0 8px;font-size:.8rem;color:#647b98;line-height:1.35}
 .cs215-row{display:flex;gap:8px;align-items:center;min-width:0;width:100%;line-height:1.3}
-.cs215-rank{min-width:35px;font-weight:850;font-size:.82rem;color:#265b9f}
+.cs215-rank{min-width:35px;font-weight:850;font-size:.82rem;color:#265b9f;white-space:nowrap}
 .cs215-row img{width:28px;height:28px;object-fit:contain;flex:0 0 28px}
 .cs215-identity{min-width:0;flex:1}
 .cs215-team-name{font-size:.86rem;color:#193b68;font-weight:800;overflow-wrap:anywhere}
@@ -38,6 +39,7 @@ STYLE_V215 = """
 .cs215-score{font-weight:850;font-size:.98rem;color:#194981;white-space:nowrap;font-variant-numeric:tabular-nums}
 .cs215-note{font-size:.68rem;color:#768aa3}
 .st-key-cs215_sor_panel .cs215-score{color:#087b73}
+.cs216-footnote{font-size:.74rem;color:#647b96;line-height:1.4;margin-top:11px}
 [class*="st-key-cs215_row_"]{border-bottom:1px solid #e7eef7;padding:3px 2px 5px}
 [class*="st-key-cs215_row_"] [data-testid="stHorizontalBlock"]{align-items:center}
 [class*="st-key-cs215_row_"] button{min-height:30px!important;font-size:.76rem!important;padding:3px 8px!important}
@@ -60,7 +62,7 @@ SOS_FIELDS = [
 SOR_FIELDS = [
     "SOR rank (provisional)", "Team", "Conference", "Wins", "Losses",
     "SOR games", "Reference expected wins", "Wins above expected",
-    "SOR score", "SOR eligibility",
+    "SOR score", "SOR eligibility", "SOR position (display only)",
 ]
 
 
@@ -77,17 +79,21 @@ def prepare_strength_rows(
     teams: pd.DataFrame, *, kind: str, score_col: str, sort_col: str,
     query: str = "", conference: str = "All conferences",
 ):
-    """Filter/sort rows; SOS global display positions are computed before filtering."""
+    """Filter/sort rows; display positions are calculated before shared filters."""
     if not isinstance(teams, pd.DataFrame) or teams.empty:
         return pd.DataFrame()
     if score_col not in teams.columns:
         return teams.iloc[0:0].copy()
 
     out = teams.copy()
+    scores = pd.to_numeric(out[score_col], errors="coerce")
     if kind == "sos":
-        out["_display_sos_position"] = pd.to_numeric(
-            out[score_col], errors="coerce"
-        ).rank(method="min", ascending=False)
+        out["_display_sos_position"] = scores.rank(method="min", ascending=False)
+    elif kind == "sor":
+        # This is a display-only position based on the SOR score, not a
+        # provisional SOR rank. It is useful before five rated D1 games.
+        out["_display_sor_position"] = scores.rank(method="min", ascending=False)
+        out["SOR position (display only)"] = out["_display_sor_position"]
 
     if query.strip():
         out = out[out["Team"].astype(str).str.contains(
@@ -119,7 +125,9 @@ def team_card_markup(team: pd.Series, kind: str, score_col: str, show_logos: boo
         position = _rank(team.get("_display_sos_position"))
         detail = "Display pos."
     elif kind == "sor" and position == "—":
-        detail = "Not ranked"
+        score_position = _rank(team.get("_display_sor_position"))
+        position = score_position + "*" if score_position != "—" else "—"
+        detail = "SOR score position (display only; not an eligible rank)"
     else:
         detail = "Provisional"
 
@@ -233,7 +241,9 @@ def render_strength_comparison(
     conference_options = ["All conferences"] + all_conferences
     if st.session_state.get("cs215_shared_conference", "All conferences") not in conference_options:
         st.session_state["cs215_shared_conference"] = "All conferences"
-    query_col, conf_col = st.columns([2.2, 1.5], gap="small")
+    # Put the SOS-only scope alongside shared filters, rather than above
+    # SOS rows. This gives the two ranking panels identical control heights.
+    query_col, conf_col, scope_col = st.columns([2.2, 1.5, 1.3], gap="small")
     with query_col:
         query = st.text_input(
             "Search both rankings", placeholder="School or mascot…",
@@ -243,6 +253,12 @@ def render_strength_comparison(
         conference = st.selectbox(
             "Conference", conference_options,
             key="cs215_shared_conference"
+        )
+    with scope_col:
+        scope = st.selectbox(
+            "SOS scope", ["Full SOS", "Played SOS", "Remaining SOS"],
+            key="cs215_sos_scope",
+            help="Controls the SOS list only; SOR uses completed results."
         )
 
     left, right = st.columns(2, gap="medium")
@@ -255,14 +271,6 @@ def render_strength_comparison(
             if sos.empty:
                 st.info("SOS not available yet. Full-season schedule coverage and ratings are required.")
             else:
-                scope = st.selectbox(
-                    "Schedule scope", ["Full SOS", "Played SOS", "Remaining SOS"],
-                    key="cs215_sos_scope"
-                )
-                st.caption(
-                    "Provisional SOS positions depend on schedule coverage. "
-                    "A number marked display-only is not an eligible SOS rank."
-                )
                 _render_panel(
                     sos, league=league, kind="sos", score_col=scope,
                     sort_options={
@@ -274,6 +282,11 @@ def render_strength_comparison(
                     query=query, conference=conference,
                 )
             with st.expander("What does SOS mean?", expanded=False):
+                st.write(
+                    "SOS ranks are provisional when qualified by coverage; otherwise "
+                    "the displayed position is based on the chosen SOS score. "
+                    "Display positions are not official rankings."
+                )
                 st.write(
                     "Full SOS averages difficulty of rated Division I opponents in the "
                     "loaded schedule; Played SOS and Remaining SOS separate finished and "
@@ -293,11 +306,6 @@ def render_strength_comparison(
                     "SOR ranks remain unavailable until eligibility is established."
                 )
             else:
-                st.caption(
-                    "Experimental résumé score, not ESPN’s official SOR. "
-                    "At least five rated completed D1 games are required for a "
-                    "provisional rank; no rank is invented before eligibility."
-                )
                 _render_panel(
                     sor, league=league, kind="sor", score_col="SOR score",
                     sort_options={
@@ -309,6 +317,11 @@ def render_strength_comparison(
                     query=query, conference=conference,
                 )
             with st.expander("What does SOR mean?", expanded=False):
+                st.write(
+                    "An asterisk after the position indicates a display-only order "
+                    "by SOR score, not a provisional or official rank. Eligible "
+                    "provisional ranks require at least five rated completed D1 games."
+                )
                 st.write(
                     "Courtside estimates how unlikely a team's win total would be for "
                     "a reference-strength D1 team facing the same rated opponents and "
