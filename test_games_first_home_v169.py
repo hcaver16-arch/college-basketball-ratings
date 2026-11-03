@@ -8,6 +8,6 @@ assert s.index('st.markdown(\'<div class="cs169-games-title">Today’s matchups<
 assert "st.container(height=320,border=True)" in s
 assert "courtside_feature_details" in s
 assert "courtside_rankings" in s
-assert "with home_side:" in s
+assert "with first_row[2]:" in s
 assert "cs161-home-header\">" not in s
 print("V169 games-first homepage checks passed")

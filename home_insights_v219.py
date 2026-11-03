@@ -204,14 +204,14 @@ def card_html(card: Insight):
     )
 
 
-def render_home_insights(ratings, ids, league, sos=None, sor=None):
-    """Append below the existing games-first home section, with native page links."""
+def load_home_insight_cards(ratings, ids, league, sos=None, sor=None):
+    """Load the six read-only insight summaries once for the unified home grid."""
     from saved_ratings import load_history
     from published_polls_v137 import fetch_polls
 
     sport = SPORTS.get(league)
     if not sport:
-        return
+        return ()
     try:
         history = load_history(sport)
     except (OSError, ValueError, KeyError):
@@ -219,13 +219,34 @@ def render_home_insights(ratings, ids, league, sos=None, sor=None):
     try:
         polls = fetch_polls(sport)
     except Exception:
+        # Preserve strict separation: no poll rank inferred from model ratings.
         polls = {}
-    cards = build_insights(
+    return build_insights(
         ratings, ids, history,
         sos if isinstance(sos, pd.DataFrame) else pd.DataFrame(),
         sor if isinstance(sor, pd.DataFrame) else pd.DataFrame(),
         polls,
     )
+
+
+def render_home_insight_card(card: Insight, league: str):
+    """One navigable tile that can be placed in any homepage grid column."""
+    sport = SPORTS.get(league, "")
+    with st.container(border=True, key=f"cs219_tile_{card.id}"):
+        st.html(card_html(card))
+        if card.page and st.button(
+            f"Explore {card.page} →", key=f"cs219_open_{card.id}_{sport}",
+            use_container_width=True
+        ):
+            st.session_state["courtside_requested_page"] = card.page
+            st.rerun()
+
+
+def render_home_insights(ratings, ids, league, sos=None, sor=None):
+    """Legacy standalone grid; unified homepage uses individual tile renderer."""
+    cards = load_home_insight_cards(ratings, ids, league, sos=sos, sor=sor)
+    if not cards:
+        return
     st.markdown(STYLE, unsafe_allow_html=True)
     st.html(
         '<div class="cs219-title"><h2>Around Courtside</h2>'
@@ -235,11 +256,4 @@ def render_home_insights(ratings, ids, league, sos=None, sor=None):
         cols = st.columns(3, gap="small")
         for col, card in zip(cols, cards[offset:offset + 3]):
             with col:
-                with st.container(border=True, key=f"cs219_tile_{card.id}"):
-                    st.html(card_html(card))
-                    if card.page and st.button(
-                        f"Explore {card.page} →", key=f"cs219_open_{card.id}_{sport}",
-                        use_container_width=True
-                    ):
-                        st.session_state["courtside_requested_page"] = card.page
-                        st.rerun()
+                render_home_insight_card(card, league)

@@ -117,9 +117,15 @@ for source in (home,insights,app):
 mod=ast.parse(home)
 fn=next(node for node in mod.body if isinstance(node,ast.FunctionDef) and node.name=="render_home")
 assert len(fn.args.args)==6
-assert "def _render_home_insights(" in home
-assert home.count("_render_home_insights(league, team_ratings, d1_ids)") == 3  # signature + two calls
-assert home.index("Featured game · Model preview") < home.rindex("_render_home_insights(league, team_ratings, d1_ids)")
+assert "def _load_home_cards(" in home
+assert "def _show_home_card(" in home
+assert 'first_row = st.columns(3, gap="small")' in home
+assert 'second_row = st.columns(3, gap="small")' in home
+assert 'third_row = st.columns(3, gap="small")' in home
+assert "load_home_insight_cards(" in home
+assert "render_home_insight_card(" in insights
+assert "cs219_tile_" in insights
+assert 'cards = _load_home_cards(league, team_ratings, d1_ids)' in home
 assert "st.columns(3, gap=\"small\")" in insights
 assert "for offset in (0, 3)" in insights
 assert "courtside_requested_page" in insights
