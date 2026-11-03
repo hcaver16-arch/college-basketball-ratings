@@ -38,7 +38,9 @@ assert '_show_home_card(cards, "players", league)' in right
 assert 'st.container(border=True, key="cs222_rankings_list")' in right
 assert "st.container(border=True, key=\"cs221_upcoming_tile\")" in left
 assert 'st.markdown(\'<div class="cs222-divider"></div>\', unsafe_allow_html=True)' in home
-assert "st.divider()" not in left
+# Preserve scoreboard separators, but not oversized dividers between Coming Up entries.
+coming_up = left.split("# Avoid repeating the featured game", 1)[1]
+assert "st.divider()" not in coming_up
 assert "st.divider()" not in right
 assert ".st-key-cs222_rankings_list [data-testid=\"stVerticalBlock\"]" in home
 assert ".st-key-cs221_upcoming_tile [data-testid=\"stVerticalBlock\"]" in home
