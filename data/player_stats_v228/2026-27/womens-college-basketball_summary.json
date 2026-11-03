@@ -1,0 +1,55 @@
+{
+  "as_of_utc": "2026-11-03T16:10:21+00:00",
+  "discovered_d1_team_game_boxscores": 259,
+  "verified_d1_team_game_boxscores": 253,
+  "unverified_d1_team_game_boxscores": 6,
+  "observed_boxscore_coverage": 0.9768,
+  "athletes_with_observed_games": 2760,
+  "player_leaders_publishable": true,
+  "publication_minimum_observed_games": 30,
+  "publication_minimum_coverage": 0.95,
+  "unverified_examples": [
+    {
+      "game_id": "401921305",
+      "team": "Lafayette Leopards",
+      "reason": "Player points 28 do not reconcile with team score 37"
+    },
+    {
+      "game_id": "401929155",
+      "team": "Western Carolina Catamounts",
+      "reason": "Player points 92 do not reconcile with team score 96"
+    },
+    {
+      "game_id": "401929300",
+      "team": "Tennessee State Lady Tigers",
+      "reason": "Player points 92 do not reconcile with team score 95"
+    },
+    {
+      "game_id": "401921077",
+      "team": "Temple Owls",
+      "reason": "Player points 68 do not reconcile with team score 71"
+    },
+    {
+      "game_id": "401918581",
+      "team": "Bethune-Cookman Wildcats",
+      "reason": "Player points 93 do not reconcile with team score 102"
+    },
+    {
+      "game_id": "401917683",
+      "team": "Portland Pilots",
+      "reason": "Player points 99 do not reconcile with team score 107"
+    }
+  ],
+  "coverage_scope": "ESPN-discovered final games with at least one verified D1 participant, NOT independently verified national schedule coverage",
+  "sample_caution": "Observed per-game averages can be skewed by missing box scores, late corrections and players with very few games.",
+  "version": 228,
+  "division": "womens",
+  "season": "2026-27",
+  "last_discovered_date_et": "2026-11-03",
+  "verified_d1_team_directory_count": 362,
+  "scoreboard_dates_fetched": 3,
+  "summary_games_fetched": 164,
+  "last_collection_run_utc": "2026-11-03T16:10:21+00:00",
+  "source": "ESPN group-50 scoreboard and ESPN per-game individual boxscores",
+  "historical_first_forecasts_modified": false
+}
