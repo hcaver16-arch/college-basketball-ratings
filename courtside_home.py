@@ -168,6 +168,18 @@ def select_home_games(visible, ratings, top25_names, mode="Featured"):
     return candidates.drop(columns=["_game_order", "_margin_abs", "_top25"])
 
 
+def _render_home_insights(league, team_ratings, d1_ids):
+    """Load optional home-only previews without altering the six-argument renderer."""
+    from home_insights_v219 import render_home_insights
+    sport = ("womens-college-basketball" if league == "Women's"
+             else "mens-college-basketball")
+    render_home_insights(
+        team_ratings, d1_ids, league,
+        sos=st.session_state.get(f"sos_{sport}"),
+        sor=st.session_state.get(f"sor_{sport}"),
+    )
+
+
 def render_home(games, ratings, team_ratings, d1_ids, league, window):
     time_zone = st.session_state.get("courtside_timezone", "Central")
     today=pd.Timestamp.now(tz='America/New_York').date()
@@ -185,6 +197,7 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
     d1_visible=visible[visible['Home ID'].astype(str).isin(d1_ids)&visible['Away ID'].astype(str).isin(d1_ids)]
     if visible.empty:
         st.markdown('<div class="cs169-summary"><strong>No games available</strong><span>Try another schedule window in Settings</span></div>', unsafe_allow_html=True)
+        _render_home_insights(league, team_ratings, d1_ids)
         return
     game_date = pd.to_datetime(visible.iloc[0]['Date'], errors='coerce')
     date_label = game_date.strftime('%b %-d') if pd.notna(game_date) else 'Upcoming'
@@ -366,3 +379,5 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
                         st.session_state["courtside_selected_game_payload"] = game.to_dict()
                         st.session_state["courtside_requested_page"] = "Games"
                         st.rerun()
+    # Keep the game scoreboard, featured matchup and existing sidebar first.
+    _render_home_insights(league, team_ratings, d1_ids)
