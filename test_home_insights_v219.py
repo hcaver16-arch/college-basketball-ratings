@@ -97,7 +97,8 @@ cards=build_insights(ratings,ids,history,sos,sor,polls)
 assert len(cards)==6
 assert [c.id for c in cards]==["movers","conferences","tournament","strength","players","polls"]
 assert [c.page for c in cards]==["Rankings","Conferences","Tournament","Strength",None,"Rankings"]
-assert cards[4].badge=="Coming soon"
+assert cards[4].badge=="Collecting"
+assert cards[4].page=="Players"
 assert "2026–27" in cards[4].note
 assert cards[4].rows==(("Points per game","—"),("Rebounds per game","—"),("Assists per game","—"))
 unsafe=card_html(Insight("bad","<script>alert(1)</script>","x",rows=(("A&B","<b>"),)))
