@@ -715,7 +715,32 @@ settings_panel.caption("All dates used for schedule filtering remain Eastern; di
 settings_panel.subheader("Season coverage")
 # Season-wide analysis pages must not silently inherit a short game window.
 season_wide_pages = {"Schedule strength", "Record strength", "Conferences", "Teams", "Tournament"}
-today = date.today()
+# V213: keep the Games calendar on the current Eastern day unless the user
+# intentionally navigated to a different date. Older active sessions only held
+# the anchor, so upgrade a recent stale "yesterday" anchor on first rerun.
+def _v213_calendar_chosen():
+    st.session_state["cs213_calendar_manual"] = True
+    st.session_state["courtside_games_page"] = 1
+
+
+def _v213_show_today_games():
+    """Jump to today's scoreboard and clear restrictive matchup filters."""
+    st.session_state["cs_calendar_anchor"] = pd.Timestamp.now(tz="America/New_York").date()
+    st.session_state["cs213_calendar_last_today"] = st.session_state["cs_calendar_anchor"]
+    st.session_state["cs213_calendar_manual"] = False
+    st.session_state["cs_calendar_span"] = "Selected day"
+    st.session_state["cs211_ranked_game_filter"] = "All games"
+    st.session_state["cs188_matchup_scope"] = "All games"
+    st.session_state["v12_game_team"] = "All teams"
+    st.session_state["v12_game_conf"] = "All conferences"
+    st.session_state["v12_game_venue"] = "Any location"
+    st.session_state["games_net_quadrant"] = "All"
+    st.session_state["games_net_side"] = "Either team"
+    st.session_state["games_net_q1"] = False
+    st.session_state["courtside_games_page"] = 1
+
+
+today = pd.Timestamp.now(tz="America/New_York").date()
 if selected_section in season_wide_pages:
     period = "Full season (Nov–Apr)"
     first, last = START, END
@@ -724,16 +749,33 @@ elif selected_section == "Games":
     settings_panel.markdown("#### Game calendar")
     if "cs_calendar_anchor" not in st.session_state:
         st.session_state["cs_calendar_anchor"] = min(END, max(START, today))
-    anchor = settings_panel.date_input("Browse date (Eastern)", min_value=START, max_value=END, key="cs_calendar_anchor")
+        st.session_state["cs213_calendar_manual"] = False
+    last_today = st.session_state.get("cs213_calendar_last_today")
+    prior_anchor = st.session_state["cs_calendar_anchor"]
+    manually_chosen = st.session_state.get("cs213_calendar_manual", False)
+    if not manually_chosen:
+        if last_today is not None and last_today != today and prior_anchor == last_today:
+            st.session_state["cs_calendar_anchor"] = min(END, max(START, today))
+        elif last_today is None and prior_anchor < today and 0 < (today - prior_anchor).days <= 2:
+            # Migrate active pre-V213 sessions whose default date became stale.
+            st.session_state["cs_calendar_anchor"] = min(END, max(START, today))
+    st.session_state["cs213_calendar_last_today"] = today
+    anchor = settings_panel.date_input(
+        "Browse date (Eastern)", min_value=START, max_value=END,
+        key="cs_calendar_anchor", on_change=_v213_calendar_chosen
+    )
     period = settings_panel.selectbox("Show games for", ["Selected day", "Selected week", "Selected month", "Next 14 days", "Full season (Nov–Apr)"], key="cs_calendar_span")
     a, b, c = settings_panel.columns(3)
     step = 1 if period == "Selected day" else (7 if period == "Selected week" else 30)
     def move_calendar(days):
         current = st.session_state["cs_calendar_anchor"]
         st.session_state["cs_calendar_anchor"] = min(END, max(START, current + timedelta(days=days)))
+        st.session_state["cs213_calendar_manual"] = True
         st.session_state["courtside_games_page"] = 1
     def reset_calendar():
-        st.session_state["cs_calendar_anchor"] = min(END, max(START, date.today()))
+        st.session_state["cs_calendar_anchor"] = min(END, max(START, pd.Timestamp.now(tz="America/New_York").date()))
+        st.session_state["cs213_calendar_last_today"] = st.session_state["cs_calendar_anchor"]
+        st.session_state["cs213_calendar_manual"] = False
         st.session_state["courtside_games_page"] = 1
     a.button("← Earlier", key="cs_calendar_previous", on_click=move_calendar, args=(-step,))
     b.button("Today", key="cs_calendar_today", on_click=reset_calendar)
@@ -1711,6 +1753,8 @@ if selected_section == "Games":
                 }
             if not rank_lookup:
                 st.caption(f"{rank_source} rankings unavailable for this division; no ranks displayed.")
+                if ranked_filter != "All games":
+                    st.warning("Published rankings are unavailable. The ranked-team filter is temporarily ignored so games remain visible.")
         elif rank_source == "Courtside Power":
             rank_lookup = power_rank_lookup
         else:
@@ -1765,7 +1809,7 @@ if selected_section == "Games":
                     )
         shown = games.copy()
         # Hidden labels should also deactivate ranked-matchup filtering.
-        if rank_source != "Hide rankings":
+        if rank_source != "Hide rankings" and rank_lookup:
             shown = filter_by_ranked_teams(shown, rank_lookup, ranked_filter)
         if matchup_scope == "D1 vs D1 only":
             shown = shown[
@@ -1843,7 +1887,16 @@ if selected_section == "Games":
 
         st.caption(f"{len(shown):,} matching games")
         if shown.empty:
-            st.info("No games match these filters.")
+            status_desc = "live" if view == "Live" else "upcoming" if view == "Upcoming" else "final" if view == "Final" else ""
+            st.info(
+                f"No {status_desc + ' ' if status_desc else ''}games match the current filters "
+                f"for {first:%b %d}–{last:%b %d, %Y} (Eastern). "
+                "The date window, ranked-team selection, and matchup restrictions all affect which games appear."
+            )
+            if view in ("Live", "Upcoming") and first == last and first != pd.Timestamp.now(tz="America/New_York").date():
+                st.caption("You are browsing a different date, so today's live and upcoming games are not included.")
+            if st.button("Show today's games · clear filters", key="cs213_show_today", on_click=_v213_show_today_games):
+                st.rerun()
         else:
             shown = shown.sort_values(["Date", "Time (ET)", "Away"], kind="stable")
             if sort_order == "Live games first":
