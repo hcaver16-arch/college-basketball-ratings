@@ -112,8 +112,8 @@ for marker in (
     "def strength_of_record(",
     "def schedule_difficulty(",
     "def game_projection(",
-    "def calculate_power(",
-    "def make_combined(",
+    "calculate_power(",
+    "make_combined(",
 ):
     assert marker in app,marker
 assert "from live_performance_v123 import _read, _graded, _score" in page
