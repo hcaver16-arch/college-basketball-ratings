@@ -90,10 +90,15 @@ def prepare_strength_rows(
     if kind == "sos":
         out["_display_sos_position"] = scores.rank(method="min", ascending=False)
     elif kind == "sor":
-        # This is a display-only position based on the SOR score, not a
-        # provisional SOR rank. It is useful before five rated D1 games.
+        # Score positions are display-only until the qualification threshold.
         out["_display_sor_position"] = scores.rank(method="min", ascending=False)
         out["SOR position (display only)"] = out["_display_sor_position"]
+        if sort_col not in (score_col, "Team") and sort_col in out.columns:
+            # Alternate ordering has its own positions, not SOR ranks.
+            # Calculate before shared filters so ranks remain national.
+            out["_display_sort_position"] = pd.to_numeric(
+                out[sort_col], errors="coerce"
+            ).rank(method="min", ascending=False)
 
     if query.strip():
         out = out[out["Team"].astype(str).str.contains(
@@ -112,8 +117,11 @@ def prepare_strength_rows(
     ).reset_index(drop=True).drop(columns=["_sortvalue"])
 
 
-def team_card_markup(team: pd.Series, kind: str, score_col: str, show_logos: bool):
-    """Safe row markup; SOR ranks are never fabricated from incomplete evidence."""
+def team_card_markup(
+    team: pd.Series, kind: str, score_col: str, show_logos: bool,
+    sort_col: str | None = None,
+):
+    """Safe row markup; distinguish SOR ranks from alternate sort positions."""
     tid = str(team["Team ID"])
     logo = (
         f'<img src="https://a.espncdn.com/i/teamlogos/ncaa/500/{tid}.png" alt="" loading="lazy">'
@@ -121,7 +129,15 @@ def team_card_markup(team: pd.Series, kind: str, score_col: str, show_logos: boo
     )
     rank_col = "SOS rank (provisional)" if kind == "sos" else "SOR rank (provisional)"
     position = _rank(team.get(rank_col))
-    if kind == "sos" and position == "—":
+    alternative = (
+        kind == "sor" and sort_col not in (None, "Team", score_col)
+        and sort_col in team.index
+    )
+    if alternative:
+        alt_position = _rank(team.get("_display_sort_position"))
+        position = alt_position + "†" if alt_position != "—" else "—"
+        detail = f"{sort_col} position (display only, not an eligible SOR rank)"
+    elif kind == "sos" and position == "—":
         position = _rank(team.get("_display_sos_position"))
         detail = "Display pos."
     elif kind == "sor" and position == "—":
@@ -133,9 +149,16 @@ def team_card_markup(team: pd.Series, kind: str, score_col: str, show_logos: boo
 
     if kind == "sos":
         note = f'{_count(team.get("Rated games"))} rated games'
+    elif alternative:
+        note = f'SOR {_s(team.get("SOR score"), fmt=".2f")} · {_count(team.get("SOR games"))} games'
     else:
         note = f'{_count(team.get("SOR games"))} completed'
-    score = _s(team.get(score_col), fmt=".2f" if kind == "sor" else ".1f", signed=(kind == "sos"))
+    visible_col = sort_col if alternative else score_col
+    precision = ".0f" if visible_col == "SOR games" else ".2f" if kind == "sor" else ".1f"
+    score = _s(
+        team.get(visible_col), fmt=precision,
+        signed=(kind == "sos" or visible_col == "Wins above expected")
+    )
 
     return (
         '<div class="cs215-row">'
@@ -156,11 +179,23 @@ def _render_panel(
     score_col: str, sort_options: dict[str, str],
     query: str, conference: str,
 ):
+    # Never silently fall back to SOR score when a chosen sorting field
+    # is missing: omit unavailable choices and reset stale widget selections.
+    available_options = {
+        label: col for label, col in sort_options.items()
+        if col == "Team" or col in base.columns
+    }
+    if not available_options:
+        st.info("No sortable metrics are available for this panel.")
+        return
+    sort_key = f"cs215_{kind}_sort"
+    if st.session_state.get(sort_key) not in (None, *available_options):
+        st.session_state[sort_key] = next(iter(available_options))
     sort_label = st.selectbox(
-        "Sort by", list(sort_options), key=f"cs215_{kind}_sort"
+        "Sort by", list(available_options), key=sort_key
     )
     filtered = prepare_strength_rows(
-        base, kind=kind, score_col=score_col, sort_col=sort_options[sort_label],
+        base, kind=kind, score_col=score_col, sort_col=available_options[sort_label],
         query=query, conference=conference,
     )
     count = len(filtered)
@@ -192,7 +227,10 @@ def _render_panel(
         with st.container(key=f'cs215_row_{kind}_{league}_{team["Team ID"]}'):
             info_col, go_col = st.columns([5.6, 1.25], gap="small", vertical_alignment="center")
             with info_col:
-                st.html(team_card_markup(team, kind, score_col, show_logos))
+                st.html(team_card_markup(
+                    team, kind, score_col, show_logos,
+                    sort_col=available_options[sort_label],
+                ))
             with go_col:
                 if st.button(
                     "Open ↗", key=f'cs215_open_{kind}_{league}_{team["Team ID"]}',
@@ -298,7 +336,7 @@ def render_strength_comparison(
         with st.container(key="cs215_sor_panel", border=True):
             st.html(
                 '<div class="cs215-panel-header"><h3>Strength of Record (SOR)</h3>'
-                '<p>How impressive a team’s results are · * indicates display-only score position.</p></div>'
+                '<p>Results adjusted for opponents · * = SOR score position, † = selected sort position (both display-only).</p></div>'
             )
             if sor.empty or "SOR score" not in sor.columns:
                 st.info(
