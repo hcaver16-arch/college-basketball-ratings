@@ -264,8 +264,15 @@ def _run_division(sport: str, root: Path, now: datetime, session=None,
                                       "Game start UTC", "Team ID", "Team", "Team score")}
 
     needed = {}
+    # A metadata row alone is not proof its player rows survived a prior save.
+    # Recollect an apparently "verified" box if the corresponding game lines
+    # are missing, rather than exaggerating published player coverage.
+    saved_player_keys = set(zip(
+        existing_games["Game ID"].astype(str),
+        existing_games["Team ID"].astype(str),
+    ))
     for key, item in expected.items():
-        if known.get(key, {}).get("Status") == "verified":
+        if known.get(key, {}).get("Status") == "verified" and key in saved_player_keys:
             continue
         needed.setdefault(key[0], []).append(item)
 
