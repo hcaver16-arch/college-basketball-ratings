@@ -12,8 +12,10 @@ def mobile_client(headers) -> bool:
     if not headers:
         return False
     try:
-        hint = str(headers.get("sec-ch-ua-mobile", "")).strip().lower()
-        agent = str(headers.get("user-agent", "")).lower()
+        # Streamlit's headers are case-insensitive; plain dicts used in tests
+        # or alternative reverse proxies may not be.
+        hint = str(headers.get("sec-ch-ua-mobile") or headers.get("Sec-CH-UA-Mobile") or "").strip().lower()
+        agent = str(headers.get("user-agent") or headers.get("User-Agent") or "").lower()
     except (AttributeError, TypeError, ValueError):
         return False
     if hint == "?1":
