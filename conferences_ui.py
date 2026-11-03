@@ -283,15 +283,29 @@ def render_conferences(
         f'<p>{html.escape(league)} Division I · Compare conference strength, '
         'then open standings, power rankings, and tournament projections.</p></div>'
     )
-    search_col, sort_col, view_col = st.columns([2.4, 1.7, 1.2], gap="small")
-    with search_col:
-        search = st.text_input(
-            "Find conference", placeholder="Search conferences…", key="cc_find"
+    from mobile_filters_v225 import compact_filters_enabled, active_filter_caption
+    if compact_filters_enabled():
+        active_label = active_filter_caption(
+            st.session_state,
+            (("cc_find", "", "Search"), ("cc_sort", next(iter(COMPARE_OPTIONS)), "Compare"),
+             ("cs212_display", "Cards", "Display")),
         )
-    with sort_col:
-        compare_by = st.selectbox("Compare by", list(COMPARE_OPTIONS), key="cc_sort")
-    with view_col:
-        display_mode = st.selectbox("Display", ["Cards", "Table"], key="cs212_display")
+        with st.popover(f"⚙ Conference filters · {active_label}", use_container_width=True):
+            search = st.text_input(
+                "Find conference", placeholder="Search conferences…", key="cc_find"
+            )
+            compare_by = st.selectbox("Compare by", list(COMPARE_OPTIONS), key="cc_sort")
+            display_mode = st.selectbox("Display", ["Cards", "Table"], key="cs212_display")
+    else:
+        search_col, sort_col, view_col = st.columns([2.4, 1.7, 1.2], gap="small")
+        with search_col:
+            search = st.text_input(
+                "Find conference", placeholder="Search conferences…", key="cc_find"
+            )
+        with sort_col:
+            compare_by = st.selectbox("Compare by", list(COMPARE_OPTIONS), key="cc_sort")
+        with view_col:
+            display_mode = st.selectbox("Display", ["Cards", "Table"], key="cs212_display")
 
     sort_field = COMPARE_OPTIONS[compare_by]
     shown = summary.sort_values(
