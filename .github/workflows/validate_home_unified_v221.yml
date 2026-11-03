@@ -1,0 +1,31 @@
+name: Validate V221 unified homepage grid
+on:
+  pull_request:
+    paths:
+      - courtside_home.py
+      - home_insights_v219.py
+      - test_home_unified_v221.py
+      - test_home_insights_v219.py
+      - test_compact_home_v157.py
+      - test_games_first_home_v169.py
+      - .github/workflows/validate_home_unified_v221.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install "pandas>=2.1,<3"
+      - run: python -m py_compile app.py courtside_home.py home_insights_v219.py
+      - run: python test_home_unified_v221.py
+      - run: python test_home_insights_v219.py
+      - run: python test_compact_home_v157.py
+      - run: python test_games_first_home_v169.py
+      - run: python test_live_home_v175.py
+      - run: python test_home_finish_v176.py
+      - run: python test_home_timezone_hot_reload.py
