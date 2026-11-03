@@ -9,8 +9,8 @@ for source in (app, strength, comparison):
     ast.parse(source)
 
 # Navigation remains combined, on mobile and desktop.
-assert 'sections=["Home","Games","Rankings","Teams","Conferences","Tournament","Strength","Model Lab"]' in app
-assert 'more_pages = ["Teams", "Conferences", "Strength", "Model Lab"]' in app
+assert 'sections=["Home","Games","Rankings","Players","Teams","Conferences","Tournament","Strength","Model Lab"]' in app
+assert 'more_pages = ["Players", "Teams", "Conferences", "Strength", "Model Lab"]' in app
 assert 'season_wide_pages = {"Strength", "Conferences", "Teams", "Tournament"}' in app
 assert 'if selected_section == "Strength":' in app
 assert 'render_strength_comparison(sos_ratings, sor_ratings, league, verified_d1_ids)' in app
