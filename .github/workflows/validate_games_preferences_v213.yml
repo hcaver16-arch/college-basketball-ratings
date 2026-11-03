@@ -1,0 +1,24 @@
+name: Validate V213 Games date and logo preferences
+on:
+  pull_request:
+    paths:
+      - app.py
+      - games_preferences_v213.py
+      - test_games_preferences_v213.py
+      - .github/workflows/validate_games_preferences_v213.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m py_compile app.py games_preferences_v213.py
+      - run: python test_games_preferences_v213.py
+      - run: python test_settings_menu_v154.py
+      - run: python test_settings_visibility_v156.py
+      - run: python test_sticky_settings_v155.py
