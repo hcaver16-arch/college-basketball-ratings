@@ -129,6 +129,14 @@ def style():
     .cs178-feature-team span {min-width:0;}
     .cs178-feature-logo {width:38px;height:38px;object-fit:contain;flex:none;}
     @media(max-width:700px) {.cs178-feature-team{gap:5px;flex-wrap:wrap;}.cs178-feature-logo{width:27px;height:27px;}}
+    /* V221: featured matchup is in a one-third width card. */
+    .cs160-matchup{grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:5px;row-gap:1px;}
+    .cs160-matchup .cs160-tip{grid-column:1/-1;grid-row:2;justify-self:center;max-width:none;}
+    .cs160-predictions{grid-template-columns:1fr;}
+    .cs160-team{font-size:.85rem;padding:4px;overflow-wrap:anywhere;}
+    .cs178-feature-logo{width:26px;height:26px;}
+    .cs178-feature-team{gap:5px;align-items:center;flex-wrap:wrap;}
+    @media(max-width:950px){.cs160-team{font-size:.79rem}.cs178-feature-logo{width:22px;height:22px}}
     </style>''',unsafe_allow_html=True)
 
 def featured_choice(upcoming, ratings, d1_ids):
@@ -222,7 +230,7 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
         busy = len(visible) > 30
         mode = "Featured"
         if busy:
-            mode = st.radio("Homepage games", ["Featured", "Top 25", "Closest", "All"], horizontal=True,
+            mode = st.selectbox("Homepage games", ["Featured", "Top 25", "Closest", "All"],
                             key="cs170_game_filter", label_visibility="collapsed")
         home_display = select_home_games(visible, ratings, top25_names, mode) if busy else visible.copy()
         if busy and mode == "Featured":
@@ -243,7 +251,7 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
                     proj=f"{home if m>=0 else away} -{abs(m):.1f}"
                 is_final = row["Status"] == "Final" and pd.notna(row.get("Away score")) and pd.notna(row.get("Home score"))
                 color=color_for(home)
-                x,y=st.columns([4,1.5],vertical_alignment='center')
+                x,y=st.columns([3.2,1.8],gap="small",vertical_alignment='center')
                 with x:
                     if is_final:
                         away_score, home_score = int(row["Away score"]), int(row["Home score"])
@@ -366,18 +374,20 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
             highlight_scores.append((abs(margin), game))
         if highlight_scores:
             st.markdown('<div class="court-section-head"><h3>Coming up</h3><span>Closest games · Next 7 days</span></div>', unsafe_allow_html=True)
+            with st.container(border=True, key="cs221_upcoming_tile"):
             for index, (closeness, game) in enumerate(sorted(highlight_scores, key=lambda entry: (entry[0], str(entry[1]["Date"])))[:3]):
-                away, home = str(game["Away"]), str(game["Home"])
-                when = str(game.get("Display time", game["Time (ET)"]))
-                game_date = str(game["Date"])
-                hid, aid = str(game["Home ID"]), str(game["Away ID"])
-                margin = ratings[hid] - ratings[aid] + (0 if game["Venue"] == "Neutral" else 3)
-                from math import erf, sqrt
-                home_probability = .5 * (1 + erf(margin / (11 * sqrt(2))))
-                favorite = home if margin >= 0 else away
-                favorite_probability = home_probability if margin >= 0 else 1 - home_probability
-                margin_note = f"{favorite} win probability: {favorite_probability:.0%}"
-                with st.container(border=True):
+                    away, home = str(game["Away"]), str(game["Home"])
+                    when = str(game.get("Display time", game["Time (ET)"]))
+                    game_date = str(game["Date"])
+                    hid, aid = str(game["Home ID"]), str(game["Away ID"])
+                    margin = ratings[hid] - ratings[aid] + (0 if game["Venue"] == "Neutral" else 3)
+                    from math import erf, sqrt
+                    home_probability = .5 * (1 + erf(margin / (11 * sqrt(2))))
+                    favorite = home if margin >= 0 else away
+                    favorite_probability = home_probability if margin >= 0 else 1 - home_probability
+                    margin_note = f"{favorite} win probability: {favorite_probability:.0%}"
+                    if index:
+                        st.divider()
                     st.markdown(
                         '<div class="cs171-upcoming">'
                         f'<span class="cs171-upcoming-date">{html.escape(game_date)} · {html.escape(when)}</span>'
