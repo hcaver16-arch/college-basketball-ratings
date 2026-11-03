@@ -722,6 +722,9 @@ def attach_model_lines(frame: pd.DataFrame, rating_lookup: dict, verified_d1: se
         if str(row["Home ID"]) not in verified_d1 or str(row["Away ID"]) not in verified_d1:
             experimental=estimate_cross_division(row, rating_lookup, verified_d1, cross_model)
             return "Cross-div · " + cross_division_line(experimental) if experimental else "Not rated"
+        from transition_research_v227 import newcomer_game
+        if newcomer_game(row, verified_d1):
+            return "New D1 program · rating not validated"
         projection = game_projection(row, rating_lookup)
         if projection is None:
             return "Not rated"
