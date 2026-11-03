@@ -91,7 +91,7 @@ for fragment in (
     '"cs215_sos_panel"', '"cs215_sor_panel"',
     'key="cs215_shared_team_query"', 'key="cs215_shared_conference"',
     'key="cs215_sos_scope"',
-    'key=f"cs215_{kind}_sort"',
+    'sort_key = f"cs215_{kind}_sort"',
     'page_key = f"cs215_{kind}_page"',
     'page_size = 12',
     'with st.expander("Detailed data and download"',
