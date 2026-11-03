@@ -8,6 +8,6 @@ assert "padding-top:0.65rem !important" in app
 assert "cs169-summary" in home
 assert 'cs153-banner cs157-home-banner' not in home
 assert "st.container(height=320,border=True)" in home
-assert 'with first_row[0]:' in home and 'with first_row[2]:' in home
+assert 'with home_columns[0]:' in home and 'with home_columns[2]:' in home
 assert "courtside_feature_details" in home
 print("V158 above-fold compact layout validated")
