@@ -6,7 +6,7 @@ ast.parse(s)
 assert 'cs165-brand' in s
 assert 'st.segmented_control("Division"' in s
 assert 'primary_pages = ["Home", "Games", "Rankings", "Tournament"]' in s
-assert 'more_pages = ["Teams", "Conferences", "Strength", "Model Lab"]' in s
+assert 'more_pages = ["Players", "Teams", "Conferences", "Strength", "Model Lab"]' in s
 assert 'with st.popover("More ▾"' in s
 assert 'settings_panel = st.popover("⚙ Settings"' in s
 assert 'courtside_mobile_nav' in s and 'courtside_mobile_division_control' in s
