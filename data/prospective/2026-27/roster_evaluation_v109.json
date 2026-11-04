@@ -1,7 +1,7 @@
 {
   "version": 109,
   "season": "2026-27",
-  "generated_at_utc": "2026-11-03T19:15:48.093991Z",
+  "generated_at_utc": "2026-11-04T13:29:56.846504Z",
   "status": "PROSPECTIVE_PAIRED_RESEARCH_ONLY",
   "production_modified": false,
   "baseline_source": "V97 official_saved_v97 pregame forecast archive",
@@ -15,33 +15,33 @@
   ],
   "roster_errors": {},
   "skipped_new_pairs": {
-    "invalid_or_late_forecast": 99,
-    "not_contemporaneous_or_roster_postdates_forecast": 42,
-    "missing_roster_signal": 2
+    "invalid_or_late_forecast": 115,
+    "not_contemporaneous_or_roster_postdates_forecast": 28,
+    "missing_roster_signal": 25
   },
-  "new_pairs": 0,
-  "total_pairs": 283,
+  "new_pairs": 110,
+  "total_pairs": 393,
   "paired_results": {
     "mens": {
-      "paired_completed_games": 118,
-      "baseline_margin_mae": 13.5619,
-      "experimental_margin_mae": 13.4651,
-      "mae_improvement_positive_is_better": 0.0968,
-      "baseline_winner_accuracy": 0.822,
-      "experimental_winner_accuracy": 0.822,
-      "baseline_winner_n": 118,
-      "experimental_winner_n": 118,
+      "paired_completed_games": 137,
+      "baseline_margin_mae": 13.9861,
+      "experimental_margin_mae": 13.8773,
+      "mae_improvement_positive_is_better": 0.1088,
+      "baseline_winner_accuracy": 0.8321,
+      "experimental_winner_accuracy": 0.8321,
+      "baseline_winner_n": 137,
+      "experimental_winner_n": 137,
       "status": "DESCRIPTIVE_ONLY_NOT_CAUSAL_OR_VALIDATED"
     },
     "womens": {
-      "paired_completed_games": 96,
-      "baseline_margin_mae": 14.7059,
-      "experimental_margin_mae": 14.5895,
-      "mae_improvement_positive_is_better": 0.1164,
-      "baseline_winner_accuracy": 0.8333,
-      "experimental_winner_accuracy": 0.8229,
-      "baseline_winner_n": 96,
-      "experimental_winner_n": 96,
+      "paired_completed_games": 120,
+      "baseline_margin_mae": 14.2975,
+      "experimental_margin_mae": 14.1897,
+      "mae_improvement_positive_is_better": 0.1078,
+      "baseline_winner_accuracy": 0.85,
+      "experimental_winner_accuracy": 0.8417,
+      "baseline_winner_n": 120,
+      "experimental_winner_n": 120,
       "status": "DESCRIPTIVE_ONLY_NOT_CAUSAL_OR_VALIDATED"
     }
   }
