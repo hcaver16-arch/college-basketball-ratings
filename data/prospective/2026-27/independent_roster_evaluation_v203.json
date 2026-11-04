@@ -1,7 +1,7 @@
 {
   "version": 203,
   "season": "2026-27",
-  "as_of_utc": "2026-11-03T19:34:36.629762Z",
+  "as_of_utc": "2026-11-04T19:41:01.178971Z",
   "status": "PROSPECTIVE_RESEARCH_ONLY_NOT_DEPLOYED",
   "production_model_modified": false,
   "published_pregame_forecasts_unchanged": true,
@@ -442,8 +442,7 @@
   "total_pairs": 0,
   "skipped": {
     "invalid_evidence_or_pregame_timing": 194,
-    "baseline_prediction_not_fresh_no_backfill": 21,
-    "one_or_both_teams_lack_verified_evidence": 1
+    "baseline_prediction_not_fresh_no_backfill": 79
   },
   "paired_results": {
     "mens": {
@@ -458,20 +457,25 @@
   "matchup_readiness": {
     "source": "V97 first official pregame forecast journal, future start times only",
     "counts": {
-      "upcoming_locked_mens_baselines": 48,
-      "exactly_one_team_qualified": 2,
-      "neither_team_qualified": 46,
-      "upcoming_opponents_missing_qualification": 2
+      "upcoming_locked_mens_baselines": 79,
+      "neither_team_qualified": 76,
+      "exactly_one_team_qualified": 3,
+      "upcoming_opponents_missing_qualification": 3
     },
     "opponents_to_prioritize": [
       {
-        "team_id": "2534",
-        "team": "Sam Houston Bearkats",
+        "team_id": "2803",
+        "team": "Bryant Bulldogs",
         "upcoming_one_sided_games": 1
       },
       {
-        "team_id": "2747",
-        "team": "Wofford Terriers",
+        "team_id": "294",
+        "team": "Jacksonville Dolphins",
+        "upcoming_one_sided_games": 1
+      },
+      {
+        "team_id": "2649",
+        "team": "Toledo Rockets",
         "upcoming_one_sided_games": 1
       }
     ],
