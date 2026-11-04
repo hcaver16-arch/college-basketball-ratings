@@ -1,16 +1,16 @@
 {
   "version": 226,
   "season": "2026-27",
-  "checked_at_utc": "2026-11-03T19:33:19+00:00",
-  "status": "critical",
+  "checked_at_utc": "2026-11-04T01:43:19+00:00",
+  "status": "ok",
   "divisions": {
     "mens": {
       "status": "ok",
       "games_seen": 304,
-      "upcoming_12h": 29,
-      "upcoming_3h": 0,
-      "verified_d1_upcoming_12h": 19,
-      "excluded_non_d1_upcoming_12h": 10,
+      "upcoming_12h": 6,
+      "upcoming_3h": 6,
+      "verified_d1_upcoming_12h": 3,
+      "excluded_non_d1_upcoming_12h": 3,
       "d1_classification_available": true,
       "official_forecasts_total": 216,
       "final_results_total": 168,
@@ -19,37 +19,18 @@
       "issues": []
     },
     "womens": {
-      "status": "critical",
+      "status": "ok",
       "games_seen": 328,
-      "upcoming_12h": 39,
-      "upcoming_3h": 0,
-      "verified_d1_upcoming_12h": 25,
-      "excluded_non_d1_upcoming_12h": 14,
+      "upcoming_12h": 5,
+      "upcoming_3h": 5,
+      "verified_d1_upcoming_12h": 1,
+      "excluded_non_d1_upcoming_12h": 4,
       "d1_classification_available": true,
       "official_forecasts_total": 210,
       "final_results_total": 143,
       "results_waiting_for_next_archive": 0,
       "archive_as_of_utc": "2026-11-03T19:15:45+00:00",
-      "issues": [
-        {
-          "severity": "warning",
-          "code": "MISSING_UPCOMING_D1_FORECASTS",
-          "message": "1 verified D1-v-D1 games within 12 hours lack locked forecasts",
-          "count": 1,
-          "examples": [
-            "West Florida Argonauts @ East Tennessee State Buccaneers"
-          ]
-        },
-        {
-          "severity": "critical",
-          "code": "UNRATED_D1_TEAMS",
-          "message": "1 imminent verified D1-v-D1 games have missing team ratings",
-          "count": 1,
-          "examples": [
-            "West Florida Argonauts @ East Tennessee State Buccaneers"
-          ]
-        }
-      ]
+      "issues": []
     }
   },
   "scoreboard_fetch_errors": [],
