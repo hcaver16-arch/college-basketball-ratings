@@ -1,36 +1,61 @@
 {
   "version": 226,
   "season": "2026-27",
-  "checked_at_utc": "2026-11-05T07:56:57+00:00",
-  "status": "ok",
+  "checked_at_utc": "2026-11-05T13:55:46+00:00",
+  "status": "critical",
   "divisions": {
     "mens": {
-      "status": "ok",
+      "status": "critical",
       "games_seen": 435,
-      "upcoming_12h": 0,
+      "upcoming_12h": 59,
       "upcoming_3h": 0,
-      "verified_d1_upcoming_12h": 0,
-      "excluded_non_d1_upcoming_12h": 0,
+      "verified_d1_upcoming_12h": 40,
+      "excluded_non_d1_upcoming_12h": 19,
       "d1_classification_available": true,
-      "official_forecasts_total": 273,
-      "final_results_total": 193,
+      "official_forecasts_total": 339,
+      "final_results_total": 215,
       "results_waiting_for_next_archive": 0,
-      "archive_as_of_utc": "2026-11-04T19:21:23+00:00",
-      "issues": []
+      "archive_as_of_utc": "2026-11-05T13:35:15+00:00",
+      "issues": [
+        {
+          "severity": "critical",
+          "code": "RATINGS_NOT_READY",
+          "message": "ratings are not current (48.4 hours old)",
+          "count": 40,
+          "examples": []
+        }
+      ]
     },
     "womens": {
-      "status": "ok",
+      "status": "critical",
       "games_seen": 419,
-      "upcoming_12h": 9,
-      "upcoming_3h": 0,
-      "verified_d1_upcoming_12h": 5,
-      "excluded_non_d1_upcoming_12h": 4,
+      "upcoming_12h": 80,
+      "upcoming_3h": 2,
+      "verified_d1_upcoming_12h": 63,
+      "excluded_non_d1_upcoming_12h": 17,
       "d1_classification_available": true,
-      "official_forecasts_total": 288,
-      "final_results_total": 181,
-      "results_waiting_for_next_archive": 10,
-      "archive_as_of_utc": "2026-11-04T19:21:23+00:00",
-      "issues": []
+      "official_forecasts_total": 329,
+      "final_results_total": 209,
+      "results_waiting_for_next_archive": 0,
+      "archive_as_of_utc": "2026-11-05T13:35:15+00:00",
+      "issues": [
+        {
+          "severity": "warning",
+          "code": "MISSING_UPCOMING_D1_FORECASTS",
+          "message": "1 verified D1-v-D1 games within 12 hours lack locked forecasts",
+          "count": 1,
+          "examples": [
+            "West Florida Argonauts @ Western Carolina Catamounts"
+          ]
+        },
+        {
+          "severity": "critical",
+          "code": "RATINGS_NOT_READY",
+          "message": "ratings are not current (48.4 hours old)",
+          "count": 63,
+          "examples": []
+        }
+      ]
     }
   },
   "scoreboard_fetch_errors": [],
