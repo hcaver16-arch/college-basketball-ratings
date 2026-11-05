@@ -99,6 +99,6 @@ try:
     raise AssertionError("Insufficient previous season accepted")
 except ValueError:pass
 
-m=metrics([{"actual":2,"pred":1},{"actual":-4,"pred":-2}],"pred")
+m=metrics([{"actual_margin":2,"pred":1},{"actual_margin":-4,"pred":-2}],"pred")
 assert m["games"]==2 and np.isclose(m["mae"],1.5)
 print("V229 early-season anchor, legacy replay, capped blowouts and no-lookahead tests passed")
