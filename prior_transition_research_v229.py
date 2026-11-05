@@ -17,7 +17,8 @@ incomplete or potentially stale and has non-D1 opponents; report coverage.
 from __future__ import annotations
 
 import argparse
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import json
 from pathlib import Path
 
@@ -267,6 +268,8 @@ def evaluate(prior_games: pd.DataFrame, current_games: pd.DataFrame,
             "A final game can enter the fit only on a later calendar day. No same-day future score leakage.",
             "The 2025-26 archive contains historical season results, but not verified point-in-time roster changes.",
             "Current-season archive freshness can lag when daily ratings workflows fail.",
+            "Fresh ESPN result supplementation is a research-only read; no saved production ratings or forecasts are changed.",
+            "Fresh scoreboard discovery covers no more than the latest 14 dates; earlier saved archive gaps remain possible.",
             "D1 membership uses current ESPN group-50, not a historical NCAA eligibility census.",
             "Matched games with identical candidate predictions provide ZERO evidence for selecting a new blend.",
             "These 2026-27 results are an exploratory sample; hold out future unseen games for final selection.",
@@ -280,8 +283,38 @@ def evaluate(prior_games: pd.DataFrame, current_games: pd.DataFrame,
     return out, report
 
 
+def fresh_scoreboard_finals(sport: str, asof: date) -> pd.DataFrame:
+    """Independent dated ESPN feed sample; never modifies saved production input.
+
+    Only fetch at most the last 14 calendar days; research output discloses
+    that earlier season gaps in the saved archive are not independently filled.
+    """
+    from daily_ratings import request_date, COLUMNS as ESPN_COLS
+    first = max(date(2026,11,1), asof - timedelta(days=13))
+    days = [first + timedelta(days=i) for i in range((asof-first).days+1)]
+    out = []
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        pending = {pool.submit(request_date, sport, day): day for day in days}
+        for future in as_completed(pending):
+            try:
+                out.extend(future.result())
+            except Exception as exc:
+                raise RuntimeError(f"{sport}: failed complete fresh day {pending[future]}: {exc}") from exc
+    return pd.DataFrame(out, columns=ESPN_COLS)
+
+
+def supplement_saved_finals(saved: pd.DataFrame, fresh: pd.DataFrame) -> pd.DataFrame:
+    """A reproducible research view of latest ESPN finals; no production write."""
+    if fresh.empty:
+        return saved.copy()
+    latest = pd.concat([saved, fresh], ignore_index=True)
+    # Date-scoped ESPN feeds may overlap or a game may be corrected.
+    latest["Game ID"] = latest["Game ID"].astype(str)
+    return latest.drop_duplicates("Game ID", keep="last").reset_index(drop=True)
+
+
 def research_main(root: Path, output: Path, asof: date = None,
-                  d1_lookup=None):
+                  d1_lookup=None, refresh_current=False):
     from reliability_v99 import fetch_d1_membership
     asof = asof or datetime.now(timezone.utc).date()
     reports = {}
@@ -293,15 +326,28 @@ def research_main(root: Path, output: Path, asof: date = None,
         current = pd.read_csv(base / "season_2026-27.csv.gz",
                               dtype={"Game ID": str, "Home ID": str, "Away ID": str})
         ids = d1_lookup(sport) if d1_lookup is not None else fetch_d1_membership(sport)
-        matched, report = evaluate(old, current, ids, asof)
+        saved_ids = set(normalize(current, "saved-current")["Game ID"].astype(str))
+        if refresh_current:
+            fresh = fresh_scoreboard_finals(sport, asof)
+            merged = supplement_saved_finals(current, fresh)
+            fresh_final_ids = set(normalize(fresh, "fresh-source")["Game ID"].astype(str))
+            matched, report = evaluate(old, merged, ids, asof)
+            report["fresh_espn_final_game_ids"] = len(fresh_final_ids)
+            report["new_espn_final_game_ids_not_in_saved_archive"] = len(fresh_final_ids - saved_ids)
+            report["fresh_scoreboard_days_retrieved"] = min(14, (asof-date(2026,11,1)).days+1)
+            report["current_archive_provenance"] = "saved current-season archive supplemented with live ESPN scoreboard finals"
+            outputs[sport + "_fresh_finals"] = fresh.loc[fresh["Status"].eq("Final")].copy()
+        else:
+            matched, report = evaluate(old, current, ids, asof)
+            report["current_archive_provenance"] = "saved current-season archive only"
         meta = json.loads((base / "status.json").read_text())
         report["saved_ratings_snapshot_date"] = meta.get("snapshot_date")
         report["saved_ratings_updated_utc"] = meta.get("updated_utc")
         reports[sport] = report
-        outputs[sport] = matched
+        outputs[sport + "_day_before_predictions"] = matched
     output.mkdir(parents=True, exist_ok=True)
-    for sport, frame in outputs.items():
-        frame.to_csv(output / f"{sport}_day_before_predictions.csv", index=False)
+    for label, frame in outputs.items():
+        frame.to_csv(output / f"{label}.csv", index=False)
     summary = {
         "version": 229, "generated_utc": datetime.now(timezone.utc).isoformat(),
         "asof_date": str(asof), "purpose": "RESEARCH_ONLY_NEVER_UPDATE_OFFICIAL_MODEL",
@@ -317,5 +363,7 @@ if __name__ == "__main__":
     parser.add_argument("--root", type=Path, default=ROOT)
     parser.add_argument("--out", type=Path,
                         default=ROOT / "data" / "research_prior_transition_v229")
+    parser.add_argument("--refresh-current", action="store_true",
+                        help="Add latest ESPN final scores to a research copy only; saves a source snapshot.")
     args = parser.parse_args()
-    research_main(args.root, args.out)
+    research_main(args.root, args.out, refresh_current=args.refresh_current)
