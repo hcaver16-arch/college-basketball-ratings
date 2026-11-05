@@ -102,4 +102,25 @@ except ValueError:pass
 
 m=metrics([{"actual_margin":2,"pred":1},{"actual_margin":-4,"pred":-2}],"pred")
 assert m["games"]==2 and np.isclose(m["mae"],1.5)
+# Newly fetched ESPN scores can supplement the research copy without
+# mutating old saved archive rows or concealing a fetch failure.
+from prior_transition_research_v229 import fresh_scoreboard_finals, supplement_saved_finals
+saved = pd.DataFrame([game(1,"2026-11-02",356,201,120,45)])
+new_scores = pd.DataFrame([game(1,"2026-11-02",356,201,121,45),
+                          game(2,"2026-11-03",356,203,70,72)])
+copy = saved.copy(deep=True)
+merged = supplement_saved_finals(saved,new_scores)
+assert merged["Game ID"].nunique() == 2
+assert merged.loc[merged["Game ID"].eq("1"),"Home score"].iloc[0] == 121
+pd.testing.assert_frame_equal(copy,saved)
+with patch("daily_ratings.request_date", return_value=list(new_scores.to_dict("records"))):
+    fetched = fresh_scoreboard_finals("mens-college-basketball",date(2026,11,2))
+assert len(fetched) == 4 and {"Game ID","Home ID","Status"}.issubset(fetched)
+with patch("daily_ratings.request_date", side_effect=RuntimeError("ESPN unavailable")):
+    try:
+        fresh_scoreboard_finals("mens-college-basketball",date(2026,11,2))
+        raise AssertionError("Missing ESPN date silently accepted")
+    except RuntimeError as exc:
+        assert "failed complete fresh day" in str(exc)
+
 print("V229 early-season anchor, legacy replay, capped blowouts and no-lookahead tests passed")
