@@ -238,11 +238,24 @@ def evaluate(prior_games: pd.DataFrame, current_games: pd.DataFrame,
             "anchored_delta_from_preseason": round(anchored[team_watch_id]-base, 3),
             "caution": "Retrospective Nov 2 scores included; illustrative only, not pre-tip evidence.",
         }
-    status = ("EXPLORATORY_MINIMUM_REACHED_NOT_INDEPENDENT_HOLDOUT"
-              if len(out) >= MIN_EVIDENCE_GAMES
-              else "TOO_FEW_MATCHED_GAMES_FOR_MODEL_SELECTION")
+    # Matched games where all models predict the same margin cannot
+    # establish anything about which transition strategy is preferable.
+    # Count only genuine model disagreements as information for selection.
+    informative = out[
+        (out["anchored_ridge8"] - out["legacy_replay"]).abs().gt(0.05)
+    ] if not out.empty else out
+    informative_rows = informative.to_dict("records")
+    if len(informative) == 0:
+        status = "NO_INFORMATIVE_MODEL_DISAGREEMENTS_YET"
+    elif len(informative) < MIN_EVIDENCE_GAMES:
+        status = "TOO_FEW_INFORMATIVE_MATCHUPS_FOR_MODEL_SELECTION"
+    else:
+        status = "EXPLORATORY_MINIMUM_REACHED_NOT_INDEPENDENT_HOLDOUT"
     report = {
         "status": status, "matched_games": len(out),
+        "informative_model_disagreement_games": len(informative),
+        "informative_disagreement_tolerance_points": 0.05,
+        "informative_matchup_metrics": {k: metrics(informative_rows,k) for k in keys},
         "model_variants": list(keys), "all_games_on_identical_matchups": True,
         "metrics": group, "early_sample_buckets": buckets,
         "day_before_replay": date_report,
@@ -255,6 +268,7 @@ def evaluate(prior_games: pd.DataFrame, current_games: pd.DataFrame,
             "The 2025-26 archive contains historical season results, but not verified point-in-time roster changes.",
             "Current-season archive freshness can lag when daily ratings workflows fail.",
             "D1 membership uses current ESPN group-50, not a historical NCAA eligibility census.",
+            "Matched games with identical candidate predictions provide ZERO evidence for selecting a new blend.",
             "These 2026-27 results are an exploratory sample; hold out future unseen games for final selection.",
             "No production coefficients, model ratings or original first forecasts were changed.",
         ],
