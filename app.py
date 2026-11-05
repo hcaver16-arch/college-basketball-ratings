@@ -49,6 +49,7 @@ from strength_comparison_v215 import render_strength_comparison
 from conferences_ui import render_conferences
 from game_timezones_v136 import annotate_display_times
 from games_preferences_v213 import calendar_today, rollover_anchor, parse_logo_setting
+from espn_schedule_fetch import fetch_scoreboard_events, split_schedule_failures
 
 # V130: per-rerun server timings; diagnostics do not persist or change model data.
 _v130_started = perf_counter()
@@ -393,23 +394,23 @@ def parse_game(event):
             **espn_progress(event, competition, status)}
 
 
+@st.cache_data(ttl=30 * 24 * 60 * 60, max_entries=500, show_spinner=False)
+def _v229_cached_historical_day_events(sport: str, day: date):
+    """Reuse settled historical dates; return raw events for schema-safe reparsing."""
+    return fetch_scoreboard_events(sport, day)
+
+
 @st.cache_data(ttl=12 * 60 * 60, show_spinner=False)
 def _v208_cached_day_events(sport: str, day: date):
-    """Cache the raw ESPN events, not parse_game's output.
+    """Keep source events, not parsed rows, for current and upcoming dates.
 
-    Previously the 12-hour cached rows could lack fields added by newer site
-    versions (notably Game location on the men's schedule). Keeping source
-    events here means each rerun uses the *current* parser and schema.
-    ESPN rejects date ranges; fetch one YYYYMMDD per request.
+    Historical dates (at least three calendar days old) use an additional
+    30-day cache, avoiding repeated downloads of settled results on reruns.
+    Recent and future dates retain the existing 12-hour refresh window.
     """
-    url = f"https://site.api.espn.com/apis/site/v2/sports/basketball/{sport}/scoreboard"
-    params = {"dates": day.strftime("%Y%m%d"), "groups": "50", "limit": 500}
-    response = requests.get(url, params=params, headers={"User-Agent": "Mozilla/5.0 CollegeBasketballDashboard/1.1", "Accept": "application/json"}, timeout=25)
-    response.raise_for_status()
-    events = response.json().get("events")
-    if not isinstance(events, list):
-        raise ValueError("Schedule feed did not return a game list")
-    return events
+    if day < date.today() - timedelta(days=2):
+        return _v229_cached_historical_day_events(sport, day)
+    return fetch_scoreboard_events(sport, day)
 
 
 def retrieve_day(sport: str, day: date):
@@ -832,6 +833,7 @@ settings_panel.caption(f"Tipoff times displayed in {selected_timezone} time; gam
 if settings_panel.button("🔄 Refresh schedule now", use_container_width=True):
     # Clear the actual network caches, not the now-uncached parsed rows.
     _v208_cached_day_events.clear()
+    _v229_cached_historical_day_events.clear()
     _v208_cached_today_events.clear()
     st.rerun()
 
@@ -851,7 +853,18 @@ with st.spinner(f"Loading {league.lower()} games for {period.lower()} (daily req
 games = annotate_display_times(games, selected_timezone)
 
 if failures:
-    st.warning(f"{len(failures)} of {windows_checked} daily data requests failed. The table may be incomplete. Try a shorter period or refresh later.")
+    current_failures, future_failures = split_schedule_failures(failures, today)
+    if current_failures:
+        st.warning(
+            f"{len(current_failures)} past or current daily data requests failed. "
+            "Completed games, records, and current statistics may be incomplete; "
+            "check failed dates or refresh."
+        )
+    if future_failures:
+        st.caption(
+            f"{len(future_failures)} future schedule date(s) could not be loaded from ESPN. "
+            "Upcoming schedules may be incomplete; current results are not affected by these future-date failures."
+        )
     with st.expander("See failed dates"):
         st.write("\n".join(failures))
 if truncated:
