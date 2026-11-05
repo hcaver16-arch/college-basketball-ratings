@@ -1,14 +1,14 @@
 {
   "version": 203,
   "season": "2026-27",
-  "as_of_utc": "2026-11-04T19:41:01.178971Z",
+  "as_of_utc": "2026-11-05T13:56:30.730952Z",
   "status": "PROSPECTIVE_RESEARCH_ONLY_NOT_DEPLOYED",
   "production_model_modified": false,
   "published_pregame_forecasts_unchanged": true,
   "baseline_source": "immutable V97 official_saved_v97 forecasts",
   "source_errors": null,
-  "source_checked_utc": "2026-11-02T21:24:30.020711Z",
-  "source_sha256": "b6057dba6a74b2cb298433185d492f212f3b66c74b774fcc91f6b9708e975d4e",
+  "source_checked_utc": "2026-11-05T10:34:28.609069Z",
+  "source_sha256": "8a42b42128dd8cdc301eb3e057d6ecdd4af218ec181438b8f4c37b64ffdccf77",
   "teams_audited": {
     "127": {
       "team_id": "127",
@@ -441,8 +441,8 @@
   "new_pairs": 0,
   "total_pairs": 0,
   "skipped": {
-    "invalid_evidence_or_pregame_timing": 194,
-    "baseline_prediction_not_fresh_no_backfill": 79
+    "invalid_evidence_or_pregame_timing": 273,
+    "one_or_both_teams_lack_verified_evidence": 66
   },
   "paired_results": {
     "mens": {
@@ -457,15 +457,25 @@
   "matchup_readiness": {
     "source": "V97 first official pregame forecast journal, future start times only",
     "counts": {
-      "upcoming_locked_mens_baselines": 79,
-      "neither_team_qualified": 76,
-      "exactly_one_team_qualified": 3,
-      "upcoming_opponents_missing_qualification": 3
+      "upcoming_locked_mens_baselines": 123,
+      "neither_team_qualified": 114,
+      "exactly_one_team_qualified": 9,
+      "upcoming_opponents_missing_qualification": 9
     },
     "opponents_to_prioritize": [
       {
+        "team_id": "2032",
+        "team": "Arkansas State Red Wolves",
+        "upcoming_one_sided_games": 1
+      },
+      {
         "team_id": "2803",
         "team": "Bryant Bulldogs",
+        "upcoming_one_sided_games": 1
+      },
+      {
+        "team_id": "48",
+        "team": "Delaware Blue Hens",
         "upcoming_one_sided_games": 1
       },
       {
@@ -474,8 +484,28 @@
         "upcoming_one_sided_games": 1
       },
       {
+        "team_id": "130",
+        "team": "Michigan Wolverines",
+        "upcoming_one_sided_games": 1
+      },
+      {
+        "team_id": "2582",
+        "team": "Southern Jaguars",
+        "upcoming_one_sided_games": 1
+      },
+      {
+        "team_id": "2572",
+        "team": "Southern Miss Golden Eagles",
+        "upcoming_one_sided_games": 1
+      },
+      {
         "team_id": "2649",
         "team": "Toledo Rockets",
+        "upcoming_one_sided_games": 1
+      },
+      {
+        "team_id": "2747",
+        "team": "Wofford Terriers",
         "upcoming_one_sided_games": 1
       }
     ],
