@@ -66,8 +66,15 @@ assert all(r["latest_training_day"] is None or r["latest_training_day"] < r["day
            for r in matched.to_dict("records"))
 ill = matched[matched.game_id.eq("1")].iloc[0]
 assert ill.day == "2026-11-02" and ill.latest_training_day == "2026-11-01"
-assert np.isclose(ill.legacy_replay,ill.prior_only)
-assert np.isclose(ill.anchored_ridge8,ill.prior_only)
+# Illinois had no prior season game, but opponent 201 already did.
+# Therefore the whole matchup can move without leaking Illinois's future result.
+before = normalize(pd.DataFrame(nov1),"Nov1")
+legacy_pre,_ = legacy_replay(prior,before)
+anchored_pre = anchored_ridge(prior,before)
+assert np.isclose(ill.legacy_replay,legacy_pre["356"]-legacy_pre["201"]+3)
+assert np.isclose(ill.anchored_ridge8,anchored_pre["356"]-anchored_pre["201"]+3)
+assert not np.isclose(ill.anchored_ridge8,
+    anchored_ridge(prior,capped)["356"]-anchored_ridge(prior,capped)["201"]+3)
 next_game = matched[matched.game_id.eq("2")].iloc[0]
 assert next_game.latest_training_day == "2026-11-02"
 assert not np.isclose(next_game.anchored_ridge8,next_game.prior_only)
