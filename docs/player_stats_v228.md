@@ -30,3 +30,14 @@ Not modified: official rating engine, saved ratings, prospective forecast journa
 ## Follow-up quality checks
 
 After the first run, review per-division verified / discovered ratios, reasons for unverified games, player counts, and unusually high per-game values. Compare a sample of ESPN box scores by hand. If parsing coverage falls below threshold, the national leaderboard and Home tile are automatically withheld, while saved evidence remains available for diagnosis.
+
+## V231 — What to do when ESPN's athlete point totals disagree with the final score
+
+A live-source inspection on November 5, 2026 found nine women's team-game boxes where ESPN's *raw individual-athlete PTS column* summed to fewer points than ESPN's own final team score (shortfalls ranged from 3 to 12 points). In all nine cases the original V228 parser exactly matched the raw ESPN individual-point total. All athletes omitted by the parser were explicitly marked didNotPlay and had no points; there was no evidence of omitted positive-point athlete rows.
+
+The V231 collector update **does not change accepted player statistics or loosen the score check**. It only labels two separate failure classes in the saved coverage CSV and per-division summary:
+
+- `ESPN source mismatch:` means all valid raw ESPN player points were parsed, but those numbers still disagree with ESPN's reported final; no legitimate points can safely be assigned to an individual player.
+- `Possible parser omission:` means ESPN's raw point rows contain more points than the parser obtained; this should trigger a code-level review rather than being blamed on ESPN's source.
+
+Both remain unverified, continue daily retries, and are excluded from the player leaderboards. The divisional summary exposes `espn_source_score_mismatch_boxscores` and `possible_parser_scoring_gap_boxscores` counts after the next successful V228 collection. The collectors never fabricate missing scoring attribution. Review the V231 diagnostic workflow logs for source examples; note that ESPN's unofficial API might eventually correct the player box scores without the site changing code.

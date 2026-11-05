@@ -24,7 +24,7 @@ import tempfile
 import pandas as pd
 import requests
 
-from player_stats_import import HEADERS, parse_boxscore
+from player_stats_import import HEADERS, parse_boxscore, audit_team_scoring_source
 from prospective_archive_v97 import SPORTS, event_data
 ET = ZoneInfo("America/New_York")
 from reliability_v99 import fetch_d1_membership
@@ -148,11 +148,16 @@ def coverage_summary(coverage: pd.DataFrame, athletes: pd.DataFrame, asof: datet
     successful = len(good)
     rate = round(successful / total, 4) if total else 0.0
     pending = audited[~audited["Status"].eq("verified")]
+    explanations = pending["Reason"].fillna("").astype(str)
+    source_mismatches = int(explanations.str.startswith("ESPN source mismatch:").sum())
+    possible_parser_gaps = int(explanations.str.startswith("Possible parser omission:").sum())
     can_publish = (total >= READY_MIN_TEAM_GAMES and rate >= READY_MIN_COVERAGE)
     return {
         "as_of_utc": _iso(asof), "discovered_d1_team_game_boxscores": total,
         "verified_d1_team_game_boxscores": successful,
         "unverified_d1_team_game_boxscores": len(pending),
+        "espn_source_score_mismatch_boxscores": source_mismatches,
+        "possible_parser_scoring_gap_boxscores": possible_parser_gaps,
         "observed_boxscore_coverage": rate,
         "athletes_with_observed_games": len(athletes),
         "player_leaders_publishable": can_publish,
@@ -302,6 +307,29 @@ def _run_division(sport: str, root: Path, now: datetime, session=None,
                 else:
                     player_rows = parse_boxscore(payload, item["Team ID"], gid)
                     valid, reason = _valid_player_rows(player_rows, item["Team score"])
+                    if not valid and reason.startswith("Player points "):
+                        # Do not misdiagnose upstream ESPN source conflicts as
+                        # dropped athletes, and never relax score reconciliation.
+                        diagnosis = audit_team_scoring_source(
+                            payload, item["Team ID"], gid,
+                            player_rows, item["Team score"]
+                        )
+                        status = diagnosis["status"]
+                        if status == "ESPN_RAW_PLAYER_TOTAL_DIFFERS_FROM_TEAM_FINAL":
+                            reason = (
+                                "ESPN source mismatch: raw athlete points "
+                                f'{diagnosis["raw_espn_player_points"]:g} '
+                                f'vs final team score {diagnosis["espn_final_team_points"]:g}; '
+                                "no omitted scoring rows"
+                            )
+                        elif status == "PARSER_OR_ATHLETE_ROW_GAP":
+                            reason = (
+                                "Possible parser omission: parsed athlete points "
+                                f'{diagnosis["parsed_player_points"]:g} '
+                                f'vs ESPN raw athlete points {diagnosis["raw_espn_player_points"]:g}; '
+                                f'{len(diagnosis["missing_positive_scoring_athlete_rows"])} '
+                                "positive-point athletes unparsed"
+                            )
                 new_cov.append({
                     **item, "Status": "verified" if valid else "unverified",
                     "Players parsed": len(player_rows) if valid else 0,
