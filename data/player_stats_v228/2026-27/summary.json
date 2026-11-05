@@ -1,13 +1,15 @@
 {
   "version": 228,
   "season": "2026-27",
-  "checked_at_utc": "2026-11-05T15:33:49+00:00",
+  "checked_at_utc": "2026-11-05T16:46:27+00:00",
   "divisions": {
     "mens-college-basketball": {
-      "as_of_utc": "2026-11-05T15:33:49+00:00",
+      "as_of_utc": "2026-11-05T16:46:27+00:00",
       "discovered_d1_team_game_boxscores": 383,
       "verified_d1_team_game_boxscores": 383,
       "unverified_d1_team_game_boxscores": 0,
+      "espn_source_score_mismatch_boxscores": 0,
+      "possible_parser_scoring_gap_boxscores": 0,
       "observed_boxscore_coverage": 1.0,
       "athletes_with_observed_games": 4217,
       "player_leaders_publishable": true,
@@ -22,16 +24,18 @@
       "last_discovered_date_et": "2026-11-05",
       "verified_d1_team_directory_count": 362,
       "scoreboard_dates_fetched": 5,
-      "summary_games_fetched": 25,
-      "last_collection_run_utc": "2026-11-05T15:33:49+00:00",
+      "summary_games_fetched": 0,
+      "last_collection_run_utc": "2026-11-05T16:46:27+00:00",
       "source": "ESPN group-50 scoreboard and ESPN per-game individual boxscores",
       "historical_first_forecasts_modified": false
     },
     "womens-college-basketball": {
-      "as_of_utc": "2026-11-05T15:33:49+00:00",
+      "as_of_utc": "2026-11-05T16:46:27+00:00",
       "discovered_d1_team_game_boxscores": 379,
       "verified_d1_team_game_boxscores": 370,
       "unverified_d1_team_game_boxscores": 9,
+      "espn_source_score_mismatch_boxscores": 9,
+      "possible_parser_scoring_gap_boxscores": 0,
       "observed_boxscore_coverage": 0.9763,
       "athletes_with_observed_games": 3698,
       "player_leaders_publishable": true,
@@ -39,49 +43,49 @@
       "publication_minimum_coverage": 0.95,
       "unverified_examples": [
         {
-          "game_id": "401920439",
-          "team": "Texas A&M-Corpus Christi Islanders",
-          "reason": "Player points 70 do not reconcile with team score 76"
-        },
-        {
-          "game_id": "401928011",
-          "team": "SIU Edwardsville Cougars",
-          "reason": "Player points 83 do not reconcile with team score 95"
-        },
-        {
-          "game_id": "401913898",
-          "team": "West Florida Argonauts",
-          "reason": "Player points 48 do not reconcile with team score 51"
-        },
-        {
-          "game_id": "401921305",
-          "team": "Lafayette Leopards",
-          "reason": "Player points 28 do not reconcile with team score 37"
-        },
-        {
-          "game_id": "401929300",
-          "team": "Tennessee State Lady Tigers",
-          "reason": "Player points 92 do not reconcile with team score 95"
-        },
-        {
-          "game_id": "401929155",
-          "team": "Western Carolina Catamounts",
-          "reason": "Player points 92 do not reconcile with team score 96"
+          "game_id": "401918581",
+          "team": "Bethune-Cookman Wildcats",
+          "reason": "ESPN source mismatch: raw athlete points 93 vs final team score 102; no omitted scoring rows"
         },
         {
           "game_id": "401921077",
           "team": "Temple Owls",
-          "reason": "Player points 68 do not reconcile with team score 71"
+          "reason": "ESPN source mismatch: raw athlete points 68 vs final team score 71; no omitted scoring rows"
         },
         {
-          "game_id": "401918581",
-          "team": "Bethune-Cookman Wildcats",
-          "reason": "Player points 93 do not reconcile with team score 102"
+          "game_id": "401929155",
+          "team": "Western Carolina Catamounts",
+          "reason": "ESPN source mismatch: raw athlete points 92 vs final team score 96; no omitted scoring rows"
+        },
+        {
+          "game_id": "401928011",
+          "team": "SIU Edwardsville Cougars",
+          "reason": "ESPN source mismatch: raw athlete points 83 vs final team score 95; no omitted scoring rows"
+        },
+        {
+          "game_id": "401921305",
+          "team": "Lafayette Leopards",
+          "reason": "ESPN source mismatch: raw athlete points 28 vs final team score 37; no omitted scoring rows"
+        },
+        {
+          "game_id": "401920439",
+          "team": "Texas A&M-Corpus Christi Islanders",
+          "reason": "ESPN source mismatch: raw athlete points 70 vs final team score 76; no omitted scoring rows"
+        },
+        {
+          "game_id": "401913898",
+          "team": "West Florida Argonauts",
+          "reason": "ESPN source mismatch: raw athlete points 48 vs final team score 51; no omitted scoring rows"
+        },
+        {
+          "game_id": "401929300",
+          "team": "Tennessee State Lady Tigers",
+          "reason": "ESPN source mismatch: raw athlete points 92 vs final team score 95; no omitted scoring rows"
         },
         {
           "game_id": "401917683",
           "team": "Portland Pilots",
-          "reason": "Player points 99 do not reconcile with team score 107"
+          "reason": "ESPN source mismatch: raw athlete points 99 vs final team score 107; no omitted scoring rows"
         }
       ],
       "coverage_scope": "ESPN-discovered final games with at least one verified D1 participant, NOT independently verified national schedule coverage",
@@ -92,8 +96,8 @@
       "last_discovered_date_et": "2026-11-05",
       "verified_d1_team_directory_count": 362,
       "scoreboard_dates_fetched": 5,
-      "summary_games_fetched": 44,
-      "last_collection_run_utc": "2026-11-05T15:33:49+00:00",
+      "summary_games_fetched": 9,
+      "last_collection_run_utc": "2026-11-05T16:46:27+00:00",
       "source": "ESPN group-50 scoreboard and ESPN per-game individual boxscores",
       "historical_first_forecasts_modified": false
     }

@@ -356,7 +356,6 @@ womens,401928191,2026-11-04,2026-11-05T00:30:00Z,98,Western Kentucky Lady Topper
 womens,401928191,2026-11-04,2026-11-05T00:30:00Z,236,Chattanooga Mocs,50,verified,10,2026-11-05T15:33:49+00:00,
 womens,401923473,2026-11-04,2026-11-05T01:00:00Z,38,Colorado Buffaloes,83,verified,13,2026-11-05T15:33:49+00:00,
 womens,401923473,2026-11-04,2026-11-05T01:00:00Z,2415,Morgan State Lady Bears,38,verified,13,2026-11-05T15:33:49+00:00,
-womens,401920439,2026-11-04,2026-11-05T01:00:00Z,357,Texas A&M-Corpus Christi Islanders,76,unverified,0,2026-11-05T15:33:49+00:00,Player points 70 do not reconcile with team score 76
 womens,401923193,2026-11-04,2026-11-05T01:00:00Z,2172,Denver Pioneers,66,verified,10,2026-11-05T15:33:49+00:00,
 womens,401923193,2026-11-04,2026-11-05T01:00:00Z,2815,Lindenwood Lions,52,verified,12,2026-11-05T15:33:49+00:00,
 womens,401919931,2026-11-04,2026-11-05T01:00:00Z,326,Texas State Bobcats,69,verified,11,2026-11-05T15:33:49+00:00,
@@ -370,11 +369,12 @@ womens,401921577,2026-11-04,2026-11-05T02:00:00Z,2856,California Baptist Lancers
 womens,401921520,2026-11-04,2026-11-05T03:00:00Z,2239,Cal State Fullerton Titans,90,verified,10,2026-11-05T15:33:49+00:00,
 womens,401915978,2026-11-04,2026-11-05T03:00:00Z,24,Stanford Cardinal,87,verified,11,2026-11-05T15:33:49+00:00,
 womens,401915978,2026-11-04,2026-11-05T03:00:00Z,2608,Saint Mary's Gaels,54,verified,11,2026-11-05T15:33:49+00:00,
-womens,401928011,2026-11-03,2026-11-04T00:00:00Z,2565,SIU Edwardsville Cougars,95,unverified,0,2026-11-05T15:33:49+00:00,Player points 83 do not reconcile with team score 95
-womens,401913898,2026-11-03,2026-11-04T00:00:00Z,2697,West Florida Argonauts,51,unverified,0,2026-11-05T15:33:49+00:00,Player points 48 do not reconcile with team score 51
-womens,401921305,2026-11-02,2026-11-02T19:00:00Z,322,Lafayette Leopards,37,unverified,0,2026-11-05T15:33:49+00:00,Player points 28 do not reconcile with team score 37
-womens,401929300,2026-11-02,2026-11-03T00:00:00Z,2634,Tennessee State Lady Tigers,95,unverified,0,2026-11-05T15:33:49+00:00,Player points 92 do not reconcile with team score 95
-womens,401929155,2026-11-02,2026-11-02T23:00:00Z,2717,Western Carolina Catamounts,96,unverified,0,2026-11-05T15:33:49+00:00,Player points 92 do not reconcile with team score 96
-womens,401921077,2026-11-02,2026-11-03T00:00:00Z,218,Temple Owls,71,unverified,0,2026-11-05T15:33:49+00:00,Player points 68 do not reconcile with team score 71
-womens,401918581,2026-11-02,2026-11-03T00:00:00Z,2065,Bethune-Cookman Wildcats,102,unverified,0,2026-11-05T15:33:49+00:00,Player points 93 do not reconcile with team score 102
-womens,401917683,2026-11-02,2026-11-03T03:30:00Z,2501,Portland Pilots,107,unverified,0,2026-11-05T15:33:49+00:00,Player points 99 do not reconcile with team score 107
+womens,401918581,2026-11-02,2026-11-03T00:00:00Z,2065,Bethune-Cookman Wildcats,102,unverified,0,2026-11-05T16:46:27+00:00,ESPN source mismatch: raw athlete points 93 vs final team score 102; no omitted scoring rows
+womens,401921077,2026-11-02,2026-11-03T00:00:00Z,218,Temple Owls,71,unverified,0,2026-11-05T16:46:27+00:00,ESPN source mismatch: raw athlete points 68 vs final team score 71; no omitted scoring rows
+womens,401929155,2026-11-02,2026-11-02T23:00:00Z,2717,Western Carolina Catamounts,96,unverified,0,2026-11-05T16:46:27+00:00,ESPN source mismatch: raw athlete points 92 vs final team score 96; no omitted scoring rows
+womens,401928011,2026-11-03,2026-11-04T00:00:00Z,2565,SIU Edwardsville Cougars,95,unverified,0,2026-11-05T16:46:27+00:00,ESPN source mismatch: raw athlete points 83 vs final team score 95; no omitted scoring rows
+womens,401921305,2026-11-02,2026-11-02T19:00:00Z,322,Lafayette Leopards,37,unverified,0,2026-11-05T16:46:27+00:00,ESPN source mismatch: raw athlete points 28 vs final team score 37; no omitted scoring rows
+womens,401920439,2026-11-04,2026-11-05T01:00:00Z,357,Texas A&M-Corpus Christi Islanders,76,unverified,0,2026-11-05T16:46:27+00:00,ESPN source mismatch: raw athlete points 70 vs final team score 76; no omitted scoring rows
+womens,401913898,2026-11-03,2026-11-04T00:00:00Z,2697,West Florida Argonauts,51,unverified,0,2026-11-05T16:46:27+00:00,ESPN source mismatch: raw athlete points 48 vs final team score 51; no omitted scoring rows
+womens,401929300,2026-11-02,2026-11-03T00:00:00Z,2634,Tennessee State Lady Tigers,95,unverified,0,2026-11-05T16:46:27+00:00,ESPN source mismatch: raw athlete points 92 vs final team score 95; no omitted scoring rows
+womens,401917683,2026-11-02,2026-11-03T03:30:00Z,2501,Portland Pilots,107,unverified,0,2026-11-05T16:46:27+00:00,ESPN source mismatch: raw athlete points 99 vs final team score 107; no omitted scoring rows
