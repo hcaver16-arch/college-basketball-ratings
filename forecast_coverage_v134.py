@@ -17,10 +17,12 @@ def coverage_report(forecasts, evaluations, season, classifications, status):
     """Count only observed games; never imply unseen ESPN games were covered."""
     d = (status or {}).get("forecast_diagnostics") or {}
     observed = {k:int(d.get(k,0)) for k in ("schedule_games","future_scheduled_games",
-        "previously_archived","missing_rating","baseline_eligible","not_scheduled",
+        "previously_archived","missing_rating","newcomer_hold",
+        "baseline_eligible","not_scheduled",
         "not_future_or_invalid_time")}
     observed["accounted_for_future"] = (observed["previously_archived"] +
-        observed["missing_rating"] + observed["baseline_eligible"])
+        observed["missing_rating"] + observed["newcomer_hold"] +
+        observed["baseline_eligible"])
     observed["future_reconciled"] = observed["accounted_for_future"] == observed["future_scheduled_games"]
     output={"latest_window":observed,"observed_finals":0,"finals_with_forecast":0,
             "finals_without_forecast":0,"forecasted_finals_awaiting_grading":0,
@@ -58,6 +60,7 @@ def render_coverage_v134(sport, forecasts, evaluations, status):
     b.metric("Previously forecasted",window["previously_archived"])
     c.metric("Unrated opponents",window["missing_rating"])
     st.caption(f"New eligible forecasts in latest scan: {window['baseline_eligible']} · "
+               f"New D1 program manual holds: {window['newcomer_hold']} · "
                f"Window counts reconcile: {'Yes' if window['future_reconciled'] else 'No — inspect pipeline'}")
     if not window["future_reconciled"]:
         st.warning("Latest collected future-scheduled game counts do not reconcile.")

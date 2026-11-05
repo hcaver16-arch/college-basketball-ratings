@@ -109,7 +109,8 @@ def schedule_diagnostics(schedule, latest, rosters, now, existing_ids):
     adjustments=evidence_adjustments(prior,current,totals,ids)
     counts={'schedule_games':len(schedule),'future_games':0,'future_scheduled_games':0,
             'previously_archived':0,'not_future_or_invalid_time':0,'not_scheduled':0,
-            'missing_rating':0,'baseline_eligible':0,'roster_eligible':0}
+            'missing_rating':0,'newcomer_hold':0,
+            'baseline_eligible':0,'roster_eligible':0}
     for g in schedule.to_dict('records'):
         start=as_utc(g['Game start UTC'])
         if start and now<start:counts['future_games']+=1
@@ -120,6 +121,11 @@ def schedule_diagnostics(schedule, latest, rosters, now, existing_ids):
         counts['future_scheduled_games']+=1
         if str(g['Game ID']) in existing_ids:
             counts['previously_archived']+=1;continue
+        # V230: mirrors forecast_new_games, which withholds unvalidated
+        # transitioning-D1 team matchups by source-confirmed team ID.
+        # Do not count a deliberate hold as an eligible, omitted forecast.
+        if newcomer_game(g):
+            counts['newcomer_hold']+=1;continue
         h,a=str(g['Home ID']),str(g['Away ID'])
         hp,ap=powers.get(h),powers.get(a)
         if hp is None or ap is None or pd.isna(hp) or pd.isna(ap):
