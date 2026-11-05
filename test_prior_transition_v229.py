@@ -60,7 +60,8 @@ d1={str(i) for i in range(200,530)}
 with patch("prior_transition_research_v229.historical_prior",return_value=prior):
     matched,report = evaluate(pd.DataFrame(nov1),season,d1,date(2026,11,3))
 assert report["matched_games"] == len(season)
-assert report["status"] == "TOO_FEW_MATCHED_GAMES_FOR_MODEL_SELECTION"
+assert report["status"] == "TOO_FEW_INFORMATIVE_MATCHUPS_FOR_MODEL_SELECTION"
+assert 0 < report["informative_model_disagreement_games"] < len(matched)
 assert set(report["metrics"]) == {"prior_only","legacy_replay","anchored_ridge8"}
 assert all(r["latest_training_day"] is None or r["latest_training_day"] < r["day"]
            for r in matched.to_dict("records"))
