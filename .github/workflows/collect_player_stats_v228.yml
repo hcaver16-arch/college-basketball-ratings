@@ -23,6 +23,7 @@ jobs:
         run: |
           python -m py_compile player_stats_v228.py player_stats_ui_v228.py player_stats_import.py
           python test_player_stats_v228.py
+          python test_player_stats_v231.py
       - name: Collect 2026-27 ESPN D1 player box scores
         run: python player_stats_v228.py
       - name: Summarize observed box-score coverage
