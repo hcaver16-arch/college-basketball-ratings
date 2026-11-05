@@ -1,0 +1,75 @@
+name: V229 research - preseason anchor versus current blend
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - prior_transition_research_v229.py
+      - test_prior_transition_v229.py
+      - .github/workflows/research_prior_transition_v229.yml
+  schedule:
+    - cron: '30 16 * * 1'
+permissions:
+  contents: write
+concurrency:
+  group: v229-prior-transition
+  cancel-in-progress: false
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install research dependencies
+        run: python -m pip install 'pandas>=2.1,<3' 'numpy>=1.26,<3' 'requests>=2.31,<3'
+      - name: Validate transition replay and no future leakage
+        run: |
+          python -m py_compile prior_transition_research_v229.py
+          python test_prior_transition_v229.py
+          python test_rating_reliability_v181.py
+      - name: Research archived 2026-27 results (no model changes)
+        run: python prior_transition_research_v229.py --root . --out data/research_prior_transition_v229 --refresh-current
+      - name: Show model comparison in run summary
+        run: |
+          python - <<'PY'
+          import json, os
+          report=json.load(open("data/research_prior_transition_v229/summary.json"))
+          with open(os.environ["GITHUB_STEP_SUMMARY"],"a") as out:
+            out.write("## V229 preseason-anchor research (NOT production)\n\n")
+            out.write("2026-27 day-before replay: outcomes on each target date held out. Archived dates may be stale.\n\n")
+            out.write("| Division | Matched | Informative | Legacy MAE | Prior-only MAE | Anchored MAE | Anchor minus legacy |\n")
+            out.write("|---|---:|---:|---:|---:|---:|---:|\n")
+            for division,x in report["divisions"].items():
+              m=x.get("metrics",{})
+              def fmt(key):
+                v=m.get(key,{}).get("mae")
+                return str(v) if v is not None else "N/A"
+              diff=x.get("delta_mae_anchor_minus_legacy")
+              out.write(f'| {division} | {x.get("matched_games",0)} | {x.get("informative_model_disagreement_games",0)} | {fmt("legacy_replay")} | {fmt("prior_only")} | {fmt("anchored_ridge8")} | {diff if diff is not None else "N/A"} |\n')
+              out.write(f'\n**{division}** — {x.get("status")}; saved snapshot {x.get("saved_ratings_snapshot_date")}. Illinois retrospective: {x.get("Illinois_diagnostic",{})}\n')
+            out.write("\nResearch only. No production model or immutable forecast changes.")
+          PY
+      - name: Save research-only report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: courtside-v229-preseason-transition-research
+          path: data/research_prior_transition_v229/
+          if-no-files-found: warn
+      - name: Update research reports only on main
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- data/research_prior_transition_v229/
+          if ! git diff --cached --quiet; then
+            git commit -m 'Update V229 retrospective prior-transition research'
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
