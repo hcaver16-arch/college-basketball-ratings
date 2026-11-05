@@ -72,13 +72,8 @@ def legacy_replay(prior: dict, past: pd.DataFrame):
     fit, _ = calculate_power(past)
     raw = dict(zip(fit["Team ID"].astype(str), fit["Power"].astype(float)))
     counts = dict(zip(fit["Team ID"].astype(str), fit["Games"].astype(int)))
-    # calculate_power returns no team rows until at least 20 final games.
-    # Individual team counts still matter in that initial interval.
-    if not counts:
-        home_counts = past["Home ID"].astype(str).value_counts()
-        away_counts = past["Away ID"].astype(str).value_counts()
-        counts = {str(t): int(home_counts.get(t, 0) + away_counts.get(t, 0))
-                  for t in set(home_counts.index) | set(away_counts.index)}
+    # As in production, before 20 total final games the fitted on-court
+    # table (and its Games counts) is empty; teams retain the preseason fit.
     result = {}
     for team_id in set(prior) | set(counts):
         p = prior.get(team_id, 0.0)
@@ -108,11 +103,11 @@ def anchored_ridge(prior: dict[str, float], past: pd.DataFrame,
     values = np.array([prior.get(team, 0.0) for team in teams], dtype=float)
     matrix = np.eye(n, dtype=float) * ridge
     right = ridge * values
-    for game in past.itertuples(index=False):
-        h, a = loc[str(game._asdict()["Home ID"])], loc[str(game._asdict()["Away ID"])]
-        diff = float(np.clip(game._asdict()["Home score"] - game._asdict()["Away score"],
+    for game in past.to_dict("records"):
+        h, a = loc[str(game["Home ID"])], loc[str(game["Away ID"])]
+        diff = float(np.clip(game["Home score"] - game["Away score"],
                              -CAP, CAP))
-        adjusted = diff - (0.0 if game._asdict()["Venue"] == "Neutral"
+        adjusted = diff - (0.0 if game["Venue"] == "Neutral"
                             else HOME_ADVANTAGE)
         matrix[h, h] += 1.0
         matrix[a, a] += 1.0
