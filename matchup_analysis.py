@@ -37,20 +37,48 @@ def _cell(record, candidates, fmt=None):
     return "—"
 
 
-def _recent(frame, tid, n=5):
-    if not isinstance(frame,pd.DataFrame) or frame.empty: return []
-    subset=frame[(frame["Status"]=="Final") & ((frame["Home ID"].astype(str)==str(tid)) | (frame["Away ID"].astype(str)==str(tid)))].copy()
-    if subset.empty: return []
-    subset=subset.sort_values(["Date","Time (ET)"],ascending=False).head(n)
-    results=[]
-    for _,g in subset.iterrows():
-        is_home=str(g["Home ID"])==str(tid)
-        ours=pd.to_numeric(g.get("Home score") if is_home else g.get("Away score"),errors="coerce")
-        other=pd.to_numeric(g.get("Away score") if is_home else g.get("Home score"),errors="coerce")
-        if pd.isna(ours) or pd.isna(other): continue
-        label="W" if ours>other else "L" if ours<other else "T"
-        opponent=g["Away"] if is_home else g["Home"]
-        results.append(f"{label} {int(ours)}–{int(other)} vs {opponent}" + (f" ({g['Date']})" if pd.notna(g.get('Date')) else ""))
+def _recent(frame, tid, n=5, *, as_of=None, include_as_of=False):
+    """Last scored finals for a team, bounded by the selected matchup date.
+
+    The caller supplies season-to-date results rather than the currently
+    selected calendar page. For pregame/live fixtures, do not expose finals
+    played on or after the matchup date; completed fixtures may include that
+    day's results. Never manufacture scores for unavailable dates.
+    """
+    required = {"Status", "Home ID", "Away ID", "Date", "Time (ET)",
+                "Home score", "Away score", "Home", "Away"}
+    if not isinstance(frame, pd.DataFrame) or frame.empty or not required.issubset(frame.columns):
+        return []
+    subset = frame[
+        frame["Status"].eq("Final") &
+        (frame["Home ID"].astype(str).eq(str(tid)) |
+         frame["Away ID"].astype(str).eq(str(tid)))
+    ].copy()
+    if subset.empty:
+        return []
+    subset["_recent_day"] = pd.to_datetime(subset["Date"], errors="coerce")
+    subset = subset[subset["_recent_day"].notna()]
+    if as_of is not None:
+        cutoff = pd.to_datetime(as_of, errors="coerce")
+        if pd.isna(cutoff):
+            return []
+        subset = subset[subset["_recent_day"].le(cutoff) if include_as_of
+                        else subset["_recent_day"].lt(cutoff)]
+    if subset.empty:
+        return []
+    subset = subset.sort_values(["_recent_day", "Time (ET)"], ascending=False)
+    results = []
+    for _, g in subset.iterrows():
+        is_home = str(g["Home ID"]) == str(tid)
+        ours = pd.to_numeric(g.get("Home score") if is_home else g.get("Away score"), errors="coerce")
+        other = pd.to_numeric(g.get("Away score") if is_home else g.get("Home score"), errors="coerce")
+        if pd.isna(ours) or pd.isna(other):
+            continue
+        label = "W" if ours > other else "L" if ours < other else "T"
+        opponent = g["Away"] if is_home else g["Home"]
+        results.append(f"{label} {int(ours)}–{int(other)} vs {opponent} ({g['Date']})")
+        if len(results) == n:
+            break
     return results
 
 
@@ -171,6 +199,12 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
     game_status=str(game.get("Status") or "Scheduled")
     is_live=game_status=="Live"
     is_final=game_status=="Final"
+    # Season-to-date finals are already loaded for game records. Do not use
+    # the calendar-window `games` frame for a team's recent form.
+    recent_source = stats_games if isinstance(stats_games, pd.DataFrame) else games
+    recent_day = game.get("Date")
+    recent_away = _recent(recent_source, aid, as_of=recent_day, include_as_of=is_final)
+    recent_home = _recent(recent_source, hid, as_of=recent_day, include_as_of=is_final)
     scores=score_pair(game) if is_live or is_final else None
     # Never mistake a live calculation for a historical pretip probability.
     archived=locked_pregame_forecast(game,"mens" if str(league).lower().startswith("men") else "womens") if (is_live or is_final) else None
@@ -335,9 +369,8 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
             st.markdown(f"{escape(home)}: **{_cell(home_rating, ['Current power'], '+.1f')}**")
         with right:
             st.markdown("**Recent results**")
-            for label, tid in ((away, aid), (home, hid)):
-                recent = _recent(games, tid)
-                st.caption(f"{escape(label)}: " + (" · ".join(recent[:2]) if recent else "No completed games loaded"))
+            for label, recent in ((away, recent_away), (home, recent_home)):
+                st.caption(f"{escape(label)}: " + (" · ".join(recent[:2]) if recent else "No earlier completed games available"))
         if projection:
             away_strength = ratings.get(aid)
             home_strength = ratings.get(hid)
@@ -402,16 +435,18 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
 
 
     with form_tab:
-        has_recent = bool(_recent(games,aid) or _recent(games,hid))
-        with st.expander("Recent results — last five loaded final games" + ("" if has_recent else " (not yet available)"),expanded=False):
-            a,h=st.columns(2)
-            for col,name,tid in ((a,away,aid),(h,home,hid)):
+        has_recent = bool(recent_away or recent_home)
+        with st.expander("Recent results — last five season finals" + ("" if has_recent else " (none before this matchup)"), expanded=False):
+            a, h = st.columns(2)
+            for col, name, results in ((a, away, recent_away), (h, home, recent_home)):
                 with col:
                     st.markdown(f"**{name}**")
-                    results=_recent(games,tid)
                     if results:
-                        for result in results: st.write(result)
-                    else: st.caption("No completed games available in the loaded period.")
+                        for result in results:
+                            st.write(result)
+                    else:
+                        st.caption("No completed games available before this matchup." if not is_final
+                                   else "No completed games available through this matchup.")
 
     with context_tab:
         if net_ranks:
