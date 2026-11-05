@@ -1,43 +1,35 @@
 {
   "version": 226,
   "season": "2026-27",
-  "checked_at_utc": "2026-11-05T13:55:46+00:00",
-  "status": "critical",
+  "checked_at_utc": "2026-11-05T19:35:58+00:00",
+  "status": "warning",
   "divisions": {
     "mens": {
-      "status": "critical",
+      "status": "ok",
       "games_seen": 435,
-      "upcoming_12h": 59,
-      "upcoming_3h": 0,
-      "verified_d1_upcoming_12h": 40,
-      "excluded_non_d1_upcoming_12h": 19,
+      "upcoming_12h": 65,
+      "upcoming_3h": 2,
+      "verified_d1_upcoming_12h": 43,
+      "excluded_non_d1_upcoming_12h": 22,
       "d1_classification_available": true,
-      "official_forecasts_total": 339,
+      "official_forecasts_total": 340,
       "final_results_total": 215,
       "results_waiting_for_next_archive": 0,
-      "archive_as_of_utc": "2026-11-05T13:35:15+00:00",
-      "issues": [
-        {
-          "severity": "critical",
-          "code": "RATINGS_NOT_READY",
-          "message": "ratings are not current (48.4 hours old)",
-          "count": 40,
-          "examples": []
-        }
-      ]
+      "archive_as_of_utc": "2026-11-05T19:17:55+00:00",
+      "issues": []
     },
     "womens": {
-      "status": "critical",
+      "status": "warning",
       "games_seen": 419,
-      "upcoming_12h": 80,
-      "upcoming_3h": 2,
+      "upcoming_12h": 77,
+      "upcoming_3h": 4,
       "verified_d1_upcoming_12h": 63,
-      "excluded_non_d1_upcoming_12h": 17,
+      "excluded_non_d1_upcoming_12h": 14,
       "d1_classification_available": true,
       "official_forecasts_total": 329,
-      "final_results_total": 209,
+      "final_results_total": 215,
       "results_waiting_for_next_archive": 0,
-      "archive_as_of_utc": "2026-11-05T13:35:15+00:00",
+      "archive_as_of_utc": "2026-11-05T19:17:55+00:00",
       "issues": [
         {
           "severity": "warning",
@@ -47,13 +39,6 @@
           "examples": [
             "West Florida Argonauts @ Western Carolina Catamounts"
           ]
-        },
-        {
-          "severity": "critical",
-          "code": "RATINGS_NOT_READY",
-          "message": "ratings are not current (48.4 hours old)",
-          "count": 63,
-          "examples": []
         }
       ]
     }
