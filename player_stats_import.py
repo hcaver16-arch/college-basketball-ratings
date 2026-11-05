@@ -51,6 +51,70 @@ def parse_boxscore(data, team_id, game_id):
                                   **nums,'Game ID':str(game_id)})
     return extracted
 
+def audit_team_scoring_source(data, team_id, game_id, parsed_rows, team_score):
+    """Classify a real ESPN scorer-row gap versus an ESPN source-score conflict.
+
+    Only supplemental diagnostics. This never fills, corrects, or guesses
+    player statistics and must never turn a failing box score into a pass.
+    """
+    from math import isfinite
+    groups = ((data.get("boxscore") or {}).get("players") or [])
+    raw_total = 0.0
+    raw_scoring_rows = 0
+    missed_positive = []
+    parsed_ids = {str(row.get("Player ID") or "") for row in parsed_rows}
+    scoring_blocks = 0
+    for group in groups:
+        tid = str((group.get("team") or {}).get("id") or "")
+        if tid != str(team_id):
+            continue
+        for block in group.get("statistics") or []:
+            labels = [str(x).strip().upper() for x in
+                      (block.get("labels") or block.get("names") or [])]
+            point_idx = next((i for i,x in enumerate(labels)
+                              if x in ("PTS","POINTS")), None)
+            if point_idx is None:
+                continue
+            scoring_blocks += 1
+            for item in block.get("athletes") or []:
+                stats = item.get("stats") or []
+                if len(stats) <= point_idx:
+                    continue
+                point = numeric(stats[point_idx])
+                if point is None or not isfinite(point):
+                    continue
+                raw_total += point
+                raw_scoring_rows += 1
+                tid_athlete = str((item.get("athlete") or {}).get("id") or "")
+                if point > 0 and tid_athlete not in parsed_ids:
+                    missed_positive.append({"athlete_id": tid_athlete,
+                                            "points": point})
+    parsed_total = sum(float(row["Points"]) for row in parsed_rows)
+    try:
+        final = float(team_score)
+        if not isfinite(final):
+            final = None
+    except (ValueError,TypeError,OverflowError):
+        final = None
+    equivalent = abs(raw_total - parsed_total) <= 0.01
+    if scoring_blocks == 0 or final is None:
+        status = "INSUFFICIENT_SOURCE_DATA"
+    elif missed_positive or not equivalent:
+        status = "PARSER_OR_ATHLETE_ROW_GAP"
+    elif abs(raw_total-final) > 2:
+        status = "ESPN_RAW_PLAYER_TOTAL_DIFFERS_FROM_TEAM_FINAL"
+    else:
+        status = "POINT_TOTALS_RECONCILE"
+    return {
+        "status": status, "game_id":str(game_id),"team_id":str(team_id),
+        "parsed_player_points":round(parsed_total,2),
+        "raw_espn_player_points":round(raw_total,2),
+        "espn_final_team_points":final,
+        "raw_scoring_rows":raw_scoring_rows,
+        "missing_positive_scoring_athlete_rows":missed_positive,
+    }
+
+
 def games_from_schedule(data):
     """Extract completed ESPN events regardless of status nesting.
 
