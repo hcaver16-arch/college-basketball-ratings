@@ -25,5 +25,6 @@ jobs:
         run: |
           python -m py_compile boxscore_reconciliation_v231.py
           python test_player_stats_v228.py
+          python test_player_stats_v231.py
       - name: Inspect missing athlete rows in incomplete ESPN women's boxscores
         run: python boxscore_reconciliation_v231.py --max-games 12
