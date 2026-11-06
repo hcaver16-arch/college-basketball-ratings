@@ -1,16 +1,16 @@
 {
   "version": 226,
   "season": "2026-27",
-  "checked_at_utc": "2026-11-05T19:35:58+00:00",
-  "status": "warning",
+  "checked_at_utc": "2026-11-06T01:51:54+00:00",
+  "status": "ok",
   "divisions": {
     "mens": {
       "status": "ok",
       "games_seen": 435,
-      "upcoming_12h": 65,
-      "upcoming_3h": 2,
-      "verified_d1_upcoming_12h": 43,
-      "excluded_non_d1_upcoming_12h": 22,
+      "upcoming_12h": 6,
+      "upcoming_3h": 6,
+      "verified_d1_upcoming_12h": 3,
+      "excluded_non_d1_upcoming_12h": 3,
       "d1_classification_available": true,
       "official_forecasts_total": 340,
       "final_results_total": 215,
@@ -19,28 +19,18 @@
       "issues": []
     },
     "womens": {
-      "status": "warning",
+      "status": "ok",
       "games_seen": 419,
-      "upcoming_12h": 77,
-      "upcoming_3h": 4,
-      "verified_d1_upcoming_12h": 63,
-      "excluded_non_d1_upcoming_12h": 14,
+      "upcoming_12h": 6,
+      "upcoming_3h": 6,
+      "verified_d1_upcoming_12h": 5,
+      "excluded_non_d1_upcoming_12h": 1,
       "d1_classification_available": true,
       "official_forecasts_total": 329,
       "final_results_total": 215,
       "results_waiting_for_next_archive": 0,
       "archive_as_of_utc": "2026-11-05T19:17:55+00:00",
-      "issues": [
-        {
-          "severity": "warning",
-          "code": "MISSING_UPCOMING_D1_FORECASTS",
-          "message": "1 verified D1-v-D1 games within 12 hours lack locked forecasts",
-          "count": 1,
-          "examples": [
-            "West Florida Argonauts @ Western Carolina Catamounts"
-          ]
-        }
-      ]
+      "issues": []
     }
   },
   "scoreboard_fetch_errors": [],
