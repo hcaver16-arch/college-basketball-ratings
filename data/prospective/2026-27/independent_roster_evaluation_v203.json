@@ -1,7 +1,7 @@
 {
   "version": 203,
   "season": "2026-27",
-  "as_of_utc": "2026-11-06T13:52:11.383403Z",
+  "as_of_utc": "2026-11-06T19:36:38.635011Z",
   "status": "PROSPECTIVE_RESEARCH_ONLY_NOT_DEPLOYED",
   "production_model_modified": false,
   "published_pregame_forecasts_unchanged": true,
@@ -442,8 +442,7 @@
   "total_pairs": 0,
   "skipped": {
     "invalid_evidence_or_pregame_timing": 274,
-    "baseline_prediction_not_fresh_no_backfill": 66,
-    "one_or_both_teams_lack_verified_evidence": 58
+    "baseline_prediction_not_fresh_no_backfill": 124
   },
   "paired_results": {
     "mens": {
