@@ -1,7 +1,7 @@
 {
   "version": 203,
   "season": "2026-27",
-  "as_of_utc": "2026-11-05T19:36:26.698862Z",
+  "as_of_utc": "2026-11-06T13:52:11.383403Z",
   "status": "PROSPECTIVE_RESEARCH_ONLY_NOT_DEPLOYED",
   "production_model_modified": false,
   "published_pregame_forecasts_unchanged": true,
@@ -441,9 +441,9 @@
   "new_pairs": 0,
   "total_pairs": 0,
   "skipped": {
-    "invalid_evidence_or_pregame_timing": 273,
+    "invalid_evidence_or_pregame_timing": 274,
     "baseline_prediction_not_fresh_no_backfill": 66,
-    "one_or_both_teams_lack_verified_evidence": 1
+    "one_or_both_teams_lack_verified_evidence": 58
   },
   "paired_results": {
     "mens": {
@@ -459,9 +459,9 @@
     "source": "V97 first official pregame forecast journal, future start times only",
     "counts": {
       "upcoming_locked_mens_baselines": 124,
-      "neither_team_qualified": 115,
-      "exactly_one_team_qualified": 9,
-      "upcoming_opponents_missing_qualification": 9
+      "neither_team_qualified": 118,
+      "exactly_one_team_qualified": 6,
+      "upcoming_opponents_missing_qualification": 6
     },
     "opponents_to_prioritize": [
       {
@@ -470,18 +470,8 @@
         "upcoming_one_sided_games": 1
       },
       {
-        "team_id": "2803",
-        "team": "Bryant Bulldogs",
-        "upcoming_one_sided_games": 1
-      },
-      {
         "team_id": "48",
         "team": "Delaware Blue Hens",
-        "upcoming_one_sided_games": 1
-      },
-      {
-        "team_id": "294",
-        "team": "Jacksonville Dolphins",
         "upcoming_one_sided_games": 1
       },
       {
@@ -497,11 +487,6 @@
       {
         "team_id": "2572",
         "team": "Southern Miss Golden Eagles",
-        "upcoming_one_sided_games": 1
-      },
-      {
-        "team_id": "2649",
-        "team": "Toledo Rockets",
         "upcoming_one_sided_games": 1
       },
       {
