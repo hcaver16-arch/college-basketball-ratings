@@ -1,17 +1,17 @@
 {
   "version": 228,
   "season": "2026-27",
-  "checked_at_utc": "2026-11-05T16:46:27+00:00",
+  "checked_at_utc": "2026-11-06T15:24:46+00:00",
   "divisions": {
     "mens-college-basketball": {
-      "as_of_utc": "2026-11-05T16:46:27+00:00",
-      "discovered_d1_team_game_boxscores": 383,
-      "verified_d1_team_game_boxscores": 383,
+      "as_of_utc": "2026-11-06T15:24:46+00:00",
+      "discovered_d1_team_game_boxscores": 490,
+      "verified_d1_team_game_boxscores": 490,
       "unverified_d1_team_game_boxscores": 0,
       "espn_source_score_mismatch_boxscores": 0,
       "possible_parser_scoring_gap_boxscores": 0,
       "observed_boxscore_coverage": 1.0,
-      "athletes_with_observed_games": 4217,
+      "athletes_with_observed_games": 4370,
       "player_leaders_publishable": true,
       "publication_minimum_observed_games": 30,
       "publication_minimum_coverage": 0.95,
@@ -21,27 +21,62 @@
       "version": 228,
       "division": "mens",
       "season": "2026-27",
-      "last_discovered_date_et": "2026-11-05",
+      "last_discovered_date_et": "2026-11-06",
       "verified_d1_team_directory_count": 362,
-      "scoreboard_dates_fetched": 5,
-      "summary_games_fetched": 0,
-      "last_collection_run_utc": "2026-11-05T16:46:27+00:00",
+      "scoreboard_dates_fetched": 6,
+      "summary_games_fetched": 64,
+      "last_collection_run_utc": "2026-11-06T15:24:46+00:00",
       "source": "ESPN group-50 scoreboard and ESPN per-game individual boxscores",
       "historical_first_forecasts_modified": false
     },
     "womens-college-basketball": {
-      "as_of_utc": "2026-11-05T16:46:27+00:00",
-      "discovered_d1_team_game_boxscores": 379,
-      "verified_d1_team_game_boxscores": 370,
-      "unverified_d1_team_game_boxscores": 9,
-      "espn_source_score_mismatch_boxscores": 9,
+      "as_of_utc": "2026-11-06T15:24:46+00:00",
+      "discovered_d1_team_game_boxscores": 532,
+      "verified_d1_team_game_boxscores": 522,
+      "unverified_d1_team_game_boxscores": 10,
+      "espn_source_score_mismatch_boxscores": 10,
       "possible_parser_scoring_gap_boxscores": 0,
-      "observed_boxscore_coverage": 0.9763,
-      "athletes_with_observed_games": 3698,
+      "observed_boxscore_coverage": 0.9812,
+      "athletes_with_observed_games": 3969,
       "player_leaders_publishable": true,
       "publication_minimum_observed_games": 30,
       "publication_minimum_coverage": 0.95,
       "unverified_examples": [
+        {
+          "game_id": "401920439",
+          "team": "Texas A&M-Corpus Christi Islanders",
+          "reason": "ESPN source mismatch: raw athlete points 70 vs final team score 76; no omitted scoring rows"
+        },
+        {
+          "game_id": "401928011",
+          "team": "SIU Edwardsville Cougars",
+          "reason": "ESPN source mismatch: raw athlete points 83 vs final team score 95; no omitted scoring rows"
+        },
+        {
+          "game_id": "401913899",
+          "team": "Western Carolina Catamounts",
+          "reason": "ESPN source mismatch: raw athlete points 64 vs final team score 72; no omitted scoring rows"
+        },
+        {
+          "game_id": "401918582",
+          "team": "Bethune-Cookman Wildcats",
+          "reason": "ESPN source mismatch: raw athlete points 66 vs final team score 76; no omitted scoring rows"
+        },
+        {
+          "game_id": "401916150",
+          "team": "Portland Pilots",
+          "reason": "ESPN source mismatch: raw athlete points 51 vs final team score 64; no omitted scoring rows"
+        },
+        {
+          "game_id": "401929300",
+          "team": "Tennessee State Lady Tigers",
+          "reason": "ESPN source mismatch: raw athlete points 92 vs final team score 95; no omitted scoring rows"
+        },
+        {
+          "game_id": "401929155",
+          "team": "Western Carolina Catamounts",
+          "reason": "ESPN source mismatch: raw athlete points 92 vs final team score 96; no omitted scoring rows"
+        },
         {
           "game_id": "401918581",
           "team": "Bethune-Cookman Wildcats",
@@ -51,36 +86,6 @@
           "game_id": "401921077",
           "team": "Temple Owls",
           "reason": "ESPN source mismatch: raw athlete points 68 vs final team score 71; no omitted scoring rows"
-        },
-        {
-          "game_id": "401929155",
-          "team": "Western Carolina Catamounts",
-          "reason": "ESPN source mismatch: raw athlete points 92 vs final team score 96; no omitted scoring rows"
-        },
-        {
-          "game_id": "401928011",
-          "team": "SIU Edwardsville Cougars",
-          "reason": "ESPN source mismatch: raw athlete points 83 vs final team score 95; no omitted scoring rows"
-        },
-        {
-          "game_id": "401921305",
-          "team": "Lafayette Leopards",
-          "reason": "ESPN source mismatch: raw athlete points 28 vs final team score 37; no omitted scoring rows"
-        },
-        {
-          "game_id": "401920439",
-          "team": "Texas A&M-Corpus Christi Islanders",
-          "reason": "ESPN source mismatch: raw athlete points 70 vs final team score 76; no omitted scoring rows"
-        },
-        {
-          "game_id": "401913898",
-          "team": "West Florida Argonauts",
-          "reason": "ESPN source mismatch: raw athlete points 48 vs final team score 51; no omitted scoring rows"
-        },
-        {
-          "game_id": "401929300",
-          "team": "Tennessee State Lady Tigers",
-          "reason": "ESPN source mismatch: raw athlete points 92 vs final team score 95; no omitted scoring rows"
         },
         {
           "game_id": "401917683",
@@ -93,11 +98,11 @@
       "version": 228,
       "division": "womens",
       "season": "2026-27",
-      "last_discovered_date_et": "2026-11-05",
+      "last_discovered_date_et": "2026-11-06",
       "verified_d1_team_directory_count": 362,
-      "scoreboard_dates_fetched": 5,
-      "summary_games_fetched": 9,
-      "last_collection_run_utc": "2026-11-05T16:46:27+00:00",
+      "scoreboard_dates_fetched": 6,
+      "summary_games_fetched": 94,
+      "last_collection_run_utc": "2026-11-06T15:24:46+00:00",
       "source": "ESPN group-50 scoreboard and ESPN per-game individual boxscores",
       "historical_first_forecasts_modified": false
     }
