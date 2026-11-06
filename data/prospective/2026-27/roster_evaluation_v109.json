@@ -1,7 +1,7 @@
 {
   "version": 109,
   "season": "2026-27",
-  "generated_at_utc": "2026-11-06T13:29:04.422010Z",
+  "generated_at_utc": "2026-11-06T19:16:39.757116Z",
   "status": "PROSPECTIVE_PAIRED_RESEARCH_ONLY",
   "production_modified": false,
   "baseline_source": "V97 official_saved_v97 pregame forecast archive",
@@ -15,11 +15,10 @@
   ],
   "roster_errors": {},
   "skipped_new_pairs": {
-    "invalid_or_late_forecast": 169,
-    "not_contemporaneous_or_roster_postdates_forecast": 15,
-    "missing_roster_signal": 15
+    "invalid_or_late_forecast": 171,
+    "not_contemporaneous_or_roster_postdates_forecast": 28
   },
-  "new_pairs": 84,
+  "new_pairs": 0,
   "total_pairs": 569,
   "paired_results": {
     "mens": {
@@ -34,14 +33,14 @@
       "status": "DESCRIPTIVE_ONLY_NOT_CAUSAL_OR_VALIDATED"
     },
     "womens": {
-      "paired_completed_games": 204,
-      "baseline_margin_mae": 14.8886,
-      "experimental_margin_mae": 14.7727,
-      "mae_improvement_positive_is_better": 0.1159,
-      "baseline_winner_accuracy": 0.8235,
-      "experimental_winner_accuracy": 0.8284,
-      "baseline_winner_n": 204,
-      "experimental_winner_n": 204,
+      "paired_completed_games": 209,
+      "baseline_margin_mae": 14.8747,
+      "experimental_margin_mae": 14.7568,
+      "mae_improvement_positive_is_better": 0.1179,
+      "baseline_winner_accuracy": 0.823,
+      "experimental_winner_accuracy": 0.8278,
+      "baseline_winner_n": 209,
+      "experimental_winner_n": 209,
       "status": "DESCRIPTIVE_ONLY_NOT_CAUSAL_OR_VALIDATED"
     }
   }
