@@ -1,10 +1,10 @@
 {
   "version": 97,
   "season": "2026-27",
-  "as_of_utc": "2026-11-07T13:14:53Z",
+  "as_of_utc": "2026-11-07T18:52:47Z",
   "counts": {
     "immutable_forecasts": 868,
-    "final_results": 667
+    "final_results": 668
   },
   "today": {
     "mens": {
@@ -17,7 +17,7 @@
     "womens": {
       "games_seen": 286,
       "forecasts_created": 0,
-      "results_added": 0,
+      "results_added": 1,
       "official_ratings": "available",
       "experimental_ratings": "not provided"
     }
@@ -33,11 +33,11 @@
       "brier_reason": "No saved pregame win probabilities"
     },
     "womens/official_saved_v97": {
-      "graded_games": 328,
-      "margin_mae": 20.3533,
-      "winner_accuracy_non_ties": 0.8354,
-      "winner_sample": 328,
-      "bias_actual_minus_prediction": 15.3036,
+      "graded_games": 329,
+      "margin_mae": 20.2937,
+      "winner_accuracy_non_ties": 0.8359,
+      "winner_sample": 329,
+      "bias_actual_minus_prediction": 15.2594,
       "brier_score": null,
       "brier_reason": "No saved pregame win probabilities"
     }
