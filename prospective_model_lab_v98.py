@@ -88,6 +88,9 @@ def render_prospective_model_lab(division=None):
         divs=['mens','womens']
         current=division if division in divs else 'mens'
         chosen=st.selectbox('Division',divs,index=divs.index(current),format_func=lambda d:"Men's" if d=='mens' else "Women's",key='v98_prospective_division')
+        # V233: the dedicated paired evaluation additionally requires two
+        # genuinely locked forecasts within six hours of each other.
+        _render_anchored_comparison_v233(chosen)
         div_f=f.loc[f['division'].astype(str).eq(chosen)] if 'division' in f else pd.DataFrame()
         div_rows=rows.loc[rows['division'].eq(chosen)] if not rows.empty else pd.DataFrame()
         if div_f.empty:
@@ -127,6 +130,42 @@ def render_prospective_model_lab(division=None):
             st.download_button('Download graded forecasts (CSV)',selected.to_csv(index=False).encode('utf-8'),file_name=f'courtside_{chosen}_{model}_graded_v98.csv',mime='text/csv',key=f'v98_download_{chosen}_{model}')
         _paired(rows,chosen,model)
         _tracker_notes(summary,chosen)
+
+
+def _render_anchored_comparison_v233(division):
+    """Read-only forecast comparison; never fills missing games."""
+    import json
+    path=ROOT/'data'/'prospective'/SEASON/'anchored_evaluation_v233.json'
+    if not path.exists():
+        st.caption("Preseason-anchored experiment: waiting for its first saved pre-tip comparisons.")
+        return
+    try:
+        summary=json.loads(path.read_text())
+        if summary.get("version")!=233:
+            raise ValueError("Incorrect research report version")
+        row=summary.get("divisions",{}).get(division) or {}
+        matched=int(row.get("paired_graded_games",0))
+        informative=int(row.get("informative_grades",0))
+        base=row.get("baseline",{})
+        anchored=row.get("anchored",{})
+    except (OSError,ValueError,TypeError,KeyError,json.JSONDecodeError):
+        st.warning("Anchored research comparison unavailable; original first forecasts are unchanged.")
+        return
+    with st.container(border=True):
+        st.markdown("**Official vs preseason-anchored · Matched pregame predictions**")
+        if not matched:
+            st.caption("The experimental model is collecting first forecasts. No completed paired games are available yet.")
+        else:
+            a,b,c=st.columns(3)
+            a.metric("Paired graded games",matched)
+            b.metric("Official margin MAE",_fmt(base.get("mae")))
+            c.metric("Anchored margin MAE",_fmt(anchored.get("mae")))
+        st.caption(
+            f"{informative} informative games (predictions differ by over 0.05 pts); "
+            "100 needed before exploratory model review. Only matches with both "
+            "forecasts locked before tipoff and within six hours are graded. "
+            "The official rating model is unchanged."
+        )
 
 
 def _paired(rows,division,model):
