@@ -8,6 +8,7 @@ import streamlit as st
 from efficiency_ui import render_team_efficiency
 from raw_team_stats import team_raw_stats
 from adjusted_display import merge_team_stats
+from rating_movement_v233 import movement_for_team
 
 
 def _num(value, decimals=1, signed=False):
@@ -232,6 +233,10 @@ def render_team_profile(*, team, team_id, league, sport, ratings, games, prelimi
     st.markdown('<div class="cs198-header-stats">'+metrics+'</div>',unsafe_allow_html=True)
     tabs=st.tabs(['Overview','Schedule','Statistics','Roster','Ratings'])
     history=_history_rows(history_loader(sport,str(team_id)))
+    latest_delta, previous_day = movement_for_team(history)
+    previous_label = f"Since {previous_day}" if previous_day else "Since prior update"
+    recent_change = _num(latest_delta,signed=True) if latest_delta is not None else '—'
+    preseason_change = _num(rating.get('Rating change'),signed=True) if rating is not None else '—'
     with tabs[0]:
         # V200: headline completed-game averages immediately below Overview tabs.
         boxscore_count = int(raw_stats.get('boxscore_games',0)) if isinstance(raw_stats,dict) else 0
@@ -262,6 +267,8 @@ def render_team_profile(*, team, team_id, league, sport, ratings, games, prelimi
                 ('Power rating',power),
                 ('National power rank',rank),
                 ('Preseason rating',_num(rating.get('Preseason rating'),signed=True) if rating is not None else '—'),
+                (previous_label,recent_change),
+                ('Vs preseason',preseason_change),
                 ('Strength of schedule',sos_value),
                 ('Strength of record',sor_value),
                 ('Games played',str(int(rating['Games played'])) if rating is not None and pd.notna(rating.get('Games played')) else '—'),
@@ -377,6 +384,12 @@ def render_team_profile(*, team, team_id, league, sport, ratings, games, prelimi
         st.info('Detailed player records, optional roster fetch, and collection-quality checks remain in Detailed data & tools below.')
     with tabs[4]:
         st.markdown('#### Rating history and rank movement')
+        m1,m2=st.columns(2)
+        with m1:
+            st.metric(previous_label,recent_change)
+        with m2:
+            st.metric("Vs preseason",preseason_change)
+        st.caption("Saved model power since the previous archived update is different from the season-to-date change versus preseason.")
         valid_rating=history.dropna(subset=['Current power'])
         valid_rank=history.dropna(subset=['Rank'])
         if len(valid_rating)>=2:
