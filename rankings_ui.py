@@ -28,6 +28,12 @@ def _fmt(value, signed=False):
 
 
 
+def _list_rating_movement(item):
+    val = pd.to_numeric(item.get("Since previous snapshot"), errors="coerce")
+    previous = f'{float(val):+.2f}' if pd.notna(val) else '—'
+    return f'Since prior update {previous} · Vs preseason {_fmt(item.get("Rating change"), True)}'
+
+
 def _tile_markup(item, value, metric_label, logos_enabled):
     """Safe, data-only markup for the optional dense rankings tile view."""
     name = html.escape(str(item.get("Team", "Unknown")))
@@ -57,9 +63,15 @@ def _tile_markup(item, value, metric_label, logos_enabled):
         context = f'Baseline {_fmt(item.get("Current power"), True)}'
     else:
         change = _fmt(item.get("Rating change"), True)
-        context = f'Vs preseason {change}' if change != "—" else (
+        previous = pd.to_numeric(item.get("Since previous snapshot"),errors="coerce")
+        date = item.get("Previous snapshot date")
+        if pd.notna(previous) and pd.notna(date):
+            previous_label = f'Since {str(date)} {float(previous):+.2f} · '
+        else:
+            previous_label = 'Prior update — · '
+        context = previous_label + (f'Vs preseason {change}' if change != "—" else (
             f'Preseason {_fmt(item.get("Preseason rating"), True)}'
-        )
+        ))
     return (
         '<div class="cr195-tile">'
         '<div class="cr195-top"><span class="cr195-rank">' + html.escape(rank_label) +
@@ -77,7 +89,7 @@ def _tile_markup(item, value, metric_label, logos_enabled):
     )
 
 
-def render_rankings(ratings: pd.DataFrame, preliminary: pd.DataFrame, league: str, verified_d1_ids: set[str]):
+def render_rankings(ratings: pd.DataFrame, preliminary: pd.DataFrame, league: str, verified_d1_ids: set[str], movement=None):
     st.markdown('''<style>
     .cr-head{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:17px 20px;margin-bottom:14px}
     .cr-head h2{font-size:1.5rem;color:#243449;margin:0 0 5px}
@@ -143,6 +155,10 @@ def render_rankings(ratings: pd.DataFrame, preliminary: pd.DataFrame, league: st
     allowed = {str(team_id) for team_id in verified_d1_ids}
     data['Team ID'] = data['Team ID'].astype(str)
     data = data[data['Team ID'].isin(allowed)].copy()
+    if isinstance(movement,pd.DataFrame) and not movement.empty and "Team ID" in movement:
+        changes=movement[["Team ID","Since previous snapshot","Previous snapshot date"]].copy()
+        changes["Team ID"]=changes["Team ID"].astype(str)
+        data=data.merge(changes.drop_duplicates("Team ID"),on="Team ID",how="left")
     if data.empty:
         st.info('No rated, verified Division I teams are available yet.')
         return
@@ -241,6 +257,7 @@ def render_rankings(ratings: pd.DataFrame, preliminary: pd.DataFrame, league: st
                     '<div class="cs79-team">'
                     f'<div class="cs79-name">{html.escape(str(item["Team"]))}</div>'
                     f'<div class="cs79-meta">{html.escape(str(item["Conference"]))}</div>'
+                    f'<div class="cs79-meta">{html.escape(_list_rating_movement(item))}</div>'
                     '</div><div class="cs79-result">'
                     f'<div class="cs79-number">{html.escape(_fmt(v, True))}</div>'
                     f'<div class="cs79-label">{html.escape(label)}</div>'

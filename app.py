@@ -26,6 +26,7 @@ from roster_rating_experiment import roster_sensitivity, roster_quality
 from saved_roster_data import load_saved_data, build_team_roster_view, roster_archive_summary, team_saved_analysis, archive_counts
 from rating_engine import calculate_power, make_combined
 from saved_ratings import load_ratings, load_history
+from rating_movement_v233 import latest_movement
 from roster_validation import model_feature_table, backtest_readiness
 from coverage_audit import audit_coverage
 from roster_reconciliation import reconciliation_summary
@@ -1045,7 +1046,10 @@ if selected_section == "Rankings":
         ["Courtside Power", "AP Top 25", "Coaches Poll"]
     )
     with power_tab:
-        render_rankings(team_ratings, preliminary_ratings, league, verified_d1_ids)
+        # Live rankings are still sorted by official power; show *two*
+        # different dated movement concepts without changing the rating.
+        changes = latest_movement(team_ratings, load_history(SPORTS[league]))
+        render_rankings(team_ratings, preliminary_ratings, league, verified_d1_ids, movement=changes)
     with ap_tab:
         render_polls(league, team_ratings, poll_choice="AP Top 25")
     with coaches_tab:
