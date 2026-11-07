@@ -108,6 +108,31 @@ def load_optional(sport,root,now,max_age_hours=48):
     if asof is None or not 0 <= (now-asof).total_seconds()/3600 <= max_age_hours:return None,'experimental rating timestamp invalid or stale'
     model=str(df.iloc[0]['model_id']).strip()
     if not model or model=='official_saved_v97' or any(c not in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-.' for c in model):return None,'invalid experimental model_id'
+    if model=='anchored_ridge8_v233':
+        # V233 fail closed: a saved experimental snapshot must have been
+        # generated from the exact currently archived source bytes. A
+        # stale copy after ratings are refreshed may not produce forecasts.
+        provenance=('source_official_snapshot_utc','source_official_sha256',
+                    'source_previous_sha256','source_current_sha256')
+        if not set(provenance).issubset(df.columns) or any(df[c].nunique()!=1 for c in provenance):
+            return None,'V233 anchored provenance missing or inconsistent'
+        base=root/'data'/'ratings'/sport
+        files={
+            'source_official_sha256':base/'latest.csv.gz',
+            'source_previous_sha256':base/'history_2025-26.csv.gz',
+            'source_current_sha256':base/'season_2026-27.csv.gz',
+        }
+        if any(not file.exists() or hashlib.sha256(file.read_bytes()).hexdigest()!=str(df.iloc[0][name])
+               for name,file in files.items()):
+            return None,'V233 source hashes no longer match saved official inputs'
+        status=base/'status.json'
+        if not status.exists():return None,'V233 official status unavailable'
+        official_time=parse_dt(json.loads(status.read_text()).get('updated_utc'))
+        candidate_source_time=parse_dt(df.iloc[0]['source_official_snapshot_utc'])
+        if official_time is None or candidate_source_time!=official_time or asof<official_time:
+            return None,'V233 saved official snapshot changed since candidate fit'
+        if df['Team ID'].duplicated().any() or df['Power'].isna().any():
+            return None,'V233 candidate has invalid or duplicate rated teams'
     df['Power']=pd.to_numeric(df['Power'],errors='coerce');df=df.dropna(subset=['Power']).drop_duplicates('Team ID')
     return {'ratings':dict(zip(df['Team ID'].astype(str),df['Power'].astype(float))), 'asof':asof, 'id':'experimental_'+model,'file':str(file.relative_to(root)),'sha256':hashlib.sha256(file.read_bytes()).hexdigest(),'type':'optional_experimental'},None
 
