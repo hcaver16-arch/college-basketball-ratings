@@ -1,16 +1,16 @@
 {
   "version": 226,
   "season": "2026-27",
-  "checked_at_utc": "2026-11-06T19:36:01+00:00",
-  "status": "critical",
+  "checked_at_utc": "2026-11-07T01:41:39+00:00",
+  "status": "warning",
   "divisions": {
     "mens": {
-      "status": "critical",
+      "status": "warning",
       "games_seen": 289,
-      "upcoming_12h": 72,
-      "upcoming_3h": 4,
-      "verified_d1_upcoming_12h": 58,
-      "excluded_non_d1_upcoming_12h": 14,
+      "upcoming_12h": 16,
+      "upcoming_3h": 15,
+      "verified_d1_upcoming_12h": 12,
+      "excluded_non_d1_upcoming_12h": 4,
       "d1_classification_available": true,
       "official_forecasts_total": 398,
       "final_results_total": 273,
@@ -18,12 +18,12 @@
       "archive_as_of_utc": "2026-11-06T19:16:38+00:00",
       "issues": [
         {
-          "severity": "critical",
-          "code": "MISSING_IMMINENT_D1_FORECASTS",
-          "message": "1 verified D1-v-D1 games within three hours lack locked forecasts",
+          "severity": "warning",
+          "code": "MISSING_FINAL_RESULTS",
+          "message": "1 ESPN-final games still lack results after a subsequent archive run",
           "count": 1,
           "examples": [
-            "West Florida Argonauts @ Florida International Panthers"
+            "401921153"
           ]
         }
       ]
@@ -31,10 +31,10 @@
     "womens": {
       "status": "ok",
       "games_seen": 323,
-      "upcoming_12h": 36,
-      "upcoming_3h": 3,
-      "verified_d1_upcoming_12h": 28,
-      "excluded_non_d1_upcoming_12h": 8,
+      "upcoming_12h": 6,
+      "upcoming_3h": 6,
+      "verified_d1_upcoming_12h": 4,
+      "excluded_non_d1_upcoming_12h": 2,
       "d1_classification_available": true,
       "official_forecasts_total": 370,
       "final_results_total": 294,
