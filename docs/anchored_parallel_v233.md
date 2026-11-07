@@ -22,6 +22,8 @@ The original `Rating change = Current power - Preseason rating` is now consisten
 
 On rankings, both movements appear on Tiles and Compact list. Team pages show both in Overview and Ratings, alongside the existing complete rating trend graph. D1 ranking membership and site-wide logo defaults are unchanged.
 
+On **Model Lab → Performance**, a compact read-only comparison shows paired graded game count, official margin MAE, anchored margin MAE, and the **informative-game** total from the stricter V233 pairing report. The existing V98 model selector can also inspect the individual experimental model, while the official model stays selected by default.
+
 ## What happens after merging?
 
 Run the existing **Archive pregame forecasts and outcomes V97** workflow on main to produce the first anchored snapshot and lock **future**, not already-played, candidate predictions. Regular twice-daily V97 runs continue adding new pregame pairs automatically. Check the run summary and `data/prospective/2026-27/anchored_evaluation_v233.json` to see coverage grow. The official model is not promoted automatically, regardless of the early results. Evaluate predictive performance at the January 1 checkpoint, or earlier only if independent future data warrant a deliberate change.
