@@ -79,13 +79,14 @@ with TemporaryDirectory() as tmp:
     assert scored_pairs(corrupt,results)[0].empty
     # An optional snapshot with a source hash from a superseded rating
     # file must fail closed; official archive remains independently usable.
+    original_bytes=(base/"season_2026-27.csv.gz").read_bytes()
     changed=current.copy()
     changed.loc[0,"Home score"]=100
     changed.to_csv(base/"season_2026-27.csv.gz",index=False,compression="gzip")
     rejected,reason=load_optional(SPORT,root,NOW)
     assert rejected is None and "source hashes" in reason,reason
     # Restore source, but change status timestamp to simulate refresh race.
-    current.to_csv(base/"season_2026-27.csv.gz",index=False,compression="gzip")
+    (base/"season_2026-27.csv.gz").write_bytes(original_bytes)
     (base/"status.json").write_text(json.dumps({
         "snapshot_date":"2026-11-07",
         "updated_utc":(NOW-timedelta(minutes=15)).isoformat()
