@@ -6,7 +6,7 @@ from audit_top25_rating_change_v232 import audit_snapshot
 ids={str(i) for i in range(1,300)}
 rows=[]
 for i in range(1,301):
-    baseline=25.-i/10
+    baseline=(25.-i/10) if i<=25 else (5.-i/10)
     # Important: large baseline schools may all decline after season
     current=baseline-.9 if i<=25 else baseline+.5
     rows.append({"Team ID":str(i),"Team":f"Team {i}",
