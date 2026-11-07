@@ -21,7 +21,18 @@ jobs:
         with:
           python-version: '3.11'
       - name: Install Python packages
-        run: pip install pandas requests
+        run: pip install pandas numpy requests
+      - name: Generate V233 experimental preseason-anchored snapshot
+        # The official archive is more important than research: on a source
+        # failure, V97 still records official forecasts. V233's loader rejects
+        # stale experimental snapshots using source hashes + official timestamp.
+        continue-on-error: true
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+          OMP_NUM_THREADS: '1'
+        run: |
+          python -m py_compile anchored_snapshot_v233.py
+          python anchored_snapshot_v233.py --root . --sport both
       - name: Lock eligible pregame predictions and grade completed games
         run: |
           python -m py_compile prospective_archive_v97.py
@@ -33,15 +44,29 @@ jobs:
             cat data/prospective/2026-27/summary.json
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
+      - name: Evaluate matched experimental vs official pre-tip forecasts
+        run: |
+          python paired_anchor_eval_v233.py --root . --season 2026-27
+          {
+            echo '## V233 paired research, not production'
+            echo 'No forecasts were backfilled; only saved pregame pairs are evaluated.'
+            echo '```json'
+            cat data/prospective/2026-27/anchored_evaluation_v233.json
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
       - name: Commit the append-only archive
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -- data/prospective/2026-27/forecasts.csv data/prospective/2026-27/results.csv data/prospective/2026-27/summary.json
+          git add -- data/prospective/2026-27/forecasts.csv data/prospective/2026-27/results.csv data/prospective/2026-27/summary.json data/prospective/2026-27/anchored_pairs_v233.csv data/prospective/2026-27/anchored_evaluation_v233.json
+          if test -d data/prospective/experimental_ratings/; then
+            git add -- data/prospective/experimental_ratings/
+          fi
           if git diff --cached --quiet; then
             echo 'No archive changes'
             exit 0
           fi
-          git commit -m 'Archive prospective Courtside predictions and finals V97'
-          git push
+          git commit -m 'Archive immutable official and V233 experimental forecasts'
+          git pull --rebase origin main
+          git push origin HEAD:main
