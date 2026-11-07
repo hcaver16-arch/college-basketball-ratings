@@ -1,7 +1,7 @@
 {
   "version": 203,
   "season": "2026-27",
-  "as_of_utc": "2026-11-06T19:36:38.635011Z",
+  "as_of_utc": "2026-11-07T13:34:41.043517Z",
   "status": "PROSPECTIVE_RESEARCH_ONLY_NOT_DEPLOYED",
   "production_model_modified": false,
   "published_pregame_forecasts_unchanged": true,
@@ -441,8 +441,9 @@
   "new_pairs": 0,
   "total_pairs": 0,
   "skipped": {
-    "invalid_evidence_or_pregame_timing": 274,
-    "baseline_prediction_not_fresh_no_backfill": 124
+    "invalid_evidence_or_pregame_timing": 340,
+    "baseline_prediction_not_fresh_no_backfill": 58,
+    "one_or_both_teams_lack_verified_evidence": 34
   },
   "paired_results": {
     "mens": {
@@ -457,40 +458,25 @@
   "matchup_readiness": {
     "source": "V97 first official pregame forecast journal, future start times only",
     "counts": {
-      "upcoming_locked_mens_baselines": 124,
-      "neither_team_qualified": 118,
-      "exactly_one_team_qualified": 6,
-      "upcoming_opponents_missing_qualification": 6
+      "upcoming_locked_mens_baselines": 92,
+      "neither_team_qualified": 89,
+      "exactly_one_team_qualified": 3,
+      "upcoming_opponents_missing_qualification": 3
     },
     "opponents_to_prioritize": [
       {
-        "team_id": "2032",
-        "team": "Arkansas State Red Wolves",
+        "team_id": "25",
+        "team": "California Golden Bears",
         "upcoming_one_sided_games": 1
       },
       {
-        "team_id": "48",
-        "team": "Delaware Blue Hens",
+        "team_id": "2916",
+        "team": "Incarnate Word Cardinals",
         "upcoming_one_sided_games": 1
       },
       {
-        "team_id": "130",
-        "team": "Michigan Wolverines",
-        "upcoming_one_sided_games": 1
-      },
-      {
-        "team_id": "2582",
-        "team": "Southern Jaguars",
-        "upcoming_one_sided_games": 1
-      },
-      {
-        "team_id": "2572",
-        "team": "Southern Miss Golden Eagles",
-        "upcoming_one_sided_games": 1
-      },
-      {
-        "team_id": "2747",
-        "team": "Wofford Terriers",
+        "team_id": "261",
+        "team": "Vermont Catamounts",
         "upcoming_one_sided_games": 1
       }
     ],
