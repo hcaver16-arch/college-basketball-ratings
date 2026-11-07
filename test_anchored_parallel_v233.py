@@ -34,7 +34,8 @@ with TemporaryDirectory() as tmp:
     live,_=calculate_power(current)
     published=make_combined(prior,live,{})
     published.to_csv(base/"latest.csv.gz",index=False,compression="gzip")
-    official_time=NOW-timedelta(minutes=30)
+    # Production status.json timestamps normally contain microseconds.
+    official_time=NOW-timedelta(minutes=30,microseconds=123456)
     (base/"status.json").write_text(json.dumps({
         "snapshot_date":"2026-11-07","updated_utc":official_time.isoformat()
     }))
