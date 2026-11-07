@@ -1,0 +1,38 @@
+name: Audit V232 top-25 rating movements (research only)
+on:
+  pull_request:
+    paths:
+      - audit_top25_rating_change_v232.py
+      - test_top25_rating_change_v232.py
+      - .github/workflows/audit_top25_v232.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Dependencies
+        run: python -m pip install 'numpy>=1.26,<3' 'pandas>=2.1,<3' 'requests>=2.31,<3'
+      - name: Validate top25 labels and chronology
+        run: |
+          python -m py_compile audit_top25_rating_change_v232.py
+          python test_top25_rating_change_v232.py
+          python test_rating_reliability_v181.py
+      - name: Read saved men and women top25 and calculate research comparisons
+        run: python audit_top25_rating_change_v232.py --root . --out /tmp/v232_report
+      - name: Preserve audit results as download
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v232-current-top25-rating-audit
+          path: /tmp/v232_report/
+          if-no-files-found: warn
