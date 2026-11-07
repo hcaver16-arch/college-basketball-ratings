@@ -113,4 +113,11 @@ mismatch=latest.copy()
 mismatch.loc[0,"Current power"]=80.
 check=latest_movement(mismatch,history)
 assert np.isnan(check.loc[check["Team ID"].eq("1"),"Since previous snapshot"].iloc[0])
+# The Model Lab must make actual paired evaluation visible and must
+# explicitly report informative-game limits, not extrapolate predictions.
+model_lab_source=Path("prospective_model_lab_v98.py").read_text()
+assert "_render_anchored_comparison_v233(chosen)" in model_lab_source
+assert 'anchored_evaluation_v233.json' in model_lab_source
+assert "100 needed before exploratory model review" in model_lab_source
+
 print("V233 anchored snapshot provenance, true pretip locks, valid pairs and movement history passed")
