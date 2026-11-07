@@ -1,0 +1,97 @@
+{
+  "version": 233,
+  "generated_utc": "2026-11-07T22:45:09.594691+00:00",
+  "status": "PROSPECTIVE_PAIRED_RESEARCH_ONLY",
+  "model_ids": {
+    "official": "official_saved_v97",
+    "anchored": "experimental_anchored_ridge8_v233"
+  },
+  "max_lock_gap_hours": 6,
+  "lock_integrity_checks": {
+    "paired_ever_locked": 127,
+    "late_or_invalid_time": 0,
+    "different_lock_windows": 126,
+    "missing_valid_score": 0,
+    "bad_prediction": 0
+  },
+  "divisions": {
+    "mens": {
+      "paired_graded_games": 0,
+      "informative_grades": 0,
+      "forecast_tolerance_for_information": 0.05,
+      "same_fixtures": true,
+      "baseline": {
+        "games": 0,
+        "mae": null,
+        "rmse": null,
+        "winner_accuracy": null,
+        "bias": null
+      },
+      "anchored": {
+        "games": 0,
+        "mae": null,
+        "rmse": null,
+        "winner_accuracy": null,
+        "bias": null
+      },
+      "informative_only_baseline": {
+        "games": 0,
+        "mae": null,
+        "rmse": null,
+        "winner_accuracy": null,
+        "bias": null
+      },
+      "informative_only_anchored": {
+        "games": 0,
+        "mae": null,
+        "rmse": null,
+        "winner_accuracy": null,
+        "bias": null
+      },
+      "status": "NOT_ENOUGH_INFORMATIVE_GAMES_FOR_MODEL_SELECTION"
+    },
+    "womens": {
+      "paired_graded_games": 0,
+      "informative_grades": 0,
+      "forecast_tolerance_for_information": 0.05,
+      "same_fixtures": true,
+      "baseline": {
+        "games": 0,
+        "mae": null,
+        "rmse": null,
+        "winner_accuracy": null,
+        "bias": null
+      },
+      "anchored": {
+        "games": 0,
+        "mae": null,
+        "rmse": null,
+        "winner_accuracy": null,
+        "bias": null
+      },
+      "informative_only_baseline": {
+        "games": 0,
+        "mae": null,
+        "rmse": null,
+        "winner_accuracy": null,
+        "bias": null
+      },
+      "informative_only_anchored": {
+        "games": 0,
+        "mae": null,
+        "rmse": null,
+        "winner_accuracy": null,
+        "bias": null
+      },
+      "status": "NOT_ENOUGH_INFORMATIVE_GAMES_FOR_MODEL_SELECTION"
+    }
+  },
+  "limitations": [
+    "Only immutable first forecasts made before tipoff; never backfilled.",
+    "Both forecasts must exist for the same game and within six hours of each other.",
+    "New candidate coverage starts when V233 is installed; earlier official-only games never receive reconstructed anchored predictions.",
+    "Unplayed games are omitted until their final appears in V97's results archive.",
+    "No model selection from win rate alone or from how many teams have positive rating changes.",
+    "Preseason-anchored model is research only. The official ratings and first forecasts remain unmodified."
+  ]
+}
