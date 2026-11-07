@@ -156,7 +156,9 @@ def main():
             print(f"{int(rec['D1 rank']):02d} {rec['Team']}: "
                   f"games={rec['Games played']:.0f} pre={rec['Preseason rating']:+.2f} "
                   f"on_court={rec['On-court rating']:+.2f} "
-                  f"power={rec['Current power']:+.2f} vs_pre={rec['Rating change']:+.2f}")
+                  f"power={rec['Current power']:+.2f} vs_pre={rec['Rating change']:+.2f} "
+                  f"vs_prev_day={rec['Change since previous snapshot']:+.2f} "
+                  f"anchored_research={rec['Anchored strength']:+.2f}")
     print("V232_TOP25_ROWS_END")
 
 if __name__=="__main__":main()
