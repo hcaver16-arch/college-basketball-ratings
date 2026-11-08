@@ -1,14 +1,14 @@
 {
   "version": 203,
   "season": "2026-27",
-  "as_of_utc": "2026-11-07T19:24:50.825737Z",
+  "as_of_utc": "2026-11-08T13:32:11.616092Z",
   "status": "PROSPECTIVE_RESEARCH_ONLY_NOT_DEPLOYED",
   "production_model_modified": false,
   "published_pregame_forecasts_unchanged": true,
   "baseline_source": "immutable V97 official_saved_v97 forecasts",
   "source_errors": null,
   "source_checked_utc": "2026-11-05T10:34:28.609069Z",
-  "source_sha256": "8a42b42128dd8cdc301eb3e057d6ecdd4af218ec181438b8f4c37b64ffdccf77",
+  "source_sha256": "fb38ce2dd603b2509d49d523cbfe7caa58174126e01ceb4e03baf543306a0df1",
   "teams_audited": {
     "127": {
       "team_id": "127",
@@ -441,8 +441,9 @@
   "new_pairs": 0,
   "total_pairs": 0,
   "skipped": {
-    "invalid_evidence_or_pregame_timing": 350,
-    "baseline_prediction_not_fresh_no_backfill": 82
+    "invalid_evidence_or_pregame_timing": 398,
+    "baseline_prediction_not_fresh_no_backfill": 35,
+    "one_or_both_teams_lack_verified_evidence": 41
   },
   "paired_results": {
     "mens": {
@@ -457,10 +458,10 @@
   "matchup_readiness": {
     "source": "V97 first official pregame forecast journal, future start times only",
     "counts": {
-      "upcoming_locked_mens_baselines": 82,
-      "neither_team_qualified": 79,
-      "exactly_one_team_qualified": 3,
-      "upcoming_opponents_missing_qualification": 3
+      "upcoming_locked_mens_baselines": 76,
+      "neither_team_qualified": 70,
+      "exactly_one_team_qualified": 6,
+      "upcoming_opponents_missing_qualification": 6
     },
     "opponents_to_prioritize": [
       {
@@ -474,8 +475,23 @@
         "upcoming_one_sided_games": 1
       },
       {
+        "team_id": "2473",
+        "team": "Oakland Golden Grizzlies",
+        "upcoming_one_sided_games": 1
+      },
+      {
+        "team_id": "2515",
+        "team": "Radford Highlanders",
+        "upcoming_one_sided_games": 1
+      },
+      {
         "team_id": "261",
         "team": "Vermont Catamounts",
+        "upcoming_one_sided_games": 1
+      },
+      {
+        "team_id": "2681",
+        "team": "Wagner Seahawks",
         "upcoming_one_sided_games": 1
       }
     ],
