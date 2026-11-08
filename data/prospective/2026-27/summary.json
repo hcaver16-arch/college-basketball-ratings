@@ -1,43 +1,61 @@
 {
   "version": 97,
   "season": "2026-27",
-  "as_of_utc": "2026-11-07T22:45:07Z",
+  "as_of_utc": "2026-11-08T12:59:12Z",
   "counts": {
-    "immutable_forecasts": 996,
-    "final_results": 712
+    "immutable_forecasts": 1146,
+    "final_results": 766
   },
   "today": {
     "mens": {
-      "games_seen": 284,
-      "forecasts_created": 58,
-      "results_added": 15,
+      "games_seen": 288,
+      "forecasts_created": 82,
+      "results_added": 42,
       "official_ratings": "available",
       "experimental_ratings": "available"
     },
     "womens": {
-      "games_seen": 286,
-      "forecasts_created": 70,
-      "results_added": 26,
+      "games_seen": 251,
+      "forecasts_created": 68,
+      "results_added": 12,
       "official_ratings": "available",
       "experimental_ratings": "available"
     }
   },
   "evaluation": {
+    "mens/experimental_anchored_ridge8_v233": {
+      "graded_games": 22,
+      "margin_mae": 14.6355,
+      "winner_accuracy_non_ties": 0.8636,
+      "winner_sample": 22,
+      "bias_actual_minus_prediction": 5.7641,
+      "brier_score": null,
+      "brier_reason": "No saved pregame win probabilities"
+    },
     "mens/official_saved_v97": {
-      "graded_games": 355,
-      "margin_mae": 18.8021,
-      "winner_accuracy_non_ties": 0.8535,
-      "winner_sample": 355,
-      "bias_actual_minus_prediction": 15.2287,
+      "graded_games": 397,
+      "margin_mae": 18.3199,
+      "winner_accuracy_non_ties": 0.8514,
+      "winner_sample": 397,
+      "bias_actual_minus_prediction": 14.3509,
+      "brier_score": null,
+      "brier_reason": "No saved pregame win probabilities"
+    },
+    "womens/experimental_anchored_ridge8_v233": {
+      "graded_games": 5,
+      "margin_mae": 19.1893,
+      "winner_accuracy_non_ties": 1.0,
+      "winner_sample": 5,
+      "bias_actual_minus_prediction": 6.488,
       "brier_score": null,
       "brier_reason": "No saved pregame win probabilities"
     },
     "womens/official_saved_v97": {
-      "graded_games": 357,
-      "margin_mae": 20.2135,
-      "winner_accuracy_non_ties": 0.8291,
-      "winner_sample": 357,
-      "bias_actual_minus_prediction": 15.2906,
+      "graded_games": 369,
+      "margin_mae": 20.285,
+      "winner_accuracy_non_ties": 0.832,
+      "winner_sample": 369,
+      "bias_actual_minus_prediction": 14.7979,
       "brier_score": null,
       "brier_reason": "No saved pregame win probabilities"
     }
