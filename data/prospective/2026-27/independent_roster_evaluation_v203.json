@@ -1,7 +1,7 @@
 {
   "version": 203,
   "season": "2026-27",
-  "as_of_utc": "2026-11-08T13:32:11.616092Z",
+  "as_of_utc": "2026-11-08T19:24:04.581824Z",
   "status": "PROSPECTIVE_RESEARCH_ONLY_NOT_DEPLOYED",
   "production_model_modified": false,
   "published_pregame_forecasts_unchanged": true,
@@ -441,9 +441,8 @@
   "new_pairs": 0,
   "total_pairs": 0,
   "skipped": {
-    "invalid_evidence_or_pregame_timing": 398,
-    "baseline_prediction_not_fresh_no_backfill": 35,
-    "one_or_both_teams_lack_verified_evidence": 41
+    "invalid_evidence_or_pregame_timing": 415,
+    "baseline_prediction_not_fresh_no_backfill": 59
   },
   "paired_results": {
     "mens": {
@@ -458,10 +457,10 @@
   "matchup_readiness": {
     "source": "V97 first official pregame forecast journal, future start times only",
     "counts": {
-      "upcoming_locked_mens_baselines": 76,
-      "neither_team_qualified": 70,
-      "exactly_one_team_qualified": 6,
-      "upcoming_opponents_missing_qualification": 6
+      "upcoming_locked_mens_baselines": 59,
+      "neither_team_qualified": 54,
+      "exactly_one_team_qualified": 5,
+      "upcoming_opponents_missing_qualification": 5
     },
     "opponents_to_prioritize": [
       {
@@ -482,11 +481,6 @@
       {
         "team_id": "2515",
         "team": "Radford Highlanders",
-        "upcoming_one_sided_games": 1
-      },
-      {
-        "team_id": "261",
-        "team": "Vermont Catamounts",
         "upcoming_one_sided_games": 1
       },
       {
