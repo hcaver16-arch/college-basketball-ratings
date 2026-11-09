@@ -1,14 +1,14 @@
 {
   "version": 203,
   "season": "2026-27",
-  "as_of_utc": "2026-11-08T19:24:04.581824Z",
+  "as_of_utc": "2026-11-09T13:55:40.828074Z",
   "status": "PROSPECTIVE_RESEARCH_ONLY_NOT_DEPLOYED",
   "production_model_modified": false,
   "published_pregame_forecasts_unchanged": true,
   "baseline_source": "immutable V97 official_saved_v97 forecasts",
   "source_errors": null,
-  "source_checked_utc": "2026-11-05T10:34:28.609069Z",
-  "source_sha256": "fb38ce2dd603b2509d49d523cbfe7caa58174126e01ceb4e03baf543306a0df1",
+  "source_checked_utc": "2026-11-09T10:27:50.034589Z",
+  "source_sha256": "717b9c9e2c5bdbf6d099caf7006e174824d755f4a76acc7d3eaaade242183c87",
   "teams_audited": {
     "127": {
       "team_id": "127",
@@ -303,6 +303,24 @@
       "qualified": true,
       "hypothetical_adjustment_points": -0.26
     },
+    "2815": {
+      "team_id": "2815",
+      "official_prior_players": 19,
+      "official_current_players": 21,
+      "matched_prior_stats": 12,
+      "prior_stats_coverage_pct": 63.2,
+      "current_identity_coverage_pct": 71.4,
+      "returning_players_in_valid_stats": 0,
+      "retention_pct_known_only": 0.0,
+      "blocked_reasons": [
+        "ambiguous_or_unlinked_current_player",
+        "ambiguous_or_unlinked_prior_player",
+        "current_player_identity_not_all_correlated",
+        "prior_player_stats_below_90pct"
+      ],
+      "qualified": false,
+      "hypothetical_adjustment_points": null
+    },
     "333": {
       "team_id": "333",
       "official_prior_players": 15,
@@ -441,8 +459,8 @@
   "new_pairs": 0,
   "total_pairs": 0,
   "skipped": {
-    "invalid_evidence_or_pregame_timing": 415,
-    "baseline_prediction_not_fresh_no_backfill": 59
+    "invalid_evidence_or_pregame_timing": 474,
+    "one_or_both_teams_lack_verified_evidence": 65
   },
   "paired_results": {
     "mens": {
@@ -457,20 +475,25 @@
   "matchup_readiness": {
     "source": "V97 first official pregame forecast journal, future start times only",
     "counts": {
-      "upcoming_locked_mens_baselines": 59,
-      "neither_team_qualified": 54,
-      "exactly_one_team_qualified": 5,
-      "upcoming_opponents_missing_qualification": 5
+      "upcoming_locked_mens_baselines": 107,
+      "neither_team_qualified": 98,
+      "exactly_one_team_qualified": 9,
+      "upcoming_opponents_missing_qualification": 9
     },
     "opponents_to_prioritize": [
       {
-        "team_id": "25",
-        "team": "California Golden Bears",
+        "team_id": "150",
+        "team": "Duke Blue Devils",
         "upcoming_one_sided_games": 1
       },
       {
-        "team_id": "2916",
-        "team": "Incarnate Word Cardinals",
+        "team_id": "2217",
+        "team": "Fairfield Stags",
+        "upcoming_one_sided_games": 1
+      },
+      {
+        "team_id": "52",
+        "team": "Florida State Seminoles",
         "upcoming_one_sided_games": 1
       },
       {
@@ -484,8 +507,23 @@
         "upcoming_one_sided_games": 1
       },
       {
+        "team_id": "2582",
+        "team": "Southern Jaguars",
+        "upcoming_one_sided_games": 1
+      },
+      {
+        "team_id": "2433",
+        "team": "UL Monroe Warhawks",
+        "upcoming_one_sided_games": 1
+      },
+      {
         "team_id": "2681",
         "team": "Wagner Seahawks",
+        "upcoming_one_sided_games": 1
+      },
+      {
+        "team_id": "2751",
+        "team": "Wyoming Cowboys",
         "upcoming_one_sided_games": 1
       }
     ],
