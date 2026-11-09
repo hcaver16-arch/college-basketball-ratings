@@ -1,7 +1,7 @@
 {
   "version": 227,
-  "as_of_utc": "2026-11-03T15:48:50.723524+00:00",
-  "asof_date": "2026-11-03",
+  "as_of_utc": "2026-11-09T16:43:03.302702+00:00",
+  "asof_date": "2026-11-09",
   "notes": [
     "RESEARCH ONLY. No values are loaded into official rating snapshots, model lines, or forecast archives.",
     "Opponents anchored to preseason priors; 5 completed rated D1 games against 3 opponents before a provisional estimate is calculated.",
@@ -11,7 +11,7 @@
   "divisions": {
     "mens-college-basketball": {
       "division": "mens-college-basketball",
-      "verified_d1_count": 362,
+      "verified_d1_count": 365,
       "missing_official_d1_ratings": 0,
       "source_confirmed_transition_count": 1,
       "research_only_estimate_count": 0,
@@ -22,8 +22,8 @@
     },
     "womens-college-basketball": {
       "division": "womens-college-basketball",
-      "verified_d1_count": 362,
-      "missing_official_d1_ratings": 1,
+      "verified_d1_count": 363,
+      "missing_official_d1_ratings": 0,
       "source_confirmed_transition_count": 1,
       "research_only_estimate_count": 0,
       "blocked_from_official_forecasts": [
