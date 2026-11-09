@@ -7,6 +7,8 @@ from __future__ import annotations
 import html
 import json
 import re
+from datetime import datetime, time, timedelta
+from zoneinfo import ZoneInfo
 from pathlib import Path
 import pandas as pd
 import requests
@@ -99,8 +101,29 @@ def parse_polls(payload):
     return output
 
 
-@st.cache_data(ttl=15 * 60, show_spinner=False)
-def fetch_polls(sport):
+# Weekly college basketball polls are normally published on Mondays. ESPN's
+# unofficial feed can lag the initial publication, so allow time for syndication.
+# This key changes at 7:00 p.m. Eastern on Mondays (including DST transitions).
+_POLL_RELEASE_TIME_ET = time(19, 0)
+
+
+def poll_release_cycle(now=None):
+    """Weekly fetch key: most recent Monday 7 PM Eastern release window.
+
+    No timer or background request is started. The first poll page access
+    after the new window triggers one fetch per division on this server.
+    """
+    eastern = ZoneInfo("America/New_York")
+    current = datetime.now(eastern) if now is None else now.astimezone(eastern)
+    monday = current.date() - timedelta(days=current.weekday())
+    if current.weekday() == 0 and current.time() < _POLL_RELEASE_TIME_ET:
+        monday -= timedelta(days=7)
+    return monday.isoformat()
+
+
+@st.cache_data(ttl=9 * 24 * 3600, max_entries=8, show_spinner=False)
+def _v237_cached_polls(sport, release_cycle):
+    """One ESPN poll source request per division and weekly release window."""
     resp = requests.get(URL.format(sport=sport), params={"groups": "50"},
                         headers={"User-Agent": "Mozilla/5.0 Courtside/1.0", "Accept": "application/json"},
                         timeout=20)
@@ -109,6 +132,16 @@ def fetch_polls(sport):
     if not isinstance(payload, dict):
         raise ValueError("Unexpected ESPN poll response")
     return parse_polls(payload)
+
+
+def fetch_polls(sport):
+    """Keep the public one-argument API used by Games, Teams, and Rankings."""
+    return _v237_cached_polls(sport, poll_release_cycle())
+
+
+# The manual refresh buttons introduced in V236 keep their existing API.
+# Test stubs may not implement a cache clear method.
+fetch_polls.clear = getattr(_v237_cached_polls, "clear", lambda: None)
 
 
 
@@ -260,7 +293,7 @@ def render_polls(league, ratings, poll_choice=None):
         st.markdown("### National polls · 2026–27")
     elif poll_choice not in ("AP Top 25", "Coaches Poll"):
         raise ValueError("Unknown published poll")
-    st.caption("AP and Coaches rankings are independent published polls, not inputs to Courtside power ratings. Data: ESPN's public rankings feed (unofficial API), cached up to 15 minutes. ESPN may post new polls after their official release.")
+    st.caption("AP and Coaches rankings are independent published polls, not inputs to Courtside power ratings. ESPN poll data is checked once per weekly release window, after Monday 7 PM Eastern (6 PM Central), on the next visit. Use the manual check if ESPN posts late or the release schedule changes.")
     try:
         polls = fetch_polls(SPORTS[league])
     except Exception as exc:
