@@ -1,6 +1,6 @@
 {
   "version": 233,
-  "generated_utc": "2026-11-09T13:23:08.033873+00:00",
+  "generated_utc": "2026-11-09T19:02:20.490177+00:00",
   "status": "PROSPECTIVE_PAIRED_RESEARCH_ONLY",
   "model_ids": {
     "official": "official_saved_v97",
@@ -16,74 +16,76 @@
   },
   "divisions": {
     "mens": {
-      "paired_graded_games": 0,
-      "informative_grades": 0,
+      "paired_graded_games": 1,
+      "informative_grades": 1,
       "forecast_tolerance_for_information": 0.05,
       "same_fixtures": true,
       "baseline": {
-        "games": 0,
-        "mae": null,
-        "rmse": null,
-        "winner_accuracy": null,
-        "bias": null
+        "games": 1,
+        "mae": 37.2027,
+        "rmse": 37.2027,
+        "winner_accuracy": 0.0,
+        "bias": 37.2027
       },
       "anchored": {
-        "games": 0,
-        "mae": null,
-        "rmse": null,
-        "winner_accuracy": null,
-        "bias": null
+        "games": 1,
+        "mae": 34.7832,
+        "rmse": 34.7832,
+        "winner_accuracy": 1.0,
+        "bias": 34.7832
       },
       "informative_only_baseline": {
-        "games": 0,
-        "mae": null,
-        "rmse": null,
-        "winner_accuracy": null,
-        "bias": null
+        "games": 1,
+        "mae": 37.2027,
+        "rmse": 37.2027,
+        "winner_accuracy": 0.0,
+        "bias": 37.2027
       },
       "informative_only_anchored": {
-        "games": 0,
-        "mae": null,
-        "rmse": null,
-        "winner_accuracy": null,
-        "bias": null
+        "games": 1,
+        "mae": 34.7832,
+        "rmse": 34.7832,
+        "winner_accuracy": 1.0,
+        "bias": 34.7832
       },
-      "status": "NOT_ENOUGH_INFORMATIVE_GAMES_FOR_MODEL_SELECTION"
+      "status": "NOT_ENOUGH_INFORMATIVE_GAMES_FOR_MODEL_SELECTION",
+      "informative_anchor_minus_baseline_mae": -2.4195
     },
     "womens": {
-      "paired_graded_games": 0,
-      "informative_grades": 0,
+      "paired_graded_games": 3,
+      "informative_grades": 3,
       "forecast_tolerance_for_information": 0.05,
       "same_fixtures": true,
       "baseline": {
-        "games": 0,
-        "mae": null,
-        "rmse": null,
-        "winner_accuracy": null,
-        "bias": null
+        "games": 3,
+        "mae": 23.5914,
+        "rmse": 27.6126,
+        "winner_accuracy": 1.0,
+        "bias": 23.5914
       },
       "anchored": {
-        "games": 0,
-        "mae": null,
-        "rmse": null,
-        "winner_accuracy": null,
-        "bias": null
+        "games": 3,
+        "mae": 21.7066,
+        "rmse": 25.4356,
+        "winner_accuracy": 1.0,
+        "bias": 21.7066
       },
       "informative_only_baseline": {
-        "games": 0,
-        "mae": null,
-        "rmse": null,
-        "winner_accuracy": null,
-        "bias": null
+        "games": 3,
+        "mae": 23.5914,
+        "rmse": 27.6126,
+        "winner_accuracy": 1.0,
+        "bias": 23.5914
       },
       "informative_only_anchored": {
-        "games": 0,
-        "mae": null,
-        "rmse": null,
-        "winner_accuracy": null,
-        "bias": null
+        "games": 3,
+        "mae": 21.7066,
+        "rmse": 25.4356,
+        "winner_accuracy": 1.0,
+        "bias": 21.7066
       },
-      "status": "NOT_ENOUGH_INFORMATIVE_GAMES_FOR_MODEL_SELECTION"
+      "status": "NOT_ENOUGH_INFORMATIVE_GAMES_FOR_MODEL_SELECTION",
+      "informative_anchor_minus_baseline_mae": -1.8848
     }
   },
   "limitations": [
