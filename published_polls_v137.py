@@ -99,7 +99,7 @@ def parse_polls(payload):
     return output
 
 
-@st.cache_data(ttl=6 * 3600, show_spinner=False)
+@st.cache_data(ttl=15 * 60, show_spinner=False)
 def fetch_polls(sport):
     resp = requests.get(URL.format(sport=sport), params={"groups": "50"},
                         headers={"User-Agent": "Mozilla/5.0 Courtside/1.0", "Accept": "application/json"},
@@ -260,7 +260,7 @@ def render_polls(league, ratings, poll_choice=None):
         st.markdown("### National polls · 2026–27")
     elif poll_choice not in ("AP Top 25", "Coaches Poll"):
         raise ValueError("Unknown published poll")
-    st.caption("AP and Coaches rankings are independent published polls, not inputs to Courtside power ratings. Data: ESPN's public rankings feed (unofficial API), cached up to six hours.")
+    st.caption("AP and Coaches rankings are independent published polls, not inputs to Courtside power ratings. Data: ESPN's public rankings feed (unofficial API), cached up to 15 minutes. ESPN may post new polls after their official release.")
     try:
         polls = fetch_polls(SPORTS[league])
     except Exception as exc:
