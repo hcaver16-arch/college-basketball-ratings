@@ -292,6 +292,7 @@ def _origin_score(future: pd.DataFrame, origin: date, next_origin: date,
         "holdout_slope_diagnostic_only": _slope(test),
         "holdout_baseline": _stats(test, BASELINE),
         "holdout_selected": _stats(test, "trained_selected_prediction"),
+        "holdout_small_sample_under_30": bool(len(test) < 30),
         "holdout_scale125_h3": _stats(test, "s125_h3"),
         "holdout_scale100_h5": _stats(test, "s100_h5"),
         "holdout_scale125_h5": _stats(test, "s125_h5"),
@@ -359,6 +360,10 @@ def audit_season(prior_games: pd.DataFrame, test_games: pd.DataFrame,
     if not heldout["day"].astype(str).gt(heldout["last_training_day"]).all():
         raise ValueError("Historical score leakage detected")
     cohorts = cohort_diagnostics(heldout)
+    # November is an in-sample DESCRIPTIVE opening-month diagnostic only;
+    # no train-selected candidate is scored on the same month it was picked.
+    november = source.loc[source["day"] < FOLDS[0]].copy()
+    november_home = november.loc[november["home_designated"].eq(1)]
     site = heldout[heldout["home_designated"] == 1]
     neutral = heldout[heldout["home_designated"] == 0]
     close = heldout[heldout["near_equal_prior_strength"]]
@@ -373,6 +378,15 @@ def audit_season(prior_games: pd.DataFrame, test_games: pd.DataFrame,
             "not_covered": len(joined)-len(source),
         },
         "training_scheme": "For each month-start checkpoint, search 12 FIXED scale/HCA settings on earlier 2025-26 dates, then score the following month without retraining",
+        "november_2025_opening_month_descriptive_only_not_holdout": {
+            "games": len(november),
+            "baseline": _stats(november, BASELINE),
+            "scale125_h3": _stats(november, "s125_h3"),
+            "home_designated": _selection_decomp(november_home),
+            "all_games": _selection_decomp(november),
+            "slope": _slope(november),
+            "warning": "November scores are in-sample diagnostics / fold-training only; NO candidate is chosen by November and judged on November itself.",
+        },
         "fixed_candidate_scales": list(SCALES),
         "fixed_candidate_site_intercepts": list(HCA),
         "baseline": BASELINE,
@@ -402,6 +416,7 @@ def audit_season(prior_games: pd.DataFrame, test_games: pd.DataFrame,
             "The designated home team's expected margin includes team-strength selection before any hypothesized court intercept.",
             "The unexplained site residual is not causal evidence of physical home-court advantage.",
             "Training-window selected candidate is evaluated in later months ONLY, never scored on its selection window.",
+            "Opening November summaries are descriptives of prior-only baseline, NOT an independent holdout; April has few games and is flagged as low sample.",
             "The hypotheses were motivated by observing early 2026-27 results, therefore this 2025-26 study is retrospective research, not a fully independent holdout.",
             "No coaches, transfers or roster continuity frozen for 2025-26; scale shifts may reflect team turnover.",
             "Research-only; no automatic model promotion, official ranking changes or immutable forecast edits.",
