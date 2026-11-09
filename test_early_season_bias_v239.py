@@ -123,11 +123,6 @@ assert stats["retrospective_cap_outcome_buckets"]["abs_final_margin_over_40"]["g
 assert stats["disagreement_sufficiency"]["independent_prospective_validation_sufficient"] is False
 assert not strong.empty and set(strong["opponent_prior_quality_quartile"]).issubset(
     {"Q1_lower", "Q2", "Q3", "Q4_upper", "prior_unknown"})
-assert sum(stats["exact_signed_error_decomposition"][k] for k in (
-    "avg_actual_minus_prior_only", "avg_prior_only_minus_legacy")) == (
-    round(stats["exact_signed_error_decomposition"]["avg_actual_minus_legacy"], 5)
-    or sum(stats["exact_signed_error_decomposition"][k] for k in (
-        "avg_actual_minus_prior_only", "avg_prior_only_minus_legacy")))
 # This approximate identity is also validated EXACTLY before rounding above.
 np.testing.assert_allclose(
     stats["exact_signed_error_decomposition"]["avg_actual_minus_prior_only"] +
