@@ -131,7 +131,7 @@ np.testing.assert_allclose(
     atol=1.5e-5)
 
 try:
-    add_context(frame, season, prior, {"201", "202"})
+    add_context(all_games, season, prior, {"201", "202"})
     raise AssertionError("Small D1 directory accepted")
 except ValueError:
     pass
