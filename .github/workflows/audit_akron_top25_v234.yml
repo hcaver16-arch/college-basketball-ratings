@@ -1,0 +1,37 @@
+name: V234 forensic Akron top-25 ratings audit
+on:
+  pull_request:
+    paths:
+      - audit_akron_top25_v234.py
+      - .github/workflows/audit_akron_top25_v234.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install analysis dependencies
+        run: python -m pip install 'numpy>=1.26,<3' 'pandas>=2.1,<3' 'requests>=2.31,<3'
+      - name: Check syntax and rating-engine regression
+        run: |
+          python -m py_compile audit_akron_top25_v234.py
+          python test_rating_reliability_v181.py
+      - name: Report saved Akron rating and opponent diagnostics
+        run: |
+          python audit_akron_top25_v234.py | tee /tmp/akron_audit.json.log
+      - name: Preserve forensic report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v234-akron-rating-diagnostics
+          path: /tmp/akron_audit.json.log
+          if-no-files-found: warn
