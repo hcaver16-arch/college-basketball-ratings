@@ -315,6 +315,36 @@ def report_run(root:Path,out:Path,now:datetime,mode:str,scoreboard_reader=scoreb
         source["verified_d1_count"]=len(ids)
         ranked=top_rankings(model,ids)
         source["qualified_d1_team_count"]=int(ranked["Qualified roster evidence"].sum())
+        qualified=ranked.loc[ranked["Qualified roster evidence"]].copy()
+        source["qualified_d1_median_abs_roster_adjustment"]=(
+            round(float(qualified["V235 roster adjustment"].abs().median()),4)
+            if not qualified.empty else None
+        )
+        source["qualified_d1_max_abs_roster_adjustment"]=(
+            round(float(qualified["V235 roster adjustment"].abs().max()),4)
+            if not qualified.empty else None
+        )
+        source["qualified_d1_median_abs_rank_change"]=(
+            round(float(qualified["Rank difference"].abs().median()),2)
+            if not qualified.empty else None
+        )
+        source["qualified_d1_rank_shift_gt_5"]=int(
+            qualified["Rank difference"].abs().gt(5).sum()
+        )
+        if sport=="mens-college-basketball":
+            akron=ranked.loc[ranked["Team ID"].eq("2006")]
+            if len(akron)==1:
+                ar=akron.iloc[0]
+                source["akron_research_illustration"]={
+                    "previous_season_only_preseason_rank":int(ar["Preseason rank"]),
+                    "candidate_preseason_rank":int(ar["Roster scenario rank"]),
+                    "previous_season_only_power":round(float(ar["Baseline preseason power"]),3),
+                    "assumed_roster_adjustment":(
+                        round(float(ar["V235 roster adjustment"]),3)
+                        if pd.notna(ar["V235 roster adjustment"]) else None
+                    ),
+                    "qualified_roster_evidence":bool(ar["Qualified roster evidence"]),
+                }
         models_by_div[division]=ranked
         evidence_by_div[division]=source
         # Model IDs must change if the frozen source is revised. Otherwise
