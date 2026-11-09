@@ -90,6 +90,12 @@ def calc(sport=SPORT,base=ROOT):
     # Separate out mathematical support from an alternative *after games* fit.
     priormap=dict(zip(prior["Team ID"].astype(str),prior["Power"].astype(float)))
     research=anchored_ridge(priormap,current_finals)
+    anchored_d1=sorted(
+        ((tid,float(value)) for tid,value in research.items() if tid in ids),
+        key=lambda x:x[1], reverse=True
+    )
+    anchored_rank=next(i+1 for i,(tid,_) in enumerate(anchored_d1) if tid==target)
+    anchored_25_cutoff=anchored_d1[24][1]
     # Additional public sanity check: leave only prior season (no 2026-27):
     # historical preseason rank from last-season score margins may be inflated
     # due to all-non-D1 opponents and tight conference loops.
@@ -111,6 +117,7 @@ def calc(sport=SPORT,base=ROOT):
             "current_wins":sum(x["result"]=="W" for x in current_games),
             "current_losses":sum(x["result"]=="L" for x in current_games),
             "anchored_candidate_after_games":round(float(research.get(target,float("nan"))),3),
+            "anchored_research_only_d1_rank":anchored_rank,
             "prior_2025_26_games":len(last_games),
             "prior_2025_26_wins":sum(x["result"]=="W" for x in last_games),
             "prior_2025_26_losses":sum(x["result"]=="L" for x in last_games),
@@ -118,6 +125,17 @@ def calc(sport=SPORT,base=ROOT):
         },
         "d1_rank_25_cutoff_power":round(float(official_d1.iloc[24]["Current power"]),3),
         "preseason_rank25_cutoff":round(float(prior_d1.iloc[24]["Power"]),3),
+        "anchored_research_only_rank25_cutoff":round(float(anchored_25_cutoff),3),
+        "akron_current_games_prior_based_expected_margin":([
+            {
+                "opponent":g["opponent"],
+                "expected_akron_margin_using_preseason_strength":round(
+                    baseline-float(g["opponent_prior_power"]) +
+                    (3 if g["location"]=="home" else (-3 if g["location"]=="away" else 0)),3
+                ),
+                "actual_akron_margin":g["actual_margin"]
+            } for g in current_games if g["opponent_prior_power"] is not None
+        ]),
         "top25_snapshot":[
             {"rank":i+1,"team":str(r["Team"]),"power":round(float(r["Current power"]),2),
              "preseason":round(float(r["Preseason rating"]),2),
