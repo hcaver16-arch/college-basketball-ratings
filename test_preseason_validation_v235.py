@@ -123,6 +123,27 @@ with TemporaryDirectory() as folder:
     assert not future_candidates(NOW,upcoming,models,"mens",source,existing,ids)
 
     # A roster file generated AFTER the first game must be rejected.
+    # Source provenance cannot silently change under a locked model ID.
+    # The archive must remain byte-for-byte untouched on mismatch.
+    from unittest.mock import patch
+    from prospective_archive_v97 import write_csv
+    research=root/"data"/"preseason_research_v235"
+    research.mkdir(parents=True)
+    old_forecast=dict(new[0])
+    old_forecast["source_sha256"]="prior-research-source-sha"
+    write_csv(research/"first_forecasts.csv",[old_forecast],FORECAST_FIELDS)
+    untouched=(research/"first_forecasts.csv").read_bytes()
+    with patch("preseason_validation_v235.build_preseason",return_value=(models,source)):
+        try:
+            report_run(root,research,NOW,"track",
+                scoreboard_reader=lambda sport,day: {},
+                d1_reader=lambda sport: ids)
+            raise AssertionError("Revised source silently reused immutable forecast ID")
+        except RuntimeError as exc:
+            assert "input changed" in str(exc)
+    assert (research/"first_forecasts.csv").read_bytes()==untouched
+    assert not (research/"results.csv").exists()
+    # Updated post-opener roster timestamps are ineligible as frozen inputs.
     metadata["generated_at_utc"]="2026-11-03T00:00:00Z"
     (experiment/"summary.json").write_text(json.dumps(metadata))
     try:
