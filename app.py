@@ -46,6 +46,7 @@ from matchup_analysis import render_matchup
 from season_records import game_records
 from team_profile_ui import render_team_profile
 from rankings_ui import render_rankings
+from rankings_compat_v234 import render_rankings_compatible
 from strength_comparison_v215 import render_strength_comparison
 from conferences_ui import render_conferences
 from game_timezones_v136 import annotate_display_times
@@ -1049,7 +1050,13 @@ if selected_section == "Rankings":
         # Live rankings are still sorted by official power; show *two*
         # different dated movement concepts without changing the rating.
         changes = latest_movement(team_ratings, load_history(SPORTS[league]))
-        render_rankings(team_ratings, preliminary_ratings, league, verified_d1_ids, movement=changes)
+        # Streamlit hot reload can retain a previously imported four-argument
+        # rankings renderer after app.py has deployed V233. Support both API
+        # versions until the app process fully restarts.
+        render_rankings_compatible(
+            render_rankings, team_ratings, preliminary_ratings, league,
+            verified_d1_ids, movement=changes,
+        )
     with ap_tab:
         render_polls(league, team_ratings, poll_choice="AP Top 25")
     with coaches_tab:
