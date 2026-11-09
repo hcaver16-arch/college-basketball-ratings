@@ -91,6 +91,7 @@ def render_prospective_model_lab(division=None):
         # V233: the dedicated paired evaluation additionally requires two
         # genuinely locked forecasts within six hours of each other.
         _render_anchored_comparison_v233(chosen)
+        _render_preseason_roster_v235(chosen)
         div_f=f.loc[f['division'].astype(str).eq(chosen)] if 'division' in f else pd.DataFrame()
         div_rows=rows.loc[rows['division'].eq(chosen)] if not rows.empty else pd.DataFrame()
         if div_f.empty:
@@ -130,6 +131,42 @@ def render_prospective_model_lab(division=None):
             st.download_button('Download graded forecasts (CSV)',selected.to_csv(index=False).encode('utf-8'),file_name=f'courtside_{chosen}_{model}_graded_v98.csv',mime='text/csv',key=f'v98_download_{chosen}_{model}')
         _paired(rows,chosen,model)
         _tracker_notes(summary,chosen)
+
+
+def _render_preseason_roster_v235(division):
+    """Standalone, timestamped roster-vs-prior study; NOT the official model."""
+    import json
+    path=ROOT/'data'/'preseason_research_v235'/'summary.json'
+    if not path.is_file():
+        st.caption('Preseason roster experiment: awaiting its first independent research run.')
+        return
+    try:
+        report=json.loads(path.read_text())
+        if report.get("version")!=235 or report.get("mode")!="track":
+            raise ValueError("V235 prospective research report not available")
+        info=report.get("divisions",{}).get(division) or {}
+        data=info.get("prospective") or {}
+        source=info.get("source") or {}
+        matched=int(data.get("matched_games",0))
+        informative=int(data.get("informative_model_disagreement_games",0))
+    except (OSError,ValueError,TypeError,KeyError,json.JSONDecodeError):
+        st.warning('Preseason roster research report could not be verified.')
+        return
+    with st.expander('Preseason-only model test · Roster effects (experimental)',expanded=False):
+        st.caption(
+            'Compares two frozen preseason models on exactly the same first-locked future games. '
+            'Unlike the official live power rating, neither uses any 2026–27 results to update itself.'
+        )
+        a,b,c=st.columns(3)
+        a.metric('Graded paired games',matched)
+        b.metric('Prior-only MAE',_fmt((data.get("official_preseason_only") or {}).get("mae")))
+        c.metric('Roster-scenario MAE',_fmt((data.get("experimental_roster_preseason") or {}).get("mae")))
+        st.caption(
+            f'{informative} informative graded games · {source.get("qualified_d1_team_count",0)} '
+            'D1 teams pass evidence gates · minimum 100 informative games for exploratory review. '
+            'Roster point effects are untrained assumptions, not verified player values; '
+            'the published ratings and V97 forecasts remain unchanged.'
+        )
 
 
 def _render_anchored_comparison_v233(division):
