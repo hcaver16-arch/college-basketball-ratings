@@ -1,6 +1,6 @@
 {
   "version": 233,
-  "generated_utc": "2026-11-08T18:52:36.246576+00:00",
+  "generated_utc": "2026-11-09T13:23:08.033873+00:00",
   "status": "PROSPECTIVE_PAIRED_RESEARCH_ONLY",
   "model_ids": {
     "official": "official_saved_v97",
@@ -8,7 +8,7 @@
   },
   "max_lock_gap_hours": 6,
   "lock_integrity_checks": {
-    "paired_ever_locked": 202,
+    "paired_ever_locked": 314,
     "late_or_invalid_time": 0,
     "different_lock_windows": 126,
     "missing_valid_score": 0,
