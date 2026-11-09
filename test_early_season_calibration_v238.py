@@ -47,9 +47,9 @@ assert np.isclose(nov2_pair["anchored_ridge8"],
                   before["anchored_ridge8"]["356"] -
                   before["anchored_ridge8"]["201"] + 3)
 
-# A much bigger SAME-DAY margin cannot alter a prediction made for that day.
+# A changed SAME-DAY margin cannot alter a prediction made for that day.\n# Lower it below the 40-point cap so the next-day anchored fit DOES change.
 bigger = all_games.copy()
-bigger.loc[bigger["Game ID"].eq("1"), "Home score"] = 250
+bigger.loc[bigger["Game ID"].eq("1"), "Home score"] = 65
 replay, _, _ = compare_chronologically(prior, bigger, ids, date(2026, 11, 3))
 old = pairs[pairs.day.eq("2026-11-02")].set_index("game_id")
 new = replay[replay.day.eq("2026-11-02")].set_index("game_id")
