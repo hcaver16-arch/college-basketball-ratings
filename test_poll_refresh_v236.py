@@ -7,12 +7,14 @@ polls = Path("published_polls_v137.py").read_text()
 ast.parse(app)
 tree = ast.parse(polls)
 
-fns = [node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name == "fetch_polls"]
+fns = [node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name == "_v237_cached_polls"]
 assert len(fns) == 1
 decorators = [ast.unparse(x) for x in fns[0].decorator_list]
-assert any("st.cache_data" in d and "ttl=15 * 60" in d for d in decorators), decorators
-assert "cached up to 15 minutes" in polls
-assert "ESPN may post new polls after their official release" in polls
+assert any("st.cache_data" in d and "ttl=9 * 24 * 3600" in d for d in decorators), decorators
+assert "once per weekly release window" in polls
+assert "Monday 7 PM Eastern" in polls
+assert "def poll_release_cycle(now=None):" in polls
+assert "return _v237_cached_polls(sport, poll_release_cycle())" in polls
 assert 'render_polls(league, team_ratings, poll_choice="AP Top 25")' in app
 assert 'render_polls(league, team_ratings, poll_choice="Coaches Poll")' in app
 assert "cs236_refresh_ap_" in app
