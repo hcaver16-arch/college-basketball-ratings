@@ -1,0 +1,88 @@
+name: V235 preseason roster validation and prospective comparison
+on:
+  pull_request:
+    paths:
+      - preseason_validation_v235.py
+      - test_preseason_validation_v235.py
+      - .github/workflows/validate_preseason_v235.yml
+      - prospective_model_lab_v98.py
+  workflow_dispatch:
+  schedule:
+    - cron: '40 12,18 * * *'
+permissions:
+  contents: write
+concurrency:
+  group: courtside-v97-prospective
+  cancel-in-progress: false
+jobs:
+  validate-and-track:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install math and source dependencies
+        run: python -m pip install 'numpy>=1.26,<3' 'pandas>=2.1,<3' 'requests>=2.31,<3'
+      - name: Validate source/roster scenarios and pre-tip integrity
+        run: |
+          python -m py_compile preseason_validation_v235.py test_preseason_validation_v235.py prospective_model_lab_v98.py
+          python test_preseason_validation_v235.py
+          python test_rating_reliability_v181.py
+          python test_prior_transition_v229.py
+      - name: Retrospective exploratory comparison only on PR
+        if: github.event_name == 'pull_request'
+        run: |
+          python preseason_validation_v235.py --root . --mode retrospective --out /tmp/v235-retrospective
+          python - <<'PY'
+          import json,os
+          report=json.load(open('/tmp/v235-retrospective/summary.json'))
+          with open(os.environ['GITHUB_STEP_SUMMARY'],'a') as f:
+            f.write('## V235 Roster preseason versus original preseason\n\n')
+            f.write('Retrospective ONLY, NOT first locked pregame forecasts. V105 was frozen before season but this research was chosen after observing early results.\n\n')
+            f.write('| Division | Qualified D1 teams | Matched D1 games | Informative games | Prior-only MAE | Roster MAE |\n')
+            f.write('|---|---:|---:|---:|---:|---:|\n')
+            for division,data in report['divisions'].items():
+              src,stats=data['source'],data['sample']
+              f.write(f"| {division} | {src['qualified_d1_team_count']} | {stats['matched_games']} | {stats['informative_model_disagreement_games']} | {stats['official_preseason_only']['mae']} | {stats['experimental_roster_preseason']['mae']} |\n")
+            f.write('\nResearch only. No official rating, forecast or public ranking changes.\n')
+          PY
+      - name: Lock fresh prospective pair forecasts on main
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: |
+          python preseason_validation_v235.py --root . --mode track --out data/preseason_research_v235
+          python - <<'PY'
+          import json,os
+          report=json.load(open('data/preseason_research_v235/summary.json'))
+          with open(os.environ['GITHUB_STEP_SUMMARY'],'a') as f:
+            f.write('## V235 Immutable future-only preseason/roster comparison\n\n')
+            f.write('| Division | Locked forecast pairs | New today | Graded pairs | Informative | Prior-only MAE | Roster MAE |\n')
+            f.write('|---|---:|---:|---:|---:|---:|---:|\n')
+            for name,data in report['divisions'].items():
+              val=data['prospective']
+              f.write(f"| {name} | {data['locked_first_forecasts']} | {data['new_pregame_pairs']} | {val['matched_games']} | {val['informative_model_disagreement_games']} | {val['official_preseason_only']['mae']} | {val['experimental_roster_preseason']['mae']} |\n")
+            f.write('\nNo pre-tip backfills or model promotion; both candidates retain only 2025-26 preseason power as baseline.\n')
+          PY
+      - name: Preserve on-PR diagnostic artifacts
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: v235-retrospective-roster-preseason-diagnostics
+          path: /tmp/v235-retrospective/
+          if-no-files-found: warn
+      - name: Commit only the standalone research archive on main
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- data/preseason_research_v235/
+          if ! git diff --cached --quiet; then
+            git commit -m 'V235 lock preseason-only paired roster research'
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
