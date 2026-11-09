@@ -36,7 +36,7 @@ def _v235_record_text(value):
     if not isinstance(value, str):
         return ""
     text = value.strip().replace("–", "-")
-    return text if re.fullmatch(r"\\d+\\s*-\\s*\\d+(?:\\s*-\\s*\\d+)?", text) else ""
+    return text if re.fullmatch(r"\d+\s*-\s*\d+(?:\s*-\s*\d+)?", text) else ""
 
 
 def _v235_entry_record(entry, team):
