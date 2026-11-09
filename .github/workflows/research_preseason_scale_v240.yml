@@ -1,0 +1,64 @@
+name: V240 read-only preseason scale and scheduling bias audit
+on:
+  pull_request:
+    paths:
+      - research_preseason_scale_v240.py
+      - test_preseason_scale_v240.py
+      - .github/workflows/research_preseason_scale_v240.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install numerical and regression-test dependencies
+        run: python -m pip install 'numpy>=1.26,<3' 'pandas>=2.1,<3' 'requests>=2.31,<3'
+      - name: Validate chronology, score/venue joins and production compatibility
+        run: |
+          python -m py_compile research_preseason_scale_v240.py test_preseason_scale_v240.py
+          python test_preseason_scale_v240.py
+          python test_early_season_bias_v239.py
+          python test_early_season_calibration_v238.py
+          python test_prior_transition_v229.py
+          python test_rating_reliability_v181.py
+      - name: Historical 2024-25 prior to 2025-26 monthly holdouts - men and women
+        run: python research_preseason_scale_v240.py --root . --out /tmp/v240-readonly
+      - name: Show historical walk-forward and selection decomposition
+        run: |
+          python - <<'PY'
+          import json, os
+          report=json.load(open('/tmp/v240-readonly/summary.json'))
+          with open(os.environ['GITHUB_STEP_SUMMARY'],'a') as f:
+            f.write('## V240 — historical prior-scale and home selection audit\n\n')
+            f.write('**Research only:** 2024–25 D1 paired results form a frozen prior; 2025–26 monthly holdouts use only earlier dates for candidate selection.\n')
+            f.write('The 2024–25 venue is UNVERIFIED and assumes +3 for designated homes. 2025–26 ESPN site flags are also not independently verified.\n\n')
+            f.write('| Division | History heldout games | 1.0×/H3 MAE | 1.25×/H3 MAE | 1.0×/H5 MAE | Train-only selected MAE | Designated home favorite % | Mean home prior gap |\n')
+            f.write('|---|---:|---:|---:|---:|---:|---:|---:|\n')
+            for sport, d in report['divisions'].items():
+              m=d['holdout_metrics']; site=d['selection_vs_site_components']['designated_home']
+              f.write(f"| {sport} | {d['holdout_games_same_candidates']} | {m['s100_h3']['mae']} | {m['s125_h3']['mae']} | {m['s100_h5']['mae']} | {m['trained_selected_prediction']['mae']} | {site['home_favorite_fraction']} | {site['mean_preseason_strength_gap_selection_component']} |\n")
+            f.write('\n**November opening-month descriptive check (training period; not holdout):**\n')
+            for sport, d in report['divisions'].items():
+              nov=d['november_2025_opening_month_descriptive_only_not_holdout']; home=nov['home_designated']
+              f.write(f"- {sport}: {nov['games']} November games, baseline MAE {nov['baseline']['mae']}, home-favorite fraction {home['home_favorite_fraction']}, mean home prior gap {home['mean_preseason_strength_gap_selection_component']}.\n")
+            f.write('\n**Physical home-court advantage is not causally identified**; home selection is reported separately as preseason strength gap.\n')
+            f.write('The 2025–26 folds are chronological retrospective reconstructions, NOT locked pregame forecasts.\n')
+            f.write('Review per-origin selection and paired holdout files in the workflow artifact before considering independent prospective research.\n')
+            f.write('No saved production rating, immutable forecast or website changes.\n')
+          PY
+      - name: Preserve research outputs as downloadable artifact only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v240-preseason-scale-scheduling-bias
+          path: /tmp/v240-readonly/
+          if-no-files-found: warn
