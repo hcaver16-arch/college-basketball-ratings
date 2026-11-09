@@ -1,0 +1,26 @@
+name: Validate V237 weekly published poll checking
+on:
+  pull_request:
+    paths:
+      - published_polls_v137.py
+      - test_poll_refresh_v236.py
+      - test_poll_weekly_v237.py
+      - .github/workflows/validate_poll_weekly_v237.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install 'pandas>=2.1,<3' requests
+      - run: python -m py_compile published_polls_v137.py
+      - run: python test_poll_weekly_v237.py
+      - run: python test_poll_refresh_v236.py
+      - run: python test_polls_v137.py
+      - run: python test_polls_records_movement_v235.py
