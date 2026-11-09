@@ -149,6 +149,9 @@ assert summary["holdout_last_day"] == "2026-04-15"
 assert summary["selection_vs_site_components"]["designated_home"]["games"] > 1000
 assert summary["selection_vs_site_components"]["ESPN_neutral"]["games"] > 0
 assert summary["holdout_metrics"]["trained_selected_prediction"]["games"] == len(h)
+assert summary["november_2025_opening_month_descriptive_only_not_holdout"]["games"] > 100
+assert summary["november_2025_opening_month_descriptive_only_not_holdout"]["home_designated"]["games"] > 50
+assert summary["folds"][-1]["holdout_small_sample_under_30"] is True
 assert summary["prior_2025_26_fixture_coverage"]["not_covered"] == 0
 
 # A season-specific collection ledger is required, not merely a filename.
