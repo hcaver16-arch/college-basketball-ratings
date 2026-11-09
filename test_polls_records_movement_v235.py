@@ -104,7 +104,7 @@ with patch.object(polls, "fetch_polls", return_value=data), patch.object(
 ):
     polls.render_polls("Men's", pd.DataFrame(), poll_choice="AP Top 25")
     assert {"Movement", "Previous poll", "Record"}.issubset(shown[-1].columns)
-    assert shown[-1].set_index("Team ID").loc["101", "Record"] == "3-0"
+    assert shown[-1].loc[shown[-1]["Team"] == "Rising U", "Record"].iloc[0] == "3-0"
     polls.render_polls("Women's", pd.DataFrame(), poll_choice="Coaches Poll")
     assert shown[-1].iloc[0]["Movement"] == "▲ +2"
 
