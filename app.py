@@ -1042,7 +1042,7 @@ if selected_section == "Home":
 
 if selected_section == "Rankings":
     # V194: distinguish Courtside's model ratings from independent AP/Coaches polls.
-    from published_polls_v137 import render_polls
+    from published_polls_v137 import render_polls, fetch_polls
     power_tab, ap_tab, coaches_tab = st.tabs(
         ["Courtside Power", "AP Top 25", "Coaches Poll"]
     )
@@ -1058,8 +1058,18 @@ if selected_section == "Rankings":
             verified_d1_ids, movement=changes,
         )
     with ap_tab:
+        # Poll publication is independent of the daily power-rating refresh.
+        # A manual check clears only the poll response cache, not model data.
+        if st.button("↻ Check for updated AP poll", key=f"cs236_refresh_ap_{SPORTS[league]}",
+                     help="Check ESPN now for its newest AP poll; ESPN may publish later than the Associated Press."):
+            fetch_polls.clear()
+            st.rerun()
         render_polls(league, team_ratings, poll_choice="AP Top 25")
     with coaches_tab:
+        if st.button("↻ Check for updated Coaches Poll", key=f"cs236_refresh_coaches_{SPORTS[league]}",
+                     help="Check ESPN now for its newest coaches poll."):
+            fetch_polls.clear()
+            st.rerun()
         render_polls(league, team_ratings, poll_choice="Coaches Poll")
 
 if selected_section == "Model Lab":
