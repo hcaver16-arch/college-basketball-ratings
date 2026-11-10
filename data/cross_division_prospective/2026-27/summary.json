@@ -1,16 +1,16 @@
 {
   "version": 209,
   "model_id": "cross_division_v209_experimental_v1",
-  "as_of_utc": "2026-11-10T11:59:18.236263+00:00",
+  "as_of_utc": "2026-11-10T17:56:18.793749+00:00",
   "status": "EXPERIMENTAL_CROSS_DIVISION_NOT_OFFICIAL",
   "public_d1_ratings_modified": false,
-  "new_pregame_pairs": 5,
-  "saved_pregame_pairs": 342,
-  "new_completed_results": 24,
+  "new_pregame_pairs": 4,
+  "saved_pregame_pairs": 346,
+  "new_completed_results": 2,
   "overall": {
-    "completed_paired_games": 271,
-    "margin_mae": 16.741,
-    "winner_accuracy": 0.9779,
+    "completed_paired_games": 273,
+    "margin_mae": 16.757,
+    "winner_accuracy": 0.978,
     "note": "Exploratory only; small samples are not proof of accuracy."
   },
   "mens": {
@@ -20,9 +20,9 @@
     "note": "Exploratory only; small samples are not proof of accuracy."
   },
   "womens": {
-    "completed_paired_games": 123,
-    "margin_mae": 19.015,
-    "winner_accuracy": 0.9675,
+    "completed_paired_games": 125,
+    "margin_mae": 19.013,
+    "winner_accuracy": 0.968,
     "note": "Exploratory only; small samples are not proof of accuracy."
   },
   "issues": [],
