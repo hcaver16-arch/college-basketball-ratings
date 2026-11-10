@@ -1,35 +1,20 @@
 {
-  "as_of_utc": "2026-11-09T15:34:37+00:00",
-  "discovered_d1_team_game_boxscores": 827,
-  "verified_d1_team_game_boxscores": 814,
-  "unverified_d1_team_game_boxscores": 13,
-  "espn_source_score_mismatch_boxscores": 13,
+  "as_of_utc": "2026-11-10T15:25:06+00:00",
+  "discovered_d1_team_game_boxscores": 893,
+  "verified_d1_team_game_boxscores": 881,
+  "unverified_d1_team_game_boxscores": 12,
+  "espn_source_score_mismatch_boxscores": 12,
   "possible_parser_scoring_gap_boxscores": 0,
-  "observed_boxscore_coverage": 0.9843,
-  "athletes_with_observed_games": 4194,
+  "observed_boxscore_coverage": 0.9866,
+  "athletes_with_observed_games": 4233,
   "player_leaders_publishable": true,
   "publication_minimum_observed_games": 30,
   "publication_minimum_coverage": 0.95,
   "unverified_examples": [
     {
-      "game_id": "401920439",
-      "team": "Texas A&M-Corpus Christi Islanders",
-      "reason": "ESPN source mismatch: raw athlete points 70 vs final team score 76; no omitted scoring rows"
-    },
-    {
-      "game_id": "401913899",
-      "team": "Western Carolina Catamounts",
-      "reason": "ESPN source mismatch: raw athlete points 64 vs final team score 72; no omitted scoring rows"
-    },
-    {
       "game_id": "401926054",
       "team": "Temple Owls",
       "reason": "ESPN source mismatch: raw athlete points 94 vs final team score 97; no omitted scoring rows"
-    },
-    {
-      "game_id": "401918582",
-      "team": "Bethune-Cookman Wildcats",
-      "reason": "ESPN source mismatch: raw athlete points 66 vs final team score 76; no omitted scoring rows"
     },
     {
       "game_id": "401916150",
@@ -37,14 +22,19 @@
       "reason": "ESPN source mismatch: raw athlete points 51 vs final team score 64; no omitted scoring rows"
     },
     {
-      "game_id": "401929156",
-      "team": "Western Carolina Catamounts",
-      "reason": "ESPN source mismatch: raw athlete points 85 vs final team score 89; no omitted scoring rows"
-    },
-    {
       "game_id": "401917691",
       "team": "Portland Pilots",
       "reason": "ESPN source mismatch: raw athlete points 60 vs final team score 65; no omitted scoring rows"
+    },
+    {
+      "game_id": "401918582",
+      "team": "Bethune-Cookman Wildcats",
+      "reason": "ESPN source mismatch: raw athlete points 66 vs final team score 76; no omitted scoring rows"
+    },
+    {
+      "game_id": "401918583",
+      "team": "Bethune-Cookman Wildcats",
+      "reason": "ESPN source mismatch: raw athlete points 41 vs final team score 47; no omitted scoring rows"
     },
     {
       "game_id": "401928011",
@@ -57,6 +47,11 @@
       "reason": "ESPN source mismatch: raw athlete points 92 vs final team score 95; no omitted scoring rows"
     },
     {
+      "game_id": "401920439",
+      "team": "Texas A&M-Corpus Christi Islanders",
+      "reason": "ESPN source mismatch: raw athlete points 70 vs final team score 76; no omitted scoring rows"
+    },
+    {
       "game_id": "401918581",
       "team": "Bethune-Cookman Wildcats",
       "reason": "ESPN source mismatch: raw athlete points 93 vs final team score 102; no omitted scoring rows"
@@ -65,6 +60,11 @@
       "game_id": "401929155",
       "team": "Western Carolina Catamounts",
       "reason": "ESPN source mismatch: raw athlete points 92 vs final team score 96; no omitted scoring rows"
+    },
+    {
+      "game_id": "401917683",
+      "team": "Portland Pilots",
+      "reason": "ESPN source mismatch: raw athlete points 99 vs final team score 107; no omitted scoring rows"
     },
     {
       "game_id": "401921077",
@@ -77,11 +77,11 @@
   "version": 228,
   "division": "womens",
   "season": "2026-27",
-  "last_discovered_date_et": "2026-11-09",
+  "last_discovered_date_et": "2026-11-10",
   "verified_d1_team_directory_count": 363,
   "scoreboard_dates_fetched": 6,
-  "summary_games_fetched": 79,
-  "last_collection_run_utc": "2026-11-09T15:34:37+00:00",
+  "summary_games_fetched": 53,
+  "last_collection_run_utc": "2026-11-10T15:25:06+00:00",
   "source": "ESPN group-50 scoreboard and ESPN per-game individual boxscores",
   "historical_first_forecasts_modified": false
 }
