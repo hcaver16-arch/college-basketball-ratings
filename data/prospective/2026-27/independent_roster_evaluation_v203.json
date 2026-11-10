@@ -1,7 +1,7 @@
 {
   "version": 203,
   "season": "2026-27",
-  "as_of_utc": "2026-11-09T19:40:18.706502Z",
+  "as_of_utc": "2026-11-10T13:50:41.275155Z",
   "status": "PROSPECTIVE_RESEARCH_ONLY_NOT_DEPLOYED",
   "production_model_modified": false,
   "published_pregame_forecasts_unchanged": true,
@@ -460,7 +460,8 @@
   "total_pairs": 0,
   "skipped": {
     "invalid_evidence_or_pregame_timing": 474,
-    "baseline_prediction_not_fresh_no_backfill": 65
+    "baseline_prediction_not_fresh_no_backfill": 65,
+    "one_or_both_teams_lack_verified_evidence": 60
   },
   "paired_results": {
     "mens": {
@@ -475,10 +476,10 @@
   "matchup_readiness": {
     "source": "V97 first official pregame forecast journal, future start times only",
     "counts": {
-      "upcoming_locked_mens_baselines": 106,
-      "neither_team_qualified": 97,
-      "exactly_one_team_qualified": 9,
-      "upcoming_opponents_missing_qualification": 9
+      "upcoming_locked_mens_baselines": 125,
+      "exactly_one_team_qualified": 7,
+      "neither_team_qualified": 118,
+      "upcoming_opponents_missing_qualification": 7
     },
     "opponents_to_prioritize": [
       {
@@ -497,13 +498,8 @@
         "upcoming_one_sided_games": 1
       },
       {
-        "team_id": "2473",
-        "team": "Oakland Golden Grizzlies",
-        "upcoming_one_sided_games": 1
-      },
-      {
-        "team_id": "2515",
-        "team": "Radford Highlanders",
+        "team_id": "55",
+        "team": "Jacksonville State Gamecocks",
         "upcoming_one_sided_games": 1
       },
       {
@@ -514,11 +510,6 @@
       {
         "team_id": "2433",
         "team": "UL Monroe Warhawks",
-        "upcoming_one_sided_games": 1
-      },
-      {
-        "team_id": "2681",
-        "team": "Wagner Seahawks",
         "upcoming_one_sided_games": 1
       },
       {
