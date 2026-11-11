@@ -1,36 +1,46 @@
 {
   "version": 226,
   "season": "2026-27",
-  "checked_at_utc": "2026-11-11T07:55:38+00:00",
-  "status": "ok",
+  "checked_at_utc": "2026-11-11T13:54:04+00:00",
+  "status": "warning",
   "divisions": {
     "mens": {
       "status": "ok",
       "games_seen": 312,
-      "upcoming_12h": 4,
-      "upcoming_3h": 0,
-      "verified_d1_upcoming_12h": 4,
-      "excluded_non_d1_upcoming_12h": 0,
+      "upcoming_12h": 55,
+      "upcoming_3h": 1,
+      "verified_d1_upcoming_12h": 37,
+      "excluded_non_d1_upcoming_12h": 18,
       "d1_classification_available": true,
-      "official_forecasts_total": 599,
-      "final_results_total": 473,
-      "results_waiting_for_next_archive": 3,
-      "archive_as_of_utc": "2026-11-10T19:19:38+00:00",
+      "official_forecasts_total": 627,
+      "final_results_total": 538,
+      "results_waiting_for_next_archive": 0,
+      "archive_as_of_utc": "2026-11-11T13:33:39+00:00",
       "issues": []
     },
     "womens": {
-      "status": "ok",
+      "status": "warning",
       "games_seen": 317,
-      "upcoming_12h": 6,
-      "upcoming_3h": 0,
-      "verified_d1_upcoming_12h": 5,
-      "excluded_non_d1_upcoming_12h": 1,
+      "upcoming_12h": 66,
+      "upcoming_3h": 1,
+      "verified_d1_upcoming_12h": 58,
+      "excluded_non_d1_upcoming_12h": 8,
       "d1_classification_available": true,
-      "official_forecasts_total": 584,
-      "final_results_total": 481,
-      "results_waiting_for_next_archive": 9,
-      "archive_as_of_utc": "2026-11-10T19:19:38+00:00",
-      "issues": []
+      "official_forecasts_total": 632,
+      "final_results_total": 517,
+      "results_waiting_for_next_archive": 0,
+      "archive_as_of_utc": "2026-11-11T13:33:39+00:00",
+      "issues": [
+        {
+          "severity": "warning",
+          "code": "MISSING_UPCOMING_D1_FORECASTS",
+          "message": "1 verified D1-v-D1 games within 12 hours lack locked forecasts",
+          "count": 1,
+          "examples": [
+            "West Florida Argonauts @ Florida State Seminoles"
+          ]
+        }
+      ]
     }
   },
   "scoreboard_fetch_errors": [],
