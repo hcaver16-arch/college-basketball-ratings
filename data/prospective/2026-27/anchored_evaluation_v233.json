@@ -1,6 +1,6 @@
 {
   "version": 233,
-  "generated_utc": "2026-11-10T19:02:25.968447+00:00",
+  "generated_utc": "2026-11-11T13:19:24.461659+00:00",
   "status": "PROSPECTIVE_PAIRED_RESEARCH_ONLY",
   "model_ids": {
     "official": "official_saved_v97",
@@ -8,7 +8,7 @@
   },
   "max_lock_gap_hours": 6,
   "lock_integrity_checks": {
-    "paired_ever_locked": 439,
+    "paired_ever_locked": 514,
     "late_or_invalid_time": 0,
     "different_lock_windows": 126,
     "missing_valid_score": 0,
@@ -16,76 +16,76 @@
   },
   "divisions": {
     "mens": {
-      "paired_graded_games": 42,
-      "informative_grades": 42,
+      "paired_graded_games": 107,
+      "informative_grades": 107,
       "forecast_tolerance_for_information": 0.05,
       "same_fixtures": true,
       "baseline": {
-        "games": 42,
-        "mae": 16.9303,
-        "rmse": 21.5462,
-        "winner_accuracy": 0.9048,
-        "bias": 13.1073
+        "games": 107,
+        "mae": 15.8501,
+        "rmse": 20.7385,
+        "winner_accuracy": 0.8505,
+        "bias": 11.3401
       },
       "anchored": {
-        "games": 42,
-        "mae": 15.8156,
-        "rmse": 20.8452,
-        "winner_accuracy": 0.9048,
-        "bias": 12.3589
+        "games": 107,
+        "mae": 14.8788,
+        "rmse": 19.6267,
+        "winner_accuracy": 0.8505,
+        "bias": 10.4534
       },
       "informative_only_baseline": {
-        "games": 42,
-        "mae": 16.9303,
-        "rmse": 21.5462,
-        "winner_accuracy": 0.9048,
-        "bias": 13.1073
+        "games": 107,
+        "mae": 15.8501,
+        "rmse": 20.7385,
+        "winner_accuracy": 0.8505,
+        "bias": 11.3401
       },
       "informative_only_anchored": {
-        "games": 42,
-        "mae": 15.8156,
-        "rmse": 20.8452,
-        "winner_accuracy": 0.9048,
-        "bias": 12.3589
+        "games": 107,
+        "mae": 14.8788,
+        "rmse": 19.6267,
+        "winner_accuracy": 0.8505,
+        "bias": 10.4534
       },
-      "status": "NOT_ENOUGH_INFORMATIVE_GAMES_FOR_MODEL_SELECTION",
-      "informative_anchor_minus_baseline_mae": -1.1147
+      "status": "RESEARCH_SAMPLE_REVIEW_REQUIRED",
+      "informative_anchor_minus_baseline_mae": -0.9713
     },
     "womens": {
-      "paired_graded_games": 44,
-      "informative_grades": 44,
+      "paired_graded_games": 81,
+      "informative_grades": 80,
       "forecast_tolerance_for_information": 0.05,
       "same_fixtures": true,
       "baseline": {
-        "games": 44,
-        "mae": 18.4415,
-        "rmse": 24.1155,
-        "winner_accuracy": 0.8409,
-        "bias": 13.7327
+        "games": 81,
+        "mae": 20.2875,
+        "rmse": 26.626,
+        "winner_accuracy": 0.8519,
+        "bias": 16.0094
       },
       "anchored": {
-        "games": 44,
-        "mae": 18.0361,
-        "rmse": 23.4521,
-        "winner_accuracy": 0.8182,
-        "bias": 13.4861
+        "games": 81,
+        "mae": 19.6264,
+        "rmse": 25.6429,
+        "winner_accuracy": 0.8272,
+        "bias": 15.4285
       },
       "informative_only_baseline": {
-        "games": 44,
-        "mae": 18.4415,
-        "rmse": 24.1155,
-        "winner_accuracy": 0.8409,
-        "bias": 13.7327
+        "games": 80,
+        "mae": 20.0665,
+        "rmse": 26.4534,
+        "winner_accuracy": 0.85,
+        "bias": 15.7349
       },
       "informative_only_anchored": {
-        "games": 44,
-        "mae": 18.0361,
-        "rmse": 23.4521,
-        "winner_accuracy": 0.8182,
-        "bias": 13.4861
+        "games": 80,
+        "mae": 19.3966,
+        "rmse": 25.4503,
+        "winner_accuracy": 0.825,
+        "bias": 15.1462
       },
       "status": "NOT_ENOUGH_INFORMATIVE_GAMES_FOR_MODEL_SELECTION",
-      "informative_anchor_minus_baseline_mae": -0.4054
+      "informative_anchor_minus_baseline_mae": -0.6699
     }
   },
   "limitations": [
