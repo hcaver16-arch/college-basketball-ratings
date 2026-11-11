@@ -1,7 +1,7 @@
 {
   "version": 203,
   "season": "2026-27",
-  "as_of_utc": "2026-11-10T19:34:28.513470Z",
+  "as_of_utc": "2026-11-11T13:55:23.086418Z",
   "status": "PROSPECTIVE_RESEARCH_ONLY_NOT_DEPLOYED",
   "production_model_modified": false,
   "published_pregame_forecasts_unchanged": true,
@@ -459,8 +459,9 @@
   "new_pairs": 0,
   "total_pairs": 0,
   "skipped": {
-    "invalid_evidence_or_pregame_timing": 474,
-    "baseline_prediction_not_fresh_no_backfill": 125
+    "invalid_evidence_or_pregame_timing": 539,
+    "baseline_prediction_not_fresh_no_backfill": 60,
+    "one_or_both_teams_lack_verified_evidence": 28
   },
   "paired_results": {
     "mens": {
@@ -475,45 +476,25 @@
   "matchup_readiness": {
     "source": "V97 first official pregame forecast journal, future start times only",
     "counts": {
-      "upcoming_locked_mens_baselines": 125,
-      "exactly_one_team_qualified": 7,
-      "neither_team_qualified": 118,
-      "upcoming_opponents_missing_qualification": 7
+      "upcoming_locked_mens_baselines": 88,
+      "neither_team_qualified": 85,
+      "exactly_one_team_qualified": 3,
+      "upcoming_opponents_missing_qualification": 3
     },
     "opponents_to_prioritize": [
-      {
-        "team_id": "150",
-        "team": "Duke Blue Devils",
-        "upcoming_one_sided_games": 1
-      },
-      {
-        "team_id": "2217",
-        "team": "Fairfield Stags",
-        "upcoming_one_sided_games": 1
-      },
-      {
-        "team_id": "52",
-        "team": "Florida State Seminoles",
-        "upcoming_one_sided_games": 1
-      },
       {
         "team_id": "55",
         "team": "Jacksonville State Gamecocks",
         "upcoming_one_sided_games": 1
       },
       {
-        "team_id": "2582",
-        "team": "Southern Jaguars",
+        "team_id": "2405",
+        "team": "Monmouth Hawks",
         "upcoming_one_sided_games": 1
       },
       {
-        "team_id": "2433",
-        "team": "UL Monroe Warhawks",
-        "upcoming_one_sided_games": 1
-      },
-      {
-        "team_id": "2751",
-        "team": "Wyoming Cowboys",
+        "team_id": "166",
+        "team": "New Mexico State Aggies",
         "upcoming_one_sided_games": 1
       }
     ],
