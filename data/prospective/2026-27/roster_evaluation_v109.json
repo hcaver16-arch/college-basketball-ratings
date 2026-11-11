@@ -1,7 +1,7 @@
 {
   "version": 109,
   "season": "2026-27",
-  "generated_at_utc": "2026-11-11T13:33:40.687625Z",
+  "generated_at_utc": "2026-11-11T19:22:42.058249Z",
   "status": "PROSPECTIVE_PAIRED_RESEARCH_ONLY",
   "production_modified": false,
   "baseline_source": "V97 official_saved_v97 pregame forecast archive",
@@ -16,32 +16,31 @@
   "roster_errors": {},
   "skipped_new_pairs": {
     "invalid_or_late_forecast": 250,
-    "not_contemporaneous_or_roster_postdates_forecast": 21,
-    "missing_roster_signal": 8
+    "not_contemporaneous_or_roster_postdates_forecast": 29
   },
-  "new_pairs": 68,
+  "new_pairs": 0,
   "total_pairs": 980,
   "paired_results": {
     "mens": {
-      "paired_completed_games": 411,
-      "baseline_margin_mae": 12.984,
-      "experimental_margin_mae": 12.8686,
-      "mae_improvement_positive_is_better": 0.1153,
-      "baseline_winner_accuracy": 0.7981,
-      "experimental_winner_accuracy": 0.7981,
-      "baseline_winner_n": 411,
-      "experimental_winner_n": 411,
+      "paired_completed_games": 413,
+      "baseline_margin_mae": 13.0019,
+      "experimental_margin_mae": 12.8871,
+      "mae_improvement_positive_is_better": 0.1148,
+      "baseline_winner_accuracy": 0.7942,
+      "experimental_winner_accuracy": 0.7942,
+      "baseline_winner_n": 413,
+      "experimental_winner_n": 413,
       "status": "DESCRIPTIVE_ONLY_NOT_CAUSAL_OR_VALIDATED"
     },
     "womens": {
-      "paired_completed_games": 396,
-      "baseline_margin_mae": 15.753,
-      "experimental_margin_mae": 15.6478,
+      "paired_completed_games": 398,
+      "baseline_margin_mae": 15.721,
+      "experimental_margin_mae": 15.6157,
       "mae_improvement_positive_is_better": 0.1052,
-      "baseline_winner_accuracy": 0.8258,
-      "experimental_winner_accuracy": 0.8333,
-      "baseline_winner_n": 396,
-      "experimental_winner_n": 396,
+      "baseline_winner_accuracy": 0.8266,
+      "experimental_winner_accuracy": 0.8342,
+      "baseline_winner_n": 398,
+      "experimental_winner_n": 398,
       "status": "DESCRIPTIVE_ONLY_NOT_CAUSAL_OR_VALIDATED"
     }
   }
