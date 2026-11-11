@@ -1,12 +1,12 @@
 {
   "version": 209,
   "model_id": "cross_division_v209_experimental_v1",
-  "as_of_utc": "2026-11-11T18:03:30.240492+00:00",
+  "as_of_utc": "2026-11-11T23:57:11.837180+00:00",
   "status": "EXPERIMENTAL_CROSS_DIVISION_NOT_OFFICIAL",
   "public_d1_ratings_modified": false,
-  "new_pregame_pairs": 3,
-  "saved_pregame_pairs": 358,
-  "new_completed_results": 1,
+  "new_pregame_pairs": 8,
+  "saved_pregame_pairs": 366,
+  "new_completed_results": 0,
   "overall": {
     "completed_paired_games": 302,
     "margin_mae": 16.781,
