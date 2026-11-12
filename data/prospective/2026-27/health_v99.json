@@ -1,35 +1,45 @@
 {
   "version": 226,
   "season": "2026-27",
-  "checked_at_utc": "2026-11-12T07:57:08+00:00",
-  "status": "ok",
+  "checked_at_utc": "2026-11-12T13:55:07+00:00",
+  "status": "warning",
   "divisions": {
     "mens": {
-      "status": "ok",
+      "status": "warning",
       "games_seen": 348,
-      "upcoming_12h": 0,
+      "upcoming_12h": 24,
       "upcoming_3h": 0,
-      "verified_d1_upcoming_12h": 0,
-      "excluded_non_d1_upcoming_12h": 0,
+      "verified_d1_upcoming_12h": 21,
+      "excluded_non_d1_upcoming_12h": 3,
       "d1_classification_available": true,
-      "official_forecasts_total": 627,
-      "final_results_total": 540,
-      "results_waiting_for_next_archive": 14,
-      "archive_as_of_utc": "2026-11-11T19:22:40+00:00",
-      "issues": []
+      "official_forecasts_total": 685,
+      "final_results_total": 598,
+      "results_waiting_for_next_archive": 0,
+      "archive_as_of_utc": "2026-11-12T13:36:28+00:00",
+      "issues": [
+        {
+          "severity": "warning",
+          "code": "MISSING_UPCOMING_D1_FORECASTS",
+          "message": "1 verified D1-v-D1 games within 12 hours lack locked forecasts",
+          "count": 1,
+          "examples": [
+            "West Florida Argonauts @ Alabama A&M Bulldogs"
+          ]
+        }
+      ]
     },
     "womens": {
       "status": "ok",
       "games_seen": 305,
-      "upcoming_12h": 10,
-      "upcoming_3h": 0,
-      "verified_d1_upcoming_12h": 6,
-      "excluded_non_d1_upcoming_12h": 4,
+      "upcoming_12h": 48,
+      "upcoming_3h": 4,
+      "verified_d1_upcoming_12h": 43,
+      "excluded_non_d1_upcoming_12h": 5,
       "d1_classification_available": true,
-      "official_forecasts_total": 632,
-      "final_results_total": 519,
-      "results_waiting_for_next_archive": 33,
-      "archive_as_of_utc": "2026-11-11T19:22:40+00:00",
+      "official_forecasts_total": 667,
+      "final_results_total": 583,
+      "results_waiting_for_next_archive": 0,
+      "archive_as_of_utc": "2026-11-12T13:36:28+00:00",
       "issues": []
     }
   },
