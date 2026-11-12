@@ -1,0 +1,24 @@
+name: Validate V241 expected newcomer forecast holds
+on:
+  pull_request:
+    paths:
+      - reliability_v99.py
+      - test_health_transition_holds_v241.py
+      - .github/workflows/validate_health_transition_holds_v241.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install 'pandas>=2.1,<3' numpy requests
+      - run: python -m py_compile reliability_v99.py prospective_archive_v97.py transition_research_v227.py
+      - run: python test_health_transition_holds_v241.py
+      - run: python test_data_health_v226.py
+      - run: python test_transition_research_v227.py
