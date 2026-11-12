@@ -1,21 +1,16 @@
 {
-  "as_of_utc": "2026-11-11T15:26:42+00:00",
-  "discovered_d1_team_game_boxscores": 1008,
-  "verified_d1_team_game_boxscores": 1006,
-  "unverified_d1_team_game_boxscores": 2,
+  "as_of_utc": "2026-11-12T15:34:29+00:00",
+  "discovered_d1_team_game_boxscores": 1123,
+  "verified_d1_team_game_boxscores": 1122,
+  "unverified_d1_team_game_boxscores": 1,
   "espn_source_score_mismatch_boxscores": 0,
   "possible_parser_scoring_gap_boxscores": 0,
-  "observed_boxscore_coverage": 0.998,
-  "athletes_with_observed_games": 4769,
+  "observed_boxscore_coverage": 0.9991,
+  "athletes_with_observed_games": 4825,
   "player_leaders_publishable": true,
   "publication_minimum_observed_games": 30,
   "publication_minimum_coverage": 0.95,
   "unverified_examples": [
-    {
-      "game_id": "401917950",
-      "team": "Austin Peay Governors",
-      "reason": "No player rows found for this D1 team"
-    },
     {
       "game_id": "401921153",
       "team": "North Carolina A&T Aggies",
@@ -27,11 +22,11 @@
   "version": 228,
   "division": "mens",
   "season": "2026-27",
-  "last_discovered_date_et": "2026-11-11",
+  "last_discovered_date_et": "2026-11-12",
   "verified_d1_team_directory_count": 365,
   "scoreboard_dates_fetched": 6,
-  "summary_games_fetched": 70,
-  "last_collection_run_utc": "2026-11-11T15:26:42+00:00",
+  "summary_games_fetched": 69,
+  "last_collection_run_utc": "2026-11-12T15:34:29+00:00",
   "source": "ESPN group-50 scoreboard and ESPN per-game individual boxscores",
   "historical_first_forecasts_modified": false
 }
