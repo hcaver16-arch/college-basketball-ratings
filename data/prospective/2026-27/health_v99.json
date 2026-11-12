@@ -1,16 +1,16 @@
 {
   "version": 226,
   "season": "2026-27",
-  "checked_at_utc": "2026-11-11T19:41:07+00:00",
-  "status": "warning",
+  "checked_at_utc": "2026-11-12T01:56:44+00:00",
+  "status": "ok",
   "divisions": {
     "mens": {
       "status": "ok",
       "games_seen": 312,
-      "upcoming_12h": 63,
-      "upcoming_3h": 5,
-      "verified_d1_upcoming_12h": 44,
-      "excluded_non_d1_upcoming_12h": 19,
+      "upcoming_12h": 12,
+      "upcoming_3h": 12,
+      "verified_d1_upcoming_12h": 11,
+      "excluded_non_d1_upcoming_12h": 1,
       "d1_classification_available": true,
       "official_forecasts_total": 627,
       "final_results_total": 540,
@@ -19,28 +19,18 @@
       "issues": []
     },
     "womens": {
-      "status": "warning",
+      "status": "ok",
       "games_seen": 317,
-      "upcoming_12h": 65,
-      "upcoming_3h": 3,
-      "verified_d1_upcoming_12h": 56,
-      "excluded_non_d1_upcoming_12h": 9,
+      "upcoming_12h": 5,
+      "upcoming_3h": 5,
+      "verified_d1_upcoming_12h": 3,
+      "excluded_non_d1_upcoming_12h": 2,
       "d1_classification_available": true,
       "official_forecasts_total": 632,
       "final_results_total": 519,
       "results_waiting_for_next_archive": 0,
       "archive_as_of_utc": "2026-11-11T19:22:40+00:00",
-      "issues": [
-        {
-          "severity": "warning",
-          "code": "MISSING_UPCOMING_D1_FORECASTS",
-          "message": "1 verified D1-v-D1 games within 12 hours lack locked forecasts",
-          "count": 1,
-          "examples": [
-            "West Florida Argonauts @ Florida State Seminoles"
-          ]
-        }
-      ]
+      "issues": []
     }
   },
   "scoreboard_fetch_errors": [],
