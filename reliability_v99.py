@@ -13,6 +13,7 @@ from zoneinfo import ZoneInfo
 import requests
 
 from prospective_archive_v97 import SPORTS, parse_dt, scoreboard, read_csv, FIELDS, RESULT_FIELDS, load_official
+from transition_research_v227 import newcomer_game, transitioning_ids
 
 ET = ZoneInfo('America/New_York')
 SEVERITY = {'ok': 0, 'info': 0, 'warning': 1, 'critical': 2}
@@ -113,9 +114,35 @@ def check_division(
             len(imminent), [str(membership_error or "D1 directory unavailable")],
         )
 
-    # Distinguish a missed verified-D1 forecast from an unsupported mixed-
-    # division opponent. Never manufacture a rating for the latter.
-    missing = [g for g in d1_games if g["game_id"] not in forecast_map]
+    # V241: the official V97 forecaster explicitly refuses source-confirmed
+    # D1 newcomers under V227's manual validation hold. Mirror *that exact*
+    # forecast eligibility rule here, without changing D1 membership or
+    # silently dismissing other missing official forecasts/ratings.
+    held_games = [
+        g for g in d1_games
+        if newcomer_game(g, verified_d1=d1_ids, season=season)
+    ]
+    eligible_games = [
+        g for g in d1_games
+        if not newcomer_game(g, verified_d1=d1_ids, season=season)
+    ]
+    transition_ids = transitioning_ids(season)
+    expected_holds = [
+        {
+            "game_id": g["game_id"],
+            "home_id": g["home_id"],
+            "away_id": g["away_id"],
+            "matchup": g["away_team"] + " @ " + g["home_team"],
+            "held_team_ids": sorted(
+                {g["home_id"], g["away_id"]} & transition_ids
+            ),
+            "reason": "V227_MANUAL_HOLD_PENDING_VALIDATION",
+        }
+        for g in held_games
+    ]
+    # Distinguish a missed verified-D1, forecast-eligible game from intentional
+    # newcomer holds and unsupported mixed-division opponents.
+    missing = [g for g in eligible_games if g["game_id"] not in forecast_map]
     urgent = [g for g in missing if g in soon]
     if urgent:
         issue(
@@ -162,7 +189,7 @@ def check_division(
         issue(level, "RATINGS_NOT_READY", error, len(d1_games))
     else:
         unrated = [
-            g for g in d1_games
+            g for g in eligible_games
             if g["home_id"] not in rating["ratings"]
             or g["away_id"] not in rating["ratings"]
         ]
@@ -218,6 +245,9 @@ def check_division(
         "upcoming_12h": len(imminent),
         "upcoming_3h": len(soon),
         "verified_d1_upcoming_12h": len(d1_games),
+        "forecast_eligible_d1_upcoming_12h": len(eligible_games),
+        "expected_transition_holds_upcoming_12h": len(held_games),
+        "expected_forecast_holds": expected_holds[:8],
         "excluded_non_d1_upcoming_12h": len(non_d1_games),
         "d1_classification_available": d1_known,
         "official_forecasts_total": len(division_forecasts),
@@ -276,6 +306,7 @@ def run(root, season, now, session=None):
             "Read-only inspection; no forecasts, archived results, or model ratings are changed.",
             "D1 eligibility comes from the same ESPN group-50 team directory used by the first-forecast archive; rating presence alone is not D1 proof.",
             "Non-D1 matchups are excluded from D1 forecast critical alerts but remain counted.",
+            "Source-confirmed V227 newcomer matchups retain verified D1 membership, but are reported as expected official forecast holds until manual model validation; they do not count as missing eligible forecasts or ratings.",
             "Finished games are not considered overdue until a subsequent V97 archive run had a reasonable opportunity to capture them.",
             "V97 must run independently; this workflow diagnoses but does not repair forecasts.",
         ],
