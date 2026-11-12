@@ -1,14 +1,14 @@
 {
   "version": 203,
   "season": "2026-27",
-  "as_of_utc": "2026-11-11T19:42:43.298111Z",
+  "as_of_utc": "2026-11-12T13:55:55.729849Z",
   "status": "PROSPECTIVE_RESEARCH_ONLY_NOT_DEPLOYED",
   "production_model_modified": false,
   "published_pregame_forecasts_unchanged": true,
   "baseline_source": "immutable V97 official_saved_v97 forecasts",
   "source_errors": null,
-  "source_checked_utc": "2026-11-09T10:27:50.034589Z",
-  "source_sha256": "717b9c9e2c5bdbf6d099caf7006e174824d755f4a76acc7d3eaaade242183c87",
+  "source_checked_utc": "2026-11-12T10:33:06.505010Z",
+  "source_sha256": "be65b77e477574996baf7de94ae2aabaa268e944c06fc665d8330b91c7dfccfc",
   "teams_audited": {
     "127": {
       "team_id": "127",
@@ -459,8 +459,8 @@
   "new_pairs": 0,
   "total_pairs": 0,
   "skipped": {
-    "invalid_evidence_or_pregame_timing": 545,
-    "baseline_prediction_not_fresh_no_backfill": 82
+    "invalid_evidence_or_pregame_timing": 627,
+    "one_or_both_teams_lack_verified_evidence": 58
   },
   "paired_results": {
     "mens": {
@@ -475,15 +475,25 @@
   "matchup_readiness": {
     "source": "V97 first official pregame forecast journal, future start times only",
     "counts": {
-      "upcoming_locked_mens_baselines": 84,
-      "neither_team_qualified": 81,
-      "exactly_one_team_qualified": 3,
-      "upcoming_opponents_missing_qualification": 3
+      "upcoming_locked_mens_baselines": 86,
+      "neither_team_qualified": 77,
+      "exactly_one_team_qualified": 9,
+      "upcoming_opponents_missing_qualification": 9
     },
     "opponents_to_prioritize": [
       {
-        "team_id": "55",
-        "team": "Jacksonville State Gamecocks",
+        "team_id": "61",
+        "team": "Georgia Bulldogs",
+        "upcoming_one_sided_games": 1
+      },
+      {
+        "team_id": "2771",
+        "team": "Merrimack Warriors",
+        "upcoming_one_sided_games": 1
+      },
+      {
+        "team_id": "270",
+        "team": "Milwaukee Panthers",
         "upcoming_one_sided_games": 1
       },
       {
@@ -494,6 +504,26 @@
       {
         "team_id": "166",
         "team": "New Mexico State Aggies",
+        "upcoming_one_sided_games": 1
+      },
+      {
+        "team_id": "2460",
+        "team": "Northern Iowa Panthers",
+        "upcoming_one_sided_games": 1
+      },
+      {
+        "team_id": "194",
+        "team": "Ohio State Buckeyes",
+        "upcoming_one_sided_games": 1
+      },
+      {
+        "team_id": "2550",
+        "team": "Seton Hall Pirates",
+        "upcoming_one_sided_games": 1
+      },
+      {
+        "team_id": "2634",
+        "team": "Tennessee State Tigers",
         "upcoming_one_sided_games": 1
       }
     ],
