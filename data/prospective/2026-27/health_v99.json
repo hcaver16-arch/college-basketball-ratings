@@ -1,30 +1,19 @@
 {
   "version": 226,
   "season": "2026-27",
-  "checked_at_utc": "2026-11-12T19:37:20+00:00",
+  "checked_at_utc": "2026-11-13T01:50:47+00:00",
   "status": "ok",
   "divisions": {
     "mens": {
       "status": "ok",
       "games_seen": 348,
-      "upcoming_12h": 29,
-      "upcoming_3h": 1,
-      "verified_d1_upcoming_12h": 24,
-      "forecast_eligible_d1_upcoming_12h": 23,
-      "expected_transition_holds_upcoming_12h": 1,
-      "expected_forecast_holds": [
-        {
-          "game_id": "401922250",
-          "home_id": "2010",
-          "away_id": "2697",
-          "matchup": "West Florida Argonauts @ Alabama A&M Bulldogs",
-          "held_team_ids": [
-            "2697"
-          ],
-          "reason": "V227_MANUAL_HOLD_PENDING_VALIDATION"
-        }
-      ],
-      "excluded_non_d1_upcoming_12h": 5,
+      "upcoming_12h": 5,
+      "upcoming_3h": 5,
+      "verified_d1_upcoming_12h": 3,
+      "forecast_eligible_d1_upcoming_12h": 3,
+      "expected_transition_holds_upcoming_12h": 0,
+      "expected_forecast_holds": [],
+      "excluded_non_d1_upcoming_12h": 2,
       "d1_classification_available": true,
       "official_forecasts_total": 685,
       "final_results_total": 598,
@@ -35,13 +24,13 @@
     "womens": {
       "status": "ok",
       "games_seen": 305,
-      "upcoming_12h": 40,
-      "upcoming_3h": 1,
-      "verified_d1_upcoming_12h": 39,
-      "forecast_eligible_d1_upcoming_12h": 39,
+      "upcoming_12h": 2,
+      "upcoming_3h": 2,
+      "verified_d1_upcoming_12h": 2,
+      "forecast_eligible_d1_upcoming_12h": 2,
       "expected_transition_holds_upcoming_12h": 0,
       "expected_forecast_holds": [],
-      "excluded_non_d1_upcoming_12h": 1,
+      "excluded_non_d1_upcoming_12h": 0,
       "d1_classification_available": true,
       "official_forecasts_total": 667,
       "final_results_total": 588,
