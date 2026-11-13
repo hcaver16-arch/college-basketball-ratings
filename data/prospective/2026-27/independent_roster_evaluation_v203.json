@@ -1,7 +1,7 @@
 {
   "version": 203,
   "season": "2026-27",
-  "as_of_utc": "2026-11-13T13:54:18.648167Z",
+  "as_of_utc": "2026-11-13T19:37:32.611903Z",
   "status": "PROSPECTIVE_RESEARCH_ONLY_NOT_DEPLOYED",
   "production_model_modified": false,
   "published_pregame_forecasts_unchanged": true,
@@ -459,9 +459,8 @@
   "new_pairs": 0,
   "total_pairs": 0,
   "skipped": {
-    "invalid_evidence_or_pregame_timing": 627,
-    "baseline_prediction_not_fresh_no_backfill": 58,
-    "one_or_both_teams_lack_verified_evidence": 70
+    "invalid_evidence_or_pregame_timing": 628,
+    "baseline_prediction_not_fresh_no_backfill": 127
   },
   "paired_results": {
     "mens": {
@@ -476,8 +475,8 @@
   "matchup_readiness": {
     "source": "V97 first official pregame forecast journal, future start times only",
     "counts": {
-      "upcoming_locked_mens_baselines": 128,
-      "neither_team_qualified": 121,
+      "upcoming_locked_mens_baselines": 127,
+      "neither_team_qualified": 120,
       "exactly_one_team_qualified": 7,
       "upcoming_opponents_missing_qualification": 7
     },
