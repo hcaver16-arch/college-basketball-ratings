@@ -1,7 +1,7 @@
 {
   "version": 203,
   "season": "2026-27",
-  "as_of_utc": "2026-11-12T19:38:05.351356Z",
+  "as_of_utc": "2026-11-13T13:54:18.648167Z",
   "status": "PROSPECTIVE_RESEARCH_ONLY_NOT_DEPLOYED",
   "production_model_modified": false,
   "published_pregame_forecasts_unchanged": true,
@@ -460,7 +460,8 @@
   "total_pairs": 0,
   "skipped": {
     "invalid_evidence_or_pregame_timing": 627,
-    "baseline_prediction_not_fresh_no_backfill": 58
+    "baseline_prediction_not_fresh_no_backfill": 58,
+    "one_or_both_teams_lack_verified_evidence": 70
   },
   "paired_results": {
     "mens": {
@@ -475,10 +476,10 @@
   "matchup_readiness": {
     "source": "V97 first official pregame forecast journal, future start times only",
     "counts": {
-      "upcoming_locked_mens_baselines": 86,
-      "neither_team_qualified": 77,
-      "exactly_one_team_qualified": 9,
-      "upcoming_opponents_missing_qualification": 9
+      "upcoming_locked_mens_baselines": 128,
+      "neither_team_qualified": 121,
+      "exactly_one_team_qualified": 7,
+      "upcoming_opponents_missing_qualification": 7
     },
     "opponents_to_prioritize": [
       {
@@ -494,16 +495,6 @@
       {
         "team_id": "270",
         "team": "Milwaukee Panthers",
-        "upcoming_one_sided_games": 1
-      },
-      {
-        "team_id": "2405",
-        "team": "Monmouth Hawks",
-        "upcoming_one_sided_games": 1
-      },
-      {
-        "team_id": "166",
-        "team": "New Mexico State Aggies",
         "upcoming_one_sided_games": 1
       },
       {
