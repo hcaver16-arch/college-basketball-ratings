@@ -1,77 +1,51 @@
 {
   "version": 228,
   "season": "2026-27",
-  "checked_at_utc": "2026-11-12T15:34:29+00:00",
+  "checked_at_utc": "2026-11-13T15:25:47+00:00",
   "divisions": {
     "mens-college-basketball": {
-      "as_of_utc": "2026-11-12T15:34:29+00:00",
-      "discovered_d1_team_game_boxscores": 1123,
-      "verified_d1_team_game_boxscores": 1122,
-      "unverified_d1_team_game_boxscores": 1,
+      "as_of_utc": "2026-11-13T15:25:47+00:00",
+      "discovered_d1_team_game_boxscores": 1176,
+      "verified_d1_team_game_boxscores": 1176,
+      "unverified_d1_team_game_boxscores": 0,
       "espn_source_score_mismatch_boxscores": 0,
       "possible_parser_scoring_gap_boxscores": 0,
-      "observed_boxscore_coverage": 0.9991,
-      "athletes_with_observed_games": 4825,
+      "observed_boxscore_coverage": 1.0,
+      "athletes_with_observed_games": 4848,
       "player_leaders_publishable": true,
       "publication_minimum_observed_games": 30,
       "publication_minimum_coverage": 0.95,
-      "unverified_examples": [
-        {
-          "game_id": "401921153",
-          "team": "North Carolina A&T Aggies",
-          "reason": "No player rows found for this D1 team"
-        }
-      ],
+      "unverified_examples": [],
       "coverage_scope": "ESPN-discovered final games with at least one verified D1 participant, NOT independently verified national schedule coverage",
       "sample_caution": "Observed per-game averages can be skewed by missing box scores, late corrections and players with very few games.",
       "version": 228,
       "division": "mens",
       "season": "2026-27",
-      "last_discovered_date_et": "2026-11-12",
+      "last_discovered_date_et": "2026-11-13",
       "verified_d1_team_directory_count": 365,
       "scoreboard_dates_fetched": 6,
-      "summary_games_fetched": 69,
-      "last_collection_run_utc": "2026-11-12T15:34:29+00:00",
+      "summary_games_fetched": 30,
+      "last_collection_run_utc": "2026-11-13T15:25:47+00:00",
       "source": "ESPN group-50 scoreboard and ESPN per-game individual boxscores",
       "historical_first_forecasts_modified": false
     },
     "womens-college-basketball": {
-      "as_of_utc": "2026-11-12T15:34:29+00:00",
-      "discovered_d1_team_game_boxscores": 1110,
-      "verified_d1_team_game_boxscores": 1098,
-      "unverified_d1_team_game_boxscores": 12,
-      "espn_source_score_mismatch_boxscores": 10,
+      "as_of_utc": "2026-11-13T15:25:47+00:00",
+      "discovered_d1_team_game_boxscores": 1205,
+      "verified_d1_team_game_boxscores": 1194,
+      "unverified_d1_team_game_boxscores": 11,
+      "espn_source_score_mismatch_boxscores": 11,
       "possible_parser_scoring_gap_boxscores": 0,
-      "observed_boxscore_coverage": 0.9892,
-      "athletes_with_observed_games": 4308,
+      "observed_boxscore_coverage": 0.9909,
+      "athletes_with_observed_games": 4334,
       "player_leaders_publishable": true,
       "publication_minimum_observed_games": 30,
       "publication_minimum_coverage": 0.95,
       "unverified_examples": [
         {
-          "game_id": "401926054",
-          "team": "Temple Owls",
-          "reason": "ESPN source mismatch: raw athlete points 94 vs final team score 97; no omitted scoring rows"
-        },
-        {
           "game_id": "401917691",
           "team": "Portland Pilots",
           "reason": "ESPN source mismatch: raw athlete points 60 vs final team score 65; no omitted scoring rows"
-        },
-        {
-          "game_id": "401911493",
-          "team": "Gardner-Webb Runnin' Bulldogs",
-          "reason": "No player rows found for this D1 team"
-        },
-        {
-          "game_id": "401911493",
-          "team": "UNC Greensboro Spartans",
-          "reason": "No player rows found for this D1 team"
-        },
-        {
-          "game_id": "401921149",
-          "team": "Temple Owls",
-          "reason": "ESPN source mismatch: raw athlete points 85 vs final team score 89; no omitted scoring rows"
         },
         {
           "game_id": "401917699",
@@ -79,9 +53,19 @@
           "reason": "ESPN source mismatch: raw athlete points 86 vs final team score 90; no omitted scoring rows"
         },
         {
-          "game_id": "401916150",
-          "team": "Portland Pilots",
-          "reason": "ESPN source mismatch: raw athlete points 51 vs final team score 64; no omitted scoring rows"
+          "game_id": "401921149",
+          "team": "Temple Owls",
+          "reason": "ESPN source mismatch: raw athlete points 85 vs final team score 89; no omitted scoring rows"
+        },
+        {
+          "game_id": "401928014",
+          "team": "SIU Edwardsville Cougars",
+          "reason": "ESPN source mismatch: raw athlete points 73 vs final team score 85; no omitted scoring rows"
+        },
+        {
+          "game_id": "401926054",
+          "team": "Temple Owls",
+          "reason": "ESPN source mismatch: raw athlete points 94 vs final team score 97; no omitted scoring rows"
         },
         {
           "game_id": "401929300",
@@ -89,14 +73,19 @@
           "reason": "ESPN source mismatch: raw athlete points 92 vs final team score 95; no omitted scoring rows"
         },
         {
-          "game_id": "401928011",
-          "team": "SIU Edwardsville Cougars",
-          "reason": "ESPN source mismatch: raw athlete points 83 vs final team score 95; no omitted scoring rows"
+          "game_id": "401916150",
+          "team": "Portland Pilots",
+          "reason": "ESPN source mismatch: raw athlete points 51 vs final team score 64; no omitted scoring rows"
         },
         {
           "game_id": "401920439",
           "team": "Texas A&M-Corpus Christi Islanders",
           "reason": "ESPN source mismatch: raw athlete points 70 vs final team score 76; no omitted scoring rows"
+        },
+        {
+          "game_id": "401928011",
+          "team": "SIU Edwardsville Cougars",
+          "reason": "ESPN source mismatch: raw athlete points 83 vs final team score 95; no omitted scoring rows"
         },
         {
           "game_id": "401917683",
@@ -114,11 +103,11 @@
       "version": 228,
       "division": "womens",
       "season": "2026-27",
-      "last_discovered_date_et": "2026-11-12",
+      "last_discovered_date_et": "2026-11-13",
       "verified_d1_team_directory_count": 363,
       "scoreboard_dates_fetched": 6,
-      "summary_games_fetched": 82,
-      "last_collection_run_utc": "2026-11-12T15:34:29+00:00",
+      "summary_games_fetched": 61,
+      "last_collection_run_utc": "2026-11-13T15:25:47+00:00",
       "source": "ESPN group-50 scoreboard and ESPN per-game individual boxscores",
       "historical_first_forecasts_modified": false
     }
