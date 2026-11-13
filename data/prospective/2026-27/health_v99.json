@@ -1,41 +1,52 @@
 {
   "version": 226,
   "season": "2026-27",
-  "checked_at_utc": "2026-11-13T07:56:40+00:00",
+  "checked_at_utc": "2026-11-13T13:53:04+00:00",
   "status": "ok",
   "divisions": {
     "mens": {
       "status": "ok",
       "games_seen": 342,
-      "upcoming_12h": 1,
+      "upcoming_12h": 47,
       "upcoming_3h": 0,
-      "verified_d1_upcoming_12h": 0,
-      "forecast_eligible_d1_upcoming_12h": 0,
-      "expected_transition_holds_upcoming_12h": 0,
-      "expected_forecast_holds": [],
-      "excluded_non_d1_upcoming_12h": 1,
+      "verified_d1_upcoming_12h": 42,
+      "forecast_eligible_d1_upcoming_12h": 41,
+      "expected_transition_holds_upcoming_12h": 1,
+      "expected_forecast_holds": [
+        {
+          "game_id": "401921167",
+          "home_id": "325",
+          "away_id": "2697",
+          "matchup": "West Florida Argonauts @ Cleveland State Vikings",
+          "held_team_ids": [
+            "2697"
+          ],
+          "reason": "V227_MANUAL_HOLD_PENDING_VALIDATION"
+        }
+      ],
+      "excluded_non_d1_upcoming_12h": 5,
       "d1_classification_available": true,
-      "official_forecasts_total": 685,
-      "final_results_total": 598,
-      "results_waiting_for_next_archive": 6,
-      "archive_as_of_utc": "2026-11-12T19:17:45+00:00",
+      "official_forecasts_total": 755,
+      "final_results_total": 626,
+      "results_waiting_for_next_archive": 0,
+      "archive_as_of_utc": "2026-11-13T13:31:41+00:00",
       "issues": []
     },
     "womens": {
       "status": "ok",
       "games_seen": 340,
-      "upcoming_12h": 9,
-      "upcoming_3h": 0,
-      "verified_d1_upcoming_12h": 7,
-      "forecast_eligible_d1_upcoming_12h": 7,
+      "upcoming_12h": 33,
+      "upcoming_3h": 4,
+      "verified_d1_upcoming_12h": 26,
+      "forecast_eligible_d1_upcoming_12h": 26,
       "expected_transition_holds_upcoming_12h": 0,
       "expected_forecast_holds": [],
-      "excluded_non_d1_upcoming_12h": 2,
+      "excluded_non_d1_upcoming_12h": 7,
       "d1_classification_available": true,
-      "official_forecasts_total": 667,
-      "final_results_total": 588,
-      "results_waiting_for_next_archive": 14,
-      "archive_as_of_utc": "2026-11-12T19:17:45+00:00",
+      "official_forecasts_total": 721,
+      "final_results_total": 631,
+      "results_waiting_for_next_archive": 0,
+      "archive_as_of_utc": "2026-11-13T13:31:41+00:00",
       "issues": []
     }
   },
