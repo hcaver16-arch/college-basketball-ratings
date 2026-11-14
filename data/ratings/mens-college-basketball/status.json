@@ -1,10 +1,10 @@
 {
   "division": "mens-college-basketball",
-  "snapshot_date": "2026-11-13",
-  "updated_utc": "2026-11-13T13:38:48.700109+00:00",
+  "snapshot_date": "2026-11-14",
+  "updated_utc": "2026-11-14T13:21:43.984175+00:00",
   "historical_final_games": 6300,
-  "current_final_games": 688,
-  "team_count": 787,
+  "current_final_games": 749,
+  "team_count": 789,
   "method": "regularized scoring margins; 2025-26 preseason prior; no automatic roster adjustment",
   "warning": "Season-specific fitting and scale calibration remain experimental; no betting guarantee."
 }
