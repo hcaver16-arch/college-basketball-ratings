@@ -1,7 +1,7 @@
 {
   "version": 203,
   "season": "2026-27",
-  "as_of_utc": "2026-11-13T19:37:32.611903Z",
+  "as_of_utc": "2026-11-14T13:35:02.760410Z",
   "status": "PROSPECTIVE_RESEARCH_ONLY_NOT_DEPLOYED",
   "production_model_modified": false,
   "published_pregame_forecasts_unchanged": true,
@@ -459,8 +459,9 @@
   "new_pairs": 0,
   "total_pairs": 0,
   "skipped": {
-    "invalid_evidence_or_pregame_timing": 628,
-    "baseline_prediction_not_fresh_no_backfill": 127
+    "invalid_evidence_or_pregame_timing": 685,
+    "baseline_prediction_not_fresh_no_backfill": 70,
+    "one_or_both_teams_lack_verified_evidence": 41
   },
   "paired_results": {
     "mens": {
@@ -475,45 +476,30 @@
   "matchup_readiness": {
     "source": "V97 first official pregame forecast journal, future start times only",
     "counts": {
-      "upcoming_locked_mens_baselines": 127,
-      "neither_team_qualified": 120,
-      "exactly_one_team_qualified": 7,
-      "upcoming_opponents_missing_qualification": 7
+      "upcoming_locked_mens_baselines": 111,
+      "neither_team_qualified": 107,
+      "exactly_one_team_qualified": 4,
+      "upcoming_opponents_missing_qualification": 4
     },
     "opponents_to_prioritize": [
       {
-        "team_id": "61",
-        "team": "Georgia Bulldogs",
+        "team_id": "2115",
+        "team": "Central Connecticut Blue Devils",
         "upcoming_one_sided_games": 1
       },
       {
-        "team_id": "2771",
-        "team": "Merrimack Warriors",
+        "team_id": "324",
+        "team": "Coastal Carolina Chanticleers",
         "upcoming_one_sided_games": 1
       },
       {
-        "team_id": "270",
-        "team": "Milwaukee Panthers",
+        "team_id": "50",
+        "team": "Florida A&M Rattlers",
         "upcoming_one_sided_games": 1
       },
       {
-        "team_id": "2460",
-        "team": "Northern Iowa Panthers",
-        "upcoming_one_sided_games": 1
-      },
-      {
-        "team_id": "194",
-        "team": "Ohio State Buckeyes",
-        "upcoming_one_sided_games": 1
-      },
-      {
-        "team_id": "2550",
-        "team": "Seton Hall Pirates",
-        "upcoming_one_sided_games": 1
-      },
-      {
-        "team_id": "2634",
-        "team": "Tennessee State Tigers",
+        "team_id": "315",
+        "team": "Niagara Purple Eagles",
         "upcoming_one_sided_games": 1
       }
     ],
