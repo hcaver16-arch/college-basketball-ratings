@@ -1,7 +1,7 @@
 {
   "version": 203,
   "season": "2026-27",
-  "as_of_utc": "2026-11-15T13:36:43.165901Z",
+  "as_of_utc": "2026-11-15T19:28:04.999729Z",
   "status": "PROSPECTIVE_RESEARCH_ONLY_NOT_DEPLOYED",
   "production_model_modified": false,
   "published_pregame_forecasts_unchanged": true,
@@ -459,9 +459,8 @@
   "new_pairs": 0,
   "total_pairs": 0,
   "skipped": {
-    "invalid_evidence_or_pregame_timing": 755,
-    "baseline_prediction_not_fresh_no_backfill": 41,
-    "one_or_both_teams_lack_verified_evidence": 33
+    "invalid_evidence_or_pregame_timing": 773,
+    "baseline_prediction_not_fresh_no_backfill": 56
   },
   "paired_results": {
     "mens": {
@@ -476,17 +475,12 @@
   "matchup_readiness": {
     "source": "V97 first official pregame forecast journal, future start times only",
     "counts": {
-      "upcoming_locked_mens_baselines": 74,
-      "neither_team_qualified": 70,
-      "exactly_one_team_qualified": 4,
-      "upcoming_opponents_missing_qualification": 4
+      "upcoming_locked_mens_baselines": 57,
+      "neither_team_qualified": 55,
+      "exactly_one_team_qualified": 2,
+      "upcoming_opponents_missing_qualification": 2
     },
     "opponents_to_prioritize": [
-      {
-        "team_id": "2115",
-        "team": "Central Connecticut Blue Devils",
-        "upcoming_one_sided_games": 1
-      },
       {
         "team_id": "324",
         "team": "Coastal Carolina Chanticleers",
@@ -495,11 +489,6 @@
       {
         "team_id": "50",
         "team": "Florida A&M Rattlers",
-        "upcoming_one_sided_games": 1
-      },
-      {
-        "team_id": "315",
-        "team": "Niagara Purple Eagles",
         "upcoming_one_sided_games": 1
       }
     ],
