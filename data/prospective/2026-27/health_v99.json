@@ -1,40 +1,51 @@
 {
   "version": 226,
   "season": "2026-27",
-  "checked_at_utc": "2026-11-15T01:49:10+00:00",
+  "checked_at_utc": "2026-11-15T07:47:41+00:00",
   "status": "ok",
   "divisions": {
     "mens": {
       "status": "ok",
-      "games_seen": 306,
-      "upcoming_12h": 3,
-      "upcoming_3h": 3,
-      "verified_d1_upcoming_12h": 3,
-      "forecast_eligible_d1_upcoming_12h": 3,
+      "games_seen": 305,
+      "upcoming_12h": 19,
+      "upcoming_3h": 0,
+      "verified_d1_upcoming_12h": 16,
+      "forecast_eligible_d1_upcoming_12h": 16,
       "expected_transition_holds_upcoming_12h": 0,
       "expected_forecast_holds": [],
-      "excluded_non_d1_upcoming_12h": 0,
+      "excluded_non_d1_upcoming_12h": 3,
       "d1_classification_available": true,
       "official_forecasts_total": 796,
       "final_results_total": 684,
-      "results_waiting_for_next_archive": 1,
+      "results_waiting_for_next_archive": 42,
       "archive_as_of_utc": "2026-11-14T19:06:56+00:00",
       "issues": []
     },
     "womens": {
       "status": "ok",
-      "games_seen": 321,
-      "upcoming_12h": 0,
+      "games_seen": 296,
+      "upcoming_12h": 43,
       "upcoming_3h": 0,
-      "verified_d1_upcoming_12h": 0,
-      "forecast_eligible_d1_upcoming_12h": 0,
-      "expected_transition_holds_upcoming_12h": 0,
-      "expected_forecast_holds": [],
-      "excluded_non_d1_upcoming_12h": 0,
+      "verified_d1_upcoming_12h": 39,
+      "forecast_eligible_d1_upcoming_12h": 38,
+      "expected_transition_holds_upcoming_12h": 1,
+      "expected_forecast_holds": [
+        {
+          "game_id": "401913901",
+          "home_id": "2697",
+          "away_id": "50",
+          "matchup": "Florida A&M Rattlers @ West Florida Argonauts",
+          "held_team_ids": [
+            "2697"
+          ],
+          "reason": "V227_MANUAL_HOLD_PENDING_VALIDATION"
+        }
+      ],
+      "excluded_non_d1_upcoming_12h": 4,
       "d1_classification_available": true,
       "official_forecasts_total": 794,
       "final_results_total": 672,
-      "results_waiting_for_next_archive": 1,
+      "results_waiting_for_next_archive": 46,
       "archive_as_of_utc": "2026-11-14T19:06:56+00:00",
       "issues": []
     }
