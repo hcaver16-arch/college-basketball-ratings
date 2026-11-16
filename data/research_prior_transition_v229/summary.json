@@ -1,35 +1,35 @@
 {
   "version": 229,
-  "generated_utc": "2026-11-09T17:25:59.969611+00:00",
-  "asof_date": "2026-11-09",
+  "generated_utc": "2026-11-16T17:37:02.586750+00:00",
+  "asof_date": "2026-11-16",
   "purpose": "RESEARCH_ONLY_NEVER_UPDATE_OFFICIAL_MODEL",
   "divisions": {
     "mens-college-basketball": {
       "status": "EXPLORATORY_MINIMUM_REACHED_NOT_INDEPENDENT_HOLDOUT",
-      "matched_games": 328,
-      "informative_model_disagreement_games": 187,
+      "matched_games": 635,
+      "informative_model_disagreement_games": 491,
       "informative_disagreement_tolerance_points": 0.05,
       "informative_matchup_metrics": {
         "prior_only": {
-          "games": 187,
-          "mae": 12.2784,
-          "rmse": 15.9558,
-          "winner_accuracy": 0.7433,
-          "bias": 6.7248
+          "games": 491,
+          "mae": 12.0218,
+          "rmse": 15.48,
+          "winner_accuracy": 0.7556,
+          "bias": 4.7791
         },
         "legacy_replay": {
-          "games": 187,
-          "mae": 12.2543,
-          "rmse": 15.9961,
-          "winner_accuracy": 0.7487,
-          "bias": 6.8689
+          "games": 491,
+          "mae": 12.049,
+          "rmse": 15.5296,
+          "winner_accuracy": 0.7637,
+          "bias": 5.1923
         },
         "anchored_ridge8": {
-          "games": 187,
-          "mae": 11.8348,
-          "rmse": 15.2243,
-          "winner_accuracy": 0.7487,
-          "bias": 6.2414
+          "games": 491,
+          "mae": 11.4782,
+          "rmse": 14.6304,
+          "winner_accuracy": 0.7658,
+          "bias": 4.4296
         }
       },
       "model_variants": [
@@ -40,74 +40,74 @@
       "all_games_on_identical_matchups": true,
       "metrics": {
         "prior_only": {
-          "games": 328,
-          "mae": 12.879,
-          "rmse": 16.5042,
-          "winner_accuracy": 0.7927,
-          "bias": 7.596
+          "games": 635,
+          "mae": 12.361,
+          "rmse": 15.8494,
+          "winner_accuracy": 0.778,
+          "bias": 5.6674
         },
         "legacy_replay": {
-          "games": 328,
-          "mae": 12.8649,
-          "rmse": 16.5262,
-          "winner_accuracy": 0.7957,
-          "bias": 7.6778
+          "games": 635,
+          "mae": 12.3862,
+          "rmse": 15.889,
+          "winner_accuracy": 0.7843,
+          "bias": 5.991
         },
         "anchored_ridge8": {
-          "games": 328,
-          "mae": 12.6258,
-          "rmse": 16.1053,
-          "winner_accuracy": 0.7957,
-          "bias": 7.3202
+          "games": 635,
+          "mae": 11.9447,
+          "rmse": 15.2148,
+          "winner_accuracy": 0.7858,
+          "bias": 5.4012
         }
       },
       "early_sample_buckets": {
         "both_0_to_2_games": {
-          "matched_games": 327,
+          "matched_games": 421,
           "prior_only": {
-            "games": 327,
-            "mae": 12.8494,
-            "rmse": 16.4823,
-            "winner_accuracy": 0.7951,
-            "bias": 7.5503
+            "games": 421,
+            "mae": 12.6809,
+            "rmse": 16.2845,
+            "winner_accuracy": 0.7981,
+            "bias": 7.2707
           },
           "legacy_replay": {
-            "games": 327,
-            "mae": 12.8438,
-            "rmse": 16.5153,
-            "winner_accuracy": 0.7982,
-            "bias": 7.6408
+            "games": 421,
+            "mae": 12.6927,
+            "rmse": 16.3384,
+            "winner_accuracy": 0.8029,
+            "bias": 7.4626
           },
           "anchored_ridge8": {
-            "games": 327,
-            "mae": 12.6134,
-            "rmse": 16.1035,
-            "winner_accuracy": 0.7982,
-            "bias": 7.2916
+            "games": 421,
+            "mae": 12.314,
+            "rmse": 15.7526,
+            "winner_accuracy": 0.7981,
+            "bias": 7.0111
           }
         },
         "either_3_plus_games": {
-          "matched_games": 1,
+          "matched_games": 214,
           "prior_only": {
-            "games": 1,
-            "mae": 22.55,
-            "rmse": 22.55,
-            "winner_accuracy": 0.0,
-            "bias": 22.55
+            "games": 214,
+            "mae": 11.7317,
+            "rmse": 14.9565,
+            "winner_accuracy": 0.7383,
+            "bias": 2.5132
           },
           "legacy_replay": {
-            "games": 1,
-            "mae": 19.7766,
-            "rmse": 19.7766,
-            "winner_accuracy": 0.0,
-            "bias": 19.7766
+            "games": 214,
+            "mae": 11.7831,
+            "rmse": 14.9656,
+            "winner_accuracy": 0.7477,
+            "bias": 3.0961
           },
           "anchored_ridge8": {
-            "games": 1,
-            "mae": 16.6626,
-            "rmse": 16.6626,
-            "winner_accuracy": 0.0,
-            "bias": 16.6626
+            "games": 214,
+            "mae": 11.2183,
+            "rmse": 14.0972,
+            "winner_accuracy": 0.7617,
+            "bias": 2.234
           }
         }
       },
@@ -159,11 +159,53 @@
           "games_before_day": 437,
           "latest_used_training_day": "2026-11-07",
           "d1_targets": 29
+        },
+        {
+          "target_day": "2026-11-09",
+          "games_before_day": 473,
+          "latest_used_training_day": "2026-11-08",
+          "d1_targets": 34
+        },
+        {
+          "target_day": "2026-11-10",
+          "games_before_day": 523,
+          "latest_used_training_day": "2026-11-09",
+          "d1_targets": 56
+        },
+        {
+          "target_day": "2026-11-11",
+          "games_before_day": 592,
+          "latest_used_training_day": "2026-11-10",
+          "d1_targets": 48
+        },
+        {
+          "target_day": "2026-11-12",
+          "games_before_day": 659,
+          "latest_used_training_day": "2026-11-11",
+          "d1_targets": 24
+        },
+        {
+          "target_day": "2026-11-13",
+          "games_before_day": 688,
+          "latest_used_training_day": "2026-11-12",
+          "d1_targets": 55
+        },
+        {
+          "target_day": "2026-11-14",
+          "games_before_day": 749,
+          "latest_used_training_day": "2026-11-13",
+          "d1_targets": 57
+        },
+        {
+          "target_day": "2026-11-15",
+          "games_before_day": 817,
+          "latest_used_training_day": "2026-11-14",
+          "d1_targets": 35
         }
       ],
       "snapshot_source": "saved 2025-26 and 2026-27 ESPN game-result archives",
       "first_eval_date": "2026-11-01",
-      "last_eval_date": "2026-11-08",
+      "last_eval_date": "2026-11-15",
       "Illinois_diagnostic": {
         "team_id": "356",
         "preseason_rating": 18.46,
@@ -185,40 +227,40 @@
         "These 2026-27 results are an exploratory sample; hold out future unseen games for final selection.",
         "No production coefficients, model ratings or original first forecasts were changed."
       ],
-      "delta_mae_anchor_minus_legacy": -0.2391,
-      "fresh_espn_final_game_ids": 473,
+      "delta_mae_anchor_minus_legacy": -0.4415,
+      "fresh_espn_final_game_ids": 676,
       "new_espn_final_game_ids_not_in_saved_archive": 0,
-      "fresh_scoreboard_days_retrieved": 9,
+      "fresh_scoreboard_days_retrieved": 14,
       "current_archive_provenance": "saved current-season archive supplemented with live ESPN scoreboard finals",
-      "saved_ratings_snapshot_date": "2026-11-09",
-      "saved_ratings_updated_utc": "2026-11-09T13:41:52.311344+00:00"
+      "saved_ratings_snapshot_date": "2026-11-16",
+      "saved_ratings_updated_utc": "2026-11-16T15:33:22.438676+00:00"
     },
     "womens-college-basketball": {
       "status": "EXPLORATORY_MINIMUM_REACHED_NOT_INDEPENDENT_HOLDOUT",
-      "matched_games": 338,
-      "informative_model_disagreement_games": 212,
+      "matched_games": 650,
+      "informative_model_disagreement_games": 518,
       "informative_disagreement_tolerance_points": 0.05,
       "informative_matchup_metrics": {
         "prior_only": {
-          "games": 212,
-          "mae": 16.2731,
-          "rmse": 21.5025,
-          "winner_accuracy": 0.8208,
-          "bias": 7.802
+          "games": 518,
+          "mae": 15.2987,
+          "rmse": 19.8876,
+          "winner_accuracy": 0.7799,
+          "bias": 6.4142
         },
         "legacy_replay": {
-          "games": 212,
-          "mae": 16.5423,
-          "rmse": 21.8328,
-          "winner_accuracy": 0.8255,
-          "bias": 8.1474
+          "games": 518,
+          "mae": 15.4853,
+          "rmse": 20.1437,
+          "winner_accuracy": 0.7857,
+          "bias": 6.7482
         },
         "anchored_ridge8": {
-          "games": 212,
-          "mae": 15.7867,
-          "rmse": 20.8045,
-          "winner_accuracy": 0.8585,
-          "bias": 7.7173
+          "games": 518,
+          "mae": 14.392,
+          "rmse": 18.7705,
+          "winner_accuracy": 0.8031,
+          "bias": 5.9976
         }
       },
       "model_variants": [
@@ -229,74 +271,74 @@
       "all_games_on_identical_matchups": true,
       "metrics": {
         "prior_only": {
-          "games": 338,
-          "mae": 15.5274,
-          "rmse": 20.3875,
-          "winner_accuracy": 0.8284,
-          "bias": 7.7833
+          "games": 650,
+          "mae": 15.0881,
+          "rmse": 19.5662,
+          "winner_accuracy": 0.7923,
+          "bias": 6.6107
         },
         "legacy_replay": {
-          "games": 338,
-          "mae": 15.7012,
-          "rmse": 20.6095,
-          "winner_accuracy": 0.8314,
-          "bias": 7.9959
+          "games": 650,
+          "mae": 15.2266,
+          "rmse": 19.7733,
+          "winner_accuracy": 0.7969,
+          "bias": 6.8791
         },
         "anchored_ridge8": {
-          "games": 338,
-          "mae": 15.2274,
-          "rmse": 19.9312,
-          "winner_accuracy": 0.8521,
-          "bias": 7.7264
+          "games": 650,
+          "mae": 14.3556,
+          "rmse": 18.6656,
+          "winner_accuracy": 0.8108,
+          "bias": 6.281
         }
       },
       "early_sample_buckets": {
         "both_0_to_2_games": {
-          "matched_games": 336,
+          "matched_games": 400,
           "prior_only": {
-            "games": 336,
-            "mae": 15.5268,
-            "rmse": 20.401,
-            "winner_accuracy": 0.8274,
-            "bias": 7.7366
+            "games": 400,
+            "mae": 15.2816,
+            "rmse": 19.9795,
+            "winner_accuracy": 0.82,
+            "bias": 7.6832
           },
           "legacy_replay": {
-            "games": 336,
-            "mae": 15.6986,
-            "rmse": 20.6153,
-            "winner_accuracy": 0.8304,
-            "bias": 7.9474
+            "games": 400,
+            "mae": 15.4535,
+            "rmse": 20.1922,
+            "winner_accuracy": 0.82,
+            "bias": 7.8993
           },
           "anchored_ridge8": {
-            "games": 336,
-            "mae": 15.2239,
-            "rmse": 19.9417,
-            "winner_accuracy": 0.8512,
-            "bias": 7.6782
+            "games": 400,
+            "mae": 14.9281,
+            "rmse": 19.4873,
+            "winner_accuracy": 0.835,
+            "bias": 7.5691
           }
         },
         "either_3_plus_games": {
-          "matched_games": 2,
+          "matched_games": 250,
           "prior_only": {
-            "games": 2,
-            "mae": 15.625,
-            "rmse": 17.9795,
-            "winner_accuracy": 1.0,
-            "bias": 15.625
+            "games": 250,
+            "mae": 14.7785,
+            "rmse": 18.8861,
+            "winner_accuracy": 0.748,
+            "bias": 4.8948
           },
           "legacy_replay": {
-            "games": 2,
-            "mae": 16.1332,
-            "rmse": 19.6127,
-            "winner_accuracy": 1.0,
-            "bias": 16.1332
+            "games": 250,
+            "mae": 14.8637,
+            "rmse": 19.0839,
+            "winner_accuracy": 0.76,
+            "bias": 5.2468
           },
           "anchored_ridge8": {
-            "games": 2,
-            "mae": 15.8091,
-            "rmse": 18.086,
-            "winner_accuracy": 1.0,
-            "bias": 15.8091
+            "games": 250,
+            "mae": 13.4396,
+            "rmse": 17.2699,
+            "winner_accuracy": 0.772,
+            "bias": 4.2199
           }
         }
       },
@@ -348,11 +390,53 @@
           "games_before_day": 419,
           "latest_used_training_day": "2026-11-07",
           "d1_targets": 61
+        },
+        {
+          "target_day": "2026-11-09",
+          "games_before_day": 487,
+          "latest_used_training_day": "2026-11-08",
+          "d1_targets": 26
+        },
+        {
+          "target_day": "2026-11-10",
+          "games_before_day": 527,
+          "latest_used_training_day": "2026-11-09",
+          "d1_targets": 34
+        },
+        {
+          "target_day": "2026-11-11",
+          "games_before_day": 578,
+          "latest_used_training_day": "2026-11-10",
+          "d1_targets": 61
+        },
+        {
+          "target_day": "2026-11-12",
+          "games_before_day": 649,
+          "latest_used_training_day": "2026-11-11",
+          "d1_targets": 45
+        },
+        {
+          "target_day": "2026-11-13",
+          "games_before_day": 699,
+          "latest_used_training_day": "2026-11-12",
+          "d1_targets": 30
+        },
+        {
+          "target_day": "2026-11-14",
+          "games_before_day": 736,
+          "latest_used_training_day": "2026-11-13",
+          "d1_targets": 51
+        },
+        {
+          "target_day": "2026-11-15",
+          "games_before_day": 791,
+          "latest_used_training_day": "2026-11-14",
+          "d1_targets": 67
         }
       ],
       "snapshot_source": "saved 2025-26 and 2026-27 ESPN game-result archives",
       "first_eval_date": "2026-11-01",
-      "last_eval_date": "2026-11-08",
+      "last_eval_date": "2026-11-15",
       "Illinois_diagnostic": {
         "team_id": "356",
         "preseason_rating": 14.27,
@@ -374,13 +458,13 @@
         "These 2026-27 results are an exploratory sample; hold out future unseen games for final selection.",
         "No production coefficients, model ratings or original first forecasts were changed."
       ],
-      "delta_mae_anchor_minus_legacy": -0.4738,
-      "fresh_espn_final_game_ids": 487,
+      "delta_mae_anchor_minus_legacy": -0.871,
+      "fresh_espn_final_game_ids": 698,
       "new_espn_final_game_ids_not_in_saved_archive": 0,
-      "fresh_scoreboard_days_retrieved": 9,
+      "fresh_scoreboard_days_retrieved": 14,
       "current_archive_provenance": "saved current-season archive supplemented with live ESPN scoreboard finals",
-      "saved_ratings_snapshot_date": "2026-11-09",
-      "saved_ratings_updated_utc": "2026-11-09T13:41:53.272073+00:00"
+      "saved_ratings_snapshot_date": "2026-11-16",
+      "saved_ratings_updated_utc": "2026-11-16T15:33:23.458932+00:00"
     }
   }
 }
