@@ -1,6 +1,6 @@
 {
   "version": 235,
-  "asof_utc": "2026-11-16T15:37:29Z",
+  "asof_utc": "2026-11-16T19:34:29Z",
   "mode": "track",
   "status": "RESEARCH_ONLY_NOT_DEPLOYED",
   "divisions": {
@@ -27,7 +27,7 @@
           "qualified_roster_evidence": true
         }
       },
-      "new_pregame_pairs": 15,
+      "new_pregame_pairs": 0,
       "scope": "IMMUTABLE_PROSPECTIVE_ONLY_NEW_GAMES",
       "prospective": {
         "matched_games": 79,
@@ -80,7 +80,7 @@
         "qualified_d1_median_abs_rank_change": 1.0,
         "qualified_d1_rank_shift_gt_5": 6
       },
-      "new_pregame_pairs": 14,
+      "new_pregame_pairs": 0,
       "scope": "IMMUTABLE_PROSPECTIVE_ONLY_NEW_GAMES",
       "prospective": {
         "matched_games": 90,
