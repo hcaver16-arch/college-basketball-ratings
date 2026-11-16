@@ -1,14 +1,14 @@
 {
   "version": 203,
   "season": "2026-27",
-  "as_of_utc": "2026-11-15T19:28:04.999729Z",
+  "as_of_utc": "2026-11-16T15:42:15.538816Z",
   "status": "PROSPECTIVE_RESEARCH_ONLY_NOT_DEPLOYED",
   "production_model_modified": false,
   "published_pregame_forecasts_unchanged": true,
   "baseline_source": "immutable V97 official_saved_v97 forecasts",
   "source_errors": null,
-  "source_checked_utc": "2026-11-12T10:33:06.505010Z",
-  "source_sha256": "be65b77e477574996baf7de94ae2aabaa268e944c06fc665d8330b91c7dfccfc",
+  "source_checked_utc": "2026-11-16T10:57:21.276671Z",
+  "source_sha256": "9ea671eb59ac9bd9e2b7ce56c6592b29f991ce8e288406c6c94f7662dc355a65",
   "teams_audited": {
     "127": {
       "team_id": "127",
@@ -238,15 +238,18 @@
     "2628": {
       "team_id": "2628",
       "official_prior_players": 16,
-      "official_current_players": 15,
+      "official_current_players": 16,
       "matched_prior_stats": 16,
       "prior_stats_coverage_pct": 100.0,
-      "current_identity_coverage_pct": 100.0,
+      "current_identity_coverage_pct": 93.8,
       "returning_players_in_valid_stats": 5,
       "retention_pct_known_only": 50.55,
-      "blocked_reasons": [],
-      "qualified": true,
-      "hypothetical_adjustment_points": 0.027
+      "blocked_reasons": [
+        "ambiguous_or_unlinked_current_player",
+        "current_player_identity_not_all_correlated"
+      ],
+      "qualified": false,
+      "hypothetical_adjustment_points": null
     },
     "2633": {
       "team_id": "2633",
@@ -455,12 +458,12 @@
       "hypothetical_adjustment_points": null
     }
   },
-  "qualified_team_count": 12,
-  "new_pairs": 0,
-  "total_pairs": 0,
+  "qualified_team_count": 11,
+  "new_pairs": 1,
+  "total_pairs": 1,
   "skipped": {
-    "invalid_evidence_or_pregame_timing": 773,
-    "baseline_prediction_not_fresh_no_backfill": 56
+    "invalid_evidence_or_pregame_timing": 829,
+    "one_or_both_teams_lack_verified_evidence": 62
   },
   "paired_results": {
     "mens": {
@@ -475,20 +478,27 @@
   "matchup_readiness": {
     "source": "V97 first official pregame forecast journal, future start times only",
     "counts": {
-      "upcoming_locked_mens_baselines": 57,
-      "neither_team_qualified": 55,
-      "exactly_one_team_qualified": 2,
-      "upcoming_opponents_missing_qualification": 2
+      "upcoming_locked_mens_baselines": 95,
+      "neither_team_qualified": 91,
+      "exactly_one_team_qualified": 3,
+      "both_teams_qualified": 1,
+      "both_with_contemporaneous_baseline": 1,
+      "upcoming_opponents_missing_qualification": 3
     },
     "opponents_to_prioritize": [
       {
-        "team_id": "324",
-        "team": "Coastal Carolina Chanticleers",
+        "team_id": "338",
+        "team": "Kennesaw State Owls",
         "upcoming_one_sided_games": 1
       },
       {
-        "team_id": "50",
-        "team": "Florida A&M Rattlers",
+        "team_id": "87",
+        "team": "Notre Dame Fighting Irish",
+        "upcoming_one_sided_games": 1
+      },
+      {
+        "team_id": "164",
+        "team": "Rutgers Scarlet Knights",
         "upcoming_one_sided_games": 1
       }
     ],
