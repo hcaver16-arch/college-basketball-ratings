@@ -1,58 +1,57 @@
 {
   "version": 228,
   "season": "2026-27",
-  "checked_at_utc": "2026-11-15T15:19:31+00:00",
+  "checked_at_utc": "2026-11-16T16:24:26+00:00",
   "divisions": {
     "mens-college-basketball": {
-      "as_of_utc": "2026-11-15T15:19:31+00:00",
-      "discovered_d1_team_game_boxscores": 1417,
-      "verified_d1_team_game_boxscores": 1415,
-      "unverified_d1_team_game_boxscores": 2,
-      "espn_source_score_mismatch_boxscores": 2,
+      "as_of_utc": "2026-11-16T16:24:26+00:00",
+      "discovered_d1_team_game_boxscores": 1495,
+      "verified_d1_team_game_boxscores": 1495,
+      "unverified_d1_team_game_boxscores": 0,
+      "espn_source_score_mismatch_boxscores": 0,
       "possible_parser_scoring_gap_boxscores": 0,
-      "observed_boxscore_coverage": 0.9986,
-      "athletes_with_observed_games": 4899,
+      "observed_boxscore_coverage": 1.0,
+      "athletes_with_observed_games": 4920,
       "player_leaders_publishable": true,
       "publication_minimum_observed_games": 30,
       "publication_minimum_coverage": 0.95,
-      "unverified_examples": [
-        {
-          "game_id": "401925079",
-          "team": "Little Rock Trojans",
-          "reason": "ESPN source mismatch: raw athlete points 70 vs final team score 84; no omitted scoring rows"
-        },
-        {
-          "game_id": "401925079",
-          "team": "Northwestern State Demons",
-          "reason": "ESPN source mismatch: raw athlete points 70 vs final team score 83; no omitted scoring rows"
-        }
-      ],
+      "unverified_examples": [],
       "coverage_scope": "ESPN-discovered final games with at least one verified D1 participant, NOT independently verified national schedule coverage",
       "sample_caution": "Observed per-game averages can be skewed by missing box scores, late corrections and players with very few games.",
       "version": 228,
       "division": "mens",
       "season": "2026-27",
-      "last_discovered_date_et": "2026-11-15",
+      "last_discovered_date_et": "2026-11-16",
       "verified_d1_team_directory_count": 365,
       "scoreboard_dates_fetched": 6,
-      "summary_games_fetched": 68,
-      "last_collection_run_utc": "2026-11-15T15:19:31+00:00",
+      "summary_games_fetched": 44,
+      "last_collection_run_utc": "2026-11-16T16:24:26+00:00",
       "source": "ESPN group-50 scoreboard and ESPN per-game individual boxscores",
       "historical_first_forecasts_modified": false
     },
     "womens-college-basketball": {
-      "as_of_utc": "2026-11-15T15:19:31+00:00",
-      "discovered_d1_team_game_boxscores": 1378,
-      "verified_d1_team_game_boxscores": 1365,
-      "unverified_d1_team_game_boxscores": 13,
-      "espn_source_score_mismatch_boxscores": 13,
+      "as_of_utc": "2026-11-16T16:24:26+00:00",
+      "discovered_d1_team_game_boxscores": 1516,
+      "verified_d1_team_game_boxscores": 1502,
+      "unverified_d1_team_game_boxscores": 14,
+      "espn_source_score_mismatch_boxscores": 14,
       "possible_parser_scoring_gap_boxscores": 0,
-      "observed_boxscore_coverage": 0.9906,
-      "athletes_with_observed_games": 4362,
+      "observed_boxscore_coverage": 0.9908,
+      "athletes_with_observed_games": 4384,
       "player_leaders_publishable": true,
       "publication_minimum_observed_games": 30,
       "publication_minimum_coverage": 0.95,
       "unverified_examples": [
+        {
+          "game_id": "401928015",
+          "team": "SIU Edwardsville Cougars",
+          "reason": "ESPN source mismatch: raw athlete points 97 vs final team score 114; no omitted scoring rows"
+        },
+        {
+          "game_id": "401923416",
+          "team": "Tennessee State Lady Tigers",
+          "reason": "ESPN source mismatch: raw athlete points 110 vs final team score 117; no omitted scoring rows"
+        },
         {
           "game_id": "401928014",
           "team": "SIU Edwardsville Cougars",
@@ -69,14 +68,9 @@
           "reason": "ESPN source mismatch: raw athlete points 85 vs final team score 89; no omitted scoring rows"
         },
         {
-          "game_id": "401923416",
-          "team": "Tennessee State Lady Tigers",
-          "reason": "ESPN source mismatch: raw athlete points 110 vs final team score 117; no omitted scoring rows"
-        },
-        {
-          "game_id": "401928015",
-          "team": "SIU Edwardsville Cougars",
-          "reason": "ESPN source mismatch: raw athlete points 97 vs final team score 114; no omitted scoring rows"
+          "game_id": "401918466",
+          "team": "East Texas A&M Lions",
+          "reason": "ESPN source mismatch: raw athlete points 62 vs final team score 66; no omitted scoring rows"
         },
         {
           "game_id": "401917691",
@@ -94,19 +88,14 @@
           "reason": "ESPN source mismatch: raw athlete points 51 vs final team score 64; no omitted scoring rows"
         },
         {
-          "game_id": "401920439",
-          "team": "Texas A&M-Corpus Christi Islanders",
-          "reason": "ESPN source mismatch: raw athlete points 70 vs final team score 76; no omitted scoring rows"
-        },
-        {
           "game_id": "401929300",
           "team": "Tennessee State Lady Tigers",
           "reason": "ESPN source mismatch: raw athlete points 92 vs final team score 95; no omitted scoring rows"
         },
         {
-          "game_id": "401917683",
-          "team": "Portland Pilots",
-          "reason": "ESPN source mismatch: raw athlete points 99 vs final team score 107; no omitted scoring rows"
+          "game_id": "401920439",
+          "team": "Texas A&M-Corpus Christi Islanders",
+          "reason": "ESPN source mismatch: raw athlete points 70 vs final team score 76; no omitted scoring rows"
         },
         {
           "game_id": "401928011",
@@ -119,11 +108,11 @@
       "version": 228,
       "division": "womens",
       "season": "2026-27",
-      "last_discovered_date_et": "2026-11-15",
+      "last_discovered_date_et": "2026-11-16",
       "verified_d1_team_directory_count": 363,
       "scoreboard_dates_fetched": 6,
-      "summary_games_fetched": 66,
-      "last_collection_run_utc": "2026-11-15T15:19:31+00:00",
+      "summary_games_fetched": 84,
+      "last_collection_run_utc": "2026-11-16T16:24:26+00:00",
       "source": "ESPN group-50 scoreboard and ESPN per-game individual boxscores",
       "historical_first_forecasts_modified": false
     }
