@@ -1,7 +1,7 @@
 {
   "version": 203,
   "season": "2026-27",
-  "as_of_utc": "2026-11-17T13:55:48.762572Z",
+  "as_of_utc": "2026-11-17T19:45:38.163040Z",
   "status": "PROSPECTIVE_RESEARCH_ONLY_NOT_DEPLOYED",
   "production_model_modified": false,
   "published_pregame_forecasts_unchanged": true,
@@ -462,9 +462,8 @@
   "new_pairs": 0,
   "total_pairs": 1,
   "skipped": {
-    "invalid_evidence_or_pregame_timing": 829,
-    "baseline_prediction_not_fresh_no_backfill": 62,
-    "one_or_both_teams_lack_verified_evidence": 63
+    "invalid_evidence_or_pregame_timing": 833,
+    "baseline_prediction_not_fresh_no_backfill": 121
   },
   "paired_results": {
     "mens": {
@@ -479,12 +478,12 @@
   "matchup_readiness": {
     "source": "V97 first official pregame forecast journal, future start times only",
     "counts": {
-      "upcoming_locked_mens_baselines": 126,
-      "neither_team_qualified": 121,
-      "exactly_one_team_qualified": 4,
+      "upcoming_locked_mens_baselines": 122,
+      "exactly_one_team_qualified": 3,
+      "neither_team_qualified": 118,
       "both_teams_qualified": 1,
       "both_but_first_baseline_not_fresh": 1,
-      "upcoming_opponents_missing_qualification": 4
+      "upcoming_opponents_missing_qualification": 3
     },
     "opponents_to_prioritize": [
       {
@@ -500,11 +499,6 @@
       {
         "team_id": "87",
         "team": "Notre Dame Fighting Irish",
-        "upcoming_one_sided_games": 1
-      },
-      {
-        "team_id": "164",
-        "team": "Rutgers Scarlet Knights",
         "upcoming_one_sided_games": 1
       }
     ],
