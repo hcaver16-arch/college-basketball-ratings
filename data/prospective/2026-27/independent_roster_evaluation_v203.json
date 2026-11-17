@@ -1,7 +1,7 @@
 {
   "version": 203,
   "season": "2026-27",
-  "as_of_utc": "2026-11-16T19:40:28.754483Z",
+  "as_of_utc": "2026-11-17T13:55:48.762572Z",
   "status": "PROSPECTIVE_RESEARCH_ONLY_NOT_DEPLOYED",
   "production_model_modified": false,
   "published_pregame_forecasts_unchanged": true,
@@ -463,7 +463,8 @@
   "total_pairs": 1,
   "skipped": {
     "invalid_evidence_or_pregame_timing": 829,
-    "baseline_prediction_not_fresh_no_backfill": 62
+    "baseline_prediction_not_fresh_no_backfill": 62,
+    "one_or_both_teams_lack_verified_evidence": 63
   },
   "paired_results": {
     "mens": {
@@ -478,14 +479,19 @@
   "matchup_readiness": {
     "source": "V97 first official pregame forecast journal, future start times only",
     "counts": {
-      "upcoming_locked_mens_baselines": 93,
-      "neither_team_qualified": 89,
-      "exactly_one_team_qualified": 3,
+      "upcoming_locked_mens_baselines": 126,
+      "neither_team_qualified": 121,
+      "exactly_one_team_qualified": 4,
       "both_teams_qualified": 1,
       "both_but_first_baseline_not_fresh": 1,
-      "upcoming_opponents_missing_qualification": 3
+      "upcoming_opponents_missing_qualification": 4
     },
     "opponents_to_prioritize": [
+      {
+        "team_id": "12",
+        "team": "Arizona Wildcats",
+        "upcoming_one_sided_games": 1
+      },
       {
         "team_id": "338",
         "team": "Kennesaw State Owls",
