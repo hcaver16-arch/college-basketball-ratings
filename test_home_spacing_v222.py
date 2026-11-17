@@ -50,7 +50,7 @@ assert left.index("Today’s matchups") < left.index('st.selectbox("Homepage gam
 
 # Keep every original interactive workflow intact.
 for keep in (
-    "featured_choice(scheduled,ratings,d1_ids)",
+    "featured_home_selection(",
     "st.container(height=320,border=False)",
     'row["Status"] == "Live"',
     'row["Status"] == "Final"',

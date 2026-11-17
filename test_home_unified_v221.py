@@ -58,7 +58,7 @@ assert '.cs160-predictions{grid-template-columns:1fr;}' in home
 # Every original homepage behavior remains, including on quiet dates.
 for old in (
     "select_home_games(visible, ratings, top25_names, mode)",
-    "featured_choice(scheduled,ratings,d1_ids)",
+    "featured_home_selection(",
     "cs175-live-card",
     "cs174-final-card",
     "cs160-matchup",
