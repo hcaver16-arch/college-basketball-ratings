@@ -52,7 +52,7 @@ assert "third_row = st.columns" not in home
 
 # Keep the full game/ratings behavior without recalculating model values.
 for marker in (
-    "featured_choice(scheduled,ratings,d1_ids)",
+    "featured_home_selection(",
     "select_home_games(visible, ratings, top25_names, mode)",
     "row[\"Status\"] == \"Live\"",
     "row[\"Status\"] == \"Final\"",
