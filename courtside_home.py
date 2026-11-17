@@ -231,6 +231,35 @@ def featured_choice(upcoming, ratings, d1_ids):
     shortlist['_interesting']=shortlist.apply(value,axis=1)
     return shortlist.sort_values('_interesting',ascending=False).iloc[0]
 
+def featured_home_selection(visible, ratings, d1_ids, league, saved=None):
+    """Keep a day's chosen D1 matchup through Scheduled -> Live -> Final.
+
+    Selection is scoped to the complete ISO game date and division. A new
+    visit while games are underway prioritizes a LIVE rated matchup; after
+    tipoff the selected game need not have a freshly published model rating
+    to keep showing its scoreboard. No odds or forecast snapshots are made.
+    """
+    if visible.empty:
+        return None, None
+    scope = f"{league}:{str(visible.iloc[0]['Date'])}"
+    allowed = {"Scheduled", "Live", "Final"}
+    if isinstance(saved, dict) and saved.get("scope") == scope:
+        stored_id = str(saved.get("game_id", ""))
+        matches = visible[visible["Game ID"].astype(str).eq(stored_id)]
+        if len(matches) == 1:
+            row = matches.iloc[0]
+            if (str(row["Status"]) in allowed and
+                    str(row["Home ID"]) in d1_ids and str(row["Away ID"]) in d1_ids):
+                return row, {"scope": scope, "game_id": stored_id}
+
+    for status in ("Live", "Scheduled", "Final"):
+        candidates = visible[visible["Status"].eq(status)]
+        row = featured_choice(candidates, ratings, d1_ids)
+        if row is not None:
+            return row, {"scope": scope, "game_id": str(row["Game ID"])}
+    return None, None
+
+
 def select_home_games(visible, ratings, top25_names, mode="Featured"):
     """Prioritize competitive rated games on busy days; retain final scores in All."""
     if visible.empty:
@@ -474,38 +503,63 @@ def render_home(games, ratings, team_ratings, d1_ids, league, window):
                     st.caption("No upcoming rated D1 matchups are available in the loaded schedule.")
     with home_columns[1]:
         with st.container(border=True, key="cs223_tile_featured"):
-            _classic_home_card_heading("Featured game · Model preview", "Courtside projected matchup", "Model")
-            scheduled=visible[visible['Status']=='Scheduled']
-            featured=featured_choice(scheduled,ratings,d1_ids)
+            featured, feature_selection = featured_home_selection(
+                visible, ratings, d1_ids, league,
+                st.session_state.get("cs241_featured_selection"),
+            )
+            st.session_state["cs241_featured_selection"] = feature_selection
+            feature_status = str(featured["Status"]) if featured is not None else "Scheduled"
+            if feature_status == "Live":
+                _classic_home_card_heading("Featured game · Live score",
+                                           "Live scoreboard · Scores update automatically", "LIVE")
+            elif feature_status == "Final":
+                _classic_home_card_heading("Featured game · Final result",
+                                           "Today's featured matchup · Final score", "Final")
+            else:
+                _classic_home_card_heading("Featured game · Model preview",
+                                           "Courtside projected matchup", "Model")
             if featured is not None:
-                h,a=str(featured['Home']),str(featured['Away'])
-                hid,aid=str(featured['Home ID']),str(featured['Away ID'])
-                home_color,away_color=color_for(h),color_for(a)
-                margin=ratings[hid]-ratings[aid]+(0 if featured['Venue']=='Neutral' else 3)
-                from math import erf,sqrt
-                chance=.5*(1+erf(margin/(11*sqrt(2))))
-                favorite=h if margin>=0 else a
+                h, a = str(featured["Home"]), str(featured["Away"])
+                hid, aid = str(featured["Home ID"]), str(featured["Away ID"])
                 show_feature_logos = st.session_state.get("courtside_logos_enabled", True)
-                home_logo = (f'<img class="cs178-feature-logo" src="https://a.espncdn.com/i/teamlogos/ncaa/500/{hid}.png" alt="" loading="lazy"/>'
-                             if show_feature_logos and hid.isdigit() else "")
-                away_logo = (f'<img class="cs178-feature-logo" src="https://a.espncdn.com/i/teamlogos/ncaa/500/{aid}.png" alt="" loading="lazy"/>'
-                             if show_feature_logos and aid.isdigit() else "")
-                with st.container(border=False):
-                    st.markdown(f'''<div class="cs160-matchup">
-                      <div class="cs160-team cs178-feature-team" style="border-left:4px solid {home_color}">{home_logo}<span>{html.escape(h)}</span></div>
-                      <div class="cs160-tip">VS · {html.escape(str(featured.get('Display time',featured['Time (ET)'])))}</div>
-                      <div class="cs160-team cs160-away cs178-feature-team" style="border-right:4px solid {away_color}">{away_logo}<span>{html.escape(a)}</span></div>
-                    </div>''',unsafe_allow_html=True)
-                    st.markdown('<div class="cs160-predictions">'
-                        f'<div class="cs160-stat"><span>PROJECTED SPREAD</span><strong>{html.escape(favorite)} -{abs(margin):.1f}</strong></div>'
-                        f'<div class="cs160-stat"><span>{html.escape(h)} WIN PROBABILITY</span><strong>{chance:.0%}</strong></div>'
-                        '</div>', unsafe_allow_html=True)
-                    st.progress(float(max(0,min(1,chance))))
-                    st.caption('Experimental prediction · Not a sportsbook line')
-                    if st.button('Game details →',key='courtside_feature_details',use_container_width=True):
-                        st.session_state['courtside_selected_game']=str(featured['Game ID'])
-                        st.session_state['courtside_requested_page']='Games'
-                        st.rerun()
+                if feature_status in ("Live", "Final"):
+                    # Reuse exactly the same scoreboard markup, score validation,
+                    # team-aligned scores, logos and FINAL winner styling as the
+                    # adjacent Today's matchups cards. No in-game model reforecast.
+                    st.html(home_game_scoreboard_markup(
+                        featured, True, show_logos=show_feature_logos,
+                    ))
+                else:
+                    home_color, away_color = color_for(h), color_for(a)
+                    margin = ratings[hid] - ratings[aid] + (
+                        0 if featured["Venue"] == "Neutral" else 3)
+                    from math import erf, sqrt
+                    chance = .5 * (1 + erf(margin / (11 * sqrt(2))))
+                    favorite = h if margin >= 0 else a
+                    home_logo = (
+                        f'<img class="cs178-feature-logo" src="https://a.espncdn.com/i/teamlogos/ncaa/500/{hid}.png" alt="" loading="lazy"/>'
+                        if show_feature_logos and hid.isdigit() else "")
+                    away_logo = (
+                        f'<img class="cs178-feature-logo" src="https://a.espncdn.com/i/teamlogos/ncaa/500/{aid}.png" alt="" loading="lazy"/>'
+                        if show_feature_logos and aid.isdigit() else "")
+                    with st.container(border=False):
+                        st.markdown(f'''<div class="cs160-matchup">
+                          <div class="cs160-team cs178-feature-team" style="border-left:4px solid {home_color}">{home_logo}<span>{html.escape(h)}</span></div>
+                          <div class="cs160-tip">VS · {html.escape(str(featured.get('Display time',featured['Time (ET)'])))}</div>
+                          <div class="cs160-team cs160-away cs178-feature-team" style="border-right:4px solid {away_color}">{away_logo}<span>{html.escape(a)}</span></div>
+                        </div>''', unsafe_allow_html=True)
+                        st.markdown('<div class="cs160-predictions">'
+                            f'<div class="cs160-stat"><span>PROJECTED SPREAD</span><strong>{html.escape(favorite)} -{abs(margin):.1f}</strong></div>'
+                            f'<div class="cs160-stat"><span>{html.escape(h)} WIN PROBABILITY</span><strong>{chance:.0%}</strong></div>'
+                            '</div>', unsafe_allow_html=True)
+                        st.progress(float(max(0, min(1, chance))))
+                        st.caption('Experimental prediction · Not a sportsbook line')
+                if st.button('Game details →', key='courtside_feature_details',
+                             use_container_width=True):
+                    st.session_state['courtside_selected_game'] = str(featured['Game ID'])
+                    st.session_state['courtside_selected_game_payload'] = featured.to_dict()
+                    st.session_state['courtside_requested_page'] = 'Games'
+                    st.rerun()
             else:
                 st.caption('A featured matchup will appear when both D1 opponents have published ratings.')
         _show_home_card(cards, "polls", league)
