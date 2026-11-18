@@ -1,7 +1,7 @@
 {
   "version": 203,
   "season": "2026-27",
-  "as_of_utc": "2026-11-17T19:45:38.163040Z",
+  "as_of_utc": "2026-11-18T13:55:57.494275Z",
   "status": "PROSPECTIVE_RESEARCH_ONLY_NOT_DEPLOYED",
   "production_model_modified": false,
   "published_pregame_forecasts_unchanged": true,
@@ -459,16 +459,24 @@
     }
   },
   "qualified_team_count": 11,
-  "new_pairs": 0,
-  "total_pairs": 1,
+  "new_pairs": 1,
+  "total_pairs": 2,
   "skipped": {
-    "invalid_evidence_or_pregame_timing": 833,
-    "baseline_prediction_not_fresh_no_backfill": 121
+    "invalid_evidence_or_pregame_timing": 891,
+    "baseline_prediction_not_fresh_no_backfill": 63,
+    "one_or_both_teams_lack_verified_evidence": 34
   },
   "paired_results": {
     "mens": {
-      "paired_completed_games": 0,
-      "status": "INSUFFICIENT_PROSPECTIVE_DATA"
+      "paired_completed_games": 1,
+      "baseline_margin_mae": 12.761,
+      "experimental_margin_mae": 15.271,
+      "mae_improvement_positive_is_better": -2.51,
+      "baseline_winner_accuracy": 1.0,
+      "experimental_winner_accuracy": 0.0,
+      "baseline_winner_n": 1,
+      "experimental_winner_n": 1,
+      "status": "DESCRIPTIVE_ONLY_NOT_CAUSAL_OR_VALIDATED"
     },
     "womens": {
       "paired_completed_games": 0,
@@ -478,12 +486,12 @@
   "matchup_readiness": {
     "source": "V97 first official pregame forecast journal, future start times only",
     "counts": {
-      "upcoming_locked_mens_baselines": 122,
-      "exactly_one_team_qualified": 3,
-      "neither_team_qualified": 118,
+      "upcoming_locked_mens_baselines": 98,
+      "neither_team_qualified": 93,
+      "exactly_one_team_qualified": 4,
       "both_teams_qualified": 1,
-      "both_but_first_baseline_not_fresh": 1,
-      "upcoming_opponents_missing_qualification": 3
+      "both_with_contemporaneous_baseline": 1,
+      "upcoming_opponents_missing_qualification": 4
     },
     "opponents_to_prioritize": [
       {
@@ -492,13 +500,18 @@
         "upcoming_one_sided_games": 1
       },
       {
-        "team_id": "338",
-        "team": "Kennesaw State Owls",
+        "team_id": "311",
+        "team": "Maine Black Bears",
         "upcoming_one_sided_games": 1
       },
       {
-        "team_id": "87",
-        "team": "Notre Dame Fighting Irish",
+        "team_id": "166",
+        "team": "New Mexico State Aggies",
+        "upcoming_one_sided_games": 1
+      },
+      {
+        "team_id": "2550",
+        "team": "Seton Hall Pirates",
         "upcoming_one_sided_games": 1
       }
     ],
