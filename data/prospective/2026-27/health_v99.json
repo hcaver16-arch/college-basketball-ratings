@@ -1,51 +1,41 @@
 {
   "version": 226,
   "season": "2026-27",
-  "checked_at_utc": "2026-11-18T07:56:24+00:00",
-  "status": "warning",
+  "checked_at_utc": "2026-11-18T13:55:29+00:00",
+  "status": "ok",
   "divisions": {
     "mens": {
-      "status": "warning",
+      "status": "ok",
       "games_seen": 310,
-      "upcoming_12h": 2,
+      "upcoming_12h": 54,
       "upcoming_3h": 0,
-      "verified_d1_upcoming_12h": 2,
-      "forecast_eligible_d1_upcoming_12h": 2,
+      "verified_d1_upcoming_12h": 45,
+      "forecast_eligible_d1_upcoming_12h": 45,
       "expected_transition_holds_upcoming_12h": 0,
       "expected_forecast_holds": [],
-      "excluded_non_d1_upcoming_12h": 0,
+      "excluded_non_d1_upcoming_12h": 9,
       "d1_classification_available": true,
-      "official_forecasts_total": 955,
-      "final_results_total": 824,
-      "results_waiting_for_next_archive": 8,
-      "archive_as_of_utc": "2026-11-17T19:25:55+00:00",
-      "issues": [
-        {
-          "severity": "warning",
-          "code": "MISSING_UPCOMING_D1_FORECASTS",
-          "message": "1 verified D1-v-D1 games within 12 hours lack locked forecasts",
-          "count": 1,
-          "examples": [
-            "Rutgers Scarlet Knights @ Notre Dame Fighting Irish"
-          ]
-        }
-      ]
+      "official_forecasts_total": 990,
+      "final_results_total": 886,
+      "results_waiting_for_next_archive": 0,
+      "archive_as_of_utc": "2026-11-18T13:37:44+00:00",
+      "issues": []
     },
     "womens": {
       "status": "ok",
       "games_seen": 308,
-      "upcoming_12h": 8,
-      "upcoming_3h": 0,
-      "verified_d1_upcoming_12h": 7,
-      "forecast_eligible_d1_upcoming_12h": 7,
+      "upcoming_12h": 63,
+      "upcoming_3h": 2,
+      "verified_d1_upcoming_12h": 56,
+      "forecast_eligible_d1_upcoming_12h": 56,
       "expected_transition_holds_upcoming_12h": 0,
       "expected_forecast_holds": [],
-      "excluded_non_d1_upcoming_12h": 1,
+      "excluded_non_d1_upcoming_12h": 7,
       "d1_classification_available": true,
-      "official_forecasts_total": 932,
-      "final_results_total": 825,
-      "results_waiting_for_next_archive": 10,
-      "archive_as_of_utc": "2026-11-17T19:25:55+00:00",
+      "official_forecasts_total": 979,
+      "final_results_total": 862,
+      "results_waiting_for_next_archive": 0,
+      "archive_as_of_utc": "2026-11-18T13:37:44+00:00",
       "issues": []
     }
   },
