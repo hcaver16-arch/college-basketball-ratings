@@ -20,7 +20,7 @@ jobs:
       - name: Run V251 and prior-model chronology regression tests
         run: |
           python -m py_compile research_anchored_drift_v251.py test_research_anchored_drift_v251.py
-          python -m unittest test_research_anchored_drift_v251.py test_prior_transition_v229.py test_preseason_scale_v240.py
+          python -m unittest test_research_anchored_drift_v251.py\n          python test_prior_transition_v229.py\n          python test_preseason_scale_v240.py
   research:
     runs-on: ubuntu-latest
     timeout-minutes: 30
