@@ -1,0 +1,43 @@
+name: Courtside V250 production rating response research
+on:
+  pull_request:
+    paths:
+      - 'research_rating_response_v250.py'
+      - 'test_research_rating_response_v250.py'
+      - '.github/workflows/research_rating_response_v250.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install numpy pandas
+      - name: Run response and archived-evidence invariants
+        run: python -m unittest test_research_rating_response_v250.py test_research_game_id_alignment_v249.py test_research_reconciliation_v248.py
+  research:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install numpy pandas
+      - name: Audit archived pre/post game rating response without changing production
+        run: python research_rating_response_v250.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: courtside-v250-production-rating-response
+          path: |
+            data/research_rating_response_v250/summary.json
+            data/research_rating_response_v250/*_linked_rating_responses.csv
+            data/research_rating_response_v250/*_unexpected_direction_cases.csv
+            data/research_rating_response_v250/*_team_cases.csv
+          if-no-files-found: warn
