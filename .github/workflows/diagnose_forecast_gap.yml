@@ -1,0 +1,42 @@
+name: Diagnose missing V97 game forecast (read-only)
+on:
+  workflow_dispatch:
+    inputs:
+      game_id:
+        description: ESPN game ID
+        required: true
+        default: '401920517'
+        type: string
+      division:
+        description: Basketball division
+        required: true
+        default: mens
+        type: choice
+        options:
+          - mens
+          - womens
+permissions:
+  contents: read
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install pandas numpy requests
+      - name: Run read-only forecast gap diagnostic
+        run: |
+          python -m py_compile diagnose_forecast_gap.py
+          python diagnose_forecast_gap.py --game-id "${{ inputs.game_id }}" --division "${{ inputs.division }}"
+          echo '## Read-only forecast gap diagnosis' >> "$GITHUB_STEP_SUMMARY"
+          echo '\`\`\`json' >> "$GITHUB_STEP_SUMMARY"
+          cat diagnostic_report.json >> "$GITHUB_STEP_SUMMARY"
+          echo '\`\`\`' >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: forecast-gap-diagnostic
+          path: diagnostic_report.json
