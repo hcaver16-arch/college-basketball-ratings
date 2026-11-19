@@ -1,0 +1,118 @@
+name: Courtside V252 prospective shadow model research
+on:
+  pull_request:
+    paths:
+      - 'shadow_forecasts_v252.py'
+      - 'test_shadow_forecasts_v252.py'
+      - '.github/workflows/shadow_forecasts_v252.yml'
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - Refresh basketball power ratings
+    types:
+      - completed
+permissions:
+  contents: read
+jobs:
+  regression:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install 'numpy>=1.26,<3' 'pandas>=2.1,<3' 'requests>=2.31,<3'
+      - name: Validate immutable first-pretip and paired-evaluation safeguards
+        run: |
+          python -m py_compile shadow_forecasts_v252.py test_shadow_forecasts_v252.py
+          python -m unittest -v test_shadow_forecasts_v252.py
+      - name: Verify actual saved input compatibility without writing any shadow evidence
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+          OMP_NUM_THREADS: '1'
+        run: |
+          python - <<'PY'
+          from datetime import timedelta
+          from pathlib import Path
+          from prediction_archive import read_gz
+          from shadow_forecasts_v252 import prepare, timestamp, SPORTS
+          root = Path(".").resolve()
+          shadow = root / "data/shadow_v252"
+          def current_files():
+              return [(str(p), p.stat().st_size, p.stat().st_mtime_ns)
+                      for p in sorted(shadow.rglob("*")) if p.is_file()] if shadow.exists() else []
+          before = current_files()
+          for sport in SPORTS:
+              latest = read_gz(root/"data/ratings"/sport/"latest.csv.gz")
+              # The simulated timestamp is ONLY a read-only integration test.
+              # It is deliberately not saved as prospective shadow evidence.
+              simulated_now = timestamp(latest.iloc[0]["As of UTC"])+timedelta(minutes=15)
+              prepared = prepare(root, sport, simulated_now)
+              detail = prepared["report"]["new_capture_diagnostics"]
+              print(f'{sport}: simulated eligible new first locks={detail["captured"]}; never persisted', flush=True)
+              assert prepared["report"]["division"] == sport
+              assert prepared["report"]["status"] == "RESEARCH_ONLY_NOT_DEPLOYED"
+          assert current_files() == before, "Read-only integration unexpectedly wrote files"
+          PY
+  shadow_refresh:
+    if: >-
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'workflow_run' &&
+       github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch == 'main')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency:
+      # Only the writing job serializes with ratings refresh; PR tests never
+      # delay the production schedule.
+      group: basketball-ratings
+      cancel-in-progress: false
+    timeout-minutes: 30
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - name: Checkout latest main after successful ratings refresh
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install 'numpy>=1.26,<3' 'pandas>=2.1,<3' 'requests>=2.31,<3'
+      - name: Capture first-pretip shadow forecasts and evaluate locked games
+        run: python shadow_forecasts_v252.py --root .
+      - name: Report research-only D1 prospective scorecard
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          root = Path("data/shadow_v252")
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as out:
+              out.write("## V252 immutable prospective shadow-model scorecard\n\n")
+              out.write("Research only; no changes to official models or website. New predictions require matching fresh first-forecast timestamps before tipoff.\n\n")
+              out.write("| Division | New locks | All locked | D1 evaluated | Baseline MAE | Anchor 8 MAE | Anchor 16 MAE |\n")
+              out.write("|---|---:|---:|---:|---:|---:|---:|\n")
+              for label in ("mens-college-basketball","womens-college-basketball"):
+                  j = json.loads((root/label/"status.json").read_text())
+                  data = j["research_accuracy"]["d1_vs_d1_primary"]["models"]
+                  def fmt(m):
+                      x = data[m]["mae"]
+                      return f"{x:.3f}" if x is not None else "N/A"
+                  out.write(f'| {label} | {j["new_pre_tip_shadow_forecasts"]} | {j["locked_first_shadow_forecasts"]} | {j["primary_d1_evaluated_games"]} | {fmt("Baseline home margin")} | {fmt("Anchored ridge8 home margin")} | {fmt("Anchored ridge16 home margin")} |\n')
+              out.write("\nNo model will be promoted automatically. Review on January 1, 2027 when sufficient paired D1 games have completed.\n")
+          PY
+      - name: Commit shadow-only research evidence
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/shadow_v252/
+          if ! git diff --cached --quiet; then
+            git commit -m "Archive V252 first pre-tip shadow forecasts and evaluations"
+            git push origin HEAD:main
+          else
+            echo "No shadow research changes"
+          fi
