@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - run: pip install numpy pandas
+      - run: python -m pip install 'numpy>=1.26,<3' 'pandas>=2.1,<3'
       - name: Run V251 and prior-model chronology regression tests
         run: |
           python -m py_compile research_anchored_drift_v251.py test_research_anchored_drift_v251.py
@@ -34,7 +34,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - run: pip install numpy pandas
+      - run: python -m pip install 'numpy>=1.26,<3' 'pandas>=2.1,<3'
       - name: Historical D1 weekly walk-forward and separate observed production drift
         run: python research_anchored_drift_v251.py --root . --out /tmp/courtside-v251-readonly
       - uses: actions/upload-artifact@v4
