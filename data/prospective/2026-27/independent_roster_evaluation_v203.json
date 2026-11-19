@@ -1,14 +1,14 @@
 {
   "version": 203,
   "season": "2026-27",
-  "as_of_utc": "2026-11-18T19:42:55.848585Z",
+  "as_of_utc": "2026-11-19T13:57:34.697344Z",
   "status": "PROSPECTIVE_RESEARCH_ONLY_NOT_DEPLOYED",
   "production_model_modified": false,
   "published_pregame_forecasts_unchanged": true,
   "baseline_source": "immutable V97 official_saved_v97 forecasts",
   "source_errors": null,
-  "source_checked_utc": "2026-11-16T10:57:21.276671Z",
-  "source_sha256": "9ea671eb59ac9bd9e2b7ce56c6592b29f991ce8e288406c6c94f7662dc355a65",
+  "source_checked_utc": "2026-11-19T10:31:08.238836Z",
+  "source_sha256": "c38940a5655f78182c9c60a9671d750ce7ce278f710bf10de04ba96ea2b84418",
   "teams_audited": {
     "127": {
       "team_id": "127",
@@ -462,19 +462,19 @@
   "new_pairs": 0,
   "total_pairs": 2,
   "skipped": {
-    "invalid_evidence_or_pregame_timing": 893,
-    "baseline_prediction_not_fresh_no_backfill": 95
+    "invalid_evidence_or_pregame_timing": 988,
+    "one_or_both_teams_lack_verified_evidence": 59
   },
   "paired_results": {
     "mens": {
-      "paired_completed_games": 1,
-      "baseline_margin_mae": 12.761,
-      "experimental_margin_mae": 15.271,
-      "mae_improvement_positive_is_better": -2.51,
+      "paired_completed_games": 2,
+      "baseline_margin_mae": 11.2277,
+      "experimental_margin_mae": 13.8802,
+      "mae_improvement_positive_is_better": -2.6525,
       "baseline_winner_accuracy": 1.0,
       "experimental_winner_accuracy": 0.0,
-      "baseline_winner_n": 1,
-      "experimental_winner_n": 1,
+      "baseline_winner_n": 2,
+      "experimental_winner_n": 2,
       "status": "DESCRIPTIVE_ONLY_NOT_CAUSAL_OR_VALIDATED"
     },
     "womens": {
@@ -485,22 +485,30 @@
   "matchup_readiness": {
     "source": "V97 first official pregame forecast journal, future start times only",
     "counts": {
-      "upcoming_locked_mens_baselines": 96,
-      "neither_team_qualified": 91,
-      "exactly_one_team_qualified": 4,
-      "both_teams_qualified": 1,
-      "both_but_first_baseline_not_fresh": 1,
-      "upcoming_opponents_missing_qualification": 4
+      "upcoming_locked_mens_baselines": 90,
+      "neither_team_qualified": 83,
+      "exactly_one_team_qualified": 7,
+      "upcoming_opponents_missing_qualification": 7
     },
     "opponents_to_prioritize": [
       {
-        "team_id": "12",
-        "team": "Arizona Wildcats",
+        "team_id": "324",
+        "team": "Coastal Carolina Chanticleers",
+        "upcoming_one_sided_games": 1
+      },
+      {
+        "team_id": "2305",
+        "team": "Kansas Jayhawks",
         "upcoming_one_sided_games": 1
       },
       {
         "team_id": "311",
         "team": "Maine Black Bears",
+        "upcoming_one_sided_games": 1
+      },
+      {
+        "team_id": "276",
+        "team": "Marshall Thundering Herd",
         "upcoming_one_sided_games": 1
       },
       {
@@ -511,6 +519,11 @@
       {
         "team_id": "2550",
         "team": "Seton Hall Pirates",
+        "upcoming_one_sided_games": 1
+      },
+      {
+        "team_id": "277",
+        "team": "West Virginia Mountaineers",
         "upcoming_one_sided_games": 1
       }
     ],
