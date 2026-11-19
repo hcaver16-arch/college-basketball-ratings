@@ -104,9 +104,13 @@ class V252Tests(unittest.TestCase):
         self.assertEqual(reason["official_lock_too_old"], 1)
 
     def test_after_kickoff_cannot_capture(self):
-        new, reason = capture(when=TIP+timedelta(minutes=1))
+        # Keep the rating snapshot fresh; the game's kickoff alone should
+        # exclude the pair, rather than a stale-snapshot exclusion.
+        started = official(**{
+            "Game start UTC": (NOW-timedelta(minutes=1)).isoformat()})
+        new, reason = capture(first=started)
         self.assertTrue(new.empty)
-        self.assertGreater(reason["not_pre_tip"], 0)
+        self.assertEqual(reason["not_pre_tip"], 1)
 
     def test_fresh_official_lock_requires_matching_current_ratings_snapshot(self):
         new, reason = capture(first=official(**{
