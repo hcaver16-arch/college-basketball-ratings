@@ -13,11 +13,6 @@ on:
       - completed
 permissions:
   contents: read
-concurrency:
-  # Serialize pushes with the existing ratings refresh; keep shadow research
-  # entirely separate from official ratings and immutable first forecasts.
-  group: basketball-ratings
-  cancel-in-progress: false
 jobs:
   regression:
     if: github.event_name == 'pull_request'
@@ -69,6 +64,11 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    concurrency:
+      # Only the writing job serializes with ratings refresh; PR tests never
+      # delay the production schedule.
+      group: basketball-ratings
+      cancel-in-progress: false
     timeout-minutes: 30
     env:
       OPENBLAS_NUM_THREADS: '1'
