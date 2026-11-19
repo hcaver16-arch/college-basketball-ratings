@@ -32,6 +32,34 @@ jobs:
         run: |
           python -m py_compile shadow_forecasts_v252.py test_shadow_forecasts_v252.py
           python -m unittest -v test_shadow_forecasts_v252.py
+      - name: Verify actual saved input compatibility without writing any shadow evidence
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+          OMP_NUM_THREADS: '1'
+        run: |
+          python - <<'PY'
+          from datetime import timedelta
+          from pathlib import Path
+          from prediction_archive import read_gz
+          from shadow_forecasts_v252 import prepare, timestamp, SPORTS
+          root = Path(".").resolve()
+          shadow = root / "data/shadow_v252"
+          def current_files():
+              return [(str(p), p.stat().st_size, p.stat().st_mtime_ns)
+                      for p in sorted(shadow.rglob("*")) if p.is_file()] if shadow.exists() else []
+          before = current_files()
+          for sport in SPORTS:
+              latest = read_gz(root/"data/ratings"/sport/"latest.csv.gz")
+              # The simulated timestamp is ONLY a read-only integration test.
+              # It is deliberately not saved as prospective shadow evidence.
+              simulated_now = timestamp(latest.iloc[0]["As of UTC"])+timedelta(minutes=15)
+              prepared = prepare(root, sport, simulated_now)
+              detail = prepared["report"]["new_capture_diagnostics"]
+              print(f'{sport}: simulated eligible new first locks={detail["captured"]}; never persisted', flush=True)
+              assert prepared["report"]["division"] == sport
+              assert prepared["report"]["status"] == "RESEARCH_ONLY_NOT_DEPLOYED"
+          assert current_files() == before, "Read-only integration unexpectedly wrote files"
+          PY
   shadow_refresh:
     if: >-
       (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
