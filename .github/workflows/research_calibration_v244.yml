@@ -1,0 +1,45 @@
+name: Courtside V244 historical calibration research
+on:
+  pull_request:
+    paths:
+      - 'research_calibration_v244.py'
+      - 'test_research_calibration_v244.py'
+      - '.github/workflows/research_calibration_v244.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install numpy pandas
+      - run: python -m unittest test_research_calibration_v244.py
+  historical-comparison:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install numpy pandas requests
+      - name: Generate V240 historical holdout evidence
+        run: python research_preseason_scale_v240.py
+      - name: Generate V239 day-before cap replay evidence
+        run: python early_season_bias_v239.py --asof 2026-11-19
+      - name: Compare within matched cohorts only
+        run: python research_calibration_v244.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: courtside-v244-research
+          path: |
+            data/research_scale_v240/summary.json
+            data/research_bias_v239/summary.json
+            data/research_comparison_v244/summary.json
+          if-no-files-found: warn
