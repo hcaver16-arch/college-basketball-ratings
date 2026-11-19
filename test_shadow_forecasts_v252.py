@@ -46,7 +46,7 @@ def scheduled_final_input():
     return pd.DataFrame([
         {"Game ID": "previous", "Home ID": "1", "Away ID": "2",
          "Status": "Final", "Venue": "Home", "Home score": 80,
-         "Away score": 63, "Date": "2026-11-19"},
+         "Away score": 60, "Date": "2026-11-19"},
         {"Game ID": "upcoming", "Home ID": "1", "Away ID": "2",
          "Status": "Scheduled", "Venue": "Home", "Home score": None,
          "Away score": None, "Date": "2026-11-20"},
