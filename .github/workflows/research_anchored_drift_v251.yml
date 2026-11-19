@@ -1,0 +1,43 @@
+name: Courtside V251 historical prior-anchor drift research
+on:
+  pull_request:
+    paths:
+      - 'research_anchored_drift_v251.py'
+      - 'test_research_anchored_drift_v251.py'
+      - '.github/workflows/research_anchored_drift_v251.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install numpy pandas
+      - name: Run V251 and prior-model chronology regression tests
+        run: |
+          python -m py_compile research_anchored_drift_v251.py test_research_anchored_drift_v251.py
+          python -m unittest test_research_anchored_drift_v251.py test_prior_transition_v229.py test_preseason_scale_v240.py
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install numpy pandas
+      - name: Historical D1 weekly walk-forward and separate observed production drift
+        run: python research_anchored_drift_v251.py --root . --out /tmp/courtside-v251-readonly
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: courtside-v251-anchored-drift-research
+          path: /tmp/courtside-v251-readonly/
+          if-no-files-found: warn
