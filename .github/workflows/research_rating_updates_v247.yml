@@ -1,0 +1,41 @@
+name: Courtside V247 production rating-update research
+on:
+  pull_request:
+    paths:
+      - 'research_rating_updates_v247.py'
+      - 'test_research_rating_updates_v247.py'
+      - '.github/workflows/research_rating_updates_v247.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install numpy pandas
+      - run: python -m unittest test_research_rating_updates_v247.py
+  research:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install numpy pandas
+      - name: Analyze archived production snapshots without updating them
+        run: python research_rating_updates_v247.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: courtside-v247-rating-update-audit
+          path: |
+            data/research_rating_updates_v247/summary.json
+            data/research_rating_updates_v247/*_rating_transitions.csv
+            data/research_rating_updates_v247/*_game_surprises.csv
+          if-no-files-found: warn
