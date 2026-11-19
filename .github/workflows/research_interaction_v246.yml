@@ -1,0 +1,40 @@
+name: Courtside V246 interaction walk-forward research
+on:
+  pull_request:
+    paths:
+      - 'research_interaction_v246.py'
+      - 'test_research_interaction_v246.py'
+      - '.github/workflows/research_interaction_v246.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install numpy pandas streamlit
+      - run: python -m unittest test_research_interaction_v246.py
+  research:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install numpy pandas requests streamlit
+      - name: Rebuild V240 historical frozen-prior holdouts
+        run: python research_preseason_scale_v240.py
+      - name: Evaluate fixed interactions on later folds only
+        run: python research_interaction_v246.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: courtside-v246-interaction-research
+          path: data/research_interaction_v246/summary.json
+          if-no-files-found: warn
