@@ -1,0 +1,43 @@
+name: Courtside V249 game ID date alignment research
+on:
+  pull_request:
+    paths:
+      - 'research_game_id_alignment_v249.py'
+      - 'test_research_game_id_alignment_v249.py'
+      - '.github/workflows/research_game_id_alignment_v249.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install pandas numpy
+      - name: Check V249 and underlying reconciliation invariants
+        run: python -m unittest test_research_game_id_alignment_v249.py test_research_reconciliation_v248.py
+  research:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install pandas numpy
+      - name: Compare archive game IDs and date-cutoff hypotheses without production writes
+        run: python research_game_id_alignment_v249.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: courtside-v249-game-id-alignment
+          path: |
+            data/research_game_id_alignment_v249/summary.json
+            data/research_game_id_alignment_v249/*_exception_game_ids.csv
+            data/research_game_id_alignment_v249/*_game_id_candidates.csv
+            data/research_game_id_alignment_v249/*_cutoff_comparisons.csv
+          if-no-files-found: warn
