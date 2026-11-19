@@ -38,7 +38,7 @@ def validate_snapshots(raw: pd.DataFrame) -> pd.DataFrame:
         raise ValueError("Duplicate/missing team-date snapshots")
     for col in REQUIRED_SNAP-{"Snapshot date", "Team ID"}:
         d[col] = pd.to_numeric(d[col], errors="coerce")
-    if d[list(REQUIRED_SNAP-{"Snapshot date", "Team ID"})].isna().any().any():
+    if d[list(REQUIRED_SNAP-{"Snapshot date", "Team ID", "On-court rating"})].isna().any().any():
         raise ValueError("Snapshot has missing numeric data")
     if not d["Preseason weight"].between(0, 1).all():
         raise ValueError("Invalid preseason weight")
