@@ -1,0 +1,27 @@
+name: Validate V243 prospective bias diagnostics
+on:
+  push:
+    paths:
+      - 'prediction_bias_v243.py'
+      - 'prediction_accuracy_v242.py'
+      - 'test_prediction_bias_v243.py'
+      - '.github/workflows/validate_prediction_bias_v243.yml'
+  pull_request:
+    paths:
+      - 'prediction_bias_v243.py'
+      - 'prediction_accuracy_v242.py'
+      - 'test_prediction_bias_v243.py'
+      - '.github/workflows/validate_prediction_bias_v243.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install numpy pandas streamlit
+      - run: python -m unittest test_prediction_bias_v243.py test_prediction_accuracy_v242.py

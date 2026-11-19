@@ -1085,6 +1085,8 @@ if selected_section == "Model Lab":
         render_live_performance_v123()
         from prediction_accuracy_v242 import render_accuracy_v242
         render_accuracy_v242()
+        from prediction_bias_v243 import render_bias_v243
+        render_bias_v243()
         st.divider()
         from prospective_model_lab_v98 import render_prospective_model_lab
         render_prospective_model_lab(division="mens" if league == "Men's" else "womens")
