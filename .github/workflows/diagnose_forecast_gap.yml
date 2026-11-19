@@ -33,9 +33,9 @@ jobs:
           python -m py_compile diagnose_forecast_gap.py
           python diagnose_forecast_gap.py --game-id "${{ inputs.game_id }}" --division "${{ inputs.division }}"
           echo '## Read-only forecast gap diagnosis' >> "$GITHUB_STEP_SUMMARY"
-          echo '\`\`\`json' >> "$GITHUB_STEP_SUMMARY"
+          echo '```json' >> "$GITHUB_STEP_SUMMARY"
           cat diagnostic_report.json >> "$GITHUB_STEP_SUMMARY"
-          echo '\`\`\`' >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
         with:
           name: forecast-gap-diagnostic
