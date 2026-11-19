@@ -1,12 +1,15 @@
 """V252 regression tests: immutable genuine pre-tip pairing and evaluations."""
 import unittest
+from pathlib import Path
+from tempfile import TemporaryDirectory
+import json
 from datetime import datetime, timedelta, timezone
 
 import pandas as pd
 
 from shadow_forecasts_v252 import (
     FIELDS, METHODS, MAX_CAPTURE_LAG, append_first, candidate_rows,
-    evaluate, final_training_games, metrics, timestamp,
+    evaluate, final_training_games, metrics, timestamp, check_archive_status,
 )
 
 UTC = timezone.utc
@@ -163,6 +166,34 @@ class V252Tests(unittest.TestCase):
         later.loc[1, "Away score"] = 70.
         later.loc[1, "Home ID"] = "999"
         self.assertTrue(evaluate(shadow, later).empty)
+
+    def test_zero_capture_status_allows_first_future_capture(self):
+        with TemporaryDirectory() as d:
+            base = Path(d)
+            status = base/"status.json"
+            archive = base/"first_shadow_forecasts.csv.gz"
+            status.write_text(json.dumps({
+                "version": 252, "locked_first_shadow_forecasts": 0
+            }))
+            self.assertFalse(archive.exists())
+            check_archive_status(status, archive)
+            new, reasons = capture()
+            self.assertEqual(len(new), 1)
+            self.assertEqual(reasons["captured"], 1)
+
+    def test_missing_positive_archive_fails_closed(self):
+        with TemporaryDirectory() as d:
+            base = Path(d)
+            status = base/"status.json"
+            archive = base/"first_shadow_forecasts.csv.gz"
+            status.write_text(json.dumps({
+                "version": 252, "locked_first_shadow_forecasts": 7
+            }))
+            with self.assertRaises(ValueError):
+                check_archive_status(status, archive)
+            status.write_text(json.dumps({"version": 252}))
+            with self.assertRaises(ValueError):
+                check_archive_status(status, archive)
 
     def test_source_timestamp_older_than_grace_skips_new_predictions(self):
         new, reasons = capture(when=NOW+timedelta(hours=4))

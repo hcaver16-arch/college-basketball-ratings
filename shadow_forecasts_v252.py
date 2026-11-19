@@ -294,6 +294,21 @@ def metrics(evaluated: pd.DataFrame):
         "interpretation": "Paired, first-pretip archived prospective forecasts; source schedule kickoff timestamps not independently audited for later rescheduling. Candidate rankings not deployed."}
 
 
+def check_archive_status(status_path: Path, locked_path: Path):
+    """A status from a zero-capture day must not block later first captures.
+
+    Conversely, if we ever reported positive locked forecast counts, a
+    missing archive is an integrity problem and must never be regenerated.
+    """
+    if not status_path.is_file() or locked_path.is_file():
+        return
+    state = json.loads(status_path.read_text())
+    if type(state.get("locked_first_shadow_forecasts")) is not int or (
+            state["locked_first_shadow_forecasts"] != 0):
+        raise ValueError(
+            "Shadow status reports locked forecasts but immutable archive is missing")
+
+
 def prepare(root: Path, sport: str, now: datetime):
     base = root/"data"
     rating_path = base/"ratings"/sport/"latest.csv.gz"
@@ -303,8 +318,7 @@ def prepare(root: Path, sport: str, now: datetime):
     output = base/"shadow_v252"/sport
     locked_path = output/"first_shadow_forecasts.csv.gz"
     status_path = output/"status.json"
-    if status_path.is_file() and not locked_path.is_file():
-        raise ValueError("Shadow status exists but locked forecast archive is absent")
+    check_archive_status(status_path, locked_path)
     for path in (rating_path, final_path, official_path, class_path):
         if not path.is_file():
             raise FileNotFoundError(f"Missing official archival input: {path}")
