@@ -1,0 +1,42 @@
+name: Courtside V245 home-favorite context research
+on:
+  pull_request:
+    paths:
+      - 'research_home_context_v245.py'
+      - 'test_research_home_context_v245.py'
+      - '.github/workflows/research_home_context_v245.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install numpy pandas
+      - run: python -m unittest test_research_home_context_v245.py
+  research:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install numpy pandas requests
+      - name: Generate date-before V239 evidence
+        run: python early_season_bias_v239.py --asof 2026-11-19
+      - name: Investigate venue and preseason context
+        run: python research_home_context_v245.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: courtside-v245-context
+          path: |
+            data/research_home_context_v245/summary.json
+            data/research_home_context_v245/*_matched_context.csv
+          if-no-files-found: warn
