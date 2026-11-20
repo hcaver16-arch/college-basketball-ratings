@@ -1,7 +1,7 @@
 {
   "version": 97,
   "season": "2026-27",
-  "as_of_utc": "2026-11-20T00:36:42Z",
+  "as_of_utc": "2026-11-20T00:41:54Z",
   "counts": {
     "immutable_forecasts": 3433,
     "final_results": 1888
@@ -9,15 +9,15 @@
   "today": {
     "mens": {
       "games_seen": 291,
-      "forecasts_created": 18,
-      "results_added": 2,
+      "forecasts_created": 0,
+      "results_added": 0,
       "official_ratings": "available",
       "experimental_ratings": "available"
     },
     "womens": {
       "games_seen": 255,
-      "forecasts_created": 26,
-      "results_added": 7,
+      "forecasts_created": 0,
+      "results_added": 0,
       "official_ratings": "available",
       "experimental_ratings": "available"
     }
