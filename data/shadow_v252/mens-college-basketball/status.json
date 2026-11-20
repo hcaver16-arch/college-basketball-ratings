@@ -1,0 +1,124 @@
+{
+  "version": 252,
+  "division": "mens-college-basketball",
+  "updated_utc": "2026-11-20T20:37:45.855891+00:00",
+  "status": "RESEARCH_ONLY_NOT_DEPLOYED",
+  "locked_first_shadow_forecasts": 20,
+  "new_pre_tip_shadow_forecasts": 20,
+  "new_capture_diagnostics": {
+    "already_shadow_locked": 0,
+    "official_lock_too_old": 657,
+    "not_pre_tip": 1009,
+    "rating_snapshot_mismatch": 0,
+    "unrated_matchup": 0,
+    "invalid_official_forecast": 0,
+    "stale_rating_snapshot": false,
+    "fresh_eligible_official_locks": 20,
+    "captured": 20
+  },
+  "evaluated_games": 0,
+  "primary_d1_evaluated_games": 0,
+  "research_accuracy": {
+    "all_eligible_games": {
+      "paired_games": 0,
+      "models": {
+        "Baseline home margin": {
+          "games": 0,
+          "mae": null,
+          "signed_bias": null,
+          "winner_accuracy": null
+        },
+        "Prior-only home margin": {
+          "games": 0,
+          "mae": null,
+          "signed_bias": null,
+          "winner_accuracy": null
+        },
+        "Anchored ridge8 home margin": {
+          "games": 0,
+          "mae": null,
+          "signed_bias": null,
+          "winner_accuracy": null
+        },
+        "Anchored ridge16 home margin": {
+          "games": 0,
+          "mae": null,
+          "signed_bias": null,
+          "winner_accuracy": null
+        }
+      }
+    },
+    "d1_vs_d1_primary": {
+      "paired_games": 0,
+      "models": {
+        "Baseline home margin": {
+          "games": 0,
+          "mae": null,
+          "signed_bias": null,
+          "winner_accuracy": null
+        },
+        "Prior-only home margin": {
+          "games": 0,
+          "mae": null,
+          "signed_bias": null,
+          "winner_accuracy": null
+        },
+        "Anchored ridge8 home margin": {
+          "games": 0,
+          "mae": null,
+          "signed_bias": null,
+          "winner_accuracy": null
+        },
+        "Anchored ridge16 home margin": {
+          "games": 0,
+          "mae": null,
+          "signed_bias": null,
+          "winner_accuracy": null
+        }
+      }
+    },
+    "d1_both_0_to_2_previous_games": {
+      "paired_games": 0,
+      "models": {
+        "Baseline home margin": {
+          "games": 0,
+          "mae": null,
+          "signed_bias": null,
+          "winner_accuracy": null
+        },
+        "Prior-only home margin": {
+          "games": 0,
+          "mae": null,
+          "signed_bias": null,
+          "winner_accuracy": null
+        },
+        "Anchored ridge8 home margin": {
+          "games": 0,
+          "mae": null,
+          "signed_bias": null,
+          "winner_accuracy": null
+        },
+        "Anchored ridge16 home margin": {
+          "games": 0,
+          "mae": null,
+          "signed_bias": null,
+          "winner_accuracy": null
+        }
+      }
+    },
+    "not_enough_games_to_select_model": true,
+    "no_production_model_changed": true,
+    "interpretation": "Paired, first-pretip archived prospective forecasts; source schedule kickoff timestamps not independently audited for later rescheduling. Candidate rankings not deployed."
+  },
+  "safety_notes": [
+    "No previously locked shadow forecast is changed or backfilled.",
+    "Only new official first forecasts captured within three hours of the same saved rating snapshot are paired.",
+    "Shadow timestamp is recorded at execution before archived game tip time; no old games or forecasts are retrospectively backfilled.",
+    "The archive uses saved completed scores as of the latest refresh; source SHA256 permits identifying exactly which saved input files were used.",
+    "Evaluation results may change if ESPN corrects a score, but first-shadow forecasts remain immutable.",
+    "D1 labels are captured from the official classification file at first shadow lock; non-D1 matchups excluded from primary evaluation.",
+    "Fixed candidate specifications were set before any V252 holdout game finished; no live ratings or UI is modified.",
+    "Baseline and shadow timestamps can differ by up to three hours; do not call the outcomes perfectly simultaneous.",
+    "No forecast used for betting advice or automatic production promotion."
+  ]
+}
