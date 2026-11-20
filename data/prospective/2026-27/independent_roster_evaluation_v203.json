@@ -1,7 +1,7 @@
 {
   "version": 203,
   "season": "2026-27",
-  "as_of_utc": "2026-11-19T13:57:34.697344Z",
+  "as_of_utc": "2026-11-20T00:55:43.374668Z",
   "status": "PROSPECTIVE_RESEARCH_ONLY_NOT_DEPLOYED",
   "production_model_modified": false,
   "published_pregame_forecasts_unchanged": true,
@@ -462,8 +462,9 @@
   "new_pairs": 0,
   "total_pairs": 2,
   "skipped": {
-    "invalid_evidence_or_pregame_timing": 988,
-    "one_or_both_teams_lack_verified_evidence": 59
+    "invalid_evidence_or_pregame_timing": 990,
+    "baseline_prediction_not_fresh_no_backfill": 57,
+    "one_or_both_teams_lack_verified_evidence": 9
   },
   "paired_results": {
     "mens": {
@@ -485,10 +486,10 @@
   "matchup_readiness": {
     "source": "V97 first official pregame forecast journal, future start times only",
     "counts": {
-      "upcoming_locked_mens_baselines": 90,
-      "neither_team_qualified": 83,
-      "exactly_one_team_qualified": 7,
-      "upcoming_opponents_missing_qualification": 7
+      "upcoming_locked_mens_baselines": 83,
+      "neither_team_qualified": 77,
+      "exactly_one_team_qualified": 6,
+      "upcoming_opponents_missing_qualification": 6
     },
     "opponents_to_prioritize": [
       {
@@ -497,13 +498,13 @@
         "upcoming_one_sided_games": 1
       },
       {
-        "team_id": "2305",
-        "team": "Kansas Jayhawks",
+        "team_id": "2174",
+        "team": "Detroit Mercy Titans",
         "upcoming_one_sided_games": 1
       },
       {
-        "team_id": "311",
-        "team": "Maine Black Bears",
+        "team_id": "2305",
+        "team": "Kansas Jayhawks",
         "upcoming_one_sided_games": 1
       },
       {
@@ -519,11 +520,6 @@
       {
         "team_id": "2550",
         "team": "Seton Hall Pirates",
-        "upcoming_one_sided_games": 1
-      },
-      {
-        "team_id": "277",
-        "team": "West Virginia Mountaineers",
         "upcoming_one_sided_games": 1
       }
     ],
