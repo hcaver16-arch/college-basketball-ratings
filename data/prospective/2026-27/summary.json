@@ -1,43 +1,43 @@
 {
   "version": 97,
   "season": "2026-27",
-  "as_of_utc": "2026-11-21T19:14:25Z",
+  "as_of_utc": "2026-11-21T19:27:53Z",
   "counts": {
     "immutable_forecasts": 3797,
-    "final_results": 2064
+    "final_results": 2065
   },
   "today": {
     "mens": {
       "games_seen": 240,
-      "forecasts_created": 86,
-      "results_added": 55,
+      "forecasts_created": 0,
+      "results_added": 1,
       "official_ratings": "available",
       "experimental_ratings": "available"
     },
     "womens": {
       "games_seen": 237,
-      "forecasts_created": 108,
-      "results_added": 38,
+      "forecasts_created": 0,
+      "results_added": 0,
       "official_ratings": "available",
       "experimental_ratings": "available"
     }
   },
   "evaluation": {
     "mens/experimental_anchored_ridge8_v233": {
-      "graded_games": 671,
-      "margin_mae": 14.1587,
-      "winner_accuracy_non_ties": 0.7928,
-      "winner_sample": 671,
-      "bias_actual_minus_prediction": 6.9113,
+      "graded_games": 672,
+      "margin_mae": 14.1483,
+      "winner_accuracy_non_ties": 0.7932,
+      "winner_sample": 672,
+      "bias_actual_minus_prediction": 6.8904,
       "brier_score": null,
       "brier_reason": "No saved pregame win probabilities"
     },
     "mens/official_saved_v97": {
-      "graded_games": 1048,
-      "margin_mae": 16.2876,
-      "winner_accuracy_non_ties": 0.8006,
-      "winner_sample": 1048,
-      "bias_actual_minus_prediction": 10.4429,
+      "graded_games": 1049,
+      "margin_mae": 16.2804,
+      "winner_accuracy_non_ties": 0.8008,
+      "winner_sample": 1049,
+      "bias_actual_minus_prediction": 10.4246,
       "brier_score": null,
       "brier_reason": "No saved pregame win probabilities"
     },
