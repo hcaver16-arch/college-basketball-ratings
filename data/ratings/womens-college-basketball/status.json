@@ -1,10 +1,10 @@
 {
   "division": "womens-college-basketball",
-  "snapshot_date": "2026-11-20",
-  "updated_utc": "2026-11-20T20:36:50.131178+00:00",
+  "snapshot_date": "2026-11-21",
+  "updated_utc": "2026-11-21T19:35:41.120560+00:00",
   "historical_final_games": 6030,
-  "current_final_games": 1060,
-  "team_count": 741,
+  "current_final_games": 1099,
+  "team_count": 742,
   "method": "regularized scoring margins; 2025-26 preseason prior; no automatic roster adjustment",
   "warning": "Season-specific fitting and scale calibration remain experimental; no betting guarantee."
 }
