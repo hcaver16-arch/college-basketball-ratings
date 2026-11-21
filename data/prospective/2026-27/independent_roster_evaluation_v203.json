@@ -1,7 +1,7 @@
 {
   "version": 203,
   "season": "2026-27",
-  "as_of_utc": "2026-11-20T00:55:43.374668Z",
+  "as_of_utc": "2026-11-21T19:48:02.659312Z",
   "status": "PROSPECTIVE_RESEARCH_ONLY_NOT_DEPLOYED",
   "production_model_modified": false,
   "published_pregame_forecasts_unchanged": true,
@@ -462,9 +462,9 @@
   "new_pairs": 0,
   "total_pairs": 2,
   "skipped": {
-    "invalid_evidence_or_pregame_timing": 990,
-    "baseline_prediction_not_fresh_no_backfill": 57,
-    "one_or_both_teams_lack_verified_evidence": 9
+    "invalid_evidence_or_pregame_timing": 1074,
+    "baseline_prediction_not_fresh_no_backfill": 31,
+    "one_or_both_teams_lack_verified_evidence": 42
   },
   "paired_results": {
     "mens": {
@@ -486,43 +486,11 @@
   "matchup_readiness": {
     "source": "V97 first official pregame forecast journal, future start times only",
     "counts": {
-      "upcoming_locked_mens_baselines": 83,
+      "upcoming_locked_mens_baselines": 77,
       "neither_team_qualified": 77,
-      "exactly_one_team_qualified": 6,
-      "upcoming_opponents_missing_qualification": 6
+      "upcoming_opponents_missing_qualification": 0
     },
-    "opponents_to_prioritize": [
-      {
-        "team_id": "324",
-        "team": "Coastal Carolina Chanticleers",
-        "upcoming_one_sided_games": 1
-      },
-      {
-        "team_id": "2174",
-        "team": "Detroit Mercy Titans",
-        "upcoming_one_sided_games": 1
-      },
-      {
-        "team_id": "2305",
-        "team": "Kansas Jayhawks",
-        "upcoming_one_sided_games": 1
-      },
-      {
-        "team_id": "276",
-        "team": "Marshall Thundering Herd",
-        "upcoming_one_sided_games": 1
-      },
-      {
-        "team_id": "166",
-        "team": "New Mexico State Aggies",
-        "upcoming_one_sided_games": 1
-      },
-      {
-        "team_id": "2550",
-        "team": "Seton Hall Pirates",
-        "upcoming_one_sided_games": 1
-      }
-    ],
+    "opponents_to_prioritize": [],
     "note": "Unqualified opponents are priorities for independent verification, not automatic exemptions. Archived baselines that predate evidence cannot be used for V203 pairing."
   },
   "limitations": [
