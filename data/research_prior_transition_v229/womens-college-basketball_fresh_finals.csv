@@ -1,252 +1,54 @@
 Game ID,Date,Away,Home,Away ID,Home ID,Venue,Status,Away score,Home score
-401919954,2026-11-06,Stonehill Skyhawks,Notre Dame Fighting Irish,284,87,Home,Final,40.0,123.0
-401907047,2026-11-06,Morgan State Lady Bears,Oklahoma State Cowgirls,2415,197,Home,Final,38.0,92.0
-401929010,2026-11-06,Southern Wesleyan Warriors,Furman Paladins,2576,231,Home,Final,38.0,77.0
-401922829,2026-11-06,Northwestern State Lady Demons,Arkansas Razorbacks,2466,8,Home,Final,59.0,89.0
-401913025,2026-11-06,Indiana State Sycamores,Seton Hall Pirates,282,2550,Home,Final,56.0,74.0
-401927990,2026-11-06,Life University Running Eagles,Jacksonville State Gamecocks,116335,55,Home,Final,62.0,77.0
-401919674,2026-11-06,Drake Bulldogs,Kansas Jayhawks,2181,2305,Home,Final,49.0,74.0
-401918738,2026-11-06,UT Rio Grande Valley Vaqueros,South Dakota Coyotes,292,233,Home,Final,56.0,68.0
-401913045,2026-11-06,Purdue Fort Wayne Mastodons,DePaul Blue Demons,2870,305,Home,Final,62.0,87.0
-401927007,2026-11-06,Southern Utah Thunderbirds,New Mexico State Aggies,253,166,Home,Final,63.0,64.0
-401919333,2026-11-06,Pennsylvania Quakers,Drexel Dragons,219,2182,Home,Final,71.0,70.0
-401920403,2026-11-06,UC Davis Aggies,Eastern Washington Eagles,302,331,Home,Final,72.0,76.0
-401917687,2026-11-06,Loyola Marymount Lions,Utah State Aggies,2351,328,Home,Final,70.0,45.0
-401929113,2026-11-06,Ohio Christian Trailblazers,Wright State Raiders,108834,2750,Home,Final,25.0,103.0
-401925785,2026-11-06,Lehigh Mountain Hawks,Monmouth Hawks,2329,2405,Home,Final,67.0,75.0
-401919515,2026-11-06,Northeastern Huskies,Boston University Terriers,111,104,Home,Final,71.0,61.0
-401918656,2026-11-06,North Carolina A&T Aggies,Marshall Thundering Herd,2448,276,Home,Final,45.0,62.0
-401917184,2026-11-06,Saint Francis Red Wolves,Yale Bulldogs,2598,43,Home,Final,24.0,106.0
-401915774,2026-11-06,Rhode Island Rams,Columbia Lions,227,171,Neutral,Final,62.0,76.0
-401913676,2026-11-06,Princeton Tigers,Richmond Spiders,163,257,Home,Final,65.0,57.0
-401927053,2026-11-06,Georgia State Panthers,UNC Asheville Bulldogs,2247,2427,Home,Final,56.0,66.0
-401913873,2026-11-06,Wichita State Shockers,Kansas City Roos,2724,140,Home,Final,78.0,83.0
-401927926,2026-11-06,Elon Phoenix,Howard Bison,2210,47,Home,Final,69.0,76.0
-401926041,2026-11-06,Middle Tennessee Blue Raiders,Memphis Tigers,2393,235,Home,Final,38.0,47.0
-401919980,2026-11-06,Northern Iowa Panthers,South Dakota State Jackrabbits,2460,2571,Home,Final,54.0,76.0
-401919666,2026-11-06,Northern Illinois Huskies,Bradley Braves,2459,71,Home,Final,54.0,69.0
-401918932,2026-11-06,Colorado State Rams,Utah Utes,36,254,Home,Final,63.0,72.0
-401918924,2026-11-06,Southern Illinois Salukis,Indiana Hoosiers,79,84,Home,Final,55.0,96.0
-401918540,2026-11-06,Abilene Christian Wildcats,Houston Christian Huskies,2000,2277,Home,Final,84.0,43.0
-401918529,2026-11-06,Southeastern Baptist Chargers,Austin Peay Governors,130380,2046,Home,Final,33.0,123.0
-401918039,2026-11-06,Mercy Mavericks,Sacred Heart Pioneers,2384,2529,Home,Final,47.0,71.0
-401915642,2026-11-06,Binghamton Bearcats,Fairfield Stags,2066,2217,Home,Final,63.0,90.0
-401927466,2026-11-06,Missouri Tigers,Little Rock Trojans,142,2031,Home,Final,73.0,50.0
-401922323,2026-11-06,Virginia Union Panthers,Longwood Lancers,2676,2344,Home,Final,33.0,59.0
-401921578,2026-11-06,California Baptist Lancers,Utah Tech Trailblazers,2856,3101,Home,Final,87.0,60.0
-401918771,2026-11-06,Cameron Aggies,Oral Roberts Golden Eagles,2096,198,Home,Final,52.0,102.0
-401926999,2026-11-06,Portland State Vikings,Boise State Broncos,2502,68,Home,Final,68.0,83.0
-401913863,2026-11-06,South Florida Bulls,Belmont Bruins,58,2057,Home,Final,69.0,66.0
-401913831,2026-11-06,Rice Owls,Murray State Racers,242,93,Neutral,Final,69.0,64.0
-401926983,2026-11-06,Westminster (UT) Griffins,Idaho State Bengals,224,304,Home,Final,30.0,79.0
-401926958,2026-11-06,Idaho Vandals,Gonzaga Bulldogs,70,2250,Home,Final,86.0,75.0
-401920274,2026-11-06,New Mexico Highlands Cowboys,New Mexico Lobos,2424,167,Home,Final,39.0,68.0
-401917686,2026-11-06,UC Riverside Highlanders,Seattle U Redhawks,27,2547,Home,Final,55.0,80.0
-401920492,2026-11-06,UTSA Roadrunners,UNLV Lady Rebels,2636,2439,Home,Final,51.0,69.0
-401903554,2026-11-06,Washington State Cougars,Oregon Ducks,265,2483,Home,Final,57.0,64.0
-401918840,2026-11-04,Fairleigh Dickinson Knights,Texas Longhorns,161,251,Home,Final,65.0,85.0
-401906075,2026-11-04,Stetson Hatters,Louisville Cardinals,56,97,Home,Final,35.0,87.0
-401913884,2026-11-04,Queens University Royals,Vanderbilt Commodores,2511,238,Home,Final,42.0,100.0
-401927060,2026-11-04,Detroit Mercy Titans,Illinois Fighting Illini,2174,356,Home,Final,50.0,84.0
-401913736,2026-11-04,Campbell Fighting Camels,NC State Wolfpack,2097,152,Home,Final,45.0,80.0
-401925729,2026-11-04,Dallas Crusaders,Stephen F. Austin Ladyjacks,2163,2617,Home,Final,41.0,136.0
-401923000,2026-11-04,LeTourneau Yellow Jackets,Houston Christian Huskies,2326,2277,Home,Final,45.0,80.0
-401920335,2026-11-04,Wingate Bulldogs,High Point Panthers,351,2272,Home,Final,46.0,75.0
-401918431,2026-11-04,Arkansas-Pine Bluff Golden Lions,Tarleton State Texans,2029,2627,Home,Final,47.0,66.0
-401927052,2026-11-04,Clinton Golden Bears,UNC Asheville Bulldogs,130129,2427,Home,Final,54.0,83.0
-401929009,2026-11-04,Erskine Flying Fleet,Furman Paladins,2215,231,Home,Final,48.0,106.0
-401918713,2026-11-04,Montreat Cavaliers,App State Mountaineers,2410,2026,Home,Final,43.0,107.0
-401919645,2026-11-04,District of Columbia Firebirds,Norfolk State Spartans,2177,2450,Home,Final,51.0,62.0
-401930570,2026-11-04,Georgian Court Lions,Delaware State Hornets,110419,2169,Home,Final,75.0,80.0
-401927995,2026-11-04,Clayton State Lakers,Kennesaw State Owls,2861,338,Home,Final,37.0,75.0
-401925620,2026-11-04,Johnson C. Smith Golden Bulls,North Carolina Central Eagles,2304,2428,Home,Final,73.0,99.0
-401916016,2026-11-04,Delaware Blue Hens,Virginia Tech Hokies,48,259,Home,Final,53.0,101.0
-401911766,2026-11-04,D'Youville Saints,St. Bonaventure Bonnies,128442,179,Home,Final,56.0,68.0
-401927094,2026-11-04,Johnson Royals,South Carolina Upstate Spartans,128474,2908,Home,Final,51.0,82.0
-401916184,2026-11-04,East Texas A&M Lions,Cincinnati Bearcats,2837,2132,Home,Final,58.0,66.0
-401927469,2026-11-04,Wiley Wildcats,Prairie View A&M Lady Panthers,2728,2504,Home,Final,39.0,61.0
-401926057,2026-11-04,Fisk Bulldogs,UAB Blazers,2225,5,Home,Final,67.0,77.0
-401913004,2026-11-04,La Salle Explorers,Rutgers Scarlet Knights,2325,164,Home,Final,62.0,75.0
-401912989,2026-11-04,LSU New Orleans Privateers,Alabama Crimson Tide,2443,333,Home,Final,45.0,118.0
-401911504,2026-11-04,Bluefield Ramblin' Rams,Radford Highlanders,495,2515,Home,Final,24.0,128.0
-401928191,2026-11-04,Chattanooga Mocs,Western Kentucky Lady Toppers,236,98,Home,Final,50.0,61.0
-401923473,2026-11-04,Morgan State Lady Bears,Colorado Buffaloes,2415,38,Home,Final,38.0,83.0
-401923193,2026-11-04,Lindenwood Lions,Denver Pioneers,2815,2172,Home,Final,52.0,66.0
-401920439,2026-11-04,Our Lady of the Lake Saints,Texas A&M-Corpus Christi Islanders,3158,357,Home,Final,36.0,76.0
-401919931,2026-11-04,Long Island University Sharks,Texas State Bobcats,112358,326,Home,Final,51.0,69.0
-401918723,2026-11-04,Bethel (MN) Royals,St. Thomas Tommies,2802,2900,Home,Final,43.0,77.0
-401918553,2026-11-04,Jackson State Lady Tigers,Grand Canyon Lopes,2296,2253,Home,Final,55.0,77.0
-401921577,2026-11-04,California Baptist Lancers,Oregon State Beavers,2856,204,Home,Final,79.0,77.0
-401928280,2026-11-04,UC Merced Bobcats,Fresno State Bulldogs,3185,278,Home,Final,32.0,94.0
-401921520,2026-11-04,Hope International Royals,Cal State Fullerton Titans,3091,2239,Home,Final,59.0,90.0
-401915978,2026-11-04,Saint Mary's Gaels,Stanford Cardinal,2608,24,Home,Final,54.0,87.0
-401915906,2026-11-03,Green Bay Phoenix,Duke Blue Devils,2739,150,Home,Final,60.0,76.0
-401917938,2026-11-03,Oral Roberts Golden Eagles,TCU Horned Frogs,198,2628,Home,Final,43.0,99.0
-401907163,2026-11-03,Rhode Island Rams,West Virginia Mountaineers,227,277,Home,Final,64.0,68.0
-401913822,2026-11-03,Charleston Southern Buccaneers,East Carolina Pirates,2127,151,Home,Final,45.0,61.0
-401921494,2026-11-03,Stanislaus State Warriors,Cal State Bakersfield Roadrunners,2616,2934,Home,Final,46.0,75.0
-401931546,2026-11-03,Swarthmore Garnet,Pennsylvania Quakers,217,219,Home,Final,27.0,110.0
-401927977,2026-11-03,Barton Bulldogs,UNC Wilmington Seahawks,2054,350,Home,Final,44.0,75.0
-401919552,2026-11-03,SUNY Morrisville Mustangs,Colgate Raiders,131780,2142,Home,Final,61.0,91.0
-401918038,2026-11-03,Sacred Heart Pioneers,Syracuse Orange,2529,183,Home,Final,48.0,75.0
-401915782,2026-11-03,Central Connecticut Blue Devils,VCU Rams,2115,2670,Home,Final,43.0,67.0
-401920013,2026-11-03,Valparaiso Beacons,Michigan State Spartans,2674,127,Home,Final,44.0,98.0
-401919056,2026-11-03,Florida A&M Rattlers,UCF Knights,50,2116,Home,Final,56.0,85.0
-401929319,2026-11-03,Clarke Pride,Western Illinois Leathernecks,2965,2710,Home,Final,55.0,85.0
-401928011,2026-11-03,Judson Eagles,SIU Edwardsville Cougars,546,2565,Home,Final,48.0,95.0
-401926100,2026-11-03,Jacksonville Dolphins,Florida International Panthers,294,2229,Home,Final,75.0,64.0
-401919984,2026-11-03,Illinois Springfield Prairie Stars,Southern Illinois Salukis,542,79,Home,Final,75.0,70.0
-401919673,2026-11-03,Eastern Illinois Panthers,Drake Bulldogs,2197,2181,Home,Final,54.0,76.0
-401918923,2026-11-03,Florida Gulf Coast Eagles,Indiana Hoosiers,526,84,Home,Final,50.0,79.0
-401918666,2026-11-03,Xavier (LA) Gold Rush,Louisiana Ragin' Cajuns,2753,309,Home,Final,72.0,77.0
-401913898,2026-11-03,West Florida Argonauts,East Tennessee State Buccaneers,2697,2193,Home,Final,51.0,73.0
-401913744,2026-11-03,Saint Peter's Peacocks,Pittsburgh Panthers,2612,221,Home,Final,52.0,81.0
-401913044,2026-11-03,Evansville Purple Aces,DePaul Blue Demons,339,305,Home,Final,65.0,90.0
-401913034,2026-11-03,Stonehill Skyhawks,Providence Friars,284,2507,Home,Final,65.0,79.0
-401913024,2026-11-03,Mercyhurst Lakers,Seton Hall Pirates,2385,2550,Home,Final,37.0,63.0
-401923735,2026-11-03,Incarnate Word Cardinals,Tulsa Golden Hurricane,2916,202,Home,Final,63.0,57.0
-401921597,2026-11-03,Sacramento State Hornets,UT Arlington Mavericks,16,250,Home,Final,67.0,61.0
-401919074,2026-11-03,Mississippi Valley State Devilettes,Marquette Golden Eagles,2400,269,Home,Final,42.0,80.0
-401918864,2026-11-03,Bradley Braves,Wisconsin Badgers,71,275,Home,Final,65.0,71.0
-401918854,2026-11-03,North Alabama Lions,Mississippi State Bulldogs,2453,344,Home,Final,27.0,68.0
-401915960,2026-11-03,Le Moyne Dolphins,SMU Mustangs,2330,2567,Home,Final,36.0,72.0
-401906962,2026-11-03,Omaha Mavericks,Kansas Jayhawks,2437,2305,Home,Final,48.0,66.0
-401927017,2026-11-03,Westminster (UT) Griffins,Weber State Wildcats,224,2692,Home,Final,46.0,86.0
-401923131,2026-11-03,Park University Gilbert Buccaneers,Utah Valley Wolverines,116420,3084,Home,Final,32.0,85.0
-401921442,2026-11-03,Milwaukee Panthers,Northwestern Wildcats,270,77,Home,Final,60.0,64.0
-401918931,2026-11-03,Eastern Washington Eagles,Utah Utes,331,254,Home,Final,67.0,76.0
-401911753,2026-11-03,Wright State Raiders,Loyola Chicago Ramblers,2750,2350,Home,Final,71.0,73.0
-401929240,2026-11-03,Occidental Tigers,UC Riverside Highlanders,2475,27,Home,Final,40.0,83.0
-401928371,2026-11-03,UC Santa Cruz Banana Slugs,UC Santa Barbara Gauchos,498,2540,Home,Final,26.0,101.0
-401926986,2026-11-03,Montana Western Bulldogs,Montana Lady Griz,2701,149,Home,Final,45.0,91.0
-401921546,2026-11-03,La Sierra Golden Eagles,Cal State Northridge Matadors,111960,2463,Home,Final,40.0,92.0
-401916149,2026-11-03,Idaho State Bengals,BYU Cougars,304,252,Home,Final,50.0,67.0
-401911737,2026-11-05,UConn Huskies,Michigan Wolverines,41,130,Home,Final,66.0,77.0
-401912965,2026-11-05,Texas Southern Tigers,LSU Tigers,2640,99,Home,Final,22.0,131.0
-401921425,2026-11-05,Eastern Illinois Panthers,Iowa Hawkeyes,2197,2294,Home,Final,39.0,80.0
-401918897,2026-11-05,UC Irvine Anteaters,UCLA Bruins,300,26,Home,Final,42.0,78.0
-401929059,2026-11-05,Northern Kentucky Norse,Kentucky Wildcats,94,96,Home,Final,28.0,79.0
-401917939,2026-11-05,Le Moyne Dolphins,TCU Horned Frogs,2330,2628,Home,Final,41.0,96.0
-401917684,2026-11-05,Pacific Tigers,Washington Huskies,279,264,Home,Final,54.0,75.0
-401927082,2026-11-05,Central Michigan Chippewas,Ohio State Buckeyes,2117,194,Home,Final,36.0,103.0
-401924631,2026-11-05,North Alabama Lions,Ole Miss Rebels,2453,145,Home,Final,51.0,72.0
-401907164,2026-11-05,George Washington Revolutionaries,West Virginia Mountaineers,45,277,Home,Final,66.0,78.0
-401927975,2026-11-05,Frostburg State Bobcats,Towson Tigers,112702,119,Home,Final,94.0,92.0
-401913706,2026-11-05,North Florida Ospreys,Florida State Seminoles,2454,52,Home,Final,63.0,74.0
-401929148,2026-11-05,Miami (OH) RedHawks,Southeast Missouri State Redhawks,193,2546,Home,Final,75.0,52.0
-401928003,2026-11-05,Texas A&M-Texarkana Eagles,Louisiana Tech Lady Techsters,122210,2348,Home,Final,41.0,90.0
-401920315,2026-11-05,Arkansas Monticello Boll Weevils,SE Louisiana Lady Lions,2028,2545,Home,Final,64.0,71.0
-401918695,2026-11-05,Johnson Royals,Coastal Carolina Chanticleers,128474,324,Home,Final,54.0,103.0
-401915961,2026-11-05,Hampton Lady Pirates,SMU Mustangs,2261,2567,Home,Final,54.0,66.0
-401915665,2026-11-05,Stony Brook Seawolves,Iona Gaels,2619,314,Home,Final,77.0,63.0
-401926048,2026-11-05,North Texas Mean Green,San Diego State Aztecs,249,21,Home,Final,57.0,73.0
-401917685,2026-11-05,Hawai'i Rainbow Wahine,San Francisco Dons,62,2539,Home,Final,79.0,85.0
-401929107,2026-11-05,UIC Flames,Robert Morris Colonials,82,2523,Home,Final,71.0,58.0
-401906891,2026-11-05,UCF Knights,Florida Gators,2116,57,Home,Final,65.0,95.0
-401911721,2026-11-05,St. Thomas Aquinas Spartans,Fordham Rams,108847,2230,Home,Final,62.0,70.0
-401920143,2026-11-05,Dartmouth Big Green,Holy Cross Crusaders,159,107,Home,Final,46.0,49.0
-401919941,2026-11-05,Penn State Beaver Nittany Lions,Mercyhurst Lakers,111208,2385,Home,Final,46.0,94.0
-401918940,2026-11-05,Charlotte 49ers,Texas Tech Lady Raiders,2429,2641,Home,Final,37.0,64.0
-401918676,2026-11-05,Central Connecticut Blue Devils,James Madison Dukes,2115,256,Home,Final,38.0,77.0
-401916036,2026-11-05,Mount St. Mary's Mountaineers,UMBC Retrievers,116,2378,Home,Final,53.0,79.0
-401913899,2026-11-05,West Florida Argonauts,Western Carolina Catamounts,2697,2717,Home,Final,58.0,72.0
-401913785,2026-11-05,Merrimack Warriors,NJIT Highlanders,2771,2885,Home,Final,35.0,57.0
-401913773,2026-11-05,Canisius Golden Griffins,New Hampshire Wildcats,2099,160,Home,Final,52.0,48.0
-401913763,2026-11-05,Siena Saints,Maine Black Bears,2561,311,Home,Final,68.0,70.0
-401913755,2026-11-05,Marist Red Foxes,Bryant Bulldogs,2368,2803,Home,Final,63.0,65.0
-401906103,2026-11-05,Presbyterian Blue Hose,Wake Forest Demon Deacons,2506,154,Home,Final,53.0,85.0
-401929340,2026-11-05,Virginia State Trojans,Old Dominion Monarchs,330,295,Home,Final,55.0,69.0
-401928012,2026-11-05,SIU Edwardsville Cougars,IU Indianapolis Jaguars,2565,85,Home,Final,69.0,70.0
-401926092,2026-11-05,Simmons (KY) Falcons,Bellarmine Knights,126757,91,Home,Final,49.0,113.0
-401916068,2026-11-05,Lipscomb Bisons,Butler Bulldogs,288,2086,Home,Final,57.0,104.0
-401913798,2026-11-05,Manhattan Jaspers,UAlbany Great Danes,2363,399,Home,Final,61.0,62.0
-401911492,2026-11-05,Gardner-Webb Runnin' Bulldogs,Catawba Indians,2241,2107,Home,Final,84.0,72.0
-401929159,2026-11-05,King (TN) Tornado,Wofford Terriers,2312,2747,Home,Final,60.0,78.0
-401929115,2026-11-05,Columbia (SC) Koalas,UNC Greensboro Spartans,112102,2430,Home,Final,51.0,72.0
-401929019,2026-11-05,Cleveland State Vikings,Bowling Green Falcons,325,189,Home,Final,73.0,77.0
-401927981,2026-11-05,Tennessee State Lady Tigers,William & Mary Tribe,2634,2729,Home,Final,54.0,78.0
-401927515,2026-11-05,Southern Miss Lady Eagles,Auburn Tigers,2572,2,Home,Final,48.0,56.0
-401927492,2026-11-05,Thomas Night Hawks,Troy Trojans,2645,2653,Home,Final,36.0,104.0
-401927485,2026-11-05,Alabama A&M Bulldogs,Alabama Crimson Tide,2010,333,Home,Final,43.0,96.0
-401921452,2026-11-05,Eastern Michigan Eagles,Purdue Boilermakers,2199,2509,Home,Final,73.0,83.0
-401921078,2026-11-05,Akron Zips,George Mason Patriots,2006,2244,Home,Final,60.0,66.0
-401919874,2026-11-05,Mississippi Valley State Devilettes,Chicago State Cougars,2400,2130,Home,Final,62.0,83.0
-401919690,2026-11-05,Illinois State Redbirds,Dayton Flyers,2287,2168,Home,Final,91.0,87.0
-401919067,2026-11-05,American University Eagles,Georgetown Hoyas,44,46,Home,Final,65.0,75.0
-401918683,2026-11-05,Georgia Southern Eagles,Mercer Bears,290,2382,Home,Final,61.0,69.0
-401918582,2026-11-05,Bethune-Cookman Wildcats,South Carolina State Lady Bulldogs,2065,2569,Home,Final,76.0,57.0
-401916211,2026-11-05,Quinnipiac Bobcats,Vermont Catamounts,2514,261,Home,Final,66.0,76.0
-401916004,2026-11-05,Virginia Cavaliers,Davidson Wildcats,258,2166,Home,Final,72.0,57.0
-401915791,2026-11-05,East Tennessee State Buccaneers,Clemson Tigers,2193,228,Home,Final,57.0,76.0
-401914489,2026-11-05,SUNY Fredonia Blue Devils,Cornell Big Red,131695,172,Home,Final,37.0,106.0
-401913811,2026-11-05,Niagara Purple Eagles,UMass Lowell River Hawks,315,2349,Home,Final,53.0,78.0
-401913724,2026-11-05,Jacksonville Dolphins,Miami Hurricanes,294,2390,Home,Final,63.0,79.0
-401913715,2026-11-05,Samford Bulldogs,Georgia Tech Yellow Jackets,2535,59,Home,Final,58.0,84.0
-401912953,2026-11-05,Tennessee Lady Volunteers,Coppin State Eagles,2633,2154,Home,Final,98.0,60.0
-401909682,2026-11-05,Army Black Knights,Brown Bears,349,225,Home,Final,81.0,56.0
-401909670,2026-11-05,Winthrop Eagles,Georgia Lady Bulldogs,2737,61,Home,Final,40.0,75.0
-401906032,2026-11-05,Boston College Eagles,Harvard Crimson,103,108,Home,Final,51.0,81.0
-401929053,2026-11-05,Emory & Henry Wasps,Tennessee Tech Golden Eagles,2213,2635,Home,Final,47.0,90.0
-401920166,2026-11-05,Grambling Lady Tigers,McNeese Cowgirls,2755,2377,Home,Final,51.0,56.0
-401920085,2026-11-05,Lamar Cardinals,UT Arlington Mavericks,2320,250,Home,Final,64.0,79.0
-401918865,2026-11-05,Oakland Golden Grizzlies,Wisconsin Badgers,2473,275,Home,Final,56.0,89.0
-401918647,2026-11-05,Centenary (LA) Ladies,UL Monroe Warhawks,2113,2433,Home,Final,26.0,106.0
-401917927,2026-11-05,Nicholls Colonels,Iowa State Cyclones,2447,66,Home,Final,44.0,68.0
-401906980,2026-11-05,Southern Indiana Screaming Eagles,Kansas State Wildcats,88,2306,Home,Final,47.0,61.0
-401918447,2026-11-05,Eastern Kentucky Colonels,Morehead State Eagles,2198,2413,Home,Final,63.0,58.0
-401929302,2026-11-05,Christian Brothers Buccaneers,UT Martin Skyhawks,2131,2630,Home,Final,41.0,105.0
-401923479,2026-11-05,Sam Houston Bearkats,Houston Cougars,2534,248,Home,Final,50.0,78.0
-401923188,2026-11-05,UC Santa Barbara Gauchos,Pepperdine Waves,2540,2492,Home,Final,58.0,54.0
-401921233,2026-11-05,Milwaukee Panthers,Saint Louis Billikens,270,139,Home,Final,62.0,81.0
-401918795,2026-11-05,Augustana (SD) Vikings,North Dakota State Bison,2043,2449,Home,Final,60.0,86.0
-401918463,2026-11-05,Central Arkansas Sugar Bears,Baylor Bears,2110,239,Home,Final,44.0,72.0
-401913016,2026-11-05,Xavier Musketeers,Northwestern Wildcats,2752,77,Home,Final,91.0,78.0
-401919961,2026-11-05,Wagner Seahawks,Lafayette Leopards,2681,322,Home,Final,34.0,88.0
-401916081,2026-11-05,Northern Arizona Lumberjacks,Arizona State Sun Devils,2464,9,Home,Final,52.0,79.0
-401921463,2026-11-05,Whittier Poets,Cal Poly Mustangs,110394,13,Home,Final,33.0,61.0
-401918667,2026-11-05,Louisiana Ragin' Cajuns,Texas A&M Aggies,309,245,Home,Final,51.0,62.0
-401916150,2026-11-05,Portland Pilots,BYU Cougars,2501,252,Home,Final,64.0,74.0
-401906063,2026-11-05,Long Beach State Beach,California Golden Bears,299,25,Home,Final,46.0,100.0
-401918828,2026-11-09,Morehead State Eagles,Vanderbilt Commodores,2413,238,Home,Final,50.0,102.0
-401907048,2026-11-09,Northwestern State Lady Demons,Oklahoma State Cowgirls,2466,197,Home,Final,56.0,94.0
-401929151,2026-11-09,Otterbein Cardinals,Ohio Bobcats,359,195,Home,Final,44.0,68.0
-401913900,2026-11-09,Pensacola Christian Eagles,West Florida Argonauts,100277,2697,Home,Final,58.0,85.0
-401929232,2026-11-09,Arkansas Baptist Buffaloes,Arkansas-Pine Bluff Golden Lions,2027,2029,Home,Final,50.0,84.0
-401929045,2026-11-09,Tennessee Tech Golden Eagles,Missouri Tigers,2635,142,Home,Final,59.0,106.0
-401927486,2026-11-09,Miles Golden Bears,Alabama A&M Bulldogs,2396,2010,Home,Final,61.0,81.0
-401927054,2026-11-09,UNC Asheville Bulldogs,Samford Bulldogs,2427,2535,Home,Final,40.0,50.0
-401918772,2026-11-09,Rogers State Hillcats,Oral Roberts Golden Eagles,121715,198,Home,Final,50.0,61.0
-401903555,2026-11-09,Idaho Vandals,Washington State Cougars,70,265,Home,Final,53.0,76.0
-401927976,2026-11-09,Delaware Blue Hens,Towson Tigers,48,119,Home,Final,55.0,57.0
-401925622,2026-11-09,Fayetteville State Broncos,North Carolina Central Eagles,2220,2428,Home,Final,56.0,60.0
-401918684,2026-11-09,Savannah State Tigers,Georgia Southern Eagles,2542,290,Home,Final,61.0,107.0
-401913856,2026-11-09,Harvard Crimson,Holy Cross Crusaders,108,107,Home,Final,63.0,42.0
-401919057,2026-11-09,South Alabama Jaguars,UCF Knights,6,2116,Home,Final,59.0,85.0
-401913017,2026-11-09,Akron Zips,Xavier Musketeers,2006,2752,Home,Final,54.0,70.0
-401927937,2026-11-09,Apprentice School Builders,Hampton Lady Pirates,3111,2261,Home,Final,43.0,103.0
-401927459,2026-11-09,North Alabama Lions,Jacksonville State Gamecocks,2453,55,Home,Final,66.0,63.0
-401926042,2026-11-09,Little Rock Trojans,Memphis Tigers,2031,235,Home,Final,48.0,62.0
-401923415,2026-11-09,Mississippi Valley State Devilettes,Southern Miss Lady Eagles,2400,2572,Home,Final,55.0,75.0
-401922324,2026-11-09,Longwood Lancers,Charlotte 49ers,2344,2429,Home,Final,72.0,86.0
-401921071,2026-11-09,Penn State Lady Lions,Dayton Flyers,213,2168,Home,Final,71.0,77.0
-401919897,2026-11-09,East Stroudsburg Warriors,Fairleigh Dickinson Knights,2188,161,Home,Final,46.0,82.0
-401919423,2026-11-09,Coppin State Eagles,Central Connecticut Blue Devils,2154,2115,Home,Final,78.0,60.0
-401918941,2026-11-09,Lamar Cardinals,Texas Tech Lady Raiders,2320,2641,Home,Final,28.0,78.0
-401918925,2026-11-09,Bradley Braves,Indiana Hoosiers,71,84,Home,Final,56.0,84.0
-401918554,2026-11-09,Mississippi U for Women Owls,Jackson State Lady Tigers,130263,2296,Home,Final,70.0,85.0
-401913885,2026-11-09,Carolina University Bruins,Queens University Royals,126756,2511,Home,Final,40.0,86.0
-401918816,2026-11-09,Kansas City Roos,Arkansas Razorbacks,140,8,Home,Final,81.0,89.0
-401918782,2026-11-09,Western Illinois Leathernecks,Omaha Mavericks,2710,2437,Home,Final,57.0,54.0
-401918518,2026-11-09,Central Arkansas Sugar Bears,UL Monroe Warhawks,2110,2433,Home,Final,61.0,49.0
-401926994,2026-11-09,Northern New Mexico Eagles,Northern Colorado Bears,3141,2458,Home,Final,30.0,123.0
-401911791,2026-11-09,Creighton Bluejays,North Dakota State Bison,156,2449,Home,Final,66.0,60.0
-401927008,2026-11-09,Park University Gilbert Buccaneers,Southern Utah Thunderbirds,116420,253,Home,Final,56.0,98.0
-401921464,2026-11-09,Cal Poly Mustangs,Idaho State Bengals,13,304,Home,Final,51.0,64.0
-401918583,2026-11-09,Bethune-Cookman Wildcats,Utah Utes,2065,254,Home,Final,47.0,65.0
-401917693,2026-11-09,Santa Clara Broncos,Long Beach State Beach,2541,299,Home,Final,89.0,70.0
-401917692,2026-11-09,Seattle U Redhawks,UC Santa Barbara Gauchos,2547,2540,Home,Final,48.0,92.0
-401921598,2026-11-09,Cal State East Bay Pioneers,Sacramento State Hornets,499,16,Home,Final,52.0,82.0
-401918902,2026-11-09,Oregon Ducks,Grand Canyon Lopes,2483,2253,Home,Final,74.0,81.0
+401915886,2026-11-12,South Carolina Gamecocks,Clemson Tigers,2579,228,Home,Final,65.0,44.0
+401919324,2026-11-12,Michigan Wolverines,Columbia Lions,130,171,Home,Final,81.0,58.0
+401911739,2026-11-12,UConn Huskies,Ohio State Buckeyes,41,194,Home,Final,87.0,55.0
+401915908,2026-11-12,Duke Blue Devils,Norfolk State Spartans,150,2450,Home,Final,85.0,23.0
+401906078,2026-11-12,Louisville Cardinals,Ball State Cardinals,97,2050,Home,Final,94.0,73.0
+401919981,2026-11-12,Northern Iowa Panthers,Iowa Hawkeyes,2460,2294,Home,Final,40.0,78.0
+401913056,2026-11-12,Arizona Wildcats,UCLA Bruins,12,26,Home,Final,44.0,76.0
+401917941,2026-11-12,SE Louisiana Lady Lions,TCU Horned Frogs,2545,2628,Home,Final,47.0,106.0
+401921495,2026-11-12,Cal State Bakersfield Roadrunners,Washington Huskies,2934,264,Home,Final,51.0,85.0
+401907049,2026-11-12,Oklahoma State Cowgirls,Tulsa Golden Hurricane,197,202,Home,Final,62.0,64.0
+401930885,2026-11-12,Albany State Golden Rams,Florida A&M Rattlers,2013,50,Home,Final,67.0,74.0
+401928192,2026-11-12,Chattanooga Mocs,Northern Kentucky Norse,236,94,Home,Final,75.0,67.0
+401918658,2026-11-12,West Virginia State Yellow Jackets,Marshall Thundering Herd,2707,276,Home,Final,60.0,73.0
+401906105,2026-11-12,UNC Wilmington Seahawks,Wake Forest Demon Deacons,350,154,Home,Final,48.0,65.0
+401929296,2026-11-12,Spalding Pelicans,Southern Indiana Screaming Eagles,2589,88,Home,Final,18.0,110.0
+401928014,2026-11-12,Central Methodist Eagles,SIU Edwardsville Cougars,2860,2565,Home,Final,58.0,85.0
+401919709,2026-11-12,Morehead State Eagles,Murray State Racers,2413,93,Home,Final,72.0,81.0
+401927000,2026-11-12,Portland State Vikings,UC San Diego Tritons,2502,28,Home,Final,64.0,78.0
+401920404,2026-11-12,Cal State Fullerton Titans,UC Davis Aggies,2239,302,Home,Final,52.0,86.0
+401906065,2026-11-12,Charleston Cougars,California Golden Bears,232,25,Home,Final,64.0,78.0
+401909684,2026-11-12,Holy Cross Crusaders,Brown Bears,107,225,Home,Final,77.0,64.0
+401922325,2026-11-12,Longwood Lancers,Pennsylvania Quakers,2344,219,Home,Final,53.0,72.0
+401921599,2026-11-12,Sacramento State Hornets,Buffalo Bulls,16,2084,Home,Final,60.0,67.0
+401918449,2026-11-12,Southern Illinois Salukis,Eastern Kentucky Colonels,79,2198,Home,Final,57.0,71.0
+401915783,2026-11-12,Virginia Tech Hokies,VCU Rams,259,2670,Home,Final,77.0,66.0
+401913678,2026-11-12,Old Dominion Monarchs,Richmond Spiders,295,257,Home,Final,67.0,90.0
+401906893,2026-11-12,South Florida Bulls,Florida Gators,58,57,Home,Final,72.0,70.0
+401927055,2026-11-12,Western Carolina Catamounts,UNC Asheville Bulldogs,2717,2427,Home,Final,73.0,63.0
+401912955,2026-11-12,Middle Tennessee Blue Raiders,Tennessee Lady Volunteers,2393,2633,Home,Final,64.0,110.0
+401923470,2026-11-12,Merrimack Warriors,Villanova Wildcats,2771,222,Home,Final,44.0,97.0
+401919408,2026-11-12,Rider Broncs,Central Connecticut Blue Devils,2520,2115,Home,Final,56.0,45.0
+401918807,2026-11-12,North Dakota Fighting Hawks,Milwaukee Panthers,155,270,Home,Final,49.0,77.0
+401918796,2026-11-12,North Dakota State Bison,Butler Bulldogs,2449,2086,Home,Final,61.0,68.0
+401918555,2026-11-12,Jackson State Lady Tigers,Southern Miss Lady Eagles,2296,2572,Home,Final,60.0,73.0
+401916070,2026-11-12,Mississippi Valley State Devilettes,Lipscomb Bisons,2400,288,Home,Final,55.0,87.0
+401915775,2026-11-12,Rhode Island Rams,Wagner Seahawks,227,2681,Home,Final,88.0,38.0
+401915692,2026-11-12,Manhattan Jaspers,Fairleigh Dickinson Knights,2363,161,Home,Final,55.0,58.0
+401913726,2026-11-12,Saint Peter's Peacocks,Miami Hurricanes,2612,2390,Home,Final,46.0,78.0
+401913716,2026-11-12,Maryland Eastern Shore Hawks,Georgia Tech Yellow Jackets,2379,59,Home,Final,58.0,89.0
+401913026,2026-11-12,Fairfield Stags,Seton Hall Pirates,2217,2550,Home,Final,69.0,67.0
+401912992,2026-11-12,Alabama Crimson Tide,Memphis Tigers,333,235,Home,Final,70.0,75.0
+401929046,2026-11-12,UT Martin Skyhawks,Missouri Tigers,2630,142,Home,Final,59.0,103.0
+401928215,2026-11-12,Arkansas-Pine Bluff Golden Lions,Arkansas Razorbacks,2029,8,Home,Final,90.0,95.0
+401922830,2026-11-12,Northwestern State Lady Demons,Louisiana Tech Lady Techsters,2466,2348,Home,Final,51.0,78.0
+401917929,2026-11-12,Howard Bison,Iowa State Cyclones,47,66,Home,Final,55.0,77.0
+401916058,2026-11-12,LSU New Orleans Privateers,Tulane Green Wave,2443,2655,Home,Final,61.0,101.0
+401927047,2026-11-12,North Florida Ospreys,Little Rock Trojans,2454,2031,Home,Final,71.0,64.0
+401920086,2026-11-12,Arlington Baptist Patriots,Lamar Cardinals,3166,2320,Home,Final,25.0,107.0
+401918465,2026-11-12,Prairie View A&M Lady Panthers,Baylor Bears,2504,239,Home,Final,43.0,121.0
+401913832,2026-11-12,Texas Southern Tigers,Rice Owls,2640,242,Home,Final,46.0,71.0
 401927107,2026-11-10,Charleston Cougars,USC Trojans,232,30,Home,Final,44.0,105.0
 401906077,2026-11-10,Lindenwood Lions,Louisville Cardinals,2815,97,Home,Final,35.0,71.0
 401912966,2026-11-10,McNeese Cowgirls,LSU Tigers,2377,99,Home,Final,43.0,100.0
@@ -298,74 +100,6 @@ Game ID,Date,Away,Home,Away ID,Home ID,Venue,Status,Away score,Home score
 401917695,2026-11-10,Portland State Vikings,San Diego Toreros,2502,301,Home,Final,67.0,70.0
 401916082,2026-11-10,Arizona State Sun Devils,UNLV Lady Rebels,9,2439,Home,Final,65.0,58.0
 401917694,2026-11-10,Chico State Wildcats,Saint Mary's Gaels,14,2608,Home,Final,44.0,81.0
-401906089,2026-11-08,North Carolina Tar Heels,South Carolina Gamecocks,153,2579,Neutral,Final,39.0,84.0
-401911738,2026-11-08,Iowa Hawkeyes,UConn Huskies,2294,41,Home,Final,79.0,91.0
-401927106,2026-11-08,Utah State Aggies,USC Trojans,328,30,Home,Final,40.0,118.0
-401915907,2026-11-08,Duke Blue Devils,Florida Atlantic Owls,150,2226,Neutral,Final,78.0,56.0
-401927068,2026-11-08,Wright State Raiders,Michigan Wolverines,2750,130,Home,Final,52.0,109.0
-401906076,2026-11-08,Louisville Cardinals,Southern Indiana Screaming Eagles,97,88,Home,Final,80.0,57.0
-401913737,2026-11-08,Kentucky Wildcats,NC State Wolfpack,96,152,Neutral,Final,93.0,78.0
-401917940,2026-11-08,Tarleton State Texans,TCU Horned Frogs,2627,2628,Home,Final,42.0,89.0
-401919942,2026-11-08,Mercyhurst Lakers,Ohio State Buckeyes,2385,194,Home,Final,57.0,91.0
-401918915,2026-11-08,George Mason Patriots,Maryland Terrapins,2244,120,Home,Final,62.0,81.0
-401927414,2026-11-08,Morgan State Lady Bears,Oklahoma Sooners,2415,201,Home,Final,38.0,95.0
-401907165,2026-11-08,West Virginia Mountaineers,Georgia Tech Yellow Jackets,277,59,Home,Final,81.0,63.0
-401915323,2026-11-08,Murray State Racers,Princeton Tigers,93,163,Neutral,Final,74.0,76.0
-401914490,2026-11-08,Cornell Big Red,Syracuse Orange,172,183,Home,Final,48.0,80.0
-401913812,2026-11-08,UMass Lowell River Hawks,Canisius Golden Griffins,2349,2099,Home,Final,61.0,73.0
-401906104,2026-11-08,Mercer Bears,Wake Forest Demon Deacons,2382,154,Home,Final,51.0,77.0
-401926093,2026-11-08,Bellarmine Knights,Miami (OH) RedHawks,91,193,Home,Final,37.0,92.0
-401921019,2026-11-08,Campbell Fighting Camels,Davidson Wildcats,2097,2166,Home,Final,43.0,80.0
-401920252,2026-11-08,Butler Bulldogs,Central Michigan Chippewas,2086,2117,Home,Final,74.0,42.0
-401913864,2026-11-08,Rhode Island Rams,South Florida Bulls,227,58,Neutral,Final,82.0,63.0
-401913774,2026-11-08,New Hampshire Wildcats,Niagara Purple Eagles,160,315,Home,Final,71.0,52.0
-401912991,2026-11-08,Alabama Crimson Tide,Tulane Green Wave,333,2655,Home,Final,68.0,63.0
-401912978,2026-11-08,Nicholls Colonels,Georgia Lady Bulldogs,2447,61,Home,Final,48.0,74.0
-401906981,2026-11-08,UT Rio Grande Valley Vaqueros,Kansas State Wildcats,292,2306,Home,Final,39.0,68.0
-401929301,2026-11-08,Tennessee State Lady Tigers,Old Dominion Monarchs,2634,295,Home,Final,78.0,88.0
-401929160,2026-11-08,Wofford Terriers,Georgia State Panthers,2747,2247,Home,Final,64.0,60.0
-401929156,2026-11-08,Johnson Royals,Western Carolina Catamounts,128474,2717,Home,Final,47.0,89.0
-401929108,2026-11-08,Delaware State Hornets,Robert Morris Colonials,2169,2523,Home,Final,53.0,69.0
-401929095,2026-11-08,Rochester Christian Warriors,Oakland Golden Grizzlies,2947,2473,Home,Final,48.0,97.0
-401928013,2026-11-08,Milwaukee Panthers,SIU Edwardsville Cougars,270,2565,Home,Final,57.0,63.0
-401921443,2026-11-08,Northwestern Wildcats,UIC Flames,77,82,Home,Final,71.0,76.0
-401920167,2026-11-08,Louisiana Tech Lady Techsters,McNeese Cowgirls,2348,2377,Home,Final,82.0,59.0
-401919646,2026-11-08,Pennsylvania Quakers,Norfolk State Spartans,219,2450,Home,Final,72.0,56.0
-401919068,2026-11-08,Saint Peter's Peacocks,Georgetown Hoyas,2612,46,Home,Final,37.0,97.0
-401918806,2026-11-08,Minot State Beavers,North Dakota Fighting Hawks,568,155,Home,Final,68.0,84.0
-401916037,2026-11-08,UMBC Retrievers,Quinnipiac Bobcats,2378,2514,Home,Final,91.0,67.0
-401916005,2026-11-08,William & Mary Tribe,Virginia Cavaliers,2729,258,Home,Final,58.0,99.0
-401915885,2026-11-08,UNC Greensboro Spartans,Clemson Tigers,2430,228,Home,Final,44.0,72.0
-401915763,2026-11-08,Clarion Golden Eagles,Duquesne Dukes,2134,2184,Home,Final,60.0,97.0
-401915643,2026-11-08,Vermont Catamounts,Fairfield Stags,261,2217,Home,Final,50.0,74.0
-401913799,2026-11-08,UAlbany Great Danes,Mount St. Mary's Mountaineers,399,116,Home,Final,77.0,57.0
-401913764,2026-11-08,Maine Black Bears,Merrimack Warriors,311,2771,Home,Final,87.0,62.0
-401913756,2026-11-08,Bryant Bulldogs,Manhattan Jaspers,2803,2363,Home,Final,63.0,46.0
-401913725,2026-11-08,Stetson Hatters,Miami Hurricanes,56,2390,Home,Final,39.0,79.0
-401913707,2026-11-08,Florida A&M Rattlers,Florida State Seminoles,50,52,Home,Final,42.0,101.0
-401913005,2026-11-08,Indiana State Sycamores,Rutgers Scarlet Knights,282,164,Home,Final,76.0,107.0
-401906892,2026-11-08,Florida Gators,Chattanooga Mocs,57,236,Home,Final,64.0,58.0
-401906064,2026-11-08,San Francisco Dons,California Golden Bears,2539,25,Neutral,Final,65.0,87.0
-401913677,2026-11-08,Rice Owls,Richmond Spiders,242,257,Home,Final,73.0,60.0
-401928994,2026-11-08,Christian Brothers Buccaneers,Western Kentucky Lady Toppers,2131,98,Home,Final,43.0,94.0
-401918866,2026-11-08,Grambling Lady Tigers,Wisconsin Badgers,2755,275,Home,Final,46.0,97.0
-401918855,2026-11-08,Mississippi State Bulldogs,UT Martin Skyhawks,344,2630,Home,Final,114.0,68.0
-401918464,2026-11-08,Texas A&M-Corpus Christi Islanders,Baylor Bears,357,239,Home,Final,40.0,112.0
-401917928,2026-11-08,Eastern Illinois Panthers,Iowa State Cyclones,2197,66,Home,Final,61.0,77.0
-401913055,2026-11-08,Iona Gaels,Arizona Wildcats,314,12,Home,Final,61.0,74.0
-401913046,2026-11-08,Stonehill Skyhawks,DePaul Blue Demons,284,305,Home,Final,63.0,95.0
-401911722,2026-11-08,Monroe (NY) Mustangs,Fordham Rams,134332,2230,Home,Final,46.0,83.0
-401919323,2026-11-08,Columbia Lions,Belmont Bruins,171,2057,Home,Final,84.0,64.0
-401928197,2026-11-08,UVA Wise Cavaliers,East Tennessee State Buccaneers,2842,2193,Home,Final,55.0,75.0
-401926946,2026-11-08,UTSA Roadrunners,San Diego State Aztecs,2636,21,Home,Final,56.0,65.0
-401918033,2026-11-08,Binghamton Bearcats,Siena Saints,2066,2561,Home,Final,79.0,73.0
-401917691,2026-11-08,Portland Pilots,Montana State Bobcats,2501,147,Home,Final,65.0,75.0
-401928298,2026-11-08,UC Riverside Highlanders,Gonzaga Bulldogs,27,2250,Home,Final,58.0,85.0
-401926951,2026-11-08,Eastern Washington Eagles,Oregon State Beavers,331,204,Home,Final,64.0,85.0
-401915979,2026-11-08,UC Davis Aggies,Stanford Cardinal,302,24,Home,Final,60.0,67.0
-401913786,2026-11-08,NJIT Highlanders,Marist Red Foxes,2885,2368,Home,Final,67.0,63.0
-401916017,2026-11-08,James Madison Dukes,Virginia Tech Hokies,256,259,Home,Final,43.0,59.0
-401915962,2026-11-08,East Texas A&M Lions,SMU Mustangs,2837,2567,Home,Final,65.0,78.0
 401912967,2026-11-13,Denver Pioneers,LSU Tigers,2172,99,Home,Final,37.0,101.0
 401918773,2026-11-13,Oral Roberts Golden Eagles,Oklahoma Sooners,198,201,Home,Final,62.0,93.0
 401907166,2026-11-13,Northwestern Wildcats,West Virginia Mountaineers,77,277,Neutral,Final,53.0,66.0
@@ -474,56 +208,61 @@ Game ID,Date,Away,Home,Away ID,Home ID,Venue,Status,Away score,Home score
 401917697,2026-11-11,Seattle U Redhawks,Cal Poly Mustangs,2547,13,Home,Final,55.0,57.0
 401920275,2026-11-11,New Mexico Lobos,Fresno State Bulldogs,167,278,Home,Final,56.0,74.0
 401923475,2026-11-11,Colorado Buffaloes,San Diego State Aztecs,38,21,Home,Final,64.0,55.0
-401915886,2026-11-12,South Carolina Gamecocks,Clemson Tigers,2579,228,Home,Final,65.0,44.0
-401919324,2026-11-12,Michigan Wolverines,Columbia Lions,130,171,Home,Final,81.0,58.0
-401911739,2026-11-12,UConn Huskies,Ohio State Buckeyes,41,194,Home,Final,87.0,55.0
-401915908,2026-11-12,Duke Blue Devils,Norfolk State Spartans,150,2450,Home,Final,85.0,23.0
-401906078,2026-11-12,Louisville Cardinals,Ball State Cardinals,97,2050,Home,Final,94.0,73.0
-401919981,2026-11-12,Northern Iowa Panthers,Iowa Hawkeyes,2460,2294,Home,Final,40.0,78.0
-401913056,2026-11-12,Arizona Wildcats,UCLA Bruins,12,26,Home,Final,44.0,76.0
-401917941,2026-11-12,SE Louisiana Lady Lions,TCU Horned Frogs,2545,2628,Home,Final,47.0,106.0
-401921495,2026-11-12,Cal State Bakersfield Roadrunners,Washington Huskies,2934,264,Home,Final,51.0,85.0
-401907049,2026-11-12,Oklahoma State Cowgirls,Tulsa Golden Hurricane,197,202,Home,Final,62.0,64.0
-401930885,2026-11-12,Albany State Golden Rams,Florida A&M Rattlers,2013,50,Home,Final,67.0,74.0
-401928192,2026-11-12,Chattanooga Mocs,Northern Kentucky Norse,236,94,Home,Final,75.0,67.0
-401918658,2026-11-12,West Virginia State Yellow Jackets,Marshall Thundering Herd,2707,276,Home,Final,60.0,73.0
-401906105,2026-11-12,UNC Wilmington Seahawks,Wake Forest Demon Deacons,350,154,Home,Final,48.0,65.0
-401929296,2026-11-12,Spalding Pelicans,Southern Indiana Screaming Eagles,2589,88,Home,Final,18.0,110.0
-401928014,2026-11-12,Central Methodist Eagles,SIU Edwardsville Cougars,2860,2565,Home,Final,58.0,85.0
-401919709,2026-11-12,Morehead State Eagles,Murray State Racers,2413,93,Home,Final,72.0,81.0
-401927000,2026-11-12,Portland State Vikings,UC San Diego Tritons,2502,28,Home,Final,64.0,78.0
-401920404,2026-11-12,Cal State Fullerton Titans,UC Davis Aggies,2239,302,Home,Final,52.0,86.0
-401906065,2026-11-12,Charleston Cougars,California Golden Bears,232,25,Home,Final,64.0,78.0
-401909684,2026-11-12,Holy Cross Crusaders,Brown Bears,107,225,Home,Final,77.0,64.0
-401922325,2026-11-12,Longwood Lancers,Pennsylvania Quakers,2344,219,Home,Final,53.0,72.0
-401921599,2026-11-12,Sacramento State Hornets,Buffalo Bulls,16,2084,Home,Final,60.0,67.0
-401918449,2026-11-12,Southern Illinois Salukis,Eastern Kentucky Colonels,79,2198,Home,Final,57.0,71.0
-401915783,2026-11-12,Virginia Tech Hokies,VCU Rams,259,2670,Home,Final,77.0,66.0
-401913678,2026-11-12,Old Dominion Monarchs,Richmond Spiders,295,257,Home,Final,67.0,90.0
-401906893,2026-11-12,South Florida Bulls,Florida Gators,58,57,Home,Final,72.0,70.0
-401927055,2026-11-12,Western Carolina Catamounts,UNC Asheville Bulldogs,2717,2427,Home,Final,73.0,63.0
-401912955,2026-11-12,Middle Tennessee Blue Raiders,Tennessee Lady Volunteers,2393,2633,Home,Final,64.0,110.0
-401923470,2026-11-12,Merrimack Warriors,Villanova Wildcats,2771,222,Home,Final,44.0,97.0
-401919408,2026-11-12,Rider Broncs,Central Connecticut Blue Devils,2520,2115,Home,Final,56.0,45.0
-401918807,2026-11-12,North Dakota Fighting Hawks,Milwaukee Panthers,155,270,Home,Final,49.0,77.0
-401918796,2026-11-12,North Dakota State Bison,Butler Bulldogs,2449,2086,Home,Final,61.0,68.0
-401918555,2026-11-12,Jackson State Lady Tigers,Southern Miss Lady Eagles,2296,2572,Home,Final,60.0,73.0
-401916070,2026-11-12,Mississippi Valley State Devilettes,Lipscomb Bisons,2400,288,Home,Final,55.0,87.0
-401915775,2026-11-12,Rhode Island Rams,Wagner Seahawks,227,2681,Home,Final,88.0,38.0
-401915692,2026-11-12,Manhattan Jaspers,Fairleigh Dickinson Knights,2363,161,Home,Final,55.0,58.0
-401913726,2026-11-12,Saint Peter's Peacocks,Miami Hurricanes,2612,2390,Home,Final,46.0,78.0
-401913716,2026-11-12,Maryland Eastern Shore Hawks,Georgia Tech Yellow Jackets,2379,59,Home,Final,58.0,89.0
-401913026,2026-11-12,Fairfield Stags,Seton Hall Pirates,2217,2550,Home,Final,69.0,67.0
-401912992,2026-11-12,Alabama Crimson Tide,Memphis Tigers,333,235,Home,Final,70.0,75.0
-401929046,2026-11-12,UT Martin Skyhawks,Missouri Tigers,2630,142,Home,Final,59.0,103.0
-401928215,2026-11-12,Arkansas-Pine Bluff Golden Lions,Arkansas Razorbacks,2029,8,Home,Final,90.0,95.0
-401922830,2026-11-12,Northwestern State Lady Demons,Louisiana Tech Lady Techsters,2466,2348,Home,Final,51.0,78.0
-401917929,2026-11-12,Howard Bison,Iowa State Cyclones,47,66,Home,Final,55.0,77.0
-401916058,2026-11-12,LSU New Orleans Privateers,Tulane Green Wave,2443,2655,Home,Final,61.0,101.0
-401927047,2026-11-12,North Florida Ospreys,Little Rock Trojans,2454,2031,Home,Final,71.0,64.0
-401920086,2026-11-12,Arlington Baptist Patriots,Lamar Cardinals,3166,2320,Home,Final,25.0,107.0
-401918465,2026-11-12,Prairie View A&M Lady Panthers,Baylor Bears,2504,239,Home,Final,43.0,121.0
-401913832,2026-11-12,Texas Southern Tigers,Rice Owls,2640,242,Home,Final,46.0,71.0
+401918433,2026-11-14,Tarleton State Texans,Texas Longhorns,2627,251,Home,Final,35.0,91.0
+401923183,2026-11-14,DePaul Blue Demons,Notre Dame Fighting Irish,305,87,Neutral,Final,84.0,108.0
+401906983,2026-11-14,Minnesota Golden Gophers,Kansas State Wildcats,135,2306,Neutral,Final,68.0,65.0
+401906091,2026-11-14,North Carolina Tar Heels,Pennsylvania Quakers,153,219,Home,Final,71.0,60.0
+401906965,2026-11-14,Nebraska Cornhuskers,Kansas Jayhawks,158,2305,Neutral,Final,105.0,73.0
+401918685,2026-11-14,Wofford Terriers,Georgia Southern Eagles,2747,290,Home,Final,76.0,109.0
+401917186,2026-11-14,Rider Broncs,Yale Bulldogs,2520,43,Home,Final,47.0,65.0
+401923416,2026-11-14,Mississippi Valley State Devilettes,Tennessee State Lady Tigers,2400,2634,Home,Final,56.0,117.0
+401918857,2026-11-14,Mississippi State Bulldogs,Buffalo Bulls,344,2084,Home,Final,90.0,57.0
+401913747,2026-11-14,Charleston Southern Buccaneers,Pittsburgh Panthers,2127,221,Home,Final,33.0,102.0
+401909672,2026-11-14,Clinton Golden Bears,Winthrop Eagles,130129,2737,Home,Final,35.0,97.0
+401906034,2026-11-14,Providence Friars,Boston College Eagles,2507,103,Home,Final,73.0,75.0
+401929175,2026-11-14,Central Connecticut Blue Devils,Massachusetts Minutewomen,2115,113,Home,Final,48.0,96.0
+401927096,2026-11-14,South Carolina Upstate Spartans,UNC Greensboro Spartans,2908,2430,Home,Final,60.0,55.0
+401920025,2026-11-14,Air Force Falcons,Navy Midshipmen,2005,2426,Home,Final,66.0,75.0
+401918808,2026-11-14,North Dakota Fighting Hawks,Detroit Mercy Titans,155,2174,Home,Final,59.0,84.0
+401916195,2026-11-14,Sacramento State Hornets,Niagara Purple Eagles,16,315,Home,Final,95.0,38.0
+401915765,2026-11-14,Duquesne Dukes,Kent State Golden Flashes,2184,2309,Home,Final,75.0,71.0
+401913788,2026-11-14,NJIT Highlanders,Dartmouth Big Green,2885,159,Home,Final,60.0,70.0
+401912980,2026-11-14,Georgia Lady Bulldogs,Ohio Bobcats,61,195,Home,Final,75.0,55.0
+401911768,2026-11-14,Binghamton Bearcats,St. Bonaventure Bonnies,2066,179,Home,Final,67.0,56.0
+401929011,2026-11-14,Furman Paladins,Campbell Fighting Camels,231,2097,Home,Final,58.0,64.0
+401928015,2026-11-14,Eureka Red Devils,SIU Edwardsville Cougars,101,2565,Home,Final,38.0,114.0
+401926101,2026-11-14,Warner Royals,Jacksonville Dolphins,2683,294,Home,Final,40.0,81.0
+401926033,2026-11-14,Florida Atlantic Owls,Florida Gulf Coast Eagles,2226,526,Home,Final,51.0,86.0
+401920337,2026-11-14,South Carolina State Lady Bulldogs,High Point Panthers,2569,2272,Home,Final,56.0,87.0
+401919693,2026-11-14,Illinois State Redbirds,Saint Louis Billikens,2287,139,Home,Final,72.0,55.0
+401919681,2026-11-14,Evansville Purple Aces,Eastern Illinois Panthers,339,2197,Home,Final,46.0,64.0
+401918888,2026-11-14,Wisconsin Badgers,Green Bay Phoenix,275,2739,Home,Final,76.0,81.0
+401918519,2026-11-14,North Florida Ospreys,Central Arkansas Sugar Bears,2454,2110,Home,Final,71.0,70.0
+401916213,2026-11-14,Boston University Terriers,Quinnipiac Bobcats,104,2514,Home,Final,47.0,58.0
+401916164,2026-11-14,Bucknell Bison,Mount St. Mary's Mountaineers,2083,116,Home,Final,73.0,48.0
+401915776,2026-11-14,Rhode Island Rams,St. John's Red Storm,227,2599,Home,Final,51.0,68.0
+401911756,2026-11-14,Milwaukee Panthers,Loyola Chicago Ramblers,270,2350,Home,Final,71.0,65.0
+401911494,2026-11-14,Queens University Royals,Gardner-Webb Runnin' Bulldogs,2511,2241,Home,Final,57.0,53.0
+401928281,2026-11-14,Northern Arizona Lumberjacks,Fresno State Bulldogs,2464,278,Home,Final,71.0,85.0
+401926995,2026-11-14,Sam Houston Bearkats,Northern Colorado Bears,2534,2458,Home,Final,58.0,72.0
+401925803,2026-11-14,Incarnate Word Cardinals,North Texas Mean Green,2916,249,Home,Final,46.0,75.0
+401923476,2026-11-14,Youngstown State Penguins,Colorado Buffaloes,2754,38,Home,Final,63.0,72.0
+401923002,2026-11-14,Houston Christian Huskies,Weber State Wildcats,2277,2692,Home,Final,67.0,70.0
+401921079,2026-11-14,North Carolina Central Eagles,George Mason Patriots,2428,2244,Home,Final,45.0,71.0
+401918610,2026-11-14,Alabama State Lady Hornets,UTEP Miners,2011,2638,Home,Final,56.0,64.0
+401916153,2026-11-14,New Mexico Lobos,BYU Cougars,167,252,Home,Final,65.0,82.0
+401913875,2026-11-14,UC Riverside Highlanders,Wichita State Shockers,27,2724,Home,Final,61.0,87.0
+401906066,2026-11-14,California Golden Bears,UC Santa Barbara Gauchos,25,2540,Home,Final,79.0,47.0
+401918725,2026-11-14,St. Thomas Tommies,Army Black Knights,2900,349,Home,Final,39.0,57.0
+401920267,2026-11-14,Nevada Wolf Pack,Utah Valley Wolverines,2440,3084,Home,Final,48.0,60.0
+401923332,2026-11-14,LSU Shreveport Pilots,UT Arlington Mavericks,2353,250,Home,Final,56.0,83.0
+401919943,2026-11-14,Akron Zips,Mercyhurst Lakers,2006,2385,Home,Final,63.0,50.0
+401919667,2026-11-14,Bradley Braves,Bellarmine Knights,71,91,Home,Final,65.0,55.0
+401917702,2026-11-14,Cal State Northridge Matadors,San Diego Toreros,2463,301,Home,Final,67.0,94.0
+401913666,2026-11-14,Long Island University Sharks,George Washington Revolutionaries,112358,45,Home,Final,54.0,65.0
+401919647,2026-11-14,Norfolk State Spartans,Hampton Lady Pirates,2450,2261,Home,Final,53.0,50.0
+401918715,2026-11-14,Northwestern Wildcats,App State Mountaineers,77,2026,Neutral,Final,75.0,61.0
+401913776,2026-11-14,Colgate Raiders,New Hampshire Wildcats,2142,160,Home,Final,49.0,87.0
 401918850,2026-11-15,USC Trojans,South Carolina Gamecocks,30,2579,Neutral,Final,85.0,89.0
 401906079,2026-11-15,UConn Huskies,Louisville Cardinals,41,97,Home,Final,51.0,69.0
 401915909,2026-11-15,Marshall Thundering Herd,Duke Blue Devils,276,150,Home,Final,51.0,88.0
@@ -595,105 +334,347 @@ Game ID,Date,Away,Home,Away ID,Home ID,Venue,Status,Away score,Home score
 401915595,2026-11-15,Canisius Golden Griffins,Syracuse Orange,2099,183,Home,Final,68.0,82.0
 401928046,2026-11-15,Loyola Marymount Lions,Hawai'i Rainbow Wahine,2351,62,Home,Final,59.0,49.0
 401913057,2026-11-15,Oregon State Beavers,Arizona Wildcats,204,12,Home,Final,80.0,84.0
-401918841,2026-11-07,Northern Colorado Bears,Texas Longhorns,2458,251,Home,Final,29.0,91.0
-401918909,2026-11-07,Minnesota Golden Gophers,Marquette Golden Eagles,135,269,Home,Final,87.0,79.0
-401927061,2026-11-07,Southern Jaguars,Illinois Fighting Illini,2582,356,Home,Final,28.0,99.0
-401929031,2026-11-07,Kent State Golden Flashes,Northern Kentucky Norse,2309,94,Home,Final,58.0,61.0
-401925621,2026-11-07,North Carolina Central Eagles,UNC Wilmington Seahawks,2428,350,Home,Final,48.0,82.0
-401921148,2026-11-07,Loyola Maryland Greyhounds,La Salle Explorers,2352,2325,Home,Final,61.0,69.0
-401920210,2026-11-07,LSU New Orleans Privateers,Texas A&M Aggies,2443,245,Home,Final,63.0,90.0
-401933116,2026-11-07,Palm Beach Atlantic Sailfish,North Florida Ospreys,2489,2454,Home,Final,76.0,93.0
-401927028,2026-11-07,Charleston Southern Buccaneers,Charleston Cougars,2127,232,Home,Final,54.0,71.0
-401921240,2026-11-07,Kutztown Golden Bears,Saint Joseph's Hawks,2315,2603,Home,Final,27.0,95.0
-401920336,2026-11-07,High Point Panthers,Ball State Cardinals,2272,2050,Home,Final,78.0,71.0
-401919962,2026-11-07,Wagner Seahawks,St. John's Red Storm,2681,2599,Home,Final,33.0,102.0
-401918781,2026-11-07,Avila Eagles,Omaha Mavericks,130141,2437,Home,Final,34.0,69.0
-401913035,2026-11-07,Massachusetts Minutewomen,Providence Friars,113,2507,Home,Final,60.0,50.0
-401929627,2026-11-07,Queens (NY) Lady Knights,Hofstra Pride,2512,2275,Home,Final,44.0,75.0
-401927075,2026-11-07,Michigan State Spartans,Toledo Rockets,127,2649,Home,Final,72.0,64.0
-401926058,2026-11-07,UAB Blazers,South Alabama Jaguars,5,6,Home,Final,73.0,59.0
-401926054,2026-11-07,Navy Midshipmen,Temple Owls,2426,218,Home,Final,77.0,97.0
-401926031,2026-11-07,Kennesaw State Owls,Florida Atlantic Owls,338,2226,Home,Final,28.0,68.0
-401920014,2026-11-07,Detroit Mercy Titans,Valparaiso Beacons,2174,2674,Home,Final,67.0,63.0
-401919679,2026-11-07,Evansville Purple Aces,Lindenwood Lions,339,2815,Home,Final,49.0,62.0
-401919626,2026-11-07,District of Columbia Firebirds,Maryland Eastern Shore Hawks,2177,2379,Home,Final,52.0,90.0
-401918704,2026-11-07,Arkansas State Red Wolves,Florida Gulf Coast Eagles,2032,526,Home,Final,59.0,89.0
-401918423,2026-11-07,Alabama State Lady Hornets,West Georgia Wolves,2011,2698,Home,Final,78.0,80.0
-401916185,2026-11-07,Penn State Lady Lions,Cincinnati Bearcats,213,2132,Home,Final,53.0,76.0
-401913745,2026-11-07,Long Island University Sharks,Pittsburgh Panthers,112358,221,Home,Final,42.0,92.0
-401916069,2026-11-07,Carolina University Bruins,Lipscomb Bisons,126756,288,Home,Final,49.0,90.0
-401925801,2026-11-07,Incarnate Word Cardinals,UTEP Miners,2916,2638,Home,Final,68.0,74.0
-401923736,2026-11-07,Rogers State Hillcats,Tulsa Golden Hurricane,121715,202,Home,Final,40.0,67.0
-401923474,2026-11-07,Fresno State Bulldogs,Colorado Buffaloes,278,38,Home,Final,56.0,73.0
-401921435,2026-11-07,Western Illinois Leathernecks,Nebraska Cornhuskers,2710,158,Home,Final,35.0,98.0
-401917690,2026-11-07,Saint Mary's Gaels,Air Force Falcons,2608,2005,Home,Final,37.0,61.0
-401911505,2026-11-07,Radford Highlanders,Eastern Kentucky Colonels,2515,2198,Home,Final,56.0,65.0
-401909683,2026-11-07,Bucknell Bison,Brown Bears,2083,225,Home,Final,61.0,73.0
-401927095,2026-11-07,Southern Wesleyan Warriors,South Carolina Upstate Spartans,2576,2908,Home,Final,33.0,68.0
-401916151,2026-11-07,Montana Lady Griz,BYU Cougars,149,252,Home,Final,53.0,97.0
-401921521,2026-11-07,Westcliff Warriors,Cal State Fullerton Titans,111961,2239,Home,Final,43.0,73.0
-401919691,2026-11-07,Augustana (IL) Vikings,Illinois State Redbirds,2042,2287,Home,Final,54.0,96.0
-401912505,2026-11-07,Liberty Flames,East Carolina Pirates,2335,151,Home,Final,82.0,49.0
-401919875,2026-11-07,Texas State Bobcats,Chicago State Cougars,326,2130,Home,Final,106.0,51.0
-401923194,2026-11-07,Denver Pioneers,Weber State Wildcats,2172,2692,Home,Final,51.0,64.0
-401917689,2026-11-07,San Diego Toreros,UC San Diego Tritons,301,28,Neutral,Final,88.0,90.0
-401917688,2026-11-07,Santa Clara Broncos,Utah Valley Wolverines,2541,3084,Home,Final,64.0,62.0
-401929136,2026-11-07,Buffalo Bulls,Youngstown State Penguins,2084,2754,Home,Final,62.0,86.0
-401911754,2026-11-07,Loyola Chicago Ramblers,Green Bay Phoenix,2350,2739,Home,Final,48.0,82.0
-401920496,2026-11-07,Missouri State Lady Bears,Wyoming Cowgirls,2623,2751,Home,Final,72.0,37.0
-401920265,2026-11-07,Sacramento State Hornets,Nevada Wolf Pack,16,2440,Home,Final,70.0,60.0
-401918433,2026-11-14,Tarleton State Texans,Texas Longhorns,2627,251,Home,Final,35.0,91.0
-401923183,2026-11-14,DePaul Blue Demons,Notre Dame Fighting Irish,305,87,Neutral,Final,84.0,108.0
-401906983,2026-11-14,Minnesota Golden Gophers,Kansas State Wildcats,135,2306,Neutral,Final,68.0,65.0
-401906091,2026-11-14,North Carolina Tar Heels,Pennsylvania Quakers,153,219,Home,Final,71.0,60.0
-401906965,2026-11-14,Nebraska Cornhuskers,Kansas Jayhawks,158,2305,Neutral,Final,105.0,73.0
-401918685,2026-11-14,Wofford Terriers,Georgia Southern Eagles,2747,290,Home,Final,76.0,109.0
-401917186,2026-11-14,Rider Broncs,Yale Bulldogs,2520,43,Home,Final,47.0,65.0
-401923416,2026-11-14,Mississippi Valley State Devilettes,Tennessee State Lady Tigers,2400,2634,Home,Final,56.0,117.0
-401918857,2026-11-14,Mississippi State Bulldogs,Buffalo Bulls,344,2084,Home,Final,90.0,57.0
-401913747,2026-11-14,Charleston Southern Buccaneers,Pittsburgh Panthers,2127,221,Home,Final,33.0,102.0
-401909672,2026-11-14,Clinton Golden Bears,Winthrop Eagles,130129,2737,Home,Final,35.0,97.0
-401906034,2026-11-14,Providence Friars,Boston College Eagles,2507,103,Home,Final,73.0,75.0
-401929175,2026-11-14,Central Connecticut Blue Devils,Massachusetts Minutewomen,2115,113,Home,Final,48.0,96.0
-401927096,2026-11-14,South Carolina Upstate Spartans,UNC Greensboro Spartans,2908,2430,Home,Final,60.0,55.0
-401920025,2026-11-14,Air Force Falcons,Navy Midshipmen,2005,2426,Home,Final,66.0,75.0
-401918808,2026-11-14,North Dakota Fighting Hawks,Detroit Mercy Titans,155,2174,Home,Final,59.0,84.0
-401916195,2026-11-14,Sacramento State Hornets,Niagara Purple Eagles,16,315,Home,Final,95.0,38.0
-401915765,2026-11-14,Duquesne Dukes,Kent State Golden Flashes,2184,2309,Home,Final,75.0,71.0
-401913788,2026-11-14,NJIT Highlanders,Dartmouth Big Green,2885,159,Home,Final,60.0,70.0
-401912980,2026-11-14,Georgia Lady Bulldogs,Ohio Bobcats,61,195,Home,Final,75.0,55.0
-401911768,2026-11-14,Binghamton Bearcats,St. Bonaventure Bonnies,2066,179,Home,Final,67.0,56.0
-401929011,2026-11-14,Furman Paladins,Campbell Fighting Camels,231,2097,Home,Final,58.0,64.0
-401928015,2026-11-14,Eureka Red Devils,SIU Edwardsville Cougars,101,2565,Home,Final,38.0,114.0
-401926101,2026-11-14,Warner Royals,Jacksonville Dolphins,2683,294,Home,Final,40.0,81.0
-401926033,2026-11-14,Florida Atlantic Owls,Florida Gulf Coast Eagles,2226,526,Home,Final,51.0,86.0
-401920337,2026-11-14,South Carolina State Lady Bulldogs,High Point Panthers,2569,2272,Home,Final,56.0,87.0
-401919693,2026-11-14,Illinois State Redbirds,Saint Louis Billikens,2287,139,Home,Final,72.0,55.0
-401919681,2026-11-14,Evansville Purple Aces,Eastern Illinois Panthers,339,2197,Home,Final,46.0,64.0
-401918888,2026-11-14,Wisconsin Badgers,Green Bay Phoenix,275,2739,Home,Final,76.0,81.0
-401918519,2026-11-14,North Florida Ospreys,Central Arkansas Sugar Bears,2454,2110,Home,Final,71.0,70.0
-401916213,2026-11-14,Boston University Terriers,Quinnipiac Bobcats,104,2514,Home,Final,47.0,58.0
-401916164,2026-11-14,Bucknell Bison,Mount St. Mary's Mountaineers,2083,116,Home,Final,73.0,48.0
-401915776,2026-11-14,Rhode Island Rams,St. John's Red Storm,227,2599,Home,Final,51.0,68.0
-401911756,2026-11-14,Milwaukee Panthers,Loyola Chicago Ramblers,270,2350,Home,Final,71.0,65.0
-401911494,2026-11-14,Queens University Royals,Gardner-Webb Runnin' Bulldogs,2511,2241,Home,Final,57.0,53.0
-401928281,2026-11-14,Northern Arizona Lumberjacks,Fresno State Bulldogs,2464,278,Home,Final,71.0,85.0
-401926995,2026-11-14,Sam Houston Bearkats,Northern Colorado Bears,2534,2458,Home,Final,58.0,72.0
-401925803,2026-11-14,Incarnate Word Cardinals,North Texas Mean Green,2916,249,Home,Final,46.0,75.0
-401923476,2026-11-14,Youngstown State Penguins,Colorado Buffaloes,2754,38,Home,Final,63.0,72.0
-401923002,2026-11-14,Houston Christian Huskies,Weber State Wildcats,2277,2692,Home,Final,67.0,70.0
-401921079,2026-11-14,North Carolina Central Eagles,George Mason Patriots,2428,2244,Home,Final,45.0,71.0
-401918610,2026-11-14,Alabama State Lady Hornets,UTEP Miners,2011,2638,Home,Final,56.0,64.0
-401916153,2026-11-14,New Mexico Lobos,BYU Cougars,167,252,Home,Final,65.0,82.0
-401913875,2026-11-14,UC Riverside Highlanders,Wichita State Shockers,27,2724,Home,Final,61.0,87.0
-401906066,2026-11-14,California Golden Bears,UC Santa Barbara Gauchos,25,2540,Home,Final,79.0,47.0
-401918725,2026-11-14,St. Thomas Tommies,Army Black Knights,2900,349,Home,Final,39.0,57.0
-401920267,2026-11-14,Nevada Wolf Pack,Utah Valley Wolverines,2440,3084,Home,Final,48.0,60.0
-401923332,2026-11-14,LSU Shreveport Pilots,UT Arlington Mavericks,2353,250,Home,Final,56.0,83.0
-401919943,2026-11-14,Akron Zips,Mercyhurst Lakers,2006,2385,Home,Final,63.0,50.0
-401919667,2026-11-14,Bradley Braves,Bellarmine Knights,71,91,Home,Final,65.0,55.0
-401917702,2026-11-14,Cal State Northridge Matadors,San Diego Toreros,2463,301,Home,Final,67.0,94.0
-401913666,2026-11-14,Long Island University Sharks,George Washington Revolutionaries,112358,45,Home,Final,54.0,65.0
-401919647,2026-11-14,Norfolk State Spartans,Hampton Lady Pirates,2450,2261,Home,Final,53.0,50.0
-401918715,2026-11-14,Northwestern Wildcats,App State Mountaineers,77,2026,Neutral,Final,75.0,61.0
-401913776,2026-11-14,Colgate Raiders,New Hampshire Wildcats,2142,160,Home,Final,49.0,87.0
+401927069,2026-11-16,Michigan Wolverines,Central Michigan Chippewas,130,2117,Home,Final,101.0,30.0
+401912968,2026-11-16,Troy Trojans,LSU Tigers,2653,99,Home,Final,70.0,116.0
+401929164,2026-11-16,Lawrence Tech Blue Devils,Bowling Green Falcons,3251,189,Home,Final,38.0,120.0
+401927036,2026-11-16,UNC Wilmington Seahawks,Presbyterian Blue Hose,350,2506,Home,Final,61.0,35.0
+401913727,2026-11-16,Le Moyne Dolphins,Miami Hurricanes,2330,2390,Home,Final,40.0,87.0
+401911507,2026-11-16,Ferrum Panthers,Radford Highlanders,366,2515,Home,Final,41.0,98.0
+401927018,2026-11-16,Northern New Mexico Eagles,Weber State Wildcats,3141,2692,Home,Final,46.0,123.0
+401916083,2026-11-16,Penn State Lady Lions,Arizona State Sun Devils,213,9,Home,Final,41.0,85.0
+401920087,2026-11-16,Lamar Cardinals,Texas A&M Aggies,2320,245,Home,Final,53.0,61.0
+401926086,2026-11-16,Dickinson Red Devils,Navy Midshipmen,2175,2426,Home,Final,45.0,84.0
+401918648,2026-11-16,Arkansas-Pine Bluff Golden Lions,UL Monroe Warhawks,2029,2433,Home,Final,64.0,62.0
+401915784,2026-11-16,North Carolina Central Eagles,VCU Rams,2428,2670,Home,Final,36.0,87.0
+401915766,2026-11-16,Robert Morris Colonials,Duquesne Dukes,2523,2184,Home,Final,68.0,73.0
+401913757,2026-11-16,Bryant Bulldogs,Holy Cross Crusaders,2803,107,Home,Final,62.0,49.0
+401916214,2026-11-16,Yale Bulldogs,Quinnipiac Bobcats,43,2514,Home,Final,53.0,59.0
+401913018,2026-11-16,Cleveland State Vikings,Xavier Musketeers,325,2752,Home,Final,41.0,68.0
+401930241,2026-11-16,Colby Sawyer Chargers,Dartmouth Big Green,109542,159,Home,Final,46.0,97.0
+401927516,2026-11-16,Jacksonville State Gamecocks,Southern Miss Lady Eagles,55,2572,Home,Final,54.0,70.0
+401923328,2026-11-16,Regis University REGIS UNIVERSITY,Denver Pioneers,2518,2172,Home,Final,51.0,72.0
+401922326,2026-11-16,Emory & Henry Wasps,Longwood Lancers,2213,2344,Home,Final,76.0,68.0
+401920338,2026-11-16,Hampton Lady Pirates,High Point Panthers,2261,2272,Home,Final,21.0,81.0
+401919554,2026-11-16,Colgate Raiders,Central Connecticut Blue Devils,2142,2115,Home,Final,61.0,68.0
+401913007,2026-11-16,UAlbany Great Danes,Rutgers Scarlet Knights,399,164,Home,Final,44.0,83.0
+401929015,2026-11-16,Kentucky State Thorobreds,Western Kentucky Lady Toppers,2310,98,Home,Final,49.0,85.0
+401928008,2026-11-16,Tennessee Tech Golden Eagles,Middle Tennessee Blue Raiders,2635,2393,Home,Final,61.0,71.0
+401926947,2026-11-16,Louisiana Ragin' Cajuns,UTSA Roadrunners,309,2636,Home,Final,60.0,61.0
+401922831,2026-11-16,LSU Shreveport Pilots,Northwestern State Lady Demons,2353,2466,Home,Final,65.0,68.0
+401916059,2026-11-16,McNeese Cowgirls,Tulane Green Wave,2377,2655,Home,Final,52.0,74.0
+401927467,2026-11-16,Arkansas Razorbacks,Little Rock Trojans,8,2031,Home,Final,86.0,74.0
+401920405,2026-11-16,UC Davis Aggies,Northern Colorado Bears,302,2458,Home,Final,59.0,88.0
+401918818,2026-11-16,Kansas City Roos,New Mexico State Aggies,140,166,Home,Final,37.0,66.0
+401918934,2026-11-16,Houston Christian Huskies,Utah Utes,2277,254,Home,Final,49.0,98.0
+401918851,2026-11-17,Florida Gulf Coast Eagles,South Carolina Gamecocks,526,2579,Home,Final,58.0,116.0
+401906080,2026-11-17,Tennessee State Lady Tigers,Louisville Cardinals,2634,97,Home,Final,39.0,88.0
+401923340,2026-11-17,Texas Southern Tigers,Oklahoma Sooners,2640,201,Home,Final,48.0,124.0
+401903557,2026-11-17,Washington Huskies,Washington State Cougars,264,265,Home,Final,82.0,54.0
+401907167,2026-11-17,Akron Zips,West Virginia Mountaineers,2006,277,Home,Final,60.0,98.0
+401916165,2026-11-17,Mount St. Mary's Mountaineers,Nebraska Cornhuskers,116,158,Home,Final,37.0,113.0
+401929138,2026-11-17,Heidelberg Student Princes,Youngstown State Penguins,191,2754,Home,Final,37.0,82.0
+401919059,2026-11-17,North Florida Ospreys,UCF Knights,2454,2116,Home,Final,64.0,82.0
+401909673,2026-11-17,South Carolina State Lady Bulldogs,Winthrop Eagles,2569,2737,Home,Final,46.0,65.0
+401929101,2026-11-17,Purdue Fort Wayne Mastodons,Western Illinois Leathernecks,2870,2710,Home,Final,56.0,60.0
+401918611,2026-11-17,Alabama State Lady Hornets,Mississippi State Bulldogs,2011,344,Home,Final,46.0,88.0
+401911757,2026-11-17,Loyola Chicago Ramblers,Illinois State Redbirds,2350,2287,Home,Final,58.0,77.0
+401920268,2026-11-17,Pepperdine Waves,Nevada Wolf Pack,2492,2440,Home,Final,74.0,63.0
+401918904,2026-11-17,Murray State Racers,Oregon Ducks,93,2483,Home,Final,76.0,97.0
+401919493,2026-11-17,Army Black Knights,Massachusetts Minutewomen,349,113,Home,Final,49.0,60.0
+401918686,2026-11-17,Coastal Georgia Mariners,Georgia Southern Eagles,109704,290,Home,Final,55.0,129.0
+401919648,2026-11-17,Bluefield State Big Blue,Norfolk State Spartans,2073,2450,Home,Final,49.0,96.0
+401918450,2026-11-17,Northern Kentucky Norse,Eastern Kentucky Colonels,94,2198,Home,Final,54.0,66.0
+401915777,2026-11-17,Emmanuel (MA) Lions,Rhode Island Rams,2211,227,Home,Final,56.0,99.0
+401913667,2026-11-17,Temple Owls,George Washington Revolutionaries,218,45,Home,Final,83.0,73.0
+401911725,2026-11-17,Fordham Rams,Campbell Fighting Camels,2230,2097,Home,Final,72.0,70.0
+401906035,2026-11-17,Merrimack Warriors,Boston College Eagles,2771,103,Home,Final,45.0,70.0
+401929297,2026-11-17,IU Southeast Grenadiers,Southern Indiana Screaming Eagles,387,88,Home,Final,49.0,81.0
+401927470,2026-11-17,Texas College Steers,Prairie View A&M Lady Panthers,2637,2504,Home,Final,36.0,77.0
+401925804,2026-11-17,Texas State Bobcats,Incarnate Word Cardinals,326,2916,Home,Final,74.0,52.0
+401919985,2026-11-17,Eastern Illinois Panthers,Southern Illinois Salukis,2197,79,Home,Final,55.0,67.0
+401919968,2026-11-17,SIU Edwardsville Cougars,Northern Illinois Huskies,2565,2459,Home,Final,58.0,63.0
+401919701,2026-11-17,Bellarmine Knights,Indiana State Sycamores,91,282,Home,Final,45.0,76.0
+401919409,2026-11-17,Rider Broncs,Fairleigh Dickinson Knights,2520,161,Home,Final,54.0,63.0
+401918726,2026-11-17,St. Thomas Tommies,Drake Bulldogs,2900,2181,Home,Final,68.0,41.0
+401916100,2026-11-17,Marist Red Foxes,Monmouth Hawks,2368,2405,Home,Final,71.0,91.0
+401913037,2026-11-17,Northeastern Huskies,Providence Friars,111,2507,Home,Final,42.0,52.0
+401913028,2026-11-17,Seton Hall Pirates,Auburn Tigers,2550,2,Home,Final,55.0,64.0
+401912507,2026-11-17,Liberty Flames,North Carolina A&T Aggies,2335,2448,Home,Final,53.0,50.0
+401929254,2026-11-17,Hannibal LaGrange Trojans,Southeast Missouri State Redhawks,533,2546,Home,Final,36.0,104.0
+401925730,2026-11-17,Texas A&M-Texarkana Eagles,Stephen F. Austin Ladyjacks,122210,2617,Home,Final,41.0,101.0
+401918889,2026-11-17,Marquette Golden Eagles,Wisconsin Badgers,269,275,Home,Final,48.0,73.0
+401912956,2026-11-17,Tennessee Lady Volunteers,Belmont Bruins,2633,2057,Home,Final,87.0,65.0
+401906984,2026-11-17,SMU Mustangs,Kansas State Wildcats,2567,2306,Home,Final,51.0,61.0
+401920441,2026-11-17,Texas A&M-Corpus Christi Islanders,Houston Cougars,357,248,Home,Final,57.0,70.0
+401918556,2026-11-17,Jackson State Lady Tigers,Arkansas State Red Wolves,2296,2032,Home,Final,55.0,67.0
+401913876,2026-11-17,Wichita State Shockers,Oral Roberts Golden Eagles,2724,198,Home,Final,77.0,76.0
+401916084,2026-11-17,San Diego Toreros,Arizona State Sun Devils,301,9,Home,Final,55.0,66.0
+401928373,2026-11-17,Cal Lutheran Kingsmen,UC Santa Barbara Gauchos,2094,2540,Home,Final,33.0,85.0
+401913833,2026-11-17,Rice Owls,UNLV Lady Rebels,242,2439,Home,Final,74.0,72.0
+401917707,2026-11-17,Grand Canyon Lopes,Santa Clara Broncos,2253,2541,Home,Final,72.0,82.0
+401913038,2026-11-21,South Carolina Gamecocks,Providence Friars,2579,2507,Home,Final,72.0,43.0
+401906081,2026-11-21,Louisville Cardinals,Alaska Anchorage Seawolves,97,1,Home,Final,113.0,40.0
+401915910,2026-11-21,Duke Blue Devils,Columbia Lions,150,171,Home,Final,71.0,47.0
+401918918,2026-11-21,Morgan State Lady Bears,Maryland Terrapins,2415,120,Home,Final,39.0,109.0
+401906093,2026-11-21,Alabama Crimson Tide,North Carolina Tar Heels,333,153,Neutral,Final,64.0,78.0
+401918678,2026-11-21,James Madison Dukes,George Mason Patriots,256,2244,Home,Final,52.0,55.0
+401913710,2026-11-21,UCF Knights,Florida State Seminoles,2116,52,Neutral,Final,54.0,81.0
+401925994,2026-11-21,Daemen Wildcats,Binghamton Bearcats,2162,2066,Home,Final,44.0,81.0
+401919450,2026-11-21,Saint Peter's Peacocks,Long Island University Sharks,2612,112358,Home,Final,53.0,65.0
+401919439,2026-11-21,Sacred Heart Pioneers,Detroit Mercy Titans,2529,2174,Home,Final,55.0,62.0
+401918798,2026-11-21,North Dakota State Bison,UTSA Roadrunners,2449,2636,Home,Final,50.0,52.0
+401916197,2026-11-21,Le Moyne Dolphins,Niagara Purple Eagles,2330,315,Home,Final,63.0,72.0
+401916166,2026-11-21,St. Mary's (MD) Seahawks,Mount St. Mary's Mountaineers,117,116,Home,Final,28.0,78.0
+401915767,2026-11-21,Stony Brook Seawolves,Duquesne Dukes,2619,2184,Home,Final,65.0,81.0
+401913758,2026-11-21,Bryant Bulldogs,Northeastern Huskies,2803,111,Home,Final,58.0,55.0
+401913019,2026-11-21,Xavier Musketeers,Ohio Bobcats,2752,195,Home,Final,62.0,71.0
+401909687,2026-11-21,UMBC Retrievers,Brown Bears,2378,225,Home,Final,77.0,81.0
+401927997,2026-11-21,Kennesaw State Owls,East Tennessee State Buccaneers,338,2193,Home,Final,54.0,76.0
+401929143,2026-11-21,Ball State Cardinals,UIC Flames,2050,82,Home,Final,53.0,74.0
+401927840,2026-11-21,Long Beach State Beach,San José State Spartans,299,23,Home,Final,59.0,61.0
+401927097,2026-11-21,South Carolina Upstate Spartans,Tennessee Tech Golden Eagles,2908,2635,Home,Final,60.0,73.0
+401927038,2026-11-21,Presbyterian Blue Hose,Wofford Terriers,2506,2747,Home,Final,63.0,64.0
+401923003,2026-11-21,Houston Christian Huskies,Houston Cougars,2277,248,Home,Final,60.0,96.0
+401919969,2026-11-21,Northern Illinois Huskies,Northwestern Wildcats,2459,77,Home,Final,45.0,68.0
+401919683,2026-11-21,Lindenwood Lions,Evansville Purple Aces,2815,339,Home,Final,51.0,57.0
+401919627,2026-11-21,Maryland Eastern Shore Hawks,Monmouth Hawks,2379,2405,Home,Final,60.0,108.0
+401919467,2026-11-21,La Salle Explorers,American University Eagles,2325,44,Home,Final,61.0,53.0
+401918435,2026-11-21,Tarleton State Texans,Nicholls Colonels,2627,2447,Home,Final,61.0,57.0
+401913887,2026-11-21,Coker Cobras,Queens University Royals,229,2511,Home,Final,51.0,53.0
+401913802,2026-11-21,Cornell Big Red,UAlbany Great Danes,172,399,Home,Final,59.0,64.0
+401913749,2026-11-21,Canisius Golden Griffins,Pittsburgh Panthers,2099,221,Home,Final,55.0,93.0
+401913009,2026-11-21,Delaware State Hornets,Rutgers Scarlet Knights,2169,164,Home,Final,43.0,93.0
+401911758,2026-11-21,Loyola Chicago Ramblers,Western Illinois Leathernecks,2350,2710,Home,Final,61.0,73.0
+401918944,2026-11-21,Purdue Boilermakers,Texas Tech Lady Raiders,2509,2641,Neutral,Final,57.0,58.0
+401920277,2026-11-21,New Mexico State Aggies,New Mexico Lobos,166,167,Home,Final,50.0,71.0
+401919413,2026-11-21,Fairfield Stags,Oregon State Beavers,2217,204,Home,Final,60.0,71.0
+401913790,2026-11-21,NJIT Highlanders,Marquette Golden Eagles,2885,269,Home,Final,50.0,77.0
+401913049,2026-11-21,IU Indianapolis Jaguars,DePaul Blue Demons,85,305,Home,Final,67.0,85.0
+401929020,2026-11-21,Kent State Golden Flashes,Cleveland State Vikings,2309,325,Home,Final,73.0,65.0
+401923486,2026-11-21,Incarnate Word Cardinals,Texas A&M Aggies,2916,245,Home,Final,50.0,64.0
+401923341,2026-11-21,Texas Southern Tigers,UTEP Miners,2640,2638,Home,Final,47.0,72.0
+401916155,2026-11-21,Northern Colorado Bears,BYU Cougars,2458,252,Home,Final,45.0,76.0
+401918036,2026-11-21,Siena Saints,Mercyhurst Lakers,2561,2385,Home,Final,65.0,63.0
+401916189,2026-11-21,Cincinnati Bearcats,UNLV Lady Rebels,2132,2439,Home,Final,58.0,85.0
+401915669,2026-11-21,Iona Gaels,Bucknell Bison,314,2083,Home,Final,57.0,50.0
+401915965,2026-11-21,Grand Canyon Lopes,SMU Mustangs,2253,2567,Home,Final,59.0,69.0
+401928067,2026-11-21,Gonzaga Bulldogs,Hawai'i Rainbow Wahine,2250,62,Neutral,Final,63.0,57.0
+401921236,2026-11-21,Southeast Missouri State Redhawks,Saint Louis Billikens,2546,139,Home,Final,73.0,61.0
+401921021,2026-11-21,Charlotte 49ers,Davidson Wildcats,2429,2166,Home,Final,44.0,63.0
+401919710,2026-11-21,Eastern Illinois Panthers,Murray State Racers,2197,93,Home,Final,57.0,89.0
+401917713,2026-11-21,Seattle U Redhawks,Chicago State Cougars,2547,2130,Neutral,Final,78.0,50.0
+401917714,2026-11-21,UC Irvine Anteaters,San Diego Toreros,300,301,Home,Final,53.0,58.0
+401918467,2026-11-20,Baylor Bears,USC Trojans,239,30,Neutral,Final,69.0,78.0
+401923012,2026-11-20,Seton Hall Pirates,UConn Huskies,2550,41,Home,Final,43.0,83.0
+401918660,2026-11-20,Marshall Thundering Herd,Kentucky Wildcats,276,96,Home,Final,49.0,85.0
+401915982,2026-11-20,Stanford Cardinal,Washington Huskies,24,264,Home,Final,50.0,105.0
+401907052,2026-11-20,Little Rock Trojans,Oklahoma State Cowgirls,2031,197,Home,Final,61.0,103.0
+401929110,2026-11-20,Robert Morris Colonials,Akron Zips,2523,2006,Home,Final,76.0,73.0
+401918520,2026-11-20,Grambling Lady Tigers,Central Arkansas Sugar Bears,2755,2110,Home,Final,82.0,76.0
+401916060,2026-11-20,Alcorn State Lady Braves,Tulane Green Wave,2016,2655,Home,Final,39.0,76.0
+401918809,2026-11-20,Jacksonville State Gamecocks,North Dakota Fighting Hawks,55,155,Home,Final,65.0,58.0
+401918426,2026-11-20,West Georgia Wolves,Mississippi Valley State Devilettes,2698,2400,Home,Final,94.0,79.0
+401917711,2026-11-20,Pacific Tigers,Sacramento State Hornets,279,16,Home,Final,46.0,63.0
+401918511,2026-11-20,Simmons (KY) Falcons,Eastern Kentucky Colonels,126757,2198,Home,Final,26.0,108.0
+401915889,2026-11-20,UNC Asheville Bulldogs,Clemson Tigers,2427,228,Home,Final,35.0,91.0
+401925787,2026-11-20,Towson Tigers,Lehigh Mountain Hawks,119,2329,Home,Final,52.0,58.0
+401926087,2026-11-20,North Carolina A&T Aggies,Navy Midshipmen,2448,2426,Home,Final,73.0,80.0
+401919649,2026-11-20,Campbell Fighting Camels,Norfolk State Spartans,2097,2450,Home,Final,53.0,59.0
+401918687,2026-11-20,Florida Gulf Coast Eagles,Georgia Southern Eagles,526,290,Home,Final,86.0,79.0
+401915778,2026-11-20,New Haven Chargers,Rhode Island Rams,2441,227,Home,Final,43.0,80.0
+401906036,2026-11-20,Massachusetts Minutewomen,Boston College Eagles,113,103,Home,Final,65.0,72.0
+401927030,2026-11-20,Charleston Southern Buccaneers,Furman Paladins,2127,231,Home,Final,52.0,100.0
+401926102,2026-11-20,Trinity College of Jacksonville Eagles,Jacksonville Dolphins,3174,294,Home,Final,38.0,123.0
+401926095,2026-11-20,Alice Lloyd Eagles,Bellarmine Knights,484,91,Home,Final,50.0,78.0
+401929150,2026-11-20,Miami (OH) RedHawks,Southern Indiana Screaming Eagles,193,88,Home,Final,56.0,46.0
+401929027,2026-11-20,Milwaukee Panthers,Western Michigan Broncos,270,2711,Home,Final,68.0,60.0
+401928009,2026-11-20,Middle Tennessee Blue Raiders,Auburn Tigers,2393,2,Home,Final,51.0,65.0
+401927471,2026-11-20,College of Biblical Studies Ambassadors,Prairie View A&M Lady Panthers,128658,2504,Home,Final,43.0,76.0
+401919986,2026-11-20,UT Martin Skyhawks,Southern Illinois Salukis,2630,79,Home,Final,61.0,96.0
+401919410,2026-11-20,Rider Broncs,Wagner Seahawks,2520,2681,Home,Final,58.0,43.0
+401918741,2026-11-20,South Dakota Coyotes,Valparaiso Beacons,233,2674,Home,Final,63.0,55.0
+401913668,2026-11-20,George Washington Revolutionaries,Howard Bison,45,47,Home,Final,63.0,62.0
+401906067,2026-11-20,Hawai'i Rainbow Wahine,California Golden Bears,62,25,Neutral,Final,49.0,70.0
+401920088,2026-11-20,Texas State Bobcats,Lamar Cardinals,326,2320,Home,Final,68.0,55.0
+401919664,2026-11-20,Dayton Flyers,Belmont Bruins,2168,2057,Home,Final,61.0,57.0
+401920406,2026-11-20,California Baptist Lancers,UC Davis Aggies,2856,302,Home,Final,75.0,64.0
+401918774,2026-11-20,LSU New Orleans Privateers,Oral Roberts Golden Eagles,2443,198,Home,Final,58.0,89.0
+401916085,2026-11-20,Santa Clara Broncos,Arizona State Sun Devils,2541,9,Home,Final,63.0,76.0
+401913860,2026-11-20,Harvard Crimson,Colorado State Rams,108,36,Home,Final,75.0,42.0
+401927014,2026-11-20,Utah Tech Trailblazers,UC Santa Barbara Gauchos,3101,2540,Home,Final,40.0,67.0
+401920269,2026-11-20,Idaho Vandals,Nevada Wolf Pack,70,2440,Home,Final,67.0,47.0
+401918935,2026-11-20,Utah Valley Wolverines,Utah Utes,3084,254,Home,Final,66.0,92.0
+401917712,2026-11-20,Idaho State Bengals,Loyola Marymount Lions,304,2351,Home,Final,67.0,79.0
+401916196,2026-11-18,Niagara Purple Eagles,Michigan Wolverines,315,130,Home,Final,31.0,112.0
+401918843,2026-11-18,Texas Longhorns,Green Bay Phoenix,251,2739,Home,Final,89.0,57.0
+401918831,2026-11-18,North Alabama Lions,Vanderbilt Commodores,2453,238,Home,Final,44.0,80.0
+401923184,2026-11-18,Southern Jaguars,Notre Dame Fighting Irish,2582,87,Home,Final,47.0,95.0
+401918003,2026-11-18,UT Arlington Mavericks,TCU Horned Frogs,250,2628,Home,Final,48.0,96.0
+401906966,2026-11-18,Kansas Jayhawks,Minnesota Golden Gophers,2305,135,Home,Final,58.0,76.0
+401918917,2026-11-18,Coppin State Eagles,Maryland Terrapins,2154,120,Home,Final,31.0,84.0
+401924633,2026-11-18,Ole Miss Rebels,Ohio State Buckeyes,145,194,Home,Final,57.0,60.0
+401927063,2026-11-18,Illinois Fighting Illini,Ball State Cardinals,356,2050,Home,Final,91.0,51.0
+401907051,2026-11-18,St. John's Red Storm,Oklahoma State Cowgirls,2599,197,Home,Final,63.0,77.0
+401913801,2026-11-18,Bucknell Bison,UAlbany Great Danes,2083,399,Home,Final,59.0,65.0
+401913748,2026-11-18,UMBC Retrievers,Pittsburgh Panthers,2378,221,Home,Final,59.0,72.0
+401923485,2026-11-18,East Texas A&M Lions,Texas A&M Aggies,2837,245,Home,Final,55.0,59.0
+401918819,2026-11-18,Kansas City Roos,UTEP Miners,140,2638,Home,Final,53.0,69.0
+401928312,2026-11-18,UC Riverside Highlanders,Oregon State Beavers,27,204,Home,Final,57.0,64.0
+401921579,2026-11-18,California Baptist Lancers,San José State Spartans,2856,23,Home,Final,82.0,68.0
+401918740,2026-11-18,South Dakota Coyotes,Chicago State Cougars,233,2130,Home,Final,73.0,43.0
+401917708,2026-11-18,Pacific Lutheran Lutes,Seattle U Redhawks,2486,2547,Home,Final,28.0,109.0
+401916154,2026-11-18,Utah State Aggies,BYU Cougars,328,252,Home,Final,78.0,90.0
+401921150,2026-11-18,Rowan Profs,La Salle Explorers,2827,2325,Home,Final,35.0,80.0
+401913777,2026-11-18,New Hampshire Wildcats,Yale Bulldogs,160,43,Home,Final,64.0,58.0
+401919517,2026-11-18,Boston University Terriers,Stonehill Skyhawks,104,284,Home,Final,57.0,54.0
+401918659,2026-11-18,Marshall Thundering Herd,Wright State Raiders,276,2750,Home,Final,76.0,47.0
+401916188,2026-11-18,Western Carolina Catamounts,Cincinnati Bearcats,2717,2132,Home,Final,45.0,63.0
+401913859,2026-11-18,Syracuse Orange,Harvard Crimson,183,108,Home,Final,67.0,79.0
+401929631,2026-11-18,Virginia Lynchburg Dragons,Morgan State Lady Bears,3229,2415,Home,Final,36.0,80.0
+401926025,2026-11-18,Wofford Terriers,Charlotte 49ers,2747,2429,Home,Final,51.0,57.0
+401919466,2026-11-18,Drexel Dragons,American University Eagles,2182,44,Home,Final,63.0,45.0
+401919449,2026-11-18,Lafayette Leopards,Saint Peter's Peacocks,322,2612,Home,Final,53.0,58.0
+401915888,2026-11-18,South Carolina Upstate Spartans,Clemson Tigers,2908,228,Home,Final,43.0,84.0
+401915668,2026-11-18,New Haven Chargers,Iona Gaels,2441,314,Home,Final,53.0,81.0
+401914492,2026-11-18,Mercyhurst Lakers,Cornell Big Red,2385,172,Home,Final,44.0,47.0
+401913814,2026-11-18,Central Connecticut Blue Devils,UMass Lowell River Hawks,2115,2349,Home,Final,65.0,46.0
+401913789,2026-11-18,Delaware State Hornets,NJIT Highlanders,2169,2885,Home,Final,44.0,57.0
+401912981,2026-11-18,Georgia Lady Bulldogs,Georgia Tech Yellow Jackets,61,59,Home,Final,45.0,54.0
+401911495,2026-11-18,East Tennessee State Buccaneers,Gardner-Webb Runnin' Bulldogs,2193,2241,Home,Final,43.0,30.0
+401929097,2026-11-18,Eastern Michigan Eagles,Oakland Golden Grizzlies,2199,2473,Home,Final,76.0,81.0
+401920253,2026-11-18,Kent State Golden Flashes,Butler Bulldogs,2309,2086,Home,Final,43.0,99.0
+401919682,2026-11-18,Evansville Purple Aces,IU Indianapolis Jaguars,339,85,Home,Final,59.0,65.0
+401918542,2026-11-18,Northwestern Wildcats,Abilene Christian Wildcats,77,2000,Home,Final,65.0,73.0
+401929152,2026-11-18,Ohio Bobcats,Howard Bison,195,47,Home,Final,76.0,74.0
+401923471,2026-11-18,Towson Tigers,Villanova Wildcats,119,222,Home,Final,59.0,62.0
+401922659,2026-11-18,Alcorn State Lady Braves,Nicholls Colonels,2016,2447,Home,Final,53.0,82.0
+401921020,2026-11-18,Charleston Southern Buccaneers,Davidson Wildcats,2127,2166,Home,Final,42.0,82.0
+401920316,2026-11-18,SE Louisiana Lady Lions,Grambling Lady Tigers,2545,2755,Home,Final,79.0,76.0
+401920169,2026-11-18,McNeese Cowgirls,Southern Miss Lady Eagles,2377,2572,Home,Final,64.0,83.0
+401919334,2026-11-18,Pennsylvania Quakers,Saint Joseph's Hawks,219,2603,Home,Final,65.0,58.0
+401918698,2026-11-18,Coastal Carolina Chanticleers,Indiana Hoosiers,324,84,Home,Final,65.0,90.0
+401917931,2026-11-18,Iowa State Cyclones,Northern Iowa Panthers,66,2460,Home,Final,72.0,57.0
+401915327,2026-11-18,George Mason Patriots,Princeton Tigers,2244,163,Home,Final,53.0,55.0
+401913902,2026-11-18,Spring Hill Badgers,West Florida Argonauts,2590,2697,Home,Final,58.0,71.0
+401913886,2026-11-18,Charleston Cougars,Queens University Royals,232,2511,Home,Final,67.0,59.0
+401913866,2026-11-18,Binghamton Bearcats,South Florida Bulls,2066,58,Home,Final,61.0,72.0
+401913048,2026-11-18,Bradley Braves,DePaul Blue Demons,71,305,Home,Final,74.0,86.0
+401928004,2026-11-18,Arkansas-Pine Bluff Golden Lions,Louisiana Tech Lady Techsters,2029,2348,Home,Final,56.0,85.0
+401926050,2026-11-18,Saint Francis Red Wolves,North Texas Mean Green,2598,249,Home,Final,20.0,144.0
+401920211,2026-11-18,LSU New Orleans Privateers,Tulsa Golden Hurricane,2443,202,Home,Final,58.0,96.0
+401911794,2026-11-18,Omaha Mavericks,Creighton Bluejays,2437,156,Home,Final,53.0,74.0
+401930343,2026-11-18,Bethesda Flames,Northern Arizona Lumberjacks,108878,2464,Home,Final,39.0,120.0
+401921235,2026-11-18,Missouri State Lady Bears,Saint Louis Billikens,2623,139,Home,Final,67.0,57.0
+401920499,2026-11-18,Wyoming Cowgirls,South Dakota State Jackrabbits,2751,2571,Home,Final,37.0,74.0
+401920026,2026-11-18,Southern Utah Thunderbirds,Air Force Falcons,253,2005,Home,Final,66.0,55.0
+401926987,2026-11-18,Montana Lady Griz,Gonzaga Bulldogs,149,2250,Home,Final,61.0,84.0
+401921616,2026-11-18,Idaho State Bengals,UC Irvine Anteaters,304,300,Home,Final,51.0,66.0
+401920276,2026-11-18,Colorado Buffaloes,New Mexico Lobos,38,167,Home,Final,75.0,58.0
+401917709,2026-11-18,Portland State Vikings,Portland Pilots,2502,2501,Home,Final,54.0,83.0
+401921496,2026-11-18,Utah Tech Trailblazers,Cal State Bakersfield Roadrunners,3101,2934,Home,Final,55.0,51.0
+401911746,2026-11-19,Fordham Rams,Duke Blue Devils,2230,150,Home,Final,44.0,111.0
+401921426,2026-11-19,Montana State Bobcats,Iowa Hawkeyes,147,2294,Home,Final,60.0,76.0
+401912969,2026-11-19,Fairleigh Dickinson Knights,LSU Tigers,161,99,Home,Final,33.0,91.0
+401918898,2026-11-19,Cal Poly Mustangs,UCLA Bruins,13,26,Home,Final,34.0,96.0
+401922832,2026-11-19,Northwestern State Lady Demons,Oklahoma Sooners,2466,201,Home,Final,43.0,113.0
+401906092,2026-11-19,Texas Tech Lady Raiders,North Carolina Tar Heels,2641,153,Neutral,Final,47.0,61.0
+401927105,2026-11-19,Bowling Green Falcons,Penn State Lady Lions,189,213,Home,Final,70.0,72.0
+401913709,2026-11-19,Purdue Boilermakers,Florida State Seminoles,2509,52,Neutral,Final,50.0,63.0
+401913008,2026-11-19,Maryland Eastern Shore Hawks,Rutgers Scarlet Knights,2379,164,Home,Final,47.0,91.0
+401912508,2026-11-19,Liberty Flames,Elon Phoenix,2335,2210,Home,Final,56.0,66.0
+401926043,2026-11-19,South Alabama Jaguars,Memphis Tigers,6,235,Home,Final,56.0,71.0
+401920339,2026-11-19,High Point Panthers,Vermont Catamounts,2272,261,Home,Final,72.0,74.0
+401927957,2026-11-19,Tusculum Pioneers,Morehead State Eagles,2839,2413,Home,Final,50.0,79.0
+401927037,2026-11-19,Erskine Flying Fleet,Presbyterian Blue Hose,2215,2506,Home,Final,46.0,63.0
+401919456,2026-11-19,Army Black Knights,Siena Saints,349,2561,Home,Final,54.0,41.0
+401918585,2026-11-19,North Florida Ospreys,Bethune-Cookman Wildcats,2454,2065,Home,Final,57.0,47.0
+401916215,2026-11-19,Quinnipiac Bobcats,Colgate Raiders,2514,2142,Home,Final,62.0,65.0
+401916008,2026-11-19,James Madison Dukes,Virginia Cavaliers,256,258,Home,Final,51.0,60.0
+401913766,2026-11-19,VCU Rams,Maine Black Bears,2670,311,Home,Final,80.0,85.0
+401911769,2026-11-19,St. Bonaventure Bonnies,Buffalo Bulls,179,2084,Home,Final,67.0,66.0
+401906895,2026-11-19,Florida Atlantic Owls,Florida Gators,2226,57,Home,Final,39.0,82.0
+401906107,2026-11-19,App State Mountaineers,Wake Forest Demon Deacons,2026,154,Home,Final,67.0,63.0
+401927982,2026-11-19,William & Mary Tribe,Old Dominion Monarchs,2729,295,Home,Final,51.0,37.0
+401919438,2026-11-19,Sacred Heart Pioneers,Michigan State Spartans,2529,127,Home,Final,49.0,78.0
+401919060,2026-11-19,Stetson Hatters,UCF Knights,56,2116,Home,Final,58.0,71.0
+401918649,2026-11-19,Sam Houston Bearkats,UL Monroe Warhawks,2534,2433,Home,Final,70.0,60.0
+401929055,2026-11-19,Toledo Rockets,Detroit Mercy Titans,2649,2174,Home,Final,72.0,66.0
+401928204,2026-11-19,Bryan Lions,Samford Bulldogs,2081,2535,Home,Final,43.0,100.0
+401926080,2026-11-19,UAB Blazers,Alabama A&M Bulldogs,5,2010,Home,Final,53.0,66.0
+401925623,2026-11-19,North Carolina Central Eagles,UNC Greensboro Spartans,2428,2430,Home,Final,46.0,60.0
+401922327,2026-11-19,Longwood Lancers,Troy Trojans,2344,2653,Home,Final,64.0,61.0
+401918531,2026-11-19,Chattanooga Mocs,Austin Peay Governors,236,2046,Home,Final,46.0,43.0
+401918434,2026-11-19,Tarleton State Texans,Louisiana Ragin' Cajuns,2627,309,Home,Final,58.0,63.0
+401915693,2026-11-19,Manhattan Jaspers,Long Island University Sharks,2363,112358,Home,Final,55.0,52.0
+401913738,2026-11-19,Georgetown Hoyas,NC State Wolfpack,46,152,Home,Final,43.0,74.0
+401913728,2026-11-19,Florida International Panthers,Miami Hurricanes,2229,2390,Home,Final,41.0,67.0
+401913680,2026-11-19,Richmond Spiders,Delaware Blue Hens,257,48,Home,Final,77.0,68.0
+401911508,2026-11-19,Radford Highlanders,Tennessee Lady Volunteers,2515,2633,Home,Final,48.0,102.0
+401909686,2026-11-19,Merrimack Warriors,Brown Bears,2771,225,Home,Final,48.0,58.0
+401919702,2026-11-19,Indiana State Sycamores,Southeast Missouri State Redhawks,282,2546,Home,Final,75.0,68.0
+401918797,2026-11-19,North Dakota State Bison,UT Rio Grande Valley Vaqueros,2449,292,Home,Final,80.0,68.0
+401927949,2026-11-19,Lindenwood Lions,UIC Flames,2815,82,Home,Final,40.0,48.0
+401913058,2026-11-19,New Mexico State Aggies,Arizona Wildcats,166,12,Home,Final,55.0,62.0
+401912994,2026-11-19,Alabama Crimson Tide,Florida A&M Rattlers,333,50,Neutral,Final,94.0,59.0
+401921548,2026-11-19,San Diego State Aztecs,Cal State Northridge Matadors,21,2463,Home,Final,66.0,70.0
+401917710,2026-11-19,Long Beach State Beach,San Francisco Dons,299,2539,Home,Final,50.0,69.0
+401921522,2026-11-19,Weber State Wildcats,Cal State Fullerton Titans,2692,2239,Home,Final,79.0,84.0
+401918905,2026-11-19,Fairfield Stags,Oregon Ducks,2217,2483,Home,Final,75.0,96.0
+401929635,2026-11-22,Louisville Cardinals,Seattle U Redhawks,97,2547,Neutral,Final,97.0,78.0
+401918844,2026-11-22,Ohio State Buckeyes,Texas Longhorns,194,251,Neutral,Final,61.0,75.0
+401912957,2026-11-22,UCLA Bruins,Tennessee Lady Volunteers,26,2633,Home,Final,90.0,80.0
+401918004,2026-11-22,TCU Horned Frogs,Utah State Aggies,2628,328,Neutral,Final,85.0,26.0
+401921465,2026-11-22,Cal Poly Mustangs,Washington Huskies,13,264,Home,Final,42.0,93.0
+401918911,2026-11-22,Central Michigan Chippewas,Minnesota Golden Gophers,2117,135,Home,Final,31.0,82.0
+401924634,2026-11-22,Alabama A&M Bulldogs,Ole Miss Rebels,2010,145,Home,Final,47.0,66.0
+401911795,2026-11-22,Nebraska Cornhuskers,Creighton Bluejays,158,156,Home,Final,55.0,45.0
+401907053,2026-11-22,Wichita State Shockers,Oklahoma State Cowgirls,2724,197,Neutral,Final,43.0,92.0
+401913767,2026-11-22,Pennsylvania Quakers,Maine Black Bears,219,311,Home,Final,77.0,50.0
+401918820,2026-11-22,Missouri State Lady Bears,Kansas City Roos,2623,140,Neutral,Final,94.0,90.0
+401926016,2026-11-22,Drexel Dragons,Loyola Maryland Greyhounds,2182,2352,Home,Final,53.0,44.0
+401921242,2026-11-22,Saint Joseph's Hawks,Penn State Lady Lions,2603,213,Home,Final,71.0,66.0
+401918890,2026-11-22,Lafayette Leopards,Wisconsin Badgers,322,275,Home,Final,41.0,83.0
+401918784,2026-11-22,Air Force Falcons,Omaha Mavericks,2005,2437,Home,Final,58.0,61.0
+401913867,2026-11-22,Texas Tech Lady Raiders,South Florida Bulls,2641,58,Neutral,Final,55.0,53.0
+401913825,2026-11-22,East Carolina Pirates,UNC Wilmington Seahawks,151,350,Home,Final,64.0,63.0
+401913815,2026-11-22,UMass Lowell River Hawks,Merrimack Warriors,2349,2771,Home,Final,60.0,56.0
+401913718,2026-11-22,Georgia Tech Yellow Jackets,Princeton Tigers,59,163,Home,Final,45.0,68.0
+401912982,2026-11-22,Louisiana Tech Lady Techsters,Georgia Lady Bulldogs,2348,61,Home,Final,58.0,63.0
+401911747,2026-11-22,Buffalo Bulls,Fordham Rams,2084,2230,Home,Final,60.0,48.0
+401928200,2026-11-22,Mercer Bears,Gardner-Webb Runnin' Bulldogs,2382,2241,Home,Final,52.0,44.0
+401927958,2026-11-22,Morehead State Eagles,Western Carolina Catamounts,2413,2717,Home,Final,55.0,65.0
+401927938,2026-11-22,Hampton Lady Pirates,Delaware Blue Hens,2261,48,Home,Final,54.0,55.0
+401927088,2026-11-22,Wright State Raiders,Stetson Hatters,2750,56,Home,Final,54.0,73.0
+401926001,2026-11-22,Central Connecticut Blue Devils,Vermont Catamounts,2115,261,Home,Final,59.0,71.0
+401920254,2026-11-22,Eastern Michigan Eagles,Butler Bulldogs,2199,2086,Home,Final,51.0,77.0
+401920018,2026-11-22,Valparaiso Beacons,SIU Edwardsville Cougars,2674,2565,Home,Final,69.0,76.0
+401919694,2026-11-22,Illinois State Redbirds,Stonehill Skyhawks,2287,284,Home,Final,79.0,45.0
+401919070,2026-11-22,Georgetown Hoyas,Temple Owls,46,218,Home,Final,73.0,82.0
+401918928,2026-11-22,Southern Indiana Screaming Eagles,Indiana Hoosiers,88,84,Home,Final,59.0,68.0
+401918705,2026-11-22,North Texas Mean Green,Arkansas State Red Wolves,249,2032,Neutral,Final,74.0,71.0
+401918669,2026-11-22,Louisiana Ragin' Cajuns,SE Louisiana Lady Lions,309,2545,Home,Final,74.0,68.0
+401918543,2026-11-22,Abilene Christian Wildcats,Samford Bulldogs,2000,2535,Home,Final,90.0,67.0
+401913778,2026-11-22,New Hampshire Wildcats,Boston University Terriers,160,104,Home,Final,67.0,59.0
+401913681,2026-11-22,Holy Cross Crusaders,Richmond Spiders,107,257,Home,Final,69.0,81.0
+401912509,2026-11-22,Lees McRae Bobcats,Liberty Flames,2327,2335,Home,Final,43.0,94.0
+401927019,2026-11-22,Weber State Wildcats,Colorado State Rams,2692,36,Home,Final,57.0,78.0
+401926953,2026-11-22,Eastern Washington Eagles,Southern Utah Thunderbirds,331,253,Home,Final,78.0,55.0
+401923333,2026-11-22,UT Arlington Mavericks,Tennessee State Lady Tigers,250,2634,Home,Final,95.0,55.0
+401918858,2026-11-22,Mississippi State Bulldogs,Southern Miss Lady Eagles,344,2572,Home,Final,90.0,73.0
+401918468,2026-11-22,Northern Kentucky Norse,Baylor Bears,94,239,Home,Final,42.0,96.0
+401917932,2026-11-22,Drake Bulldogs,Iowa State Cyclones,2181,66,Home,Final,42.0,62.0
+401913739,2026-11-22,Coastal Carolina Chanticleers,NC State Wolfpack,324,152,Home,Final,64.0,85.0
+401906967,2026-11-22,Kansas Jayhawks,South Dakota State Jackrabbits,2305,2571,Neutral,Final,70.0,77.0
+401926988,2026-11-22,Montana State-Northern Lights,Montana Lady Griz,569,149,Home,Final,57.0,98.0
+401925981,2026-11-22,Charleston Southern Buccaneers,South Carolina State Lady Bulldogs,2127,2569,Home,Final,61.0,63.0
+401920467,2026-11-22,UC Davis Aggies,Boise State Broncos,302,68,Home,Final,65.0,61.0
+401913861,2026-11-22,Harvard Crimson,Wyoming Cowgirls,108,2751,Home,Final,62.0,40.0
+401909674,2026-11-22,Winthrop Eagles,San Diego State Aztecs,2737,21,Home,Final,57.0,63.0
+401926985,2026-11-22,Idaho State Bengals,UC Riverside Highlanders,304,27,Home,Final,64.0,44.0
+401923737,2026-11-22,Stephen F. Austin Ladyjacks,Tulsa Golden Hurricane,2617,202,Neutral,Final,62.0,81.0
+401917717,2026-11-22,Cal State Bakersfield Roadrunners,San Francisco Dons,2934,2539,Home,Final,58.0,81.0
+401915983,2026-11-22,Stanford Cardinal,Portland Pilots,24,2501,Home,Final,62.0,73.0
+401906985,2026-11-22,Kansas State Wildcats,Missouri Tigers,2306,142,Neutral,Final,72.0,64.0
+401913903,2026-11-22,West Florida Argonauts,Texas A&M-Corpus Christi Islanders,2697,357,Home,Final,44.0,68.0
+401913834,2026-11-22,Pepperdine Waves,Rice Owls,2492,242,Home,Final,63.0,73.0
+401929636,2026-11-22,Chicago State Cougars,Alaska Anchorage Seawolves,2130,1,Home,Final,65.0,85.0
