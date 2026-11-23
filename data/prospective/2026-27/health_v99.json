@@ -1,62 +1,40 @@
 {
   "version": 226,
   "season": "2026-27",
-  "checked_at_utc": "2026-11-22T19:58:34+00:00",
+  "checked_at_utc": "2026-11-23T08:14:29+00:00",
   "status": "ok",
   "divisions": {
     "mens": {
       "status": "ok",
-      "games_seen": 327,
-      "upcoming_12h": 26,
-      "upcoming_3h": 16,
-      "verified_d1_upcoming_12h": 23,
-      "forecast_eligible_d1_upcoming_12h": 22,
-      "expected_transition_holds_upcoming_12h": 1,
-      "expected_forecast_holds": [
-        {
-          "game_id": "401922252",
-          "home_id": "6",
-          "away_id": "2697",
-          "matchup": "West Florida Argonauts @ South Alabama Jaguars",
-          "held_team_ids": [
-            "2697"
-          ],
-          "reason": "V227_MANUAL_HOLD_PENDING_VALIDATION"
-        }
-      ],
-      "excluded_non_d1_upcoming_12h": 3,
+      "games_seen": 360,
+      "upcoming_12h": 11,
+      "upcoming_3h": 0,
+      "verified_d1_upcoming_12h": 9,
+      "forecast_eligible_d1_upcoming_12h": 9,
+      "expected_transition_holds_upcoming_12h": 0,
+      "expected_forecast_holds": [],
+      "excluded_non_d1_upcoming_12h": 2,
       "d1_classification_available": true,
       "official_forecasts_total": 1187,
       "final_results_total": 1106,
-      "results_waiting_for_next_archive": 0,
+      "results_waiting_for_next_archive": 31,
       "archive_as_of_utc": "2026-11-22T19:50:15+00:00",
       "issues": []
     },
     "womens": {
       "status": "ok",
-      "games_seen": 300,
-      "upcoming_12h": 29,
-      "upcoming_3h": 24,
-      "verified_d1_upcoming_12h": 26,
-      "forecast_eligible_d1_upcoming_12h": 25,
-      "expected_transition_holds_upcoming_12h": 1,
-      "expected_forecast_holds": [
-        {
-          "game_id": "401913903",
-          "home_id": "357",
-          "away_id": "2697",
-          "matchup": "West Florida Argonauts @ Texas A&M-Corpus Christi Islanders",
-          "held_team_ids": [
-            "2697"
-          ],
-          "reason": "V227_MANUAL_HOLD_PENDING_VALIDATION"
-        }
-      ],
-      "excluded_non_d1_upcoming_12h": 3,
+      "games_seen": 301,
+      "upcoming_12h": 7,
+      "upcoming_3h": 0,
+      "verified_d1_upcoming_12h": 7,
+      "forecast_eligible_d1_upcoming_12h": 7,
+      "expected_transition_holds_upcoming_12h": 0,
+      "expected_forecast_holds": [],
+      "excluded_non_d1_upcoming_12h": 0,
       "d1_classification_available": true,
       "official_forecasts_total": 1159,
       "final_results_total": 1066,
-      "results_waiting_for_next_archive": 0,
+      "results_waiting_for_next_archive": 50,
       "archive_as_of_utc": "2026-11-22T19:50:15+00:00",
       "issues": []
     }
