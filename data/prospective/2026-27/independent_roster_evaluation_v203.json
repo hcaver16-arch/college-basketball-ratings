@@ -1,14 +1,14 @@
 {
   "version": 203,
   "season": "2026-27",
-  "as_of_utc": "2026-11-21T19:48:02.659312Z",
+  "as_of_utc": "2026-11-24T00:22:53.832940Z",
   "status": "PROSPECTIVE_RESEARCH_ONLY_NOT_DEPLOYED",
   "production_model_modified": false,
   "published_pregame_forecasts_unchanged": true,
   "baseline_source": "immutable V97 official_saved_v97 forecasts",
   "source_errors": null,
-  "source_checked_utc": "2026-11-19T10:31:08.238836Z",
-  "source_sha256": "c38940a5655f78182c9c60a9671d750ce7ce278f710bf10de04ba96ea2b84418",
+  "source_checked_utc": "2026-11-23T21:39:08.660944Z",
+  "source_sha256": "2e0e97c6793b9008f26512580da8aad2777a0bad96e35b529ec751fd2c3256fc",
   "teams_audited": {
     "127": {
       "team_id": "127",
@@ -462,9 +462,8 @@
   "new_pairs": 0,
   "total_pairs": 2,
   "skipped": {
-    "invalid_evidence_or_pregame_timing": 1074,
-    "baseline_prediction_not_fresh_no_backfill": 31,
-    "one_or_both_teams_lack_verified_evidence": 42
+    "invalid_evidence_or_pregame_timing": 1185,
+    "one_or_both_teams_lack_verified_evidence": 91
   },
   "paired_results": {
     "mens": {
@@ -486,11 +485,48 @@
   "matchup_readiness": {
     "source": "V97 first official pregame forecast journal, future start times only",
     "counts": {
-      "upcoming_locked_mens_baselines": 77,
-      "neither_team_qualified": 77,
-      "upcoming_opponents_missing_qualification": 0
+      "upcoming_locked_mens_baselines": 102,
+      "neither_team_qualified": 95,
+      "exactly_one_team_qualified": 7,
+      "upcoming_opponents_missing_qualification": 7
     },
-    "opponents_to_prioritize": [],
+    "opponents_to_prioritize": [
+      {
+        "team_id": "239",
+        "team": "Baylor Bears",
+        "upcoming_one_sided_games": 1
+      },
+      {
+        "team_id": "232",
+        "team": "Charleston Cougars",
+        "upcoming_one_sided_games": 1
+      },
+      {
+        "team_id": "108842",
+        "team": "Emerson Lions",
+        "upcoming_one_sided_games": 1
+      },
+      {
+        "team_id": "120",
+        "team": "Maryland Terrapins",
+        "upcoming_one_sided_games": 1
+      },
+      {
+        "team_id": "270",
+        "team": "Milwaukee Panthers",
+        "upcoming_one_sided_games": 1
+      },
+      {
+        "team_id": "2405",
+        "team": "Monmouth Hawks",
+        "upcoming_one_sided_games": 1
+      },
+      {
+        "team_id": "21",
+        "team": "San Diego State Aztecs",
+        "upcoming_one_sided_games": 1
+      }
+    ],
     "note": "Unqualified opponents are priorities for independent verification, not automatic exemptions. Archived baselines that predate evidence cannot be used for V203 pairing."
   },
   "limitations": [
