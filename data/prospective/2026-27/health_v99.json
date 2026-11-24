@@ -1,40 +1,51 @@
 {
   "version": 226,
   "season": "2026-27",
-  "checked_at_utc": "2026-11-24T00:22:08+00:00",
-  "status": "ok",
+  "checked_at_utc": "2026-11-24T10:25:40+00:00",
+  "status": "warning",
   "divisions": {
     "mens": {
-      "status": "ok",
-      "games_seen": 360,
-      "upcoming_12h": 16,
-      "upcoming_3h": 14,
-      "verified_d1_upcoming_12h": 12,
-      "forecast_eligible_d1_upcoming_12h": 12,
-      "expected_transition_holds_upcoming_12h": 0,
-      "expected_forecast_holds": [],
-      "excluded_non_d1_upcoming_12h": 4,
-      "d1_classification_available": true,
-      "official_forecasts_total": 1278,
-      "final_results_total": 1158,
-      "results_waiting_for_next_archive": 0,
-      "archive_as_of_utc": "2026-11-24T00:02:07+00:00",
-      "issues": []
-    },
-    "womens": {
-      "status": "ok",
-      "games_seen": 301,
-      "upcoming_12h": 8,
-      "upcoming_3h": 8,
-      "verified_d1_upcoming_12h": 5,
-      "forecast_eligible_d1_upcoming_12h": 5,
+      "status": "warning",
+      "games_seen": 322,
+      "upcoming_12h": 20,
+      "upcoming_3h": 0,
+      "verified_d1_upcoming_12h": 17,
+      "forecast_eligible_d1_upcoming_12h": 17,
       "expected_transition_holds_upcoming_12h": 0,
       "expected_forecast_holds": [],
       "excluded_non_d1_upcoming_12h": 3,
       "d1_classification_available": true,
+      "official_forecasts_total": 1278,
+      "final_results_total": 1158,
+      "results_waiting_for_next_archive": 19,
+      "archive_as_of_utc": "2026-11-24T00:02:07+00:00",
+      "issues": [
+        {
+          "severity": "warning",
+          "code": "MISSING_UPCOMING_D1_FORECASTS",
+          "message": "2 verified D1-v-D1 games within 12 hours lack locked forecasts",
+          "count": 2,
+          "examples": [
+            "Ole Miss Rebels @ BYU Cougars",
+            "Providence Friars @ Arizona Wildcats"
+          ]
+        }
+      ]
+    },
+    "womens": {
+      "status": "ok",
+      "games_seen": 278,
+      "upcoming_12h": 22,
+      "upcoming_3h": 0,
+      "verified_d1_upcoming_12h": 21,
+      "forecast_eligible_d1_upcoming_12h": 21,
+      "expected_transition_holds_upcoming_12h": 0,
+      "expected_forecast_holds": [],
+      "excluded_non_d1_upcoming_12h": 1,
+      "d1_classification_available": true,
       "official_forecasts_total": 1243,
       "final_results_total": 1132,
-      "results_waiting_for_next_archive": 0,
+      "results_waiting_for_next_archive": 20,
       "archive_as_of_utc": "2026-11-24T00:02:07+00:00",
       "issues": []
     }
