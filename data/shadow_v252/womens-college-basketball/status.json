@@ -1,79 +1,97 @@
 {
   "version": 252,
   "division": "womens-college-basketball",
-  "updated_utc": "2026-11-22T19:54:26.444401+00:00",
+  "updated_utc": "2026-11-24T00:10:09.546872+00:00",
   "status": "RESEARCH_ONLY_NOT_DEPLOYED",
-  "locked_first_shadow_forecasts": 159,
-  "new_pre_tip_shadow_forecasts": 79,
+  "locked_first_shadow_forecasts": 202,
+  "new_pre_tip_shadow_forecasts": 43,
   "new_capture_diagnostics": {
-    "already_shadow_locked": 80,
-    "official_lock_too_old": 559,
-    "not_pre_tip": 1102,
+    "already_shadow_locked": 159,
+    "official_lock_too_old": 509,
+    "not_pre_tip": 1152,
     "rating_snapshot_mismatch": 0,
     "unrated_matchup": 0,
     "invalid_official_forecast": 0,
     "stale_rating_snapshot": false,
-    "fresh_eligible_official_locks": 79,
-    "captured": 79
+    "fresh_eligible_official_locks": 43,
+    "captured": 43
   },
-  "evaluated_games": 0,
-  "primary_d1_evaluated_games": 0,
+  "evaluated_games": 1,
+  "primary_d1_evaluated_games": 1,
   "research_accuracy": {
     "all_eligible_games": {
-      "paired_games": 0,
+      "paired_games": 1,
       "models": {
         "Baseline home margin": {
-          "games": 0,
-          "mae": null,
-          "signed_bias": null,
-          "winner_accuracy": null
+          "games": 1,
+          "mae": 3.98,
+          "signed_bias": 3.98,
+          "winner_accuracy": 1.0
         },
         "Prior-only home margin": {
-          "games": 0,
-          "mae": null,
-          "signed_bias": null,
-          "winner_accuracy": null
+          "games": 1,
+          "mae": 12.85,
+          "signed_bias": 12.85,
+          "winner_accuracy": 1.0,
+          "mae_delta_vs_baseline": 8.87,
+          "candidate_better_games": 0,
+          "baseline_better_games": 1
         },
         "Anchored ridge8 home margin": {
-          "games": 0,
-          "mae": null,
-          "signed_bias": null,
-          "winner_accuracy": null
+          "games": 1,
+          "mae": 12.1546,
+          "signed_bias": 12.1546,
+          "winner_accuracy": 1.0,
+          "mae_delta_vs_baseline": 8.1746,
+          "candidate_better_games": 0,
+          "baseline_better_games": 1
         },
         "Anchored ridge16 home margin": {
-          "games": 0,
-          "mae": null,
-          "signed_bias": null,
-          "winner_accuracy": null
+          "games": 1,
+          "mae": 12.6806,
+          "signed_bias": 12.6806,
+          "winner_accuracy": 1.0,
+          "mae_delta_vs_baseline": 8.7006,
+          "candidate_better_games": 0,
+          "baseline_better_games": 1
         }
       }
     },
     "d1_vs_d1_primary": {
-      "paired_games": 0,
+      "paired_games": 1,
       "models": {
         "Baseline home margin": {
-          "games": 0,
-          "mae": null,
-          "signed_bias": null,
-          "winner_accuracy": null
+          "games": 1,
+          "mae": 3.98,
+          "signed_bias": 3.98,
+          "winner_accuracy": 1.0
         },
         "Prior-only home margin": {
-          "games": 0,
-          "mae": null,
-          "signed_bias": null,
-          "winner_accuracy": null
+          "games": 1,
+          "mae": 12.85,
+          "signed_bias": 12.85,
+          "winner_accuracy": 1.0,
+          "mae_delta_vs_baseline": 8.87,
+          "candidate_better_games": 0,
+          "baseline_better_games": 1
         },
         "Anchored ridge8 home margin": {
-          "games": 0,
-          "mae": null,
-          "signed_bias": null,
-          "winner_accuracy": null
+          "games": 1,
+          "mae": 12.1546,
+          "signed_bias": 12.1546,
+          "winner_accuracy": 1.0,
+          "mae_delta_vs_baseline": 8.1746,
+          "candidate_better_games": 0,
+          "baseline_better_games": 1
         },
         "Anchored ridge16 home margin": {
-          "games": 0,
-          "mae": null,
-          "signed_bias": null,
-          "winner_accuracy": null
+          "games": 1,
+          "mae": 12.6806,
+          "signed_bias": 12.6806,
+          "winner_accuracy": 1.0,
+          "mae_delta_vs_baseline": 8.7006,
+          "candidate_better_games": 0,
+          "baseline_better_games": 1
         }
       }
     },
