@@ -1,97 +1,97 @@
 {
   "version": 252,
   "division": "mens-college-basketball",
-  "updated_utc": "2026-11-24T22:39:54.151831+00:00",
+  "updated_utc": "2026-11-25T21:53:28.760353+00:00",
   "status": "RESEARCH_ONLY_NOT_DEPLOYED",
-  "locked_first_shadow_forecasts": 259,
-  "new_pre_tip_shadow_forecasts": 3,
+  "locked_first_shadow_forecasts": 322,
+  "new_pre_tip_shadow_forecasts": 63,
   "new_capture_diagnostics": {
-    "already_shadow_locked": 256,
-    "official_lock_too_old": 459,
-    "not_pre_tip": 1207,
+    "already_shadow_locked": 259,
+    "official_lock_too_old": 372,
+    "not_pre_tip": 1294,
     "rating_snapshot_mismatch": 0,
     "unrated_matchup": 0,
     "invalid_official_forecast": 0,
     "stale_rating_snapshot": false,
-    "fresh_eligible_official_locks": 3,
-    "captured": 3
+    "fresh_eligible_official_locks": 63,
+    "captured": 63
   },
-  "evaluated_games": 11,
-  "primary_d1_evaluated_games": 11,
+  "evaluated_games": 14,
+  "primary_d1_evaluated_games": 13,
   "research_accuracy": {
     "all_eligible_games": {
-      "paired_games": 11,
+      "paired_games": 14,
       "models": {
         "Baseline home margin": {
-          "games": 11,
-          "mae": 7.45273,
-          "signed_bias": -2.13818,
-          "winner_accuracy": 0.63636
+          "games": 14,
+          "mae": 11.33929,
+          "signed_bias": 3.80357,
+          "winner_accuracy": 0.64286
         },
         "Prior-only home margin": {
-          "games": 11,
-          "mae": 7.69455,
-          "signed_bias": -2.16545,
-          "winner_accuracy": 0.54545,
-          "mae_delta_vs_baseline": 0.24182,
+          "games": 14,
+          "mae": 11.74214,
+          "signed_bias": 3.995,
+          "winner_accuracy": 0.57143,
+          "mae_delta_vs_baseline": 0.40286,
           "candidate_better_games": 6,
-          "baseline_better_games": 5
+          "baseline_better_games": 8
         },
         "Anchored ridge8 home margin": {
-          "games": 11,
-          "mae": 7.61224,
-          "signed_bias": -2.8252,
-          "winner_accuracy": 0.63636,
-          "mae_delta_vs_baseline": 0.15951,
-          "candidate_better_games": 7,
-          "baseline_better_games": 4
+          "games": 14,
+          "mae": 11.10926,
+          "signed_bias": 2.90841,
+          "winner_accuracy": 0.64286,
+          "mae_delta_vs_baseline": -0.23003,
+          "candidate_better_games": 9,
+          "baseline_better_games": 5
         },
         "Anchored ridge16 home margin": {
-          "games": 11,
-          "mae": 7.59922,
-          "signed_bias": -2.61644,
-          "winner_accuracy": 0.63636,
-          "mae_delta_vs_baseline": 0.14649,
-          "candidate_better_games": 4,
-          "baseline_better_games": 7
+          "games": 14,
+          "mae": 11.32579,
+          "signed_bias": 3.29921,
+          "winner_accuracy": 0.64286,
+          "mae_delta_vs_baseline": -0.01349,
+          "candidate_better_games": 6,
+          "baseline_better_games": 8
         }
       }
     },
     "d1_vs_d1_primary": {
-      "paired_games": 11,
+      "paired_games": 13,
       "models": {
         "Baseline home margin": {
-          "games": 11,
-          "mae": 7.45273,
-          "signed_bias": -2.13818,
-          "winner_accuracy": 0.63636
+          "games": 13,
+          "mae": 6.55692,
+          "signed_bias": -1.55846,
+          "winner_accuracy": 0.61538
         },
         "Prior-only home margin": {
-          "games": 11,
-          "mae": 7.69455,
-          "signed_bias": -2.16545,
-          "winner_accuracy": 0.54545,
-          "mae_delta_vs_baseline": 0.24182,
+          "games": 13,
+          "mae": 6.94077,
+          "signed_bias": -1.40231,
+          "winner_accuracy": 0.53846,
+          "mae_delta_vs_baseline": 0.38385,
           "candidate_better_games": 6,
-          "baseline_better_games": 5
+          "baseline_better_games": 7
         },
         "Anchored ridge8 home margin": {
-          "games": 11,
-          "mae": 7.61224,
-          "signed_bias": -2.8252,
-          "winner_accuracy": 0.63636,
-          "mae_delta_vs_baseline": 0.15951,
-          "candidate_better_games": 7,
-          "baseline_better_games": 4
+          "games": 13,
+          "mae": 6.65028,
+          "signed_bias": -2.1814,
+          "winner_accuracy": 0.61538,
+          "mae_delta_vs_baseline": 0.09335,
+          "candidate_better_games": 8,
+          "baseline_better_games": 5
         },
         "Anchored ridge16 home margin": {
-          "games": 11,
-          "mae": 7.59922,
-          "signed_bias": -2.61644,
-          "winner_accuracy": 0.63636,
-          "mae_delta_vs_baseline": 0.14649,
-          "candidate_better_games": 4,
-          "baseline_better_games": 7
+          "games": 13,
+          "mae": 6.70773,
+          "signed_bias": -1.93628,
+          "winner_accuracy": 0.61538,
+          "mae_delta_vs_baseline": 0.15081,
+          "candidate_better_games": 5,
+          "baseline_better_games": 8
         }
       }
     },
