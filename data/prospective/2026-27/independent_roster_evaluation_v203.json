@@ -1,14 +1,14 @@
 {
   "version": 203,
   "season": "2026-27",
-  "as_of_utc": "2026-11-24T22:46:07.659664Z",
+  "as_of_utc": "2026-11-26T21:56:27.522310Z",
   "status": "PROSPECTIVE_RESEARCH_ONLY_NOT_DEPLOYED",
   "production_model_modified": false,
   "published_pregame_forecasts_unchanged": true,
   "baseline_source": "immutable V97 official_saved_v97 forecasts",
   "source_errors": null,
-  "source_checked_utc": "2026-11-23T21:39:08.660944Z",
-  "source_sha256": "2e0e97c6793b9008f26512580da8aad2777a0bad96e35b529ec751fd2c3256fc",
+  "source_checked_utc": "2026-11-26T19:15:25.315097Z",
+  "source_sha256": "9510534c8180cedd4f6b825f3cf810bcc562687f66654fcfcd2ed476548dc26d",
   "teams_audited": {
     "127": {
       "team_id": "127",
@@ -462,9 +462,7 @@
   "new_pairs": 0,
   "total_pairs": 2,
   "skipped": {
-    "invalid_evidence_or_pregame_timing": 1214,
-    "baseline_prediction_not_fresh_no_backfill": 62,
-    "one_or_both_teams_lack_verified_evidence": 46
+    "invalid_evidence_or_pregame_timing": 1393
   },
   "paired_results": {
     "mens": {
@@ -486,35 +484,25 @@
   "matchup_readiness": {
     "source": "V97 first official pregame forecast journal, future start times only",
     "counts": {
-      "upcoming_locked_mens_baselines": 114,
-      "neither_team_qualified": 109,
-      "exactly_one_team_qualified": 5,
-      "upcoming_opponents_missing_qualification": 5
+      "upcoming_locked_mens_baselines": 54,
+      "neither_team_qualified": 51,
+      "exactly_one_team_qualified": 3,
+      "upcoming_opponents_missing_qualification": 3
     },
     "opponents_to_prioritize": [
       {
-        "team_id": "239",
-        "team": "Baylor Bears",
+        "team_id": "2306",
+        "team": "Kansas State Wildcats",
         "upcoming_one_sided_games": 1
       },
       {
-        "team_id": "232",
-        "team": "Charleston Cougars",
+        "team_id": "2473",
+        "team": "Oakland Golden Grizzlies",
         "upcoming_one_sided_games": 1
       },
       {
-        "team_id": "150",
-        "team": "Duke Blue Devils",
-        "upcoming_one_sided_games": 1
-      },
-      {
-        "team_id": "270",
-        "team": "Milwaukee Panthers",
-        "upcoming_one_sided_games": 1
-      },
-      {
-        "team_id": "111",
-        "team": "Northeastern Huskies",
+        "team_id": "277",
+        "team": "West Virginia Mountaineers",
         "upcoming_one_sided_games": 1
       }
     ],
