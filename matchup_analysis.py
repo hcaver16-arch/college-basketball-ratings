@@ -8,6 +8,7 @@ from net_quadrants import annotate_games, quadrant_records
 from team_identity import team_identity
 from efficiency_ui import render_matchup_stats
 from raw_team_stats import team_raw_stats
+from adjusted_display import merge_team_stats
 from live_matchup_v206 import progress_label, score_pair, locked_pregame_forecast
 from game_location_v207 import display_game_location
 from cross_division_v209 import estimate as estimate_cross_division
@@ -428,6 +429,12 @@ def render_matchup(game, *, team_ratings, ratings, preliminary_ratings, sos_rati
         stats_source = stats_games if isinstance(stats_games, pd.DataFrame) and not stats_games.empty else games
         cs_away_stats = team_raw_stats(stats_source,aid,league,before=stat_cutoff)
         cs_home_stats = team_raw_stats(stats_source,hid,league,before=stat_cutoff)
+        # Use a conservative start-of-date cutoff, never the postgame raw cutoff.
+        adjusted_cutoff = pd.to_datetime(game.get("Date"), errors="coerce", utc=True)
+        if pd.notna(adjusted_cutoff):
+            adjusted_cutoff = min(adjusted_cutoff.normalize(), pd.Timestamp.now(tz="UTC"))
+            cs_away_stats = merge_team_stats(cs_away_stats, aid, league, before=adjusted_cutoff)
+            cs_home_stats = merge_team_stats(cs_home_stats, hid, league, before=adjusted_cutoff)
         render_matchup_preview(away,home,away_stats=cs_away_stats,home_stats=cs_home_stats,postgame=is_completed)
         with st.expander("Offense, defense & matchup statistics", expanded=False):
             render_matchup_stats(away,home,away_stats=cs_away_stats,home_stats=cs_home_stats,
