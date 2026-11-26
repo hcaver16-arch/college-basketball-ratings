@@ -160,7 +160,20 @@ def gather(sport, until, *, max_days=14):
     fitted['Snapshot UTC']=dt.datetime.now(dt.timezone.utc).isoformat()
     fitted['Season']='2026-27'
     fitted['Source']='ESPN paired final box scores; independently validated D1 members'
-    fitted.to_csv(ROOT/f'{sport}_adjusted_latest.csv', index=False)
+    latest = ROOT/f'{sport}_adjusted_latest.csv'
+    archive = ROOT/'snapshots'/sport
+    archive.mkdir(parents=True, exist_ok=True)
+    def save_snapshot(frame):
+        stamp = pd.to_datetime(frame['Snapshot UTC'], utc=True, errors='coerce')
+        if frame.empty or stamp.isna().any() or stamp.nunique() != 1:
+            return
+        target = archive/(stamp.iloc[0].strftime('%Y%m%dT%H%M%S%fZ') + '.csv')
+        if not target.exists():
+            frame.to_csv(target, index=False)
+    if latest.exists():
+        save_snapshot(pd.read_csv(latest, dtype={'Team ID': str}))
+    save_snapshot(fitted)
+    fitted.to_csv(latest, index=False)
     print(f'{sport}: published {len(fitted)} team rows; {fitted.adj_o.notna().sum()} with sufficient game sample')
 
 
