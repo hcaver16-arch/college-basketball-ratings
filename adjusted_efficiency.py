@@ -9,10 +9,12 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
+MIN_QUALIFYING_GAMES = 3
+
 REQUIRED = {"game_id", "date", "home_id", "away_id", "home_points", "away_points", "possessions"}
 
 
-def fit_adjusted_efficiency(games: pd.DataFrame, *, prior_games: float = 8.0, min_games: int = 3,
+def fit_adjusted_efficiency(games: pd.DataFrame, *, prior_games: float = 8.0, min_games: int = MIN_QUALIFYING_GAMES,
                             min_league_games: int = 30) -> pd.DataFrame:
     """Fit a snapshot using only games already finished as of the snapshot date.
 
