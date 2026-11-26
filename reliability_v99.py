@@ -72,7 +72,7 @@ def check_division(
 
     upcoming = [
         g for g in games.values()
-        if not g["final"] and (parse_dt(g["game_start_utc"]) or now) > now
+        if not g["final"] and g.get("pregame") is not False and (parse_dt(g["game_start_utc"]) or now) > now
     ]
     imminent = [
         g for g in upcoming
@@ -149,14 +149,14 @@ def check_division(
             "critical", "MISSING_IMMINENT_D1_FORECASTS",
             f"{len(urgent)} verified D1-v-D1 games within three hours lack locked forecasts",
             len(urgent),
-            [x["away_team"] + " @ " + x["home_team"] for x in urgent],
+            [x["away_team"] + " @ " + x["home_team"] + " (game " + x["game_id"] + ")" for x in urgent],
         )
     elif missing:
         issue(
             "warning", "MISSING_UPCOMING_D1_FORECASTS",
             f"{len(missing)} verified D1-v-D1 games within 12 hours lack locked forecasts",
             len(missing),
-            [x["away_team"] + " @ " + x["home_team"] for x in missing],
+            [x["away_team"] + " @ " + x["home_team"] + " (game " + x["game_id"] + ")" for x in missing],
         )
 
     # These V97 integrity rules apply to every archived forecast, regardless
@@ -198,10 +198,10 @@ def check_division(
                 "critical", "UNRATED_D1_TEAMS",
                 f"{len(unrated)} imminent verified D1-v-D1 games have missing team ratings",
                 len(unrated),
-                [x["away_team"] + " @ " + x["home_team"] for x in unrated],
+                [x["away_team"] + " @ " + x["home_team"] + " (game " + x["game_id"] + ")" for x in unrated],
             )
 
-    # V97 only settles finals during its own scheduled runs (12:15/18:15 UTC).
+    # V97 only settles finals during its own scheduled runs.
     # A newer live ESPN final is not overdue until at least one archive run
     # has occurred well after plausible game completion.
     archive_asof = parse_dt(archive_asof)
