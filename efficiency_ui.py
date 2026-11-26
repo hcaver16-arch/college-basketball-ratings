@@ -60,6 +60,37 @@ PERCENT_KEYS = {key for _, rows in GROUPS for key, _, unit in rows if unit.start
 INTEGER_KEYS = {'last5_wins', 'last10_wins'}
 
 
+ADJUSTED_KEYS = frozenset({'adj_o', 'adj_d', 'adj_em'})
+
+
+def _adjusted_sample_shortfall(stats):
+    """Explain deliberate suppression using the SAME saved snapshot as the metrics.
+
+    Missing snapshots, invalid team statistics, or unverified counts cannot
+    establish why a value is absent, so keep the original unavailable label.
+    """
+    if not isinstance(stats, dict) or stats.get('validated') is not True or not stats.get('adjusted_snapshot'):
+        return None
+    try:
+        games = float(stats['adjusted_games'])
+        minimum = float(stats['adjusted_min_games'])
+    except (KeyError, ValueError, TypeError, OverflowError):
+        return None
+    if not (math.isfinite(games) and math.isfinite(minimum) and
+            games.is_integer() and minimum.is_integer() and 0 <= games < minimum and minimum >= 1):
+        return None
+    if any(_finite_adjusted_value(stats.get(key)) for key in ADJUSTED_KEYS):
+        return None
+    return int(games), int(minimum)
+
+
+def _finite_adjusted_value(value):
+    try:
+        return math.isfinite(float(value))
+    except (TypeError, ValueError, OverflowError):
+        return False
+
+
 def _value(stats, key):
     if not isinstance(stats, dict) or stats.get('validated') is not True:
         return 'Not available yet'
@@ -70,7 +101,11 @@ def _value(stats, key):
         if key in INTEGER_KEYS:
             return str(int(n)) if n.is_integer() and n >= 0 else 'Not available yet'
         return f'{n:.1f}' + ('%' if key in PERCENT_KEYS else '')
-    except (KeyError, ValueError, TypeError):
+    except (KeyError, ValueError, TypeError, OverflowError):
+        if key in ADJUSTED_KEYS:
+            shortfall = _adjusted_sample_shortfall(stats)
+            if shortfall is not None:
+                return f'{shortfall[0]}/{shortfall[1]} games'
         return 'Not available yet'
 
 
@@ -117,6 +152,8 @@ def render_team_efficiency(stats=None, *, compact=False):
     st.markdown(_css() + '<div class="cs-eff-grid">' + ''.join(tiles) + '</div>', unsafe_allow_html=True)
     if stats and stats.get('adjusted_snapshot'):
         st.caption(f"Experimental adjusted snapshot: {stats['adjusted_snapshot']} · {stats.get('adjusted_games', 0)} qualifying games.")
+    if shortfall := _adjusted_sample_shortfall(stats):
+        st.caption(f"Opponent-adjusted values are withheld: {shortfall[0]} of {shortfall[1]} qualifying D1 paired-box-score games in this snapshot. Raw statistics can be available earlier.")
     st.markdown('##### Raw efficiencies (unadjusted)')
     raw_tiles = []
     for key, label, unit in [
@@ -159,6 +196,12 @@ def render_matchup_stats(away, home, *, away_stats=None, home_stats=None, postga
         st.caption('No eligible pregame adjusted efficiency snapshot available.')
     if away_stats or home_stats:
         st.caption(f"Efficiency sample: {away} — {(away_stats or {}).get('efficiency_games',0)} games; {home} — {(home_stats or {}).get('efficiency_games',0)} games.")
+    shortfalls = [(name, _adjusted_sample_shortfall(stats))
+                  for name, stats in ((away, away_stats), (home, home_stats))]
+    shortfalls = [f'{name}: {count}/{minimum} qualifying D1 games' for name, value in shortfalls
+                  if value is not None for count, minimum in [value]]
+    if shortfalls:
+        st.caption('Adjusted efficiency withheld until at least 3 qualifying D1 paired-box-score games are in the eligible snapshot · ' + ' · '.join(shortfalls) + '. Raw efficiency uses separate eligibility rules.')
     st.markdown(_css(), unsafe_allow_html=True)
     with st.container(key="cs185_matchup_stats"):
         for group_index, (group_title, metrics) in enumerate(GROUPS):

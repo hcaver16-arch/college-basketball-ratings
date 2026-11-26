@@ -4,6 +4,7 @@ from pathlib import Path
 import math
 import pandas as pd
 import streamlit as st
+from adjusted_efficiency import MIN_QUALIFYING_GAMES
 
 def select_snapshot(paths, before=None):
     """Select a whole verified snapshot strictly before the cutoff."""
@@ -60,5 +61,6 @@ def merge_team_stats(raw, team_id, league, *, before=None):
             pass
     result['adjusted_method']=rec.get('method','')
     result['adjusted_games']=rec.get('games_used',0)
+    result['adjusted_min_games']=MIN_QUALIFYING_GAMES
     result['adjusted_snapshot']=rec.get('Snapshot UTC','')
     return result
