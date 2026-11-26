@@ -40,6 +40,40 @@ jobs:
           python test_early_season_calibration_v238.py
           python test_prior_transition_v229.py
           python test_rating_reliability_v181.py
+      - name: Read-only smoke against saved men's and women's archives
+        if: github.event_name == 'pull_request'
+        run: |
+          python - <<'PY'
+          from datetime import datetime, timezone
+          from pathlib import Path
+          import pandas as pd
+          from shadow_multifactor_v260 import build_snapshot, SPORTS
+          root = Path(".").resolve()
+          before = sorted(str(p) for p in root.glob("data/shadow_multifactor_v260/2026-27/**/*") if p.is_file())
+          for sport in SPORTS:
+              # This is a READ-ONLY file-schema smoke: historical V105
+              # covered team IDs are NOT used as verified D1 membership
+              # for any actual shadow forecast or claim of D1 accuracy.
+              source = pd.read_csv(
+                  root/"data"/"roster_experiment_v105"/
+                  f"{sport}_experimental_roster_sensitivity.csv",
+                  dtype={"team_id":str})
+              ids = set(source["team_id"].dropna().astype(str))
+              teams, summary = build_snapshot(root, sport,
+                  datetime.now(timezone.utc), d1_ids=ids, coaches={})
+              assert len(teams) >= 200
+              assert summary["source_sha256"]["saved_ratings"] != "missing"
+              assert summary["source_sha256"]["current_players"] != "missing"
+              assert summary["source_sha256"]["previous_stats"] != "missing"
+              print(sport, {
+                  "rated_teams_smoke_not_verified_D1": len(teams),
+                  "talent_covered": summary["roster_proxy_coverage"],
+                  "minute_covered": summary["playing_time_proxy_coverage"],
+                  "earlier_ET_final_games": summary["on_court_archived_d1_finals_older_than_today_et"],
+              })
+          after = sorted(str(p) for p in root.glob("data/shadow_multifactor_v260/2026-27/**/*") if p.is_file())
+          assert before == after, "Read-only shadow integration wrote files"
+          PY
       - name: Calculate shadow ratings and lock first pretip forecasts
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         run: python shadow_multifactor_v260.py --root . --season 2026-27
