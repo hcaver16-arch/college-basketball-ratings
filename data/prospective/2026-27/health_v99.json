@@ -1,52 +1,41 @@
 {
   "version": 226,
   "season": "2026-27",
-  "checked_at_utc": "2026-11-25T21:58:56+00:00",
+  "checked_at_utc": "2026-11-26T03:25:28+00:00",
   "status": "ok",
   "divisions": {
     "mens": {
       "status": "ok",
       "games_seen": 320,
-      "upcoming_12h": 35,
-      "upcoming_3h": 23,
-      "verified_d1_upcoming_12h": 33,
-      "forecast_eligible_d1_upcoming_12h": 32,
-      "expected_transition_holds_upcoming_12h": 1,
-      "expected_forecast_holds": [
-        {
-          "game_id": "401922253",
-          "home_id": "2466",
-          "away_id": "2697",
-          "matchup": "West Florida Argonauts @ Northwestern State Demons",
-          "held_team_ids": [
-            "2697"
-          ],
-          "reason": "V227_MANUAL_HOLD_PENDING_VALIDATION"
-        }
-      ],
-      "excluded_non_d1_upcoming_12h": 2,
+      "upcoming_12h": 4,
+      "upcoming_3h": 4,
+      "verified_d1_upcoming_12h": 4,
+      "forecast_eligible_d1_upcoming_12h": 4,
+      "expected_transition_holds_upcoming_12h": 0,
+      "expected_forecast_holds": [],
+      "excluded_non_d1_upcoming_12h": 0,
       "d1_classification_available": true,
-      "official_forecasts_total": 1351,
-      "final_results_total": 1282,
+      "official_forecasts_total": 1370,
+      "final_results_total": 1312,
       "results_waiting_for_next_archive": 0,
-      "archive_as_of_utc": "2026-11-25T21:50:05+00:00",
+      "archive_as_of_utc": "2026-11-26T03:24:42+00:00",
       "issues": []
     },
     "womens": {
       "status": "ok",
       "games_seen": 304,
-      "upcoming_12h": 10,
-      "upcoming_3h": 9,
-      "verified_d1_upcoming_12h": 10,
-      "forecast_eligible_d1_upcoming_12h": 10,
+      "upcoming_12h": 1,
+      "upcoming_3h": 0,
+      "verified_d1_upcoming_12h": 1,
+      "forecast_eligible_d1_upcoming_12h": 1,
       "expected_transition_holds_upcoming_12h": 0,
       "expected_forecast_holds": [],
       "excluded_non_d1_upcoming_12h": 0,
       "d1_classification_available": true,
-      "official_forecasts_total": 1290,
-      "final_results_total": 1243,
+      "official_forecasts_total": 1334,
+      "final_results_total": 1261,
       "results_waiting_for_next_archive": 0,
-      "archive_as_of_utc": "2026-11-25T21:50:05+00:00",
+      "archive_as_of_utc": "2026-11-26T03:24:42+00:00",
       "issues": []
     }
   },
