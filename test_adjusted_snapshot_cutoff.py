@@ -18,5 +18,14 @@ class SnapshotTests(unittest.TestCase):
             self.assertTrue(select_snapshot(paths,'invalid').empty)
             self.assertTrue(select_snapshot(paths,'2026-11-24T12:00:00Z').empty)
 
+    def test_matchup_wires_both_teams_before_render(self):
+        source = Path('matchup_analysis.py').read_text()
+        self.assertIn('from adjusted_display import merge_team_stats', source)
+        for side, tid in [('away', 'aid'), ('home', 'hid')]:
+            call = f'cs_{side}_stats = merge_team_stats(cs_{side}_stats, {tid}, league, before=adjusted_cutoff)'
+            self.assertIn(call, source)
+            self.assertLess(source.index(call), source.index('        render_matchup_preview(away,home,away_stats=cs_away_stats'))
+        self.assertIn('adjusted_cutoff.normalize()', source)
+
 if __name__ == '__main__':
     unittest.main()
