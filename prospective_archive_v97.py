@@ -51,7 +51,7 @@ def event_data(e):
     typ=(e.get('status') or {}).get('type') or {}
     final=typ.get('completed') is True
     hs,aws=score(home),score(away)
-    return dict(game_id=str(e.get('id') or ''),game_start_utc=iso(start),game_date_et=str(start.astimezone(ZoneInfo('America/New_York')).date()),home_id=hid,away_id=aid,home_team=h.get('displayName') or h.get('name') or hid,away_team=a.get('displayName') or a.get('name') or aid,neutral=bool(comp.get('neutralSite') is True),final=final,home_score=hs if final else None,away_score=aws if final else None)
+    return dict(game_id=str(e.get('id') or ''),game_start_utc=iso(start),game_date_et=str(start.astimezone(ZoneInfo('America/New_York')).date()),home_id=hid,away_id=aid,home_team=h.get('displayName') or h.get('name') or hid,away_team=a.get('displayName') or a.get('name') or aid,neutral=bool(comp.get('neutralSite') is True),final=final,pregame=(typ.get('state') == 'pre' and typ.get('name') == 'STATUS_SCHEDULED'),home_score=hs if final else None,away_score=aws if final else None)
 
 def scoreboard(sport, day, session=None):
     ses=session or requests
@@ -141,7 +141,7 @@ def new_forecasts(games,models,existing,now,season,division,minimum_lead_minutes
     additions=[]
     for g in games.values():
         start=parse_dt(g['game_start_utc'])
-        if g['final'] or start is None or start <= now+timedelta(minutes=minimum_lead_minutes): continue
+        if g['final'] or g.get('pregame') is False or start is None or start <= now+timedelta(minutes=max(30, minimum_lead_minutes)): continue
         # V227: a source-confirmed D1 newcomer has no validated prior model.
         # Never create official (or optional) first forecasts solely from a
         # neutral-prior rating learned from one early game.

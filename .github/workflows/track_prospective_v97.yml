@@ -2,8 +2,8 @@ name: Archive pregame forecasts and outcomes V97
 on:
   workflow_dispatch:
   schedule:
-    # 08:15 and 14:15 UTC; pregame snapshot recorded only if tipoff is >30 min away.
-    - cron: '15 12,18 * * *'
+    # Poll freshly announced matchups twice hourly, away from the hour boundary.
+    - cron: '12,42 * * * *'
 permissions:
   contents: write
 concurrency:
@@ -11,8 +11,9 @@ concurrency:
   cancel-in-progress: false
 jobs:
   archive:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:

@@ -1,0 +1,19 @@
+name: Validate forecast cadence V253
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install pandas numpy requests
+      - run: |
+          python test_forecast_cadence_v253.py
+          python test_health_transition_holds_v241.py
+          python test_data_health_v226.py
