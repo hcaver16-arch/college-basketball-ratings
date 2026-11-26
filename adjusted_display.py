@@ -5,31 +5,43 @@ import math
 import pandas as pd
 import streamlit as st
 
+def select_snapshot(paths, before=None):
+    """Select a whole verified snapshot strictly before the cutoff."""
+    cutoff = pd.to_datetime(before, utc=True, errors='coerce') if before is not None else None
+    if before is not None and pd.isna(cutoff):
+        return pd.DataFrame()
+    best, best_time = pd.DataFrame(), None
+    for path in paths:
+        try:
+            tab = pd.read_csv(path, dtype={'Team ID': str})
+            stamps = pd.to_datetime(tab['Snapshot UTC'], utc=True, errors='coerce')
+            if tab.empty or stamps.isna().any() or stamps.nunique() != 1:
+                continue
+            stamp = stamps.iloc[0]
+            if cutoff is not None and stamp >= cutoff:
+                continue
+            if best_time is None or stamp > best_time:
+                best, best_time = tab, stamp
+        except (OSError, ValueError, KeyError):
+            continue
+    return best
+
+
 @st.cache_data(ttl=900, show_spinner=False)
-def _read(sport):
+def _read(sport, before=None):
     sport = 'womens-college-basketball' if 'women' in str(sport).lower() else 'mens-college-basketball'
     path = Path('data/efficiency') / f'{sport}_adjusted_latest.csv'
-    if not path.exists():
-        return pd.DataFrame()
-    try:
-        return pd.read_csv(path, dtype={'Team ID':str})
-    except (OSError, ValueError):
-        return pd.DataFrame()
+    paths = [path, *sorted((path.parent / 'snapshots' / sport).glob('*.csv'))]
+    return select_snapshot(paths, before)
 
 
 def merge_team_stats(raw, team_id, league, *, before=None):
-    """Experimental adjusted metrics only for current team views.
-
-    For historical/pregame matchups, DO NOT attach a latest snapshot: it would
-    leak future games. A dated point-in-time snapshot archive is required first.
-    """
-    if before is not None:
-        return raw
+    """Attach only a verified snapshot strictly preceding a supplied cutoff."""
     if raw is None:
         raw = {}
     if not isinstance(raw, dict):
         return raw
-    tab = _read(league)
+    tab = _read(league, before)
     if tab.empty:
         return raw
     row = tab.loc[tab['Team ID'].astype(str)==str(team_id)]
