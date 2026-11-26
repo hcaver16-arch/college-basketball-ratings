@@ -139,10 +139,8 @@ assert set(FIELDS).issuperset(record)
 assert record["model_id"] == MODEL_ID
 assert np.isclose(record["predicted_home_margin"],
                   team["shadow_power"]-no_sources["shadow_power"]+3)
-assert first == new_forecasts({"401999001": base_event}, components,
-                               first, now, "mens", meta) if False else len(
-    new_forecasts({"401999001": base_event}, components,
-                  first, now, "mens", meta)) == 0
+assert new_forecasts({"401999001": base_event}, components,
+                     first, now, "mens", meta) == []
 
 assert not new_forecasts({"401999001": {**base_event, "pregame": False}},
                          components, [], now, "mens", meta)
@@ -151,10 +149,13 @@ assert not new_forecasts({"401999001": {**base_event, "final": True}},
 assert not new_forecasts({"401999001": {
     **base_event, "game_start_utc": (now+timedelta(minutes=20)).isoformat()}},
     components, [], now, "mens", meta)
-assert not new_forecasts({"401999001": base_event},
-                         components, [], now, "mens",
-                         {"official_source_utc": (now+timedelta(minutes=1)).isoformat(),
-                          "input_sha256": "a"*64})
+try:
+    new_forecasts({"401999001": base_event}, components, [], now, "mens",
+                  {"official_source_utc": (now+timedelta(minutes=1)).isoformat(),
+                   "input_sha256": "a"*64})
+    raise AssertionError("Future-dated ratings snapshot was accepted")
+except ValueError:
+    pass
 
 # A final may only be evaluated if a valid pretip lock already exists.
 ended = {**base_event, "pregame": False, "final": True,
