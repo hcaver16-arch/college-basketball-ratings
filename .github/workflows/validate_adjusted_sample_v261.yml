@@ -1,0 +1,29 @@
+name: V261 explain adjusted efficiency qualification gaps
+on:
+  pull_request:
+    paths:
+      - adjusted_efficiency.py
+      - adjusted_display.py
+      - efficiency_ui.py
+      - test_adjusted_min_sample_v261.py
+      - .github/workflows/validate_adjusted_sample_v261.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install scientific and display dependencies
+        run: python -m pip install 'pandas>=2.1,<3' 'numpy>=1.26,<3' 'streamlit>=1.40,<2'
+      - name: Validate snapshots, suppression explanations, and unaffected UI
+        run: |
+          python -m py_compile adjusted_efficiency.py adjusted_display.py efficiency_ui.py test_adjusted_min_sample_v261.py
+          python -m unittest -v test_adjusted_min_sample_v261 test_adjusted_snapshot_cutoff
+          python test_matchup_stats_v184.py
+          python test_matchup_design_v185.py
