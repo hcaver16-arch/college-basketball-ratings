@@ -1,6 +1,6 @@
 {
   "version": 235,
-  "asof_utc": "2026-11-25T21:57:41Z",
+  "asof_utc": "2026-11-26T21:52:55Z",
   "mode": "track",
   "status": "RESEARCH_ONLY_NOT_DEPLOYED",
   "divisions": {
@@ -27,42 +27,42 @@
           "qualified_roster_evidence": true
         }
       },
-      "new_pregame_pairs": 12,
+      "new_pregame_pairs": 16,
       "scope": "IMMUTABLE_PROSPECTIVE_ONLY_NEW_GAMES",
       "prospective": {
-        "matched_games": 187,
-        "informative_model_disagreement_games": 155,
+        "matched_games": 203,
+        "informative_model_disagreement_games": 170,
         "official_preseason_only": {
-          "games": 187,
-          "mae": 13.3328,
-          "rmse": 16.6686,
-          "winner_accuracy": 0.6738,
-          "signed_bias": 5.2669
+          "games": 203,
+          "mae": 13.2082,
+          "rmse": 16.5687,
+          "winner_accuracy": 0.67,
+          "signed_bias": 5.1537
         },
         "experimental_roster_preseason": {
-          "games": 187,
-          "mae": 13.2668,
-          "rmse": 16.5979,
-          "winner_accuracy": 0.6791,
-          "signed_bias": 5.228
+          "games": 203,
+          "mae": 13.1427,
+          "rmse": 16.4949,
+          "winner_accuracy": 0.6749,
+          "signed_bias": 5.1158
         },
         "informative_only_baseline": {
-          "games": 155,
-          "mae": 13.5762,
-          "rmse": 17.1148,
-          "winner_accuracy": 0.6903,
-          "signed_bias": 5.3562
+          "games": 170,
+          "mae": 13.4105,
+          "rmse": 16.9801,
+          "winner_accuracy": 0.6882,
+          "signed_bias": 5.1702
         },
         "informative_only_roster": {
-          "games": 155,
-          "mae": 13.4968,
-          "rmse": 17.0317,
-          "winner_accuracy": 0.6968,
-          "signed_bias": 5.3091
+          "games": 170,
+          "mae": 13.3323,
+          "rmse": 16.8941,
+          "winner_accuracy": 0.6941,
+          "signed_bias": 5.1246
         },
         "status": "EXPLORATORY_MINIMUM_NOT_INDEPENDENT_VALIDATION"
       },
-      "locked_first_forecasts": 211
+      "locked_first_forecasts": 227
     },
     "womens": {
       "source": {
@@ -80,42 +80,42 @@
         "qualified_d1_median_abs_rank_change": 1.0,
         "qualified_d1_rank_shift_gt_5": 6
       },
-      "new_pregame_pairs": 11,
+      "new_pregame_pairs": 24,
       "scope": "IMMUTABLE_PROSPECTIVE_ONLY_NEW_GAMES",
       "prospective": {
-        "matched_games": 217,
-        "informative_model_disagreement_games": 168,
+        "matched_games": 225,
+        "informative_model_disagreement_games": 175,
         "official_preseason_only": {
-          "games": 217,
-          "mae": 12.8003,
-          "rmse": 15.7566,
-          "winner_accuracy": 0.7465,
-          "signed_bias": 2.6142
+          "games": 225,
+          "mae": 12.6113,
+          "rmse": 15.5562,
+          "winner_accuracy": 0.7422,
+          "signed_bias": 2.4848
         },
         "experimental_roster_preseason": {
-          "games": 217,
-          "mae": 12.7674,
-          "rmse": 15.7127,
-          "winner_accuracy": 0.7512,
-          "signed_bias": 2.6185
+          "games": 225,
+          "mae": 12.5842,
+          "rmse": 15.5159,
+          "winner_accuracy": 0.7467,
+          "signed_bias": 2.4875
         },
         "informative_only_baseline": {
-          "games": 168,
-          "mae": 12.9901,
-          "rmse": 15.8634,
-          "winner_accuracy": 0.7321,
-          "signed_bias": 2.6292
+          "games": 175,
+          "mae": 12.7754,
+          "rmse": 15.6404,
+          "winner_accuracy": 0.7257,
+          "signed_bias": 2.4398
         },
         "informative_only_roster": {
-          "games": 168,
-          "mae": 12.948,
-          "rmse": 15.8068,
-          "winner_accuracy": 0.7381,
-          "signed_bias": 2.6338
+          "games": 175,
+          "mae": 12.7411,
+          "rmse": 15.5886,
+          "winner_accuracy": 0.7314,
+          "signed_bias": 2.4427
         },
         "status": "EXPLORATORY_MINIMUM_NOT_INDEPENDENT_VALIDATION"
       },
-      "locked_first_forecasts": 232
+      "locked_first_forecasts": 256
     }
   },
   "baseline_model_id": "v235_2025_26_preseason_only",
