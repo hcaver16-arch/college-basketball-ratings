@@ -1,0 +1,210 @@
+{
+  "version": 260,
+  "model_id": "multifactor_shadow_v260",
+  "mode": "INDEPENDENT_RESEARCH_SHADOW",
+  "generated_utc": "2026-11-26T23:51:49Z",
+  "season": "2026-27",
+  "coefficients_untrained_and_frozen": {
+    "ridge": 8.0,
+    "home_advantage": 3.0,
+    "prior_roster_v105_multiplier": 0.35,
+    "talent_points_per_40_multiplier": 0.25,
+    "minutes_role_multiplier": 0.18,
+    "coach_continuity_magnitude": 0.2,
+    "max_roster_continuity_points": 0.4,
+    "max_talent_points": 1.25,
+    "max_minutes_points": 0.85,
+    "max_coach_points": 0.2
+  },
+  "divisions": {
+    "mens": {
+      "official_source_utc": "2026-11-26T21:47:41Z",
+      "official_source_hash": "3b83664c1ad85d960af7ded766df445d1828adbd581881d0b07380e6ac226712",
+      "model_id": "multifactor_shadow_v260",
+      "input_sha256": "f4824cff409ea7cfd532fafc1454dfc7377f28709f3ba6414448a12510b4e86e",
+      "source_sha256": {
+        "saved_ratings": "3b83664c1ad85d960af7ded766df445d1828adbd581881d0b07380e6ac226712",
+        "saved_ratings_status": "5144234596e20ef7ad0fab743e8f7d2b671e9d847c62ab7c43cd9775db6decf6",
+        "current_scores": "647ce0bb42bac011f21d14e7e70728cc471d8bf569b2868d8ebcb667d201ada0",
+        "current_players": "5065bb171ab9716ec9ebcef1fd7c0cb6af11d2c83581bdb8a85ea71933e38c01",
+        "current_player_coverage": "f92a2a4fbd80fe43d3aa5ea9bbb11f662459bc9931bd1a5adfa29d61bde03c3a",
+        "current_roster": "f8dc4173591f9fca80a784dd301cdd1b82b07c44cd4a26e8bc0cc66694a3aa90",
+        "previous_stats": "f624ded86a33ad96a9428e3f3229ae28c0e261c7d5fd24369019c2344ec6b1eb",
+        "v105_roster": "9b33f552280f1454c82b24c20017c207f2a914927e2bf1537dae9bd8c69ae0ba",
+        "verified_coaching_index": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+      },
+      "on_court_archived_d1_finals_older_than_today_et": 1113,
+      "last_game_day_used": "2026-11-25",
+      "roster_proxy_coverage": 146,
+      "playing_time_proxy_coverage": 134,
+      "coach_continuity_verified": 0,
+      "v105_research_roster_covered": 184,
+      "all_verified_d1_rated_teams": 365,
+      "talent_audit": {
+        "status": "available",
+        "division_median_prior_p40": 13.7889,
+        "roster_teams": 365,
+        "unique_prior_players": 3892,
+        "definition": "previous-season player points/40, min 100 reported minutes; no opponent adjustment"
+      },
+      "warnings": [
+        "The model combines anchored on-court results, documented prior scoring experience, verified current playing-time roles and explicitly sourced coach continuity.",
+        "Prior points/40 do NOT measure comprehensive recruiting/star talent, individual defense, injury status or lineup-adjusted plus-minus.",
+        "V105 continuity remains an old UNTRAINED heuristic; it does not confirm transfer eligibility.",
+        "Coach continuity is NOT coaching ability; absent explicit head-coach role evidence there is zero coaching adjustment, flagged by coverage.",
+        "Components are bounded fixed assumptions, not trained predictive coefficients.",
+        "Source game results and player boxscores only from earlier ET dates; not same-day live games."
+      ],
+      "coaching_source": {
+        "status": "not_verified",
+        "observed_at_utc": "2026-11-26T23:51:49.666928+00:00",
+        "seasons": [
+          {
+            "season": 2026,
+            "pages": 4,
+            "rows": 374,
+            "explicit_unique_head_coaches": 0,
+            "source": "https://sports.core.api.espn.com/v2/sports/basketball/leagues/mens-college-basketball/seasons/2026/coaches",
+            "basis": "ESPN catalog rows with explicit head-coach designation and unique team association"
+          },
+          {
+            "season": 2027,
+            "pages": 4,
+            "rows": 381,
+            "explicit_unique_head_coaches": 0,
+            "source": "https://sports.core.api.espn.com/v2/sports/basketball/leagues/mens-college-basketball/seasons/2027/coaches",
+            "basis": "ESPN catalog rows with explicit head-coach designation and unique team association"
+          }
+        ],
+        "qualified_teams": 0,
+        "warning": "Coach ID continuity is not coach quality. Assistants, anonymous roles and ambiguous entries are excluded."
+      },
+      "events_discovered": 308,
+      "new_immutable_forecasts": 48,
+      "new_final_results": 0
+    },
+    "womens": {
+      "official_source_utc": "2026-11-26T21:47:43Z",
+      "official_source_hash": "1f2792ce6c30137b15c9a90456a46170b96a7d707deb41a97692f991cdcf4a2b",
+      "model_id": "multifactor_shadow_v260",
+      "input_sha256": "4c5e320e54a480a214ce380e4c40e80de784fd54e3b97acfd25d04f2df7f4df8",
+      "source_sha256": {
+        "saved_ratings": "1f2792ce6c30137b15c9a90456a46170b96a7d707deb41a97692f991cdcf4a2b",
+        "saved_ratings_status": "e66012a61f71aed103feba91f087ab4108b761e4cd02ed3470034340ae322bb1",
+        "current_scores": "15417d2fc3b75e37b4f623c599d359f545ae753ba1a66da312b7f66120489a3d",
+        "current_players": "5e29879372ad756c3534523c74f3290316205b32a60f4da771ed8597a0255fcf",
+        "current_player_coverage": "2ce802cc293cb8b451c67ca3e7cd6101dabd6bc31ef23b32c662f6805c6017bb",
+        "current_roster": "18e5140f8e549b82aa2c3fdcda44025f3cdf7ca5dd9e831dd921b51f809bdcbb",
+        "previous_stats": "6129bf6d06580ec3189253460802e2316cec49324960dc3ad4b5ccdf75450bf9",
+        "v105_roster": "d6d1fc37707a689d67fc1cb1bf2f5556c41cf8a34c714e55afb689f11e4ddb84",
+        "verified_coaching_index": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+      },
+      "on_court_archived_d1_finals_older_than_today_et": 1088,
+      "last_game_day_used": "2026-11-25",
+      "roster_proxy_coverage": 245,
+      "playing_time_proxy_coverage": 212,
+      "coach_continuity_verified": 0,
+      "v105_research_roster_covered": 219,
+      "all_verified_d1_rated_teams": 363,
+      "talent_audit": {
+        "status": "available",
+        "division_median_prior_p40": 11.7975,
+        "roster_teams": 363,
+        "unique_prior_players": 3895,
+        "definition": "previous-season player points/40, min 100 reported minutes; no opponent adjustment"
+      },
+      "warnings": [
+        "The model combines anchored on-court results, documented prior scoring experience, verified current playing-time roles and explicitly sourced coach continuity.",
+        "Prior points/40 do NOT measure comprehensive recruiting/star talent, individual defense, injury status or lineup-adjusted plus-minus.",
+        "V105 continuity remains an old UNTRAINED heuristic; it does not confirm transfer eligibility.",
+        "Coach continuity is NOT coaching ability; absent explicit head-coach role evidence there is zero coaching adjustment, flagged by coverage.",
+        "Components are bounded fixed assumptions, not trained predictive coefficients.",
+        "Source game results and player boxscores only from earlier ET dates; not same-day live games."
+      ],
+      "coaching_source": {
+        "status": "not_verified",
+        "observed_at_utc": "2026-11-26T23:51:49.666928+00:00",
+        "seasons": [
+          {
+            "season": 2026,
+            "pages": 4,
+            "rows": 375,
+            "explicit_unique_head_coaches": 0,
+            "source": "https://sports.core.api.espn.com/v2/sports/basketball/leagues/womens-college-basketball/seasons/2026/coaches",
+            "basis": "ESPN catalog rows with explicit head-coach designation and unique team association"
+          },
+          {
+            "season": 2027,
+            "pages": 4,
+            "rows": 377,
+            "explicit_unique_head_coaches": 0,
+            "source": "https://sports.core.api.espn.com/v2/sports/basketball/leagues/womens-college-basketball/seasons/2027/coaches",
+            "basis": "ESPN catalog rows with explicit head-coach designation and unique team association"
+          }
+        ],
+        "qualified_teams": 0,
+        "warning": "Coach ID continuity is not coach quality. Assistants, anonymous roles and ambiguous entries are excluded."
+      },
+      "events_discovered": 286,
+      "new_immutable_forecasts": 86,
+      "new_final_results": 0
+    }
+  },
+  "total_immutable_forecasts": 134,
+  "total_final_results": 0,
+  "comparison_with_immutable_official_forecasts": {
+    "mens": {
+      "shadow_all_locked_games": {
+        "games": 0,
+        "mae": null,
+        "signed_bias": null,
+        "winner_accuracy": null
+      },
+      "same_game_paired_shadow": {
+        "games": 0,
+        "mae": null,
+        "signed_bias": null,
+        "winner_accuracy": null
+      },
+      "same_game_paired_official": {
+        "games": 0,
+        "mae": null,
+        "signed_bias": null,
+        "winner_accuracy": null
+      },
+      "informative_only_note": "Small early samples are observational; do not select model parameters on these results."
+    },
+    "womens": {
+      "shadow_all_locked_games": {
+        "games": 0,
+        "mae": null,
+        "signed_bias": null,
+        "winner_accuracy": null
+      },
+      "same_game_paired_shadow": {
+        "games": 0,
+        "mae": null,
+        "signed_bias": null,
+        "winner_accuracy": null
+      },
+      "same_game_paired_official": {
+        "games": 0,
+        "mae": null,
+        "signed_bias": null,
+        "winner_accuracy": null
+      },
+      "informative_only_note": "Small early samples are observational; do not select model parameters on these results."
+    }
+  },
+  "limitations": [
+    "No backfilled forecasts; model eligibility requires source snapshot before tipoff and at least 30 minutes forecast lead.",
+    "Only opponent-adjusted team results, prior scoring experience, observed player minute shares and verified coach continuity are included; no observed individual defensive plus-minus or universal recruiting rankings.",
+    "Model coefficient magnitudes are illustrative, not trained or calibrated. Historical nested validation is required before model selection.",
+    "Current roster and player-identity sources may be incomplete or retrospectively updated, and ESPN coaching catalog may lack explicit head coach metadata. Coverage counters show unverified factors.",
+    "Coach component is continuity vs change ONLY, not a coach-quality rating. Zero coverage means coaching remains disabled, not that coaches do not matter.",
+    "Non-D1 newcomer forecasts remain excluded under the V227 safety rule.",
+    "Saved results are strictly separate from model inputs and official production forecast archives.",
+    "Do not compare independent MAEs without matching the SAME games and valid pretip timestamps.",
+    "Original Courtside ratings, forecasts, website and January 1 checkpoint are unchanged."
+  ]
+}
