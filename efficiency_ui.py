@@ -150,7 +150,13 @@ def render_matchup_stats(away, home, *, away_stats=None, home_stats=None, postga
     if postgame:
         st.caption('Postgame box-score averages include the completed matchup when available. Raw statistics are descriptive, not opponent-adjusted ratings.')
     else:
-        st.caption('Pregame comparisons use only prior completed games. Current-day adjusted ratings are withheld to prevent future information leakage.')
+        st.caption('Pregame comparisons use only prior completed games. Provisional adjusted ratings use a saved snapshot before tipoff when available.')
+    snapshots = [(name, (stats or {}).get('adjusted_snapshot')) for name, stats in [(away, away_stats), (home, home_stats)]]
+    available = [f'{name}: {stamp}' for name, stamp in snapshots if stamp]
+    if available:
+        st.caption('Provisional adjusted efficiency snapshot (UTC): ' + ' · '.join(available))
+    else:
+        st.caption('No eligible pregame adjusted efficiency snapshot available.')
     if away_stats or home_stats:
         st.caption(f"Efficiency sample: {away} — {(away_stats or {}).get('efficiency_games',0)} games; {home} — {(home_stats or {}).get('efficiency_games',0)} games.")
     st.markdown(_css(), unsafe_allow_html=True)
