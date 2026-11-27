@@ -1,6 +1,6 @@
 {
   "version": 233,
-  "generated_utc": "2026-11-27T04:30:32.456813+00:00",
+  "generated_utc": "2026-11-27T14:17:26.804210+00:00",
   "status": "PROSPECTIVE_PAIRED_RESEARCH_ONLY",
   "model_ids": {
     "official": "official_saved_v97",
@@ -8,7 +8,7 @@
   },
   "max_lock_gap_hours": 6,
   "lock_integrity_checks": {
-    "paired_ever_locked": 2121,
+    "paired_ever_locked": 2158,
     "late_or_invalid_time": 0,
     "different_lock_windows": 126,
     "missing_valid_score": 0,
@@ -16,40 +16,40 @@
   },
   "divisions": {
     "mens": {
-      "paired_graded_games": 908,
-      "informative_grades": 895,
+      "paired_graded_games": 911,
+      "informative_grades": 898,
       "forecast_tolerance_for_information": 0.05,
       "same_fixtures": true,
       "baseline": {
-        "games": 908,
-        "mae": 14.3554,
-        "rmse": 19.1505,
-        "winner_accuracy": 0.7467,
-        "bias": 7.2956
+        "games": 911,
+        "mae": 14.3196,
+        "rmse": 19.1202,
+        "winner_accuracy": 0.7475,
+        "bias": 7.2782
       },
       "anchored": {
-        "games": 908,
-        "mae": 13.5152,
-        "rmse": 17.9639,
-        "winner_accuracy": 0.7621,
-        "bias": 6.1532
+        "games": 911,
+        "mae": 13.4864,
+        "rmse": 17.9372,
+        "winner_accuracy": 0.7629,
+        "bias": 6.1488
       },
       "informative_only_baseline": {
-        "games": 895,
-        "mae": 14.3875,
-        "rmse": 19.1727,
-        "winner_accuracy": 0.7475,
-        "bias": 7.237
+        "games": 898,
+        "mae": 14.3511,
+        "rmse": 19.1418,
+        "winner_accuracy": 0.7483,
+        "bias": 7.2196
       },
       "informative_only_anchored": {
-        "games": 895,
-        "mae": 13.5351,
-        "rmse": 17.9697,
-        "winner_accuracy": 0.7631,
-        "bias": 6.0782
+        "games": 898,
+        "mae": 13.5059,
+        "rmse": 17.9426,
+        "winner_accuracy": 0.7639,
+        "bias": 6.0739
       },
       "status": "RESEARCH_SAMPLE_REVIEW_REQUIRED",
-      "informative_anchor_minus_baseline_mae": -0.8524
+      "informative_anchor_minus_baseline_mae": -0.8452
     },
     "womens": {
       "paired_graded_games": 840,
