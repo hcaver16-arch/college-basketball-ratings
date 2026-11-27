@@ -2,7 +2,7 @@
   "version": 260,
   "model_id": "multifactor_shadow_v260",
   "mode": "INDEPENDENT_RESEARCH_SHADOW",
-  "generated_utc": "2026-11-26T23:51:49Z",
+  "generated_utc": "2026-11-27T23:28:35Z",
   "season": "2026-27",
   "coefficients_untrained_and_frozen": {
     "ridge": 8.0,
@@ -18,23 +18,23 @@
   },
   "divisions": {
     "mens": {
-      "official_source_utc": "2026-11-26T21:47:41Z",
-      "official_source_hash": "3b83664c1ad85d960af7ded766df445d1828adbd581881d0b07380e6ac226712",
+      "official_source_utc": "2026-11-27T21:30:12Z",
+      "official_source_hash": "70203deac7e08a3e45e7a22a80a7d3c5ec49fb5e2b741c1db195dc49aa1f1dbf",
       "model_id": "multifactor_shadow_v260",
-      "input_sha256": "f4824cff409ea7cfd532fafc1454dfc7377f28709f3ba6414448a12510b4e86e",
+      "input_sha256": "4a5b34e4cf072072ae3fed3177c799c4de4897d4c337996a7fcd13739f2b97a8",
       "source_sha256": {
-        "saved_ratings": "3b83664c1ad85d960af7ded766df445d1828adbd581881d0b07380e6ac226712",
-        "saved_ratings_status": "5144234596e20ef7ad0fab743e8f7d2b671e9d847c62ab7c43cd9775db6decf6",
-        "current_scores": "647ce0bb42bac011f21d14e7e70728cc471d8bf569b2868d8ebcb667d201ada0",
-        "current_players": "5065bb171ab9716ec9ebcef1fd7c0cb6af11d2c83581bdb8a85ea71933e38c01",
-        "current_player_coverage": "f92a2a4fbd80fe43d3aa5ea9bbb11f662459bc9931bd1a5adfa29d61bde03c3a",
+        "saved_ratings": "70203deac7e08a3e45e7a22a80a7d3c5ec49fb5e2b741c1db195dc49aa1f1dbf",
+        "saved_ratings_status": "0e8bacdcf4f5a39f659711174b38e892688995459968a801748af63a4391cc42",
+        "current_scores": "f27d744fb6584dc438b1ee90203ac603b9bcbe5627a076d632c77e15b5cf1a69",
+        "current_players": "778eb8a2af0330ed4a234af7bb43ce1ff380e9d0101d2a2748938c3e38cb5925",
+        "current_player_coverage": "cf5079425ce5ba8a449f9b76b538d89e6821d0644e5aa513366cacfa28ca172b",
         "current_roster": "f8dc4173591f9fca80a784dd301cdd1b82b07c44cd4a26e8bc0cc66694a3aa90",
         "previous_stats": "f624ded86a33ad96a9428e3f3229ae28c0e261c7d5fd24369019c2344ec6b1eb",
         "v105_roster": "9b33f552280f1454c82b24c20017c207f2a914927e2bf1537dae9bd8c69ae0ba",
         "verified_coaching_index": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
       },
-      "on_court_archived_d1_finals_older_than_today_et": 1113,
-      "last_game_day_used": "2026-11-25",
+      "on_court_archived_d1_finals_older_than_today_et": 1136,
+      "last_game_day_used": "2026-11-26",
       "roster_proxy_coverage": 146,
       "playing_time_proxy_coverage": 134,
       "coach_continuity_verified": 0,
@@ -57,7 +57,7 @@
       ],
       "coaching_source": {
         "status": "not_verified",
-        "observed_at_utc": "2026-11-26T23:51:49.666928+00:00",
+        "observed_at_utc": "2026-11-27T23:28:35.592040+00:00",
         "seasons": [
           {
             "season": 2026,
@@ -79,28 +79,28 @@
         "qualified_teams": 0,
         "warning": "Coach ID continuity is not coach quality. Assistants, anonymous roles and ambiguous entries are excluded."
       },
-      "events_discovered": 308,
-      "new_immutable_forecasts": 48,
-      "new_final_results": 0
+      "events_discovered": 271,
+      "new_immutable_forecasts": 65,
+      "new_final_results": 22
     },
     "womens": {
-      "official_source_utc": "2026-11-26T21:47:43Z",
-      "official_source_hash": "1f2792ce6c30137b15c9a90456a46170b96a7d707deb41a97692f991cdcf4a2b",
+      "official_source_utc": "2026-11-27T21:30:13Z",
+      "official_source_hash": "54158c3e5ff60dd12816a3727333aff1de5f3a2c209f37b3a2893a260816a784",
       "model_id": "multifactor_shadow_v260",
-      "input_sha256": "4c5e320e54a480a214ce380e4c40e80de784fd54e3b97acfd25d04f2df7f4df8",
+      "input_sha256": "947ec1ed24cf01226a3507a3a39769afc044a3c4cfe5f60c6db497b4ddc587b1",
       "source_sha256": {
-        "saved_ratings": "1f2792ce6c30137b15c9a90456a46170b96a7d707deb41a97692f991cdcf4a2b",
-        "saved_ratings_status": "e66012a61f71aed103feba91f087ab4108b761e4cd02ed3470034340ae322bb1",
-        "current_scores": "15417d2fc3b75e37b4f623c599d359f545ae753ba1a66da312b7f66120489a3d",
-        "current_players": "5e29879372ad756c3534523c74f3290316205b32a60f4da771ed8597a0255fcf",
-        "current_player_coverage": "2ce802cc293cb8b451c67ca3e7cd6101dabd6bc31ef23b32c662f6805c6017bb",
+        "saved_ratings": "54158c3e5ff60dd12816a3727333aff1de5f3a2c209f37b3a2893a260816a784",
+        "saved_ratings_status": "bab979fddeaaebd156bb4d2e8a5184ddb79425409e62239032420b0d181b086a",
+        "current_scores": "bccee1042c78618f9ed18a86bd8a035f3540949c530ec9155886334596a387d5",
+        "current_players": "2c9d50bc03643e6e04c3ec68d6149e5ab8e3d471aec6e66d7429446d90dc37e6",
+        "current_player_coverage": "65f98b01fef6e25ab6960866c11966649e431cddf80b9e98d20f69ee3f81b9bb",
         "current_roster": "18e5140f8e549b82aa2c3fdcda44025f3cdf7ca5dd9e831dd921b51f809bdcbb",
         "previous_stats": "6129bf6d06580ec3189253460802e2316cec49324960dc3ad4b5ccdf75450bf9",
         "v105_roster": "d6d1fc37707a689d67fc1cb1bf2f5556c41cf8a34c714e55afb689f11e4ddb84",
         "verified_coaching_index": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
       },
-      "on_court_archived_d1_finals_older_than_today_et": 1088,
-      "last_game_day_used": "2026-11-25",
+      "on_court_archived_d1_finals_older_than_today_et": 1106,
+      "last_game_day_used": "2026-11-26",
       "roster_proxy_coverage": 245,
       "playing_time_proxy_coverage": 212,
       "coach_continuity_verified": 0,
@@ -123,7 +123,7 @@
       ],
       "coaching_source": {
         "status": "not_verified",
-        "observed_at_utc": "2026-11-26T23:51:49.666928+00:00",
+        "observed_at_utc": "2026-11-27T23:28:35.592040+00:00",
         "seasons": [
           {
             "season": 2026,
@@ -145,53 +145,53 @@
         "qualified_teams": 0,
         "warning": "Coach ID continuity is not coach quality. Assistants, anonymous roles and ambiguous entries are excluded."
       },
-      "events_discovered": 286,
-      "new_immutable_forecasts": 86,
-      "new_final_results": 0
+      "events_discovered": 293,
+      "new_immutable_forecasts": 60,
+      "new_final_results": 49
     }
   },
-  "total_immutable_forecasts": 134,
-  "total_final_results": 0,
+  "total_immutable_forecasts": 259,
+  "total_final_results": 71,
   "comparison_with_immutable_official_forecasts": {
     "mens": {
       "shadow_all_locked_games": {
-        "games": 0,
-        "mae": null,
-        "signed_bias": null,
-        "winner_accuracy": null
+        "games": 22,
+        "mae": 10.7434,
+        "signed_bias": -0.3596,
+        "winner_accuracy": 0.8182
       },
       "same_game_paired_shadow": {
-        "games": 0,
-        "mae": null,
-        "signed_bias": null,
-        "winner_accuracy": null
+        "games": 22,
+        "mae": 10.7434,
+        "signed_bias": -0.3596,
+        "winner_accuracy": 0.8182
       },
       "same_game_paired_official": {
-        "games": 0,
-        "mae": null,
-        "signed_bias": null,
-        "winner_accuracy": null
+        "games": 22,
+        "mae": 12.4149,
+        "signed_bias": 0.6464,
+        "winner_accuracy": 0.7273
       },
       "informative_only_note": "Small early samples are observational; do not select model parameters on these results."
     },
     "womens": {
       "shadow_all_locked_games": {
-        "games": 0,
-        "mae": null,
-        "signed_bias": null,
-        "winner_accuracy": null
+        "games": 49,
+        "mae": 12.8483,
+        "signed_bias": -0.4552,
+        "winner_accuracy": 0.5714
       },
       "same_game_paired_shadow": {
-        "games": 0,
-        "mae": null,
-        "signed_bias": null,
-        "winner_accuracy": null
+        "games": 49,
+        "mae": 12.8483,
+        "signed_bias": -0.4552,
+        "winner_accuracy": 0.5714
       },
       "same_game_paired_official": {
-        "games": 0,
-        "mae": null,
-        "signed_bias": null,
-        "winner_accuracy": null
+        "games": 49,
+        "mae": 12.8952,
+        "signed_bias": 0.9519,
+        "winner_accuracy": 0.5306
       },
       "informative_only_note": "Small early samples are observational; do not select model parameters on these results."
     }
