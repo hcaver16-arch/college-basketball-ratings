@@ -1,6 +1,6 @@
 {
   "version": 233,
-  "generated_utc": "2026-11-28T04:42:09.426885+00:00",
+  "generated_utc": "2026-11-28T13:36:59.840991+00:00",
   "status": "PROSPECTIVE_PAIRED_RESEARCH_ONLY",
   "model_ids": {
     "official": "official_saved_v97",
@@ -8,7 +8,7 @@
   },
   "max_lock_gap_hours": 6,
   "lock_integrity_checks": {
-    "paired_ever_locked": 2264,
+    "paired_ever_locked": 2271,
     "late_or_invalid_time": 0,
     "different_lock_windows": 126,
     "missing_valid_score": 0,
@@ -16,40 +16,40 @@
   },
   "divisions": {
     "mens": {
-      "paired_graded_games": 961,
-      "informative_grades": 947,
+      "paired_graded_games": 964,
+      "informative_grades": 950,
       "forecast_tolerance_for_information": 0.05,
       "same_fixtures": true,
       "baseline": {
-        "games": 961,
-        "mae": 14.2821,
-        "rmse": 19.002,
-        "winner_accuracy": 0.743,
-        "bias": 7.0632
+        "games": 964,
+        "mae": 14.2669,
+        "rmse": 18.9817,
+        "winner_accuracy": 0.7417,
+        "bias": 7.0256
       },
       "anchored": {
-        "games": 961,
-        "mae": 13.4233,
-        "rmse": 17.8031,
-        "winner_accuracy": 0.7586,
-        "bias": 5.9331
+        "games": 964,
+        "mae": 13.4106,
+        "rmse": 17.7866,
+        "winner_accuracy": 0.7573,
+        "bias": 5.9022
       },
       "informative_only_baseline": {
-        "games": 947,
-        "mae": 14.3201,
-        "rmse": 19.03,
-        "winner_accuracy": 0.7445,
-        "bias": 7.0057
+        "games": 950,
+        "mae": 14.3046,
+        "rmse": 19.0093,
+        "winner_accuracy": 0.7432,
+        "bias": 6.9677
       },
       "informative_only_anchored": {
-        "games": 947,
-        "mae": 13.4486,
-        "rmse": 17.8147,
-        "winner_accuracy": 0.7603,
-        "bias": 5.8589
+        "games": 950,
+        "mae": 13.4357,
+        "rmse": 17.7979,
+        "winner_accuracy": 0.7589,
+        "bias": 5.8279
       },
       "status": "RESEARCH_SAMPLE_REVIEW_REQUIRED",
-      "informative_anchor_minus_baseline_mae": -0.8715
+      "informative_anchor_minus_baseline_mae": -0.8689
     },
     "womens": {
       "paired_graded_games": 915,
